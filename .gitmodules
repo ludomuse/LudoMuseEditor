@@ -1,0 +1,3 @@
+[submodule "LudoMuse_src"]
+	path = LudoMuse_src
+	url = https://github.com/ludomuse/Ludomuse.git
