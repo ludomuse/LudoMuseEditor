@@ -2,6 +2,8 @@
 #define CLABELINSPECTOR_H
 
 #include <QWidget>
+#include <QString>
+#include <QTextEdit>
 
 #include <Classes/Engine/Include/CLabelNode.h>
 
@@ -15,9 +17,11 @@ public:
 signals:
 
 public slots:
+    void changeText();
 
 private:
     LM::CLabelNode* m_pLabel;
+    QTextEdit* m_pTextEdit;
 };
 
 #endif // CLABELINSPECTOR_H
