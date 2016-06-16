@@ -27,7 +27,7 @@ CSpriteInspector::CSpriteInspector(LM::CSpriteNode* a_pSprite, QWidget *parent):
     m_pSprite(a_pSprite)
 {
     // Construction de tout les champs swag
-
+    this->m_iCurrentAnchor = this->m_pSprite->GetAnchor();
 
     QHBoxLayout* hLayoutId= new QHBoxLayout();
     QLineEdit* id = new QLineEdit(this);
@@ -84,6 +84,35 @@ CSpriteInspector::CSpriteInspector(LM::CSpriteNode* a_pSprite, QWidget *parent):
     QPushButton* anchor6Button = new QPushButton("6");
     QPushButton* anchor5Button = new QPushButton("5");
     QHBoxLayout* hLayoutAnchorThirdLine = new QHBoxLayout();
+    switch(this->m_iCurrentAnchor){
+    case 1:
+        anchor1Button->setText("[1]");
+        break;
+    case 2:
+        anchor2Button->setText("[2]");
+        break;
+    case 3:
+        anchor3Button->setText("[3]");
+        break;
+    case 4:
+        anchor4Button->setText("[4]");
+        break;
+    case 5:
+        anchor5Button->setText("[5]");
+        break;
+    case 6:
+        anchor6Button->setText("[6]");
+        break;
+    case 7:
+        anchor7Button->setText("[7]");
+        break;
+    case 8:
+        anchor8Button->setText("[8]");
+        break;
+    default:
+        anchor0Button->setText("[0]");
+        break;
+    }
     hLayoutAnchorThirdLine->addWidget(anchor7Button);
     hLayoutAnchorThirdLine->addWidget(anchor6Button);
     hLayoutAnchorThirdLine->addWidget(anchor5Button);
@@ -158,13 +187,32 @@ CSpriteInspector::CSpriteInspector(LM::CSpriteNode* a_pSprite, QWidget *parent):
 
     connect(path, SIGNAL(textChanged(QString)), this, SLOT(pathChanged(QString)));
     connect(okButton, SIGNAL(clicked(bool)), this, SLOT(validatePath()));
+
+    // Connect Anchor and stock it in object
+    connect(anchor0Button, SIGNAL(clicked(bool)), this, SLOT(setAnchor()));
+    connect(anchor1Button, SIGNAL(clicked(bool)), this, SLOT(setAnchor()));
+    connect(anchor2Button, SIGNAL(clicked(bool)), this, SLOT(setAnchor()));
+    connect(anchor3Button, SIGNAL(clicked(bool)), this, SLOT(setAnchor()));
+    connect(anchor4Button, SIGNAL(clicked(bool)), this, SLOT(setAnchor()));
+    connect(anchor5Button, SIGNAL(clicked(bool)), this, SLOT(setAnchor()));
+    connect(anchor6Button, SIGNAL(clicked(bool)), this, SLOT(setAnchor()));
+    connect(anchor7Button, SIGNAL(clicked(bool)), this, SLOT(setAnchor()));
+    connect(anchor8Button, SIGNAL(clicked(bool)), this, SLOT(setAnchor()));
+    this->m_vAnchorButtons.push_back(anchor0Button);
+    this->m_vAnchorButtons.push_back(anchor1Button);
+    this->m_vAnchorButtons.push_back(anchor2Button);
+    this->m_vAnchorButtons.push_back(anchor3Button);
+    this->m_vAnchorButtons.push_back(anchor4Button);
+    this->m_vAnchorButtons.push_back(anchor5Button);
+    this->m_vAnchorButtons.push_back(anchor6Button);
+    this->m_vAnchorButtons.push_back(anchor7Button);
+    this->m_vAnchorButtons.push_back(anchor8Button);
 }
 
 void CSpriteInspector::pathChanged(const QString& a_sPath)
 {
     this->m_sPath = a_sPath;
 }
-
 
 void CSpriteInspector::validatePath()
 {
@@ -188,3 +236,18 @@ void CSpriteInspector::validatePath()
     //ON_CC_THREAD(LM::CSpriteNode::SetPath, this->m_pSprite, this->m_sPath.toStdString());
     //qDebug()<<"new path set";
 }
+
+void CSpriteInspector::setAnchor()
+{
+    QObject* obj = sender();
+    QPushButton* anchorButton = dynamic_cast<QPushButton*>(obj);
+    if(anchorButton){
+        qDebug("Conversion en bouton faite");
+        this->m_vAnchorButtons.at(this->m_iCurrentAnchor)->setText(QString::number(this->m_iCurrentAnchor));
+        this->m_iCurrentAnchor = anchorButton->text().toInt();
+        anchorButton->setText("["+ anchorButton->text() +"]");
+        ON_CC_THREAD(LM::CSpriteNode::ChangeAnchor, this->m_pSprite, this->m_iCurrentAnchor);
+    }
+}
+
+
