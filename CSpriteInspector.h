@@ -15,9 +15,11 @@ public:
 signals:
 
 public slots:
-
+    void pathChanged(const QString&);
+    void validatePath();
 private:
     LM::CSpriteNode* m_pSprite;
+    QString m_sPath;
 };
 
 #endif // CSPRITEINSPECTOR_H
