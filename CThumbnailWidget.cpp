@@ -13,10 +13,11 @@ CThumbnailWidget::CThumbnailWidget(QWidget *parent) : QWidget(parent),
 
 }
 
-CThumbnailWidget::CThumbnailWidget(QString a_sceneID, QWidget *parent) : QWidget(parent),
+CThumbnailWidget::CThumbnailWidget(QString a_sceneID, int a_iPlayerID, QWidget *parent) : QWidget(parent),
     m_sSceneID(a_sceneID),
     m_bIsHover(false),
-    m_bIsPress(false)
+    m_bIsPress(false),
+    m_iPlayerID(a_iPlayerID)
 {
     QHBoxLayout *hLayout = new QHBoxLayout();
 
@@ -34,7 +35,7 @@ CThumbnailWidget::CThumbnailWidget(QString a_sceneID, QWidget *parent) : QWidget
 void CThumbnailWidget::mouseReleaseEvent(QMouseEvent *event)
 {
     if(this->m_bIsHover && this->m_bIsPress){
-        emit onClick(this->m_sSceneID);
+        emit onClick(this->m_sSceneID, this->m_iPlayerID);
     }
 }
 

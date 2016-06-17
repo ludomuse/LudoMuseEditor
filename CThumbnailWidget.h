@@ -8,7 +8,7 @@ class CThumbnailWidget : public QWidget
     Q_OBJECT
 public:
     explicit CThumbnailWidget(QWidget *parent = 0);
-    CThumbnailWidget(QString, QWidget *parent=Q_NULLPTR);
+    CThumbnailWidget(QString a_sId, int a_iPlayerID = 0, QWidget *parent=Q_NULLPTR);
 
 protected:
     void mouseReleaseEvent(QMouseEvent *event);
@@ -17,12 +17,13 @@ protected:
     void enterEvent(QEvent * event);
 
 signals:
-    void onClick(const QString&);
+    void onClick(const QString&, int a_iPlayerID);
 
 
 
 private:
     QString m_sSceneID;
+    int m_iPlayerID;
     bool m_bIsHover;
     bool m_bIsPress;
 };

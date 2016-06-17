@@ -138,10 +138,10 @@ void CMainWindow::clearInspectorContainer()
     }
 }
 
-void CMainWindow::goToSceneID(const QString &a_id)
+void CMainWindow::goToSceneID(const QString &a_id, int a_iPlayerID)
 {
     qDebug()<<"Deplacement vers la scene d'id : "<<a_id;
-    LM::SEvent dummyEvent(nullptr, a_id.toStdString());
+    LM::SEvent dummyEvent(nullptr, a_id.toStdString(), true, a_iPlayerID);
     ON_CC_THREAD(LM::CKernel::GotoScreenID, this->m_pKernel, dummyEvent, nullptr);
     //void GotoScreenID(SEvent a_rEvent, CEntityNode* a_pTarget);
 }
@@ -176,27 +176,27 @@ void CMainWindow::ProcessTree()
             if(id == BOTH_PLAYER)
             {
                 connect(this->addSceneToTimeLine(sceneId, PLAYER_1),
-                        SIGNAL(onClick(const QString&)),
+                        SIGNAL(onClick(const QString&, int)),
                         this,
-                        SLOT(goToSceneID(const QString&)));
+                        SLOT(goToSceneID(const QString&, int)));
                 connect(this->addSceneToTimeLine(sceneId, PLAYER_2),
-                        SIGNAL(onClick(const QString&)),
+                        SIGNAL(onClick(const QString&, int)),
                         this,
-                        SLOT(goToSceneID(const QString&)));
+                        SLOT(goToSceneID(const QString&, int)));
             }
             else if(id == PLAYER_1)
             {
                 connect(this->addSceneToTimeLine(sceneId, PLAYER_1),
-                        SIGNAL(onClick(const QString&)),
+                        SIGNAL(onClick(const QString&, int)),
                         this,
-                        SLOT(goToSceneID(const QString&)));
+                        SLOT(goToSceneID(const QString&, int)));
             }
             else
             {
                 connect(this->addSceneToTimeLine(sceneId, PLAYER_2),
-                        SIGNAL(onClick(const QString&)),
+                        SIGNAL(onClick(const QString&, int)),
                         this,
-                        SLOT(goToSceneID(const QString&)));
+                        SLOT(goToSceneID(const QString&, int)));
             }
         }
 
@@ -218,7 +218,7 @@ int CMainWindow::ScreenIDToPlayerID(const QString &a_id)
 
 CThumbnailWidget* CMainWindow::addSceneToTimeLine(const QString &a_id, int a_playerID)
 {
-    CThumbnailWidget *nodeWidget = new CThumbnailWidget(a_id);
+    CThumbnailWidget *nodeWidget = new CThumbnailWidget(a_id, a_playerID);
 
     if(a_playerID == PLAYER_1)
     {

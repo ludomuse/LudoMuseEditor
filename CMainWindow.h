@@ -68,7 +68,7 @@ private slots:
     void receiveLabel(LM::CLabelNode*);
     void receiveSprite(LM::CSpriteNode*);
     void clearInspectorContainer();
-    void goToSceneID(const QString&);
+    void goToSceneID(const QString&, int a_iPlayerID);
     void goToNextScene();
     void goToPreviousScene();
 
