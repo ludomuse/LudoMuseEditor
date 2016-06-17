@@ -100,7 +100,7 @@ CLabelInspector::CLabelInspector(LM::CLabelNode* a_pLabel, QWidget *parent):
 
     QVBoxLayout* verticalLayout = new QVBoxLayout();
     QPalette pal(palette());
-    pal.setColor(QPalette::Background, QColor(255,150,255));
+    pal.setColor(QPalette::Background, QColor(255,150,255,150));
     this->setLayout(verticalLayout);
     this->setAutoFillBackground(true);
     this->setPalette(pal);
@@ -111,8 +111,14 @@ CLabelInspector::CLabelInspector(LM::CLabelNode* a_pLabel, QWidget *parent):
 
     // Connect SLOT and SIGNAL
     connect(m_pTextEdit, SIGNAL(textChanged()), this, SLOT(changeText()));
+    connect(backButton, SIGNAL(clicked(bool)), this, SLOT(closeInspectorSlot()));
+    connect(okButton, SIGNAL(clicked(bool)), this, SLOT(closeInspectorSlot()));
 }
 
+void CLabelInspector::closeInspectorSlot()
+{
+    emit closeInspector();
+}
 
 void CLabelInspector::changeText()
 {

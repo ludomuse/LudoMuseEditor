@@ -51,6 +51,10 @@ CMainWindow::CMainWindow(QWidget *parent) :
     ui->playlistButton->setIcon(QIcon("resources/add_playlist_w.png"));
     ui->playButton->setIcon(QIcon("resources/play_arrow.png"));
 
+    // Connect Tool bar
+    connect(ui->prevScreenButton, SIGNAL(clicked(bool)), this, SLOT(goToPreviousScene()));
+    connect(ui->nextScreenButton, SIGNAL(clicked(bool)), this, SLOT(goToNextScene()));
+
     this->showMaximized();
 }
 
@@ -79,7 +83,7 @@ void CMainWindow::on_playlistButton_clicked()
 void CMainWindow::on_playButton_clicked()
 {
     qInfo("Click on play Button! - process behaviourTree");
-    this->ProcessTree();
+    //this->ProcessTree();
 }
 
 void CMainWindow::on_lmwTestButton_clicked()
@@ -108,6 +112,8 @@ void CMainWindow::receiveKernel(LM::CKernel *aKernel)
     LM::CEditorFindEntityTouchVisitor* dummyVisitor= this->m_pKernel->GetEditorVisitor();
     connect(dummyVisitor, SIGNAL(labelClicked(LM::CLabelNode*)), this, SLOT(receiveLabel(LM::CLabelNode*)));
     connect(dummyVisitor, SIGNAL(spriteClicked(LM::CSpriteNode*)), this, SLOT(receiveSprite(LM::CSpriteNode*)));
+
+    this->ProcessTree();
 }
 
 void CMainWindow::receiveLabel(LM::CLabelNode* a_pLabel)
@@ -122,6 +128,16 @@ void CMainWindow::receiveSprite(LM::CSpriteNode* a_pSprite)
     this->inspectSprite(a_pSprite);
 }
 
+void CMainWindow::clearInspectorContainer()
+{
+    QLayout* inspectorContainerLayout = this->ui->inspectorContainer->layout();
+    QLayoutItem *child;
+    while ((child = inspectorContainerLayout->takeAt(0)) != 0) {
+        delete child->widget();
+        delete child;
+    }
+}
+
 void CMainWindow::goToSceneID(const QString &a_id)
 {
     qDebug()<<"Deplacement vers la scene d'id : "<<a_id;
@@ -130,7 +146,15 @@ void CMainWindow::goToSceneID(const QString &a_id)
     //void GotoScreenID(SEvent a_rEvent, CEntityNode* a_pTarget);
 }
 
+void CMainWindow::goToNextScene()
+{
+    ON_CC_THREAD(LM::CKernel::NavNext, this->m_pKernel, nullptr, nullptr);
+}
 
+void CMainWindow::goToPreviousScene()
+{
+    ON_CC_THREAD(LM::CKernel::NavPrevious, this->m_pKernel, nullptr, nullptr);
+}
 
 
 
@@ -219,6 +243,7 @@ void CMainWindow::inspectLabel(LM::CLabelNode* a_pLabel)
 
     CLabelInspector* inspector = new CLabelInspector(a_pLabel);
     inspectorContainerLayout->addWidget(inspector);
+    connect(inspector, SIGNAL(closeInspector()), this, SLOT(clearInspectorContainer()));
 }
 
 void CMainWindow::inspectSprite(LM::CSpriteNode* a_pSprite)
@@ -233,4 +258,5 @@ void CMainWindow::inspectSprite(LM::CSpriteNode* a_pSprite)
 
     CSpriteInspector* inspector = new CSpriteInspector(a_pSprite);
     inspectorContainerLayout->addWidget(inspector);
+    connect(inspector, SIGNAL(closeInspector()), this, SLOT(clearInspectorContainer()));
 }

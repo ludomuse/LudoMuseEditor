@@ -67,7 +67,10 @@ private slots:
     void receiveKernel(LM::CKernel*);
     void receiveLabel(LM::CLabelNode*);
     void receiveSprite(LM::CSpriteNode*);
+    void clearInspectorContainer();
     void goToSceneID(const QString&);
+    void goToNextScene();
+    void goToPreviousScene();
 
 private:
     Ui::CMainWindow *ui;

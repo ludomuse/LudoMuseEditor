@@ -15,9 +15,11 @@ public:
     CLabelInspector(LM::CLabelNode* a_pLabel, QWidget *parent = 0);
 
 signals:
+    void closeInspector();
 
 public slots:
     void changeText();
+    void closeInspectorSlot();
 
 private:
     LM::CLabelNode* m_pLabel;

@@ -4,6 +4,7 @@
 #include <vector>
 
 #include <QWidget>
+#include <QLineEdit>
 #include <QPushButton>
 
 #include "Classes/Engine/Include/CSpriteNode.h"
@@ -16,16 +17,20 @@ public:
     CSpriteInspector(LM::CSpriteNode* a_pSprite, QWidget *parent = 0);
 
 signals:
+    void closeInspector();
 
 public slots:
+    void closeInspectorSlot();
     void pathChanged(const QString&);
     void validatePath();
     void setAnchor();
+    void openPathFileDialog();
+    void newPathSelected(QString);
 
 private:
 
     LM::CSpriteNode* m_pSprite;
-    QString m_sPath;
+    QLineEdit* m_pPath;
     int m_iCurrentAnchor;
     std::vector<QPushButton*> m_vAnchorButtons;
 };

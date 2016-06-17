@@ -3,9 +3,12 @@
 // Include Kernel to reach ON_CC_THREAD macro
 #include "Classes/Engine/Include/CKernel.h"
 
+// Include Util.cpp to reach SplitString function
+#include "Classes/Modules/Util/Include/Util.h"
 // Include QT
 #include <QDebug>
 #include <QFile>
+#include <QDir>
 #include <QString>
 #include <QLabel>
 #include <QPushButton>
@@ -14,6 +17,7 @@
 #include <QTextEdit>
 #include <QHBoxLayout>
 #include <QVBoxLayout>
+#include <QFileDialog>
 
 CSpriteInspector::CSpriteInspector(QWidget *parent):
     QWidget(parent)
@@ -24,7 +28,8 @@ CSpriteInspector::CSpriteInspector(QWidget *parent):
 
 CSpriteInspector::CSpriteInspector(LM::CSpriteNode* a_pSprite, QWidget *parent):
     QWidget(parent),
-    m_pSprite(a_pSprite)
+    m_pSprite(a_pSprite),
+    m_pPath(Q_NULLPTR)
 {
     // Construction de tout les champs swag
     this->m_iCurrentAnchor = this->m_pSprite->GetAnchor();
@@ -44,15 +49,21 @@ CSpriteInspector::CSpriteInspector(LM::CSpriteNode* a_pSprite, QWidget *parent):
     idContainer->setStyleSheet("border-bottom : 1px solid grey");
     idContainer->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Minimum);
 
+    // Create path widget
     QHBoxLayout* hLayoutPath= new QHBoxLayout();
     QLineEdit* path = new QLineEdit(this);
     path->setPlaceholderText("id non définie");
     path->setText(QString(this->m_pSprite->GetPath().c_str()));
     path->setAlignment(Qt::AlignLeft);
+    path->setAttribute(Qt::WA_TranslucentBackground, false);
     QLabel* pathTitle = new QLabel("Chemin :");
+    QPushButton* pathFileDialogButton = new QPushButton();
+    pathFileDialogButton->setText("...");
+    pathFileDialogButton->setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Minimum);
     pathTitle->setAlignment(Qt::AlignRight);
     hLayoutPath->addWidget(pathTitle);
     hLayoutPath->addWidget(path);
+    hLayoutPath->addWidget(pathFileDialogButton);
     QWidget* pathContainer = new QWidget();
     pathContainer->setLayout(hLayoutPath);
     pathContainer->setMaximumHeight(100);
@@ -175,7 +186,7 @@ CSpriteInspector::CSpriteInspector(LM::CSpriteNode* a_pSprite, QWidget *parent):
 
     QVBoxLayout *verticalLayout = new QVBoxLayout();
     QPalette pal(palette());
-    pal.setColor(QPalette::Background, QColor(100,100,100));
+    pal.setColor(QPalette::Background, QColor(100,100,100,150));
     this->setLayout(verticalLayout);
     this->setAutoFillBackground(true);
     this->setPalette(pal);
@@ -185,8 +196,12 @@ CSpriteInspector::CSpriteInspector(LM::CSpriteNode* a_pSprite, QWidget *parent):
     this->layout()->addWidget(sizeContainer);
     this->layout()->addWidget(buttonContainer);
 
+    this->m_pPath = path;
+
     connect(path, SIGNAL(textChanged(QString)), this, SLOT(pathChanged(QString)));
     connect(okButton, SIGNAL(clicked(bool)), this, SLOT(validatePath()));
+    connect(pathFileDialogButton, SIGNAL(clicked(bool)), this, SLOT(openPathFileDialog()));
+    connect(backButton, SIGNAL(clicked(bool)), this, SLOT(closeInspectorSlot()));
 
     // Connect Anchor and stock it in object
     connect(anchor0Button, SIGNAL(clicked(bool)), this, SLOT(setAnchor()));
@@ -209,32 +224,45 @@ CSpriteInspector::CSpriteInspector(LM::CSpriteNode* a_pSprite, QWidget *parent):
     this->m_vAnchorButtons.push_back(anchor8Button);
 }
 
+
+
+void CSpriteInspector::closeInspectorSlot()
+{
+    emit closeInspector();
+}
+
 void CSpriteInspector::pathChanged(const QString& a_sPath)
 {
-    this->m_sPath = a_sPath;
+    // Keep this for latter animation
+    QPalette pal(palette());
+    pal.setColor(QPalette::Text, QColor(0,0,0,255));
+    this->m_pPath->setPalette(pal);
+    this->m_pPath->update();
 }
 
 void CSpriteInspector::validatePath()
 {
-    qDebug("trying to valid");
     // Test if file exist!
     QFile myFile;
-    myFile.setFileName("./" + this->m_sPath);
+    QString path = this->m_pPath->text();
+    myFile.setFileName(path);
     if(myFile.exists())
     {
-        QLabel* infoLabel = new QLabel("marche bien" + myFile.fileName());
-        this->layout()->addWidget(infoLabel);
-        qDebug()<<"validate with path :"<<myFile.fileName();
+//        QLabel* infoLabel = new QLabel("marche bien" + path);
+//        this->layout()->addWidget(infoLabel);
+        qDebug()<<"validate with path :"<<path;
+        this->m_pSprite->SetPath(path.toStdString());
     }
     else
     {
-        QLabel* infoLabel = new QLabel("marche pas" + myFile.fileName());
-        this->layout()->addWidget(infoLabel);
-        qDebug()<<"File doesn't seem to exist : "<<myFile.fileName();
+//        QLabel* infoLabel = new QLabel("marche pas" + path);
+//        this->layout()->addWidget(infoLabel);
+        qDebug()<<"File doesn't seem to exist : "<<path;
+        QPalette pal(palette());
+        pal.setColor(QPalette::Text, QColor(255,0,0,255));
+        this->m_pPath->setPalette(pal);
+        this->m_pPath->update();
     }
-    this->m_pSprite->SetPath(this->m_sPath.toStdString());
-    //ON_CC_THREAD(LM::CSpriteNode::SetPath, this->m_pSprite, this->m_sPath.toStdString());
-    //qDebug()<<"new path set";
 }
 
 void CSpriteInspector::setAnchor()
@@ -251,3 +279,36 @@ void CSpriteInspector::setAnchor()
 }
 
 
+void CSpriteInspector::openPathFileDialog()
+{
+    QFileDialog* fileDialog = new QFileDialog();
+
+    //qDebug()<<currentDir.absolutePath();
+    //qDebug()<<" Image path : "<<this->m_pPath->text();
+    QDir currentDir = QDir::currentPath();
+
+    std::vector<std::string> pathToImage = StringSplit(this->m_pPath->text().toStdString(), '/');
+
+    for (int i = 0; i < pathToImage.size() - 1; ++i)
+    {
+        currentDir.cd(pathToImage[i].c_str());
+    }
+    fileDialog->setDirectory(currentDir);
+    fileDialog->selectFile(pathToImage[pathToImage.size() - 1].c_str());
+
+    fileDialog->setNameFilter("Images (*.jpeg, *.jpg, *.png");
+
+    connect(fileDialog, SIGNAL(fileSelected(QString)), this, SLOT(newPathSelected(QString)));
+
+    fileDialog->show();
+}
+
+
+void CSpriteInspector::newPathSelected(QString a_sPath)
+{
+    QDir currentDir = QDir::currentPath();
+    QString currentPath = currentDir.absolutePath();
+    a_sPath.remove(currentPath + "/");
+    this->m_pPath->setText(a_sPath);
+    qDebug()<<"etablish new path via file windonw -"<<a_sPath;
+}
