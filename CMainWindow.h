@@ -5,6 +5,7 @@
 //#include <WinSock2.h>
 #include <QMainWindow>
 #include <QWindow>
+#include <QProcess>
 
 #include "CThumbnailWidget.h"
 
@@ -71,11 +72,16 @@ private slots:
     void goToSceneID(const QString&, int a_iPlayerID);
     void goToNextScene();
     void goToPreviousScene();
+    void launchEmulator();
+    // Temporary slot
+    void produceJson(); // Test function that produce json test and display it in JsonDisplayer
 
 private:
     Ui::CMainWindow *ui;
     LM::CKernel* m_pKernel;
     enum {PLAYER_1, PLAYER_2, BOTH_PLAYER};
+    QProcess m_oProcessServer;
+    QProcess m_oProcessClient;
 };
 
 #endif // CMAINWINDOW_H

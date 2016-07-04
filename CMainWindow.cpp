@@ -13,8 +13,10 @@
 // Include QT
 #include <QtWidgets>
 #include <QThread>
+#include <QProcess>
 #include <QBoxLayout>
 #include <QLayoutItem>
+#include <QStringList>
 
 // Include cocos
 #include "cocos2d.h"
@@ -25,6 +27,14 @@
 #include "Classes/Engine/Include/CSequenceNode.h"
 #include "Classes/Engine/Include/CCallback.h"
 #include "Classes/Engine/Include/CEditorFindEntityTouchVisitor.h"
+#include "Classes/Modules/Util/Include/Util.h"
+
+// Test json include
+#include "rapidjson.h"
+#include "document.h"
+#include "writer.h"
+#include "stringbuffer.h"
+#include "prettywriter.h"
 
 
 CMainWindow::CMainWindow(QWidget *parent) :
@@ -50,10 +60,13 @@ CMainWindow::CMainWindow(QWidget *parent) :
     // Icon creation
     ui->playlistButton->setIcon(QIcon("resources/add_playlist_w.png"));
     ui->playButton->setIcon(QIcon("resources/play_arrow.png"));
+    ui->emulateButton->setIcon(QIcon("resources/emulate.png"));
 
     // Connect Tool bar
     connect(ui->prevScreenButton, SIGNAL(clicked(bool)), this, SLOT(goToPreviousScene()));
     connect(ui->nextScreenButton, SIGNAL(clicked(bool)), this, SLOT(goToNextScene()));
+    connect(ui->emulateButton, SIGNAL(clicked(bool)), this, SLOT(launchEmulator()));
+    connect(ui->JsonGo, SIGNAL(clicked(bool)), this, SLOT(produceJson()));
 
     this->showMaximized();
 }
@@ -118,13 +131,13 @@ void CMainWindow::receiveKernel(LM::CKernel *aKernel)
 
 void CMainWindow::receiveLabel(LM::CLabelNode* a_pLabel)
 {
-    qDebug("Reception d'un Label");
+    //qDebug("Reception d'un Label");
     this->inspectLabel(a_pLabel);
 }
 
 void CMainWindow::receiveSprite(LM::CSpriteNode* a_pSprite)
 {
-    qDebug("Reception d'un Sprite");
+    //qDebug("Reception d'un Sprite");
     this->inspectSprite(a_pSprite);
 }
 
@@ -156,6 +169,43 @@ void CMainWindow::goToPreviousScene()
     ON_CC_THREAD(LM::CKernel::NavPrevious, this->m_pKernel, nullptr, nullptr);
 }
 
+void CMainWindow::launchEmulator()
+{
+    m_oProcessServer.start("emulator\\LudoMuse.exe");
+    QThread::sleep(2);
+    m_oProcessClient.start("emulator\\LudoMuse.exe", QStringList()<<"client");
+}
+
+void CMainWindow::produceJson(){
+    QString jsonResult;
+    this->ui->jsonDisplayer->setText(this->m_pKernel->ToJson().c_str());
+//    rapidjson::StringBuffer s;
+//    rapidjson::Writer<rapidjson::StringBuffer> writer(s);
+//    writer.StartObject();
+//    writer.Key("hello");
+//    writer.String("world");
+//    writer.Key("t");
+//    writer.Bool(true);
+//    writer.Key("f");
+//    writer.Bool(false);
+//    writer.Key("n");
+//    writer.Null();
+//    writer.Key("i");
+//    writer.Uint(123);
+//    writer.Key("pi");
+//    writer.Double(3.1416);
+//    writer.Key("a");
+//    writer.StartArray();
+//    for (unsigned i = 0; i < 4; i++)
+//    {
+//        writer.Uint(i);
+//    }
+//    writer.EndArray();
+//    writer.EndObject();
+//    qDebug() << s.GetString() << endl;
+
+//    this->ui->jsonDisplayer->setText(jsonResult);
+}
 
 
 
@@ -233,12 +283,34 @@ CThumbnailWidget* CMainWindow::addSceneToTimeLine(const QString &a_id, int a_pla
 
 void CMainWindow::inspectLabel(LM::CLabelNode* a_pLabel)
 {
+    // Clear inspector tool bar
+    QLayout* inspectorToolbarLayout = this->ui->toolBarInspector->layout();
+    QLayoutItem *child;
+    if(inspectorToolbarLayout != Q_NULLPTR)
+    {
+        while ((child = inspectorToolbarLayout->takeAt(0)) != 0) {
+            delete child->widget();
+            delete child;
+        }
+    }
+    else
+    {
+        inspectorToolbarLayout = new QHBoxLayout();
+        this->ui->toolBarInspector->setLayout(inspectorToolbarLayout);
+    }
+    QLabel* inspectorTitle = new QLabel("Editeur de label");
+    inspectorTitle->setAlignment(Qt::AlignHCenter);
+    inspectorTitle->setStyleSheet("QLabel{color : white;}");
+    this->ui->toolBarInspector->layout()->addWidget(inspectorTitle);
+
     // Clear inspector loayout from older inspection
     QLayout* inspectorContainerLayout = this->ui->inspectorContainer->layout();
-    QLayoutItem *child;
-    while ((child = inspectorContainerLayout->takeAt(0)) != 0) {
-        delete child->widget();
-        delete child;
+    if(inspectorContainerLayout != Q_NULLPTR)
+    {
+        while ((child = inspectorContainerLayout->takeAt(0)) != 0) {
+            delete child->widget();
+            delete child;
+        }
     }
 
     CLabelInspector* inspector = new CLabelInspector(a_pLabel);
@@ -248,14 +320,36 @@ void CMainWindow::inspectLabel(LM::CLabelNode* a_pLabel)
 
 void CMainWindow::inspectSprite(LM::CSpriteNode* a_pSprite)
 {
+    // Clear inspector tool bar
+    QLayout* inspectorToolbarLayout = this->ui->toolBarInspector->layout();
+    QLayoutItem *child;
+    if(inspectorToolbarLayout != Q_NULLPTR)
+    {
+        while ((child = inspectorToolbarLayout->takeAt(0)) != 0) {
+            delete child->widget();
+            delete child;
+        }
+    }
+    else
+    {
+        inspectorToolbarLayout = new QHBoxLayout();
+        this->ui->toolBarInspector->setLayout(inspectorToolbarLayout);
+    }
+    QLabel* inspectorTitle = new QLabel("Editeur de sprite");
+    inspectorTitle->setAlignment(Qt::AlignHCenter);
+    inspectorTitle->setStyleSheet("QLabel{color : white;}");
+    this->ui->toolBarInspector->layout()->addWidget(inspectorTitle);
+
     // Clear inspector loayout from older inspection
     QLayout* inspectorContainerLayout = this->ui->inspectorContainer->layout();
-    QLayoutItem *child;
-    while ((child = inspectorContainerLayout->takeAt(0)) != 0) {
-        delete child->widget();
-        delete child;
-    }
+    if(inspectorContainerLayout != Q_NULLPTR)
+    {
+        while ((child = inspectorContainerLayout->takeAt(0)) != 0) {
+            delete child->widget();
+            delete child;
+        }
 
+    }
     CSpriteInspector* inspector = new CSpriteInspector(a_pSprite);
     inspectorContainerLayout->addWidget(inspector);
     connect(inspector, SIGNAL(closeInspector()), this, SLOT(clearInspectorContainer()));
