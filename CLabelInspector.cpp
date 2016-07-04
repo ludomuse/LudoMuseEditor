@@ -34,18 +34,20 @@ CLabelInspector::CLabelInspector(LM::CLabelNode* a_pLabel, QWidget *parent):
     id->setAlignment(Qt::AlignLeft);
     QLabel* idTitle = new QLabel("ID :");
     idTitle->setAlignment(Qt::AlignRight);
+    idTitle->setStyleSheet("QLabel{color : white;}");
     hLayoutId->addWidget(idTitle);
     hLayoutId->addWidget(id);
     QWidget* idContainer = new QWidget();
     idContainer->setLayout(hLayoutId);
     idContainer->setMaximumHeight(100);
-    idContainer->setStyleSheet("border-bottom : 1px solid grey");
+    idContainer->setStyleSheet("border-bottom : 1px solid rgb(150,150,150)");
 
     QHBoxLayout* hLayoutText = new QHBoxLayout();
     m_pTextEdit = new QTextEdit(this);
     m_pTextEdit->setText(QString(this->m_pLabel->GetText().c_str()));
     QLabel* textTitle = new QLabel("Texte :");
     textTitle->setAlignment(Qt::AlignTop);
+    textTitle->setStyleSheet("QLabel{color : white;}");
     QWidget* textContainer = new QWidget();
     QPalette palTextContainer(palette());
     palTextContainer.setColor(QPalette::Background, QColor(255,255,255));
@@ -57,15 +59,17 @@ CLabelInspector::CLabelInspector(LM::CLabelNode* a_pLabel, QWidget *parent):
     hLayoutText->addWidget(m_pTextEdit);
     textContainer->setLayout(hLayoutText);
     textContainer->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
-    textContainer->setStyleSheet("border-bottom : 1px solid grey");
+    textContainer->setStyleSheet("border-bottom : 1px solid rgb(150,150,150)");
 
     QVBoxLayout* vLayoutSize = new QVBoxLayout();
     QHBoxLayout* hLayoutHeight = new QHBoxLayout();
     QHBoxLayout* hLayoutWidth = new QHBoxLayout();
     QWidget* heightContainer = new QWidget();
     QWidget* widthContainer = new QWidget();
-    QLabel* widthTitle = new QLabel("Width :");
-    QLabel* heightTitle = new QLabel("Height :");
+    QLabel* widthTitle = new QLabel("Largeur :");
+    widthTitle->setStyleSheet("QLabel{color : white;}");
+    QLabel* heightTitle = new QLabel("Hauteur :");
+    heightTitle->setStyleSheet("QLabel{color : white;}");
     QSlider*  widthSlider = new QSlider(Qt::Horizontal);
     QSlider*  heightSlider = new QSlider(Qt::Horizontal);
     widthSlider->setTickInterval(1);
@@ -100,7 +104,7 @@ CLabelInspector::CLabelInspector(LM::CLabelNode* a_pLabel, QWidget *parent):
 
     QVBoxLayout* verticalLayout = new QVBoxLayout();
     QPalette pal(palette());
-    pal.setColor(QPalette::Background, QColor(255,150,255,150));
+    pal.setColor(QPalette::Background, QColor(50,50,50,255));
     this->setLayout(verticalLayout);
     this->setAutoFillBackground(true);
     this->setPalette(pal);

@@ -40,6 +40,7 @@ CSpriteInspector::CSpriteInspector(LM::CSpriteNode* a_pSprite, QWidget *parent):
     id->setText(QString(this->m_pSprite->GetID().c_str()));
     id->setAlignment(Qt::AlignLeft);
     QLabel* idTitle = new QLabel("ID :");
+    idTitle->setStyleSheet("QLabel{color : white;}");
     idTitle->setAlignment(Qt::AlignRight);
     hLayoutId->addWidget(idTitle);
     hLayoutId->addWidget(id);
@@ -57,6 +58,7 @@ CSpriteInspector::CSpriteInspector(LM::CSpriteNode* a_pSprite, QWidget *parent):
     path->setAlignment(Qt::AlignLeft);
     path->setAttribute(Qt::WA_TranslucentBackground, false);
     QLabel* pathTitle = new QLabel("Chemin :");
+    pathTitle->setStyleSheet("QLabel{color : white;}");
     QPushButton* pathFileDialogButton = new QPushButton();
     pathFileDialogButton->setText("...");
     pathFileDialogButton->setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Minimum);
@@ -73,6 +75,7 @@ CSpriteInspector::CSpriteInspector(LM::CSpriteNode* a_pSprite, QWidget *parent):
     // Create anchor widget
     QLabel* anchorTitle = new QLabel("Ancrage");
     anchorTitle->setAlignment(Qt::AlignCenter);
+    anchorTitle->setStyleSheet("QLabel{color : white;}");
     QPushButton* anchor1Button = new QPushButton("1");
     QPushButton* anchor2Button = new QPushButton("2");
     QPushButton* anchor3Button = new QPushButton("3");
@@ -151,8 +154,10 @@ CSpriteInspector::CSpriteInspector(LM::CSpriteNode* a_pSprite, QWidget *parent):
     QHBoxLayout* hLayoutWidth = new QHBoxLayout();
     QWidget* heightContainer = new QWidget();
     QWidget* widthContainer = new QWidget();
-    QLabel* widthTitle = new QLabel("Width :");
-    QLabel* heightTitle = new QLabel("Height :");
+    QLabel* widthTitle = new QLabel("Largeur :");
+    widthTitle->setStyleSheet("QLabel{color : white;}");
+    QLabel* heightTitle = new QLabel("Hauteur :");
+    heightTitle->setStyleSheet("QLabel{color : white;}");
     QSlider*  widthSlider = new QSlider(Qt::Horizontal);
     QSlider*  heightSlider = new QSlider(Qt::Horizontal);
     widthSlider->setTickInterval(1);
@@ -186,7 +191,7 @@ CSpriteInspector::CSpriteInspector(LM::CSpriteNode* a_pSprite, QWidget *parent):
 
     QVBoxLayout *verticalLayout = new QVBoxLayout();
     QPalette pal(palette());
-    pal.setColor(QPalette::Background, QColor(100,100,100,150));
+    pal.setColor(QPalette::Background, QColor(50,50,50,255));
     this->setLayout(verticalLayout);
     this->setAutoFillBackground(true);
     this->setPalette(pal);
