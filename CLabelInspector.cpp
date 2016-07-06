@@ -61,29 +61,40 @@ CLabelInspector::CLabelInspector(LM::CLabelNode* a_pLabel, QWidget *parent):
     textContainer->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
     textContainer->setStyleSheet("border-bottom : 1px solid rgb(150,150,150)");
 
+    // Height and Width widget
     QVBoxLayout* vLayoutSize = new QVBoxLayout();
     QHBoxLayout* hLayoutHeight = new QHBoxLayout();
     QHBoxLayout* hLayoutWidth = new QHBoxLayout();
     QWidget* heightContainer = new QWidget();
+    heightContainer->setObjectName("heightContainer");
     QWidget* widthContainer = new QWidget();
+    widthContainer->setObjectName("widthContainer");
     QLabel* widthTitle = new QLabel("Largeur :");
     widthTitle->setStyleSheet("QLabel{color : white;}");
     QLabel* heightTitle = new QLabel("Hauteur :");
     heightTitle->setStyleSheet("QLabel{color : white;}");
-    QSlider*  widthSlider = new QSlider(Qt::Horizontal);
-    QSlider*  heightSlider = new QSlider(Qt::Horizontal);
-    widthSlider->setTickInterval(1);
-    widthSlider->setMaximum(100);
-    widthSlider->setMinimum(0);
-    widthSlider->setSliderPosition(50);
-    heightSlider->setTickInterval(1);
-    heightSlider->setMaximum(100);
-    heightSlider->setMinimum(0);
-    heightSlider->setSliderPosition(50);
+    m_pWidthSlider = new QSlider(Qt::Horizontal);
+    m_pHeightSlider = new QSlider(Qt::Horizontal);
+    m_pWidthSlider->setTickInterval(1);
+    m_pWidthSlider->setMaximum(100);
+    m_pWidthSlider->setMinimum(0);
+    m_pWidthSlider->setSliderPosition(m_pLabel->GetWidth());
+    m_pHeightSlider->setTickInterval(1);
+    m_pHeightSlider->setMaximum(100);
+    m_pHeightSlider->setMinimum(0);
+    m_pHeightSlider->setSliderPosition(m_pLabel->GetHeight());
+    m_pWidthValue = new QLineEdit(QString::number(m_pLabel->GetWidth()));
+    m_pWidthValue->setSizePolicy(QSizePolicy::Fixed,QSizePolicy::Fixed);
+    m_pWidthValue->setStyleSheet("QLineEdit{width : 25px;}");
+    m_pHeightValue = new QLineEdit(QString::number(m_pLabel->GetHeight()));
+    m_pHeightValue->setSizePolicy(QSizePolicy::Fixed,QSizePolicy::Fixed);
+    m_pHeightValue->setStyleSheet("QLineEdit{width : 25px;}");
     hLayoutWidth->addWidget(widthTitle);
-    hLayoutWidth->addWidget(widthSlider);
+    hLayoutWidth->addWidget(m_pWidthSlider);
+    hLayoutWidth->addWidget(m_pWidthValue);
     hLayoutHeight->addWidget(heightTitle);
-    hLayoutHeight->addWidget(heightSlider);
+    hLayoutHeight->addWidget(m_pHeightSlider);
+    hLayoutHeight->addWidget(m_pHeightValue);
     heightContainer->setLayout(hLayoutHeight);
     widthContainer->setLayout(hLayoutWidth);
     QWidget* sizeContainer = new QWidget();
@@ -91,6 +102,36 @@ CLabelInspector::CLabelInspector(LM::CLabelNode* a_pLabel, QWidget *parent):
     vLayoutSize->addWidget(widthContainer);
     sizeContainer->setLayout(vLayoutSize);
     sizeContainer->setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Minimum);
+//    QVBoxLayout* vLayoutSize = new QVBoxLayout();
+//    QHBoxLayout* hLayoutHeight = new QHBoxLayout();
+//    QHBoxLayout* hLayoutWidth = new QHBoxLayout();
+//    QWidget* heightContainer = new QWidget();
+//    QWidget* widthContainer = new QWidget();
+//    QLabel* widthTitle = new QLabel("Largeur :");
+//    widthTitle->setStyleSheet("QLabel{color : white;}");
+//    QLabel* heightTitle = new QLabel("Hauteur :");
+//    heightTitle->setStyleSheet("QLabel{color : white;}");
+//    QSlider*  widthSlider = new QSlider(Qt::Horizontal);
+//    QSlider*  heightSlider = new QSlider(Qt::Horizontal);
+//    widthSlider->setTickInterval(1);
+//    widthSlider->setMaximum(100);
+//    widthSlider->setMinimum(0);
+//    widthSlider->setSliderPosition(50);
+//    heightSlider->setTickInterval(1);
+//    heightSlider->setMaximum(100);
+//    heightSlider->setMinimum(0);
+//    heightSlider->setSliderPosition(50);
+//    hLayoutWidth->addWidget(widthTitle);
+//    hLayoutWidth->addWidget(widthSlider);
+//    hLayoutHeight->addWidget(heightTitle);
+//    hLayoutHeight->addWidget(heightSlider);
+//    heightContainer->setLayout(hLayoutHeight);
+//    widthContainer->setLayout(hLayoutWidth);
+//    QWidget* sizeContainer = new QWidget();
+//    vLayoutSize->addWidget(heightContainer);
+//    vLayoutSize->addWidget(widthContainer);
+//    sizeContainer->setLayout(vLayoutSize);
+//    sizeContainer->setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Minimum);
 
 
     QHBoxLayout* hLayoutButton = new QHBoxLayout();
@@ -117,6 +158,12 @@ CLabelInspector::CLabelInspector(LM::CLabelNode* a_pLabel, QWidget *parent):
     connect(m_pTextEdit, SIGNAL(textChanged()), this, SLOT(changeText()));
     connect(backButton, SIGNAL(clicked(bool)), this, SLOT(closeInspectorSlot()));
     connect(okButton, SIGNAL(clicked(bool)), this, SLOT(closeInspectorSlot()));
+
+    // Connect slider and text value
+    connect(m_pHeightSlider, SIGNAL(valueChanged(int)), this, SLOT(heightSliderChange(int)));
+    connect(m_pWidthSlider, SIGNAL(valueChanged(int)), this, SLOT(widthSliderChange(int)));
+    connect(m_pHeightValue, SIGNAL(textChanged(QString)), this, SLOT(heightTextChange(QString)));
+    connect(m_pWidthValue, SIGNAL(textChanged(QString)), this, SLOT(widthTextChange(QString)));
 }
 
 void CLabelInspector::closeInspectorSlot()
@@ -130,3 +177,44 @@ void CLabelInspector::changeText()
     qDebug()<<"Changement de text"<<content;
     ON_CC_THREAD(LM::CLabelNode::SetText, this->m_pLabel, content.toStdString());
 }
+
+void CLabelInspector::heightSliderChange(int a_iValue)
+{
+    qDebug()<< "Change slider height value to:"<<a_iValue;
+    this->m_pHeightValue->setText(QString::number(a_iValue));
+    this->m_pLabel->SetHeight(a_iValue);
+}
+
+void CLabelInspector::widthSliderChange(int a_iValue)
+{
+    qDebug()<< "Change slider width value to:"<<a_iValue;
+    this->m_pWidthValue->setText(QString::number(a_iValue));
+    this->m_pLabel->SetWidth(a_iValue);
+}
+
+void CLabelInspector::heightTextChange(const QString& a_rText)
+{
+    qDebug()<< "Change height value to:"<<a_rText;
+    // Try convert string to int
+    bool succes;
+    int value = a_rText.toInt(&succes);
+    if(succes)
+    {
+        m_pHeightSlider->setSliderPosition(value);
+        m_pLabel->SetHeight(value);
+    }
+}
+
+void CLabelInspector::widthTextChange(const QString& a_rText)
+{
+    qDebug()<< "Change width value to:"<<a_rText;
+    // Try convert string to int
+    bool succes;
+    int value = a_rText.toInt(&succes);
+    if(succes)
+    {
+        m_pWidthSlider->setSliderPosition(value);
+        m_pLabel->SetWidth(value);
+    }
+}
+
