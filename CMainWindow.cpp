@@ -17,6 +17,8 @@
 #include <QBoxLayout>
 #include <QLayoutItem>
 #include <QStringList>
+#include <QFile>
+#include <QTextStream>
 
 // Include cocos
 #include "cocos2d.h"
@@ -154,7 +156,7 @@ void CMainWindow::clearInspectorContainer()
 void CMainWindow::goToSceneID(const QString &a_id, int a_iPlayerID)
 {
     qDebug()<<"Deplacement vers la scene d'id : "<<a_id;
-    LM::SEvent dummyEvent(nullptr, a_id.toStdString(), true, a_iPlayerID);
+    LM::SEvent dummyEvent(LM::SEvent::NONE, nullptr, a_id.toStdString(), true, a_iPlayerID);
     ON_CC_THREAD(LM::CKernel::GotoScreenID, this->m_pKernel, dummyEvent, nullptr);
     //void GotoScreenID(SEvent a_rEvent, CEntityNode* a_pTarget);
 }
@@ -178,7 +180,18 @@ void CMainWindow::launchEmulator()
 
 void CMainWindow::produceJson(){
     QString jsonResult;
-    this->ui->jsonDisplayer->setText(this->m_pKernel->ToJson().c_str());
+    QString filename="result.json";
+    QFile file( filename );
+    if ( file.open(QIODevice::ReadWrite) )
+    {
+        QTextStream stream( &file );
+        stream.setCodec("UTF-8");
+        jsonResult = QString::fromUtf8(this->m_pKernel->ToJson().c_str());
+        stream << jsonResult;
+        stream.flush();
+        file.close();
+    }
+    this->ui->jsonDisplayer->setText("Parsing finished");
 //    rapidjson::StringBuffer s;
 //    rapidjson::Writer<rapidjson::StringBuffer> writer(s);
 //    writer.StartObject();
