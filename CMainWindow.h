@@ -49,6 +49,10 @@ private:
     /// \param CSprite the sprite which is actually under inspection/ modification
     void inspectSprite(LM::CSpriteNode* a_pSprite);
 
+    /// \brief St the name of the inspector
+    /// \param a_rName desired name
+    void setInspectorName(const QString& a_rName);
+
 public slots:
     void machin();
 

@@ -151,6 +151,7 @@ void CMainWindow::clearInspectorContainer()
         delete child->widget();
         delete child;
     }
+    this->setInspectorName("");
 }
 
 void CMainWindow::goToSceneID(const QString &a_id, int a_iPlayerID)
@@ -159,16 +160,21 @@ void CMainWindow::goToSceneID(const QString &a_id, int a_iPlayerID)
     LM::SEvent dummyEvent(LM::SEvent::NONE, nullptr, a_id.toStdString(), true, a_iPlayerID);
     ON_CC_THREAD(LM::CKernel::GotoScreenID, this->m_pKernel, dummyEvent, nullptr);
     //void GotoScreenID(SEvent a_rEvent, CEntityNode* a_pTarget);
+    this->clearInspectorContainer();
 }
 
 void CMainWindow::goToNextScene()
 {
     ON_CC_THREAD(LM::CKernel::NavNext, this->m_pKernel, nullptr, nullptr);
+    this->clearInspectorContainer();
+    this->setInspectorName("");
 }
 
 void CMainWindow::goToPreviousScene()
 {
     ON_CC_THREAD(LM::CKernel::NavPrevious, this->m_pKernel, nullptr, nullptr);
+    this->clearInspectorContainer();
+    this->setInspectorName("");
 }
 
 void CMainWindow::launchEmulator()
@@ -192,32 +198,6 @@ void CMainWindow::produceJson(){
         file.close();
     }
     this->ui->jsonDisplayer->setText("Parsing finished");
-//    rapidjson::StringBuffer s;
-//    rapidjson::Writer<rapidjson::StringBuffer> writer(s);
-//    writer.StartObject();
-//    writer.Key("hello");
-//    writer.String("world");
-//    writer.Key("t");
-//    writer.Bool(true);
-//    writer.Key("f");
-//    writer.Bool(false);
-//    writer.Key("n");
-//    writer.Null();
-//    writer.Key("i");
-//    writer.Uint(123);
-//    writer.Key("pi");
-//    writer.Double(3.1416);
-//    writer.Key("a");
-//    writer.StartArray();
-//    for (unsigned i = 0; i < 4; i++)
-//    {
-//        writer.Uint(i);
-//    }
-//    writer.EndArray();
-//    writer.EndObject();
-//    qDebug() << s.GetString() << endl;
-
-//    this->ui->jsonDisplayer->setText(jsonResult);
 }
 
 
@@ -297,26 +277,10 @@ CThumbnailWidget* CMainWindow::addSceneToTimeLine(const QString &a_id, int a_pla
 void CMainWindow::inspectLabel(LM::CLabelNode* a_pLabel)
 {
     // Clear inspector tool bar
-    QLayout* inspectorToolbarLayout = this->ui->toolBarInspector->layout();
-    QLayoutItem *child;
-    if(inspectorToolbarLayout != Q_NULLPTR)
-    {
-        while ((child = inspectorToolbarLayout->takeAt(0)) != 0) {
-            delete child->widget();
-            delete child;
-        }
-    }
-    else
-    {
-        inspectorToolbarLayout = new QHBoxLayout();
-        this->ui->toolBarInspector->setLayout(inspectorToolbarLayout);
-    }
-    QLabel* inspectorTitle = new QLabel("Editeur de label");
-    inspectorTitle->setAlignment(Qt::AlignHCenter);
-    inspectorTitle->setStyleSheet("QLabel{color : white;}");
-    this->ui->toolBarInspector->layout()->addWidget(inspectorTitle);
+    this->setInspectorName("Éditeur de texte");
 
     // Clear inspector loayout from older inspection
+    QLayoutItem *child;
     QLayout* inspectorContainerLayout = this->ui->inspectorContainer->layout();
     if(inspectorContainerLayout != Q_NULLPTR)
     {
@@ -334,6 +298,26 @@ void CMainWindow::inspectLabel(LM::CLabelNode* a_pLabel)
 void CMainWindow::inspectSprite(LM::CSpriteNode* a_pSprite)
 {
     // Clear inspector tool bar
+    this->setInspectorName("Éditeur d'image");
+
+    // Clear inspector loayout from older inspection
+    QLayoutItem *child;
+    QLayout* inspectorContainerLayout = this->ui->inspectorContainer->layout();
+    if(inspectorContainerLayout != Q_NULLPTR)
+    {
+        while ((child = inspectorContainerLayout->takeAt(0)) != 0) {
+            delete child->widget();
+            delete child;
+        }
+
+    }
+    CSpriteInspector* inspector = new CSpriteInspector(a_pSprite);
+    inspectorContainerLayout->addWidget(inspector);
+    connect(inspector, SIGNAL(closeInspector()), this, SLOT(clearInspectorContainer()));
+}
+
+void CMainWindow::setInspectorName(const QString &a_rName)
+{
     QLayout* inspectorToolbarLayout = this->ui->toolBarInspector->layout();
     QLayoutItem *child;
     if(inspectorToolbarLayout != Q_NULLPTR)
@@ -348,22 +332,8 @@ void CMainWindow::inspectSprite(LM::CSpriteNode* a_pSprite)
         inspectorToolbarLayout = new QHBoxLayout();
         this->ui->toolBarInspector->setLayout(inspectorToolbarLayout);
     }
-    QLabel* inspectorTitle = new QLabel("Editeur de sprite");
+    QLabel* inspectorTitle = new QLabel(a_rName);
     inspectorTitle->setAlignment(Qt::AlignHCenter);
     inspectorTitle->setStyleSheet("QLabel{color : white;}");
     this->ui->toolBarInspector->layout()->addWidget(inspectorTitle);
-
-    // Clear inspector loayout from older inspection
-    QLayout* inspectorContainerLayout = this->ui->inspectorContainer->layout();
-    if(inspectorContainerLayout != Q_NULLPTR)
-    {
-        while ((child = inspectorContainerLayout->takeAt(0)) != 0) {
-            delete child->widget();
-            delete child;
-        }
-
-    }
-    CSpriteInspector* inspector = new CSpriteInspector(a_pSprite);
-    inspectorContainerLayout->addWidget(inspector);
-    connect(inspector, SIGNAL(closeInspector()), this, SLOT(clearInspectorContainer()));
 }
