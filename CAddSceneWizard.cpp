@@ -214,6 +214,8 @@ void CAddSceneWizard::clickOnValidate(bool)
         pEmptyId->setText("Veuillez attribuer un identifiant au nouvel l'écran");
         pEmptyId->addButton("Ok", QMessageBox::AcceptRole);
         pEmptyId->show();
+        pEmptyId->setModal(true);
+        return;
     }
     if(!m_pPlayer1CheckBox->isChecked() && !m_pPlayer2CheckBox->isChecked())
     {
@@ -221,6 +223,8 @@ void CAddSceneWizard::clickOnValidate(bool)
         pEmptyId->setText("Choisissez au moins un joueur");
         pEmptyId->addButton("Ok", QMessageBox::AcceptRole);
         pEmptyId->show();
+        pEmptyId->setModal(true);
+        return;
     }
     else
     {
@@ -242,6 +246,7 @@ void CAddSceneWizard::clickOnValidate(bool)
             idReturn = 2; // Only P2
         }
 
+        QString previousID = m_pComboBoxID->currentText();
 
         if(idReturn == 0) // Add scene at the end of both timeline
         {
@@ -250,12 +255,12 @@ void CAddSceneWizard::clickOnValidate(bool)
         else if(idReturn == 2) // Add scene on player 2 timeline
         {
             // should be change and use the combo box after
-            emit validate(m_sPreviousID2, m_pNewID->text(), idReturn, m_iTemplateNumber);
+            emit validate(previousID, m_pNewID->text(), idReturn, m_iTemplateNumber);
         }
         else // Add scene in player 1 timeline
         {
             // should be change and use the combo box after
-            emit validate(m_sPreviousID1, m_pNewID->text(), idReturn, m_iTemplateNumber);
+            emit validate(previousID, m_pNewID->text(), idReturn, m_iTemplateNumber);
         }
 
         this->close();
