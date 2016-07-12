@@ -9,6 +9,7 @@
 #include "CThumbnailWidget.h"
 #include "CLabelInspector.h"
 #include "CSpriteInspector.h"
+#include "CAddSceneWizard.h"
 
 // Include QT
 #include <QtWidgets>
@@ -31,17 +32,14 @@
 #include "Classes/Engine/Include/CEditorFindEntityTouchVisitor.h"
 #include "Classes/Modules/Util/Include/Util.h"
 
-// Test json include
-#include "rapidjson.h"
-#include "document.h"
-#include "writer.h"
-#include "stringbuffer.h"
-#include "prettywriter.h"
 
 
 CMainWindow::CMainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::CMainWindow),
+    m_pCurrentThumbnailWidget1(Q_NULLPTR),
+    m_pCurrentThumbnailWidget2(Q_NULLPTR),
+    m_iActivePlayer(0),
     m_pKernel(NULL)
 {
 /*   atm useless code */
@@ -69,6 +67,7 @@ CMainWindow::CMainWindow(QWidget *parent) :
     connect(ui->nextScreenButton, SIGNAL(clicked(bool)), this, SLOT(goToNextScene()));
     connect(ui->emulateButton, SIGNAL(clicked(bool)), this, SLOT(launchEmulator()));
     connect(ui->JsonGo, SIGNAL(clicked(bool)), this, SLOT(produceJson()));
+    connect(ui->lmwTestButton, SIGNAL(clicked(bool)), this, SLOT(launchAddSceneWizard(bool)));
 
     this->showMaximized();
 }
@@ -127,6 +126,7 @@ void CMainWindow::receiveKernel(LM::CKernel *aKernel)
     LM::CEditorFindEntityTouchVisitor* dummyVisitor= this->m_pKernel->GetEditorVisitor();
     connect(dummyVisitor, SIGNAL(labelClicked(LM::CLabelNode*)), this, SLOT(receiveLabel(LM::CLabelNode*)));
     connect(dummyVisitor, SIGNAL(spriteClicked(LM::CSpriteNode*)), this, SLOT(receiveSprite(LM::CSpriteNode*)));
+    connect(m_pKernel, SIGNAL(addingSceneFinished()), this, SLOT(addingSceneFinished()));
 
     this->ProcessTree();
 }
@@ -154,9 +154,45 @@ void CMainWindow::clearInspectorContainer()
     this->setInspectorName("");
 }
 
-void CMainWindow::goToSceneID(const QString &a_id, int a_iPlayerID)
+void CMainWindow::goToSceneID(const QString &a_id, int a_iPlayerID, CThumbnailWidget* a_pClickedWidget)
 {
     qDebug()<<"Deplacement vers la scene d'id : "<<a_id;
+    if(a_iPlayerID == PLAYER_2)
+    {
+        if(m_pCurrentThumbnailWidget2 == Q_NULLPTR) // First click
+        {
+            m_pCurrentThumbnailWidget2 = a_pClickedWidget;
+        }
+        else
+        {
+            m_pCurrentThumbnailWidget2->unselect();
+            m_pCurrentThumbnailWidget2 = a_pClickedWidget;
+        }
+        // Change color pfor other player timeline
+        if(m_pCurrentThumbnailWidget1 != Q_NULLPTR)
+        {
+            m_pCurrentThumbnailWidget1->LastActive();
+        }
+        m_iActivePlayer = PLAYER_2;
+    }
+    else // By default take player one
+    {
+        if(m_pCurrentThumbnailWidget1 == Q_NULLPTR) // First click
+        {
+            m_pCurrentThumbnailWidget1 = a_pClickedWidget;
+        }
+        else
+        {
+            m_pCurrentThumbnailWidget1->unselect();
+            m_pCurrentThumbnailWidget1 = a_pClickedWidget;
+        }
+        // Change color pfor other player timeline
+        if(m_pCurrentThumbnailWidget2 != Q_NULLPTR)
+        {
+            m_pCurrentThumbnailWidget2->LastActive();
+        }
+        m_iActivePlayer = PLAYER_1;
+    }
     LM::SEvent dummyEvent(LM::SEvent::NONE, nullptr, a_id.toStdString(), true, a_iPlayerID);
     ON_CC_THREAD(LM::CKernel::GotoScreenID, this->m_pKernel, dummyEvent, nullptr);
     //void GotoScreenID(SEvent a_rEvent, CEntityNode* a_pTarget);
@@ -175,6 +211,14 @@ void CMainWindow::goToPreviousScene()
     ON_CC_THREAD(LM::CKernel::NavPrevious, this->m_pKernel, nullptr, nullptr);
     this->clearInspectorContainer();
     this->setInspectorName("");
+}
+
+
+void CMainWindow::addSceneTemplate(const QString& a_sPreviousID,const QString& a_sNewID, int a_iPlayerID, int a_iTemplateNumber)
+{
+    qDebug()<<"insertion du template : "<< a_iTemplateNumber<< " avec l'id : "<< a_sNewID << "Aprés l'écran : " << a_sPreviousID << "Pour le joueur : " << a_iPlayerID;
+    //ON_CC_THREAD(LM::CKernel::AddNewScene, this->m_pKernel,"test.json","test", a_sNewID, a_iPlayerID);
+    ON_CC_THREAD(LM::CKernel::AddNewScene, m_pKernel, "test.json", a_sPreviousID.toStdString(), a_sNewID.toStdString(), a_iPlayerID)
 }
 
 void CMainWindow::launchEmulator()
@@ -200,7 +244,76 @@ void CMainWindow::produceJson(){
     this->ui->jsonDisplayer->setText("Parsing finished");
 }
 
+void CMainWindow::launchAddSceneWizard(bool)
+{
+    CAddSceneWizard* pSceneWizard;
+    if(m_pCurrentThumbnailWidget1 != Q_NULLPTR)
+    {
+        if(m_pCurrentThumbnailWidget2 != Q_NULLPTR)                           // selected screen for both timeline
+        {
+            pSceneWizard = new CAddSceneWizard(m_iActivePlayer,
+                                               m_pKernel->GetSceneIDPlayer(0),
+                                               m_pKernel->GetSceneIDPlayer(1),
+                                               this,
+                                               m_pCurrentThumbnailWidget1->getSceneID(),
+                                               m_pCurrentThumbnailWidget2->getSceneID());
+        }
+        else                                                                 // Only selected on P1 time line
+        {
+            pSceneWizard = new CAddSceneWizard(m_iActivePlayer,
+                                               m_pKernel->GetSceneIDPlayer(0),
+                                               m_pKernel->GetSceneIDPlayer(1),
+                                               this,
+                                               m_pCurrentThumbnailWidget1->getSceneID());
+        }
+    }
+    else if(m_pCurrentThumbnailWidget2 != Q_NULLPTR)
+    {
+        pSceneWizard = new CAddSceneWizard(m_iActivePlayer,
+                                           m_pKernel->GetSceneIDPlayer(0),
+                                           m_pKernel->GetSceneIDPlayer(1),
+                                           this,
+                                           Q_NULLPTR,
+                                           m_pCurrentThumbnailWidget2->getSceneID());
+    }
+    else                                                                    // No screen selected on both timeline
+    {
+        pSceneWizard = new CAddSceneWizard(m_iActivePlayer,
+                                           m_pKernel->GetSceneIDPlayer(0),
+                                           m_pKernel->GetSceneIDPlayer(1),
+                                           this);
+    }
+    connect(pSceneWizard, SIGNAL(validate(QString,QString,int,int)), this, SLOT(addSceneTemplate(QString,QString,int,int)));
+    pSceneWizard->setModal(true);
+    pSceneWizard->show();
+}
 
+void CMainWindow::addingSceneFinished()
+{
+    // Clear thumbnails widget
+    QLayoutItem *child;
+    QLayout* trameContainerLayout = this->ui->trameContainerP1->layout();
+    if(trameContainerLayout != Q_NULLPTR)
+    {
+        while ((child = trameContainerLayout->takeAt(0)) != 0) {
+            delete child->widget();
+            delete child;
+        }
+    }
+    trameContainerLayout = this->ui->trameContainerP2->layout();
+    if(trameContainerLayout != Q_NULLPTR)
+    {
+        while ((child = trameContainerLayout->takeAt(0)) != 0) {
+            delete child->widget();
+            delete child;
+        }
+    }
+    // Clear pointer on current thumbnail widget
+    this->m_pCurrentThumbnailWidget1 = Q_NULLPTR;
+    this->m_pCurrentThumbnailWidget2 = Q_NULLPTR;
+    this->m_iActivePlayer = 0;
+    this->ProcessTree();
+}
 
 
 
@@ -219,27 +332,27 @@ void CMainWindow::ProcessTree()
             if(id == BOTH_PLAYER)
             {
                 connect(this->addSceneToTimeLine(sceneId, PLAYER_1),
-                        SIGNAL(onClick(const QString&, int)),
+                        SIGNAL(onClick(const QString&, int, CThumbnailWidget*)),
                         this,
-                        SLOT(goToSceneID(const QString&, int)));
+                        SLOT(goToSceneID(const QString&, int, CThumbnailWidget*)));
                 connect(this->addSceneToTimeLine(sceneId, PLAYER_2),
-                        SIGNAL(onClick(const QString&, int)),
+                        SIGNAL(onClick(const QString&, int, CThumbnailWidget*)),
                         this,
-                        SLOT(goToSceneID(const QString&, int)));
+                        SLOT(goToSceneID(const QString&, int, CThumbnailWidget*)));
             }
             else if(id == PLAYER_1)
             {
                 connect(this->addSceneToTimeLine(sceneId, PLAYER_1),
-                        SIGNAL(onClick(const QString&, int)),
+                        SIGNAL(onClick(const QString&, int, CThumbnailWidget*)),
                         this,
-                        SLOT(goToSceneID(const QString&, int)));
+                        SLOT(goToSceneID(const QString&, int, CThumbnailWidget*)));
             }
             else
             {
                 connect(this->addSceneToTimeLine(sceneId, PLAYER_2),
-                        SIGNAL(onClick(const QString&, int)),
+                        SIGNAL(onClick(const QString&, int, CThumbnailWidget*)),
                         this,
-                        SLOT(goToSceneID(const QString&, int)));
+                        SLOT(goToSceneID(const QString&, int, CThumbnailWidget*)));
             }
         }
 

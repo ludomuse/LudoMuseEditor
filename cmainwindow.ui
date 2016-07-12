@@ -126,7 +126,7 @@
         <item>
          <widget class="QPushButton" name="lmwTestButton">
           <property name="text">
-           <string>PushButton</string>
+           <string>open add scene wizard</string>
           </property>
          </widget>
         </item>
@@ -713,6 +713,18 @@
                </rect>
               </property>
               <layout class="QHBoxLayout" name="horizontalLayout_6">
+               <property name="leftMargin">
+                <number>2</number>
+               </property>
+               <property name="topMargin">
+                <number>2</number>
+               </property>
+               <property name="rightMargin">
+                <number>2</number>
+               </property>
+               <property name="bottomMargin">
+                <number>2</number>
+               </property>
                <item>
                 <widget class="QWidget" name="trameContainerP2" native="true">
                  <property name="styleSheet">
@@ -742,6 +754,18 @@
                </rect>
               </property>
               <layout class="QHBoxLayout" name="horizontalLayout_5">
+               <property name="leftMargin">
+                <number>2</number>
+               </property>
+               <property name="topMargin">
+                <number>2</number>
+               </property>
+               <property name="rightMargin">
+                <number>2</number>
+               </property>
+               <property name="bottomMargin">
+                <number>2</number>
+               </property>
                <item>
                 <widget class="QWidget" name="trameContainerP1" native="true">
                  <property name="styleSheet">

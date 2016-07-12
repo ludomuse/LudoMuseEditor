@@ -73,19 +73,24 @@ private slots:
     void receiveLabel(LM::CLabelNode*);
     void receiveSprite(LM::CSpriteNode*);
     void clearInspectorContainer();
-    void goToSceneID(const QString&, int a_iPlayerID);
+    void goToSceneID(const QString&, int a_iPlayerID, CThumbnailWidget* a_pClickedThumbnails);
     void goToNextScene();
     void goToPreviousScene();
     void launchEmulator();
+    void addSceneTemplate(const QString& a_sPreviousID,const QString& a_sNewID, int a_iPlayerID, int a_iTemplateNumber);
     // Temporary slot
     void produceJson(); // Test function that produce json test and display it in JsonDisplayer
-
+    void launchAddSceneWizard(bool);
+    void addingSceneFinished();
 private:
     Ui::CMainWindow *ui;
     LM::CKernel* m_pKernel;
-    enum {PLAYER_1, PLAYER_2, BOTH_PLAYER};
+    enum {BOTH_PLAYER, PLAYER_1, PLAYER_2};
     QProcess m_oProcessServer;
     QProcess m_oProcessClient;
+    CThumbnailWidget* m_pCurrentThumbnailWidget1;
+    CThumbnailWidget* m_pCurrentThumbnailWidget2;
+    int m_iActivePlayer;
 };
 
 #endif // CMAINWINDOW_H
