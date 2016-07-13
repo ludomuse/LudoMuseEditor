@@ -6,6 +6,7 @@
 #include <QMainWindow>
 #include <QWindow>
 #include <QProcess>
+#include <QFileSystemModel>
 
 #include "CThumbnailWidget.h"
 
@@ -82,8 +83,12 @@ private slots:
     void produceJson(); // Test function that produce json test and display it in JsonDisplayer
     void launchAddSceneWizard(bool);
     void addingSceneFinished();
+    void on_fileBrowser_clicked(const QModelIndex &index);
+
 private:
     Ui::CMainWindow *ui;
+    QFileSystemModel* m_pDirModel;
+    QFileSystemModel* m_pFileModel;
     LM::CKernel* m_pKernel;
     enum {BOTH_PLAYER, PLAYER_1, PLAYER_2};
     QProcess m_oProcessServer;

@@ -20,6 +20,7 @@
 #include <QStringList>
 #include <QFile>
 #include <QTextStream>
+#include <QDirModel>
 
 // Include cocos
 #include "cocos2d.h"
@@ -56,6 +57,24 @@ CMainWindow::CMainWindow(QWidget *parent) :
     thread->start();
 
     ui->setupUi(this);
+
+    // File browser All path will be changed TODO
+    QString temporaryPath("D:\\IHMTEK\\LudoMuseEditorCocos\\build-LudoMuseEditor-Clone_de_Desktop_Qt_5_6_0_MSVC2015_32bit-Debug\\debug");
+    m_pDirModel = new QFileSystemModel();
+    m_pDirModel->setFilter(QDir::NoDotAndDotDot | QDir::AllDirs);
+    m_pDirModel->setRootPath(temporaryPath);
+    ui->fileBrowser->setModel(m_pDirModel);
+    ui->fileBrowser->setRootIndex(m_pDirModel->index(temporaryPath));
+    ui->fileBrowser->setColumnHidden( 1, true );
+    ui->fileBrowser->setColumnHidden( 2, true );
+    ui->fileBrowser->setColumnHidden( 3, true );
+
+    m_pFileModel = new QFileSystemModel(this);
+    m_pFileModel->setFilter(QDir::NoDotAndDotDot | QDir::Files);
+    ui->fileListView->setModel(m_pFileModel);
+    ui->fileListView->setRootIndex(m_pFileModel->setRootPath(temporaryPath));
+    ui->fileListView->SetCurrentPath(temporaryPath);
+
 
     // Icon creation
     ui->playlistButton->setIcon(QIcon("resources/add_playlist_w.png"));
@@ -241,7 +260,7 @@ void CMainWindow::produceJson(){
         stream.flush();
         file.close();
     }
-    this->ui->jsonDisplayer->setText("Parsing finished");
+    //this->ui->jsonDisplayer->setText("Parsing finished");
 }
 
 void CMainWindow::launchAddSceneWizard(bool)
@@ -449,4 +468,11 @@ void CMainWindow::setInspectorName(const QString &a_rName)
     inspectorTitle->setAlignment(Qt::AlignHCenter);
     inspectorTitle->setStyleSheet("QLabel{color : white;}");
     this->ui->toolBarInspector->layout()->addWidget(inspectorTitle);
+}
+
+void CMainWindow::on_fileBrowser_clicked(const QModelIndex &index)
+{
+    QString path = m_pDirModel->fileInfo(index).absoluteFilePath();
+    ui->fileListView->setRootIndex(m_pFileModel->setRootPath(path));
+    ui->fileListView->SetCurrentPath(path);
 }

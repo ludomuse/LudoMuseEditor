@@ -5,6 +5,7 @@
 
 // Include Util.cpp to reach SplitString function
 #include "Classes/Modules/Util/Include/Util.h"
+
 // Include QT
 #include <QDebug>
 #include <QFile>
@@ -20,6 +21,9 @@
 #include <QVBoxLayout>
 #include <QFileDialog>
 #include <QSizePolicy>
+
+// Personnal include
+#include "CLineEdit.h"
 
 CSpriteInspector::CSpriteInspector(QWidget *parent):
     QWidget(parent)
@@ -54,7 +58,7 @@ CSpriteInspector::CSpriteInspector(LM::CSpriteNode* a_pSprite, QWidget *parent):
 
     // Create path widget
     QHBoxLayout* hLayoutPath= new QHBoxLayout();
-    QLineEdit* path = new QLineEdit(this);
+    CLineEdit* path = new CLineEdit(this);
     path->setPlaceholderText("id non définie");
     path->setText(QString(this->m_pSprite->GetPath().c_str()));
     path->setAlignment(Qt::AlignLeft);
@@ -64,7 +68,7 @@ CSpriteInspector::CSpriteInspector(LM::CSpriteNode* a_pSprite, QWidget *parent):
     QPushButton* pathFileDialogButton = new QPushButton();
     pathFileDialogButton->setText("...");
     pathFileDialogButton->setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Minimum);
-    pathTitle->setAlignment(Qt::AlignRight);
+    pathTitle->setAlignment(Qt::AlignRight | Qt::AlignVCenter);
     hLayoutPath->addWidget(pathTitle);
     hLayoutPath->addWidget(path);
     hLayoutPath->addWidget(pathFileDialogButton);
