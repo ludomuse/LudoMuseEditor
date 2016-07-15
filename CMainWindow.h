@@ -54,6 +54,12 @@ private:
     /// \param a_rName desired name
     void setInspectorName(const QString& a_rName);
 
+    /// \brief Produce json file base on current BehaviorTree
+    /// and save in file name a_rFileName
+    void produceJson(const QString& a_rFileame);
+
+
+
 public slots:
     void machin();
 
@@ -79,8 +85,9 @@ private slots:
     void goToPreviousScene();
     void launchEmulator();
     void addSceneTemplate(const QString& a_sPreviousID,const QString& a_sNewID, int a_iPlayerID, int a_iTemplateNumber);
+    void saveAs();
+    void save();
     // Temporary slot
-    void produceJson(); // Test function that produce json test and display it in JsonDisplayer
     void launchAddSceneWizard(bool);
     void addingSceneFinished();
     void on_fileBrowser_clicked(const QModelIndex &index);
@@ -96,6 +103,7 @@ private:
     CThumbnailWidget* m_pCurrentThumbnailWidget1;
     CThumbnailWidget* m_pCurrentThumbnailWidget2;
     int m_iActivePlayer;
+    QString m_sSaveName;
 };
 
 #endif // CMAINWINDOW_H

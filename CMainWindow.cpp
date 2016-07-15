@@ -41,7 +41,8 @@ CMainWindow::CMainWindow(QWidget *parent) :
     m_pCurrentThumbnailWidget1(Q_NULLPTR),
     m_pCurrentThumbnailWidget2(Q_NULLPTR),
     m_iActivePlayer(0),
-    m_pKernel(NULL)
+    m_pKernel(NULL),
+    m_sSaveName("")
 {
 /*   atm useless code */
     QThread* thread = new QThread;
@@ -57,6 +58,12 @@ CMainWindow::CMainWindow(QWidget *parent) :
     thread->start();
 
     ui->setupUi(this);
+
+    // disable save button
+    if(this->m_sSaveName.isEmpty())
+    {
+        ui->save->setEnabled(false);
+    }
 
     // File browser All path will be changed TODO
     QString temporaryPath("D:\\IHMTEK\\LudoMuseEditorCocos\\build-LudoMuseEditor-Clone_de_Desktop_Qt_5_6_0_MSVC2015_32bit-Debug\\debug");
@@ -85,7 +92,8 @@ CMainWindow::CMainWindow(QWidget *parent) :
     connect(ui->prevScreenButton, SIGNAL(clicked(bool)), this, SLOT(goToPreviousScene()));
     connect(ui->nextScreenButton, SIGNAL(clicked(bool)), this, SLOT(goToNextScene()));
     connect(ui->emulateButton, SIGNAL(clicked(bool)), this, SLOT(launchEmulator()));
-    connect(ui->JsonGo, SIGNAL(clicked(bool)), this, SLOT(produceJson()));
+    connect(ui->JsonGo, SIGNAL(clicked(bool)), this, SLOT(saveAs()));
+    connect(ui->save, SIGNAL(clicked(bool)), this, SLOT(save()));
     connect(ui->lmwTestButton, SIGNAL(clicked(bool)), this, SLOT(launchAddSceneWizard(bool)));
 
     this->showMaximized();
@@ -247,11 +255,36 @@ void CMainWindow::launchEmulator()
     m_oProcessClient.start("emulator\\LudoMuse.exe", QStringList()<<"client");
 }
 
-void CMainWindow::produceJson(){
+void CMainWindow::saveAs()
+{
+    QString filePath = QFileDialog::getSaveFileName(this, "Save File",
+                               QDir::currentPath(),
+                               "Scénarios Ludomuse (*.json)");
+    // Covering empty result
+    QFileInfo fileInfo(filePath);
+    if(fileInfo.fileName() == ".json" || fileInfo.fileName().startsWith("."))
+    {
+        filePath = fileInfo.absolutePath() + "/Default_save_name.json";
+    }
+    // Forcing extension
+    if(!filePath.endsWith(".json"))
+    {
+        filePath = filePath + ".json";
+    }
+    this->m_sSaveName = filePath;
+    this->ui->save->setEnabled(true);
+    this->produceJson(filePath);
+}
+
+void CMainWindow::save()
+{
+    this->produceJson(this->m_sSaveName);
+}
+
+void CMainWindow::produceJson(const QString& a_rFileName){
     QString jsonResult;
-    QString filename="result.json";
-    QFile file( filename );
-    if ( file.open(QIODevice::ReadWrite) )
+    QFile file( a_rFileName );
+    if ( file.open(QIODevice::ReadWrite | QFile::Truncate) )
     {
         QTextStream stream( &file );
         stream.setCodec("UTF-8");
