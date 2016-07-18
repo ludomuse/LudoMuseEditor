@@ -50,5 +50,12 @@ void CFileListView::dropEvent(QDropEvent* a_pEvent)
 
 void CFileListView::dragEnterEvent(QDragEnterEvent *a_pEvent)
 {
+    qDebug("Drag enter");
+    a_pEvent->acceptProposedAction();
+}
+
+void CFileListView::dragMoveEvent(QDragMoveEvent *a_pEvent)
+{
+    qDebug("Drag move");
     a_pEvent->acceptProposedAction();
 }

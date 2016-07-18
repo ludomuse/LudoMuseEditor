@@ -20,6 +20,7 @@ public:
 protected:
     void dropEvent(QDropEvent* a_pEvent) override;
     void dragEnterEvent(QDragEnterEvent* a_pEvent) override;
+    void dragMoveEvent(QDragMoveEvent* a_pEvent) override;
 
 private:
     QString m_sPath;

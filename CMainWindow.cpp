@@ -220,7 +220,7 @@ void CMainWindow::goToSceneID(const QString &a_id, int a_iPlayerID, CThumbnailWi
         }
         m_iActivePlayer = PLAYER_1;
     }
-    LM::SEvent dummyEvent(LM::SEvent::NONE, nullptr, a_id.toStdString(), true, a_iPlayerID);
+    LM::SEvent dummyEvent(LM::SEvent::NONE, nullptr, a_id.toStdString(), true, a_iPlayerID-1);
     ON_CC_THREAD(LM::CKernel::GotoScreenID, this->m_pKernel, dummyEvent, nullptr);
     //void GotoScreenID(SEvent a_rEvent, CEntityNode* a_pTarget);
     this->clearInspectorContainer();

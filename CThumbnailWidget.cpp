@@ -80,7 +80,7 @@ void CThumbnailWidget::mousePressEvent(QMouseEvent *event)
     this->m_bIsPress = true;
     if(this->m_bIsHover && event->button() == Qt::LeftButton)
     {
-        emit onClick(this->m_sSceneID, this->m_iPlayerID - 1, this); // substract 1 to match id in Cocos ( 0 & 1 )
+        emit onClick(this->m_sSceneID, this->m_iPlayerID, this); // substract 1 to match id in Cocos ( 0 & 1 )
 //        this->setMinimumWidth(300);
         QPalette pal(palette());
         pal.setColor(QPalette::Background, QColor(255,255,255));
