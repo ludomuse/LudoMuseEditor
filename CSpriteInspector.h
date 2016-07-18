@@ -8,6 +8,7 @@
 #include <QPushButton>
 #include <QSlider>
 #include <QCheckBox>
+#include <QRadioButton>
 
 #include "Classes/Engine/Include/CSpriteNode.h"
 
@@ -32,8 +33,8 @@ public slots:
     void widthSliderChange(int a_iValue);
     void heightTextChange(const QString& a_rText);
     void widthTextChange(const QString& a_rText);
-    void checkHeight(int a_rState);
-    void checkWidth(int a_rState);
+    void checkHeight(bool a_rState);
+    void checkWidth(bool a_rState);
 
 private:
 
@@ -45,8 +46,8 @@ private:
     std::vector<QPushButton*> m_vAnchorButtons;
     QSlider* m_pHeightSlider;
     QSlider* m_pWidthSlider;
-    QCheckBox* m_pWidthCheckBox;
-    QCheckBox* m_pHeightCheckBox;
+    QRadioButton* m_pWidthRadioButton;
+    QRadioButton* m_pHeightRadioButton;
 };
 
 #endif // CSPRITEINSPECTOR_H

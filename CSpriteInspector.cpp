@@ -21,6 +21,8 @@
 #include <QVBoxLayout>
 #include <QFileDialog>
 #include <QSizePolicy>
+#include <QRadioButton>
+#include <QButtonGroup>
 
 // Personnal include
 #include "CLineEdit.h"
@@ -156,6 +158,7 @@ CSpriteInspector::CSpriteInspector(LM::CSpriteNode* a_pSprite, QWidget *parent):
     }
 
     // Create height and width widget
+    QButtonGroup* radiobuttons = new QButtonGroup(this);
     QVBoxLayout* vLayoutSize = new QVBoxLayout();
     QHBoxLayout* hLayoutHeight = new QHBoxLayout();
     QHBoxLayout* hLayoutWidth = new QHBoxLayout();
@@ -163,8 +166,12 @@ CSpriteInspector::CSpriteInspector(LM::CSpriteNode* a_pSprite, QWidget *parent):
     heightContainer->setObjectName("heightContainer");
     QWidget* widthContainer = new QWidget();
     widthContainer->setObjectName("widthContainer");
-    m_pHeightCheckBox = new QCheckBox(heightContainer);
-    m_pWidthCheckBox = new QCheckBox(widthContainer);
+    m_pHeightRadioButton = new QRadioButton(this);
+    m_pWidthRadioButton = new QRadioButton(this);
+    radiobuttons->addButton(m_pHeightRadioButton);
+    radiobuttons->addButton(m_pWidthRadioButton);
+    m_pWidthRadioButton->setAutoExclusive(true);
+    m_pHeightRadioButton->setAutoExclusive(true);
     QLabel* widthTitle = new QLabel("Largeur :");
     widthTitle->setStyleSheet("QLabel{color : white;}");
     QLabel* heightTitle = new QLabel("Hauteur :");
@@ -185,11 +192,11 @@ CSpriteInspector::CSpriteInspector(LM::CSpriteNode* a_pSprite, QWidget *parent):
     m_pHeightValue = new QLineEdit(QString::number(m_pSprite->GetHeight()));
     m_pHeightValue->setSizePolicy(QSizePolicy::Fixed,QSizePolicy::Fixed);
     m_pHeightValue->setStyleSheet("QLineEdit{width : 25px;}");
-    hLayoutWidth->addWidget(m_pWidthCheckBox);
+    hLayoutWidth->addWidget(m_pWidthRadioButton);
     hLayoutWidth->addWidget(widthTitle);
     hLayoutWidth->addWidget(m_pWidthSlider);
     hLayoutWidth->addWidget(m_pWidthValue);
-    hLayoutHeight->addWidget(m_pHeightCheckBox);
+    hLayoutHeight->addWidget(m_pHeightRadioButton);
     hLayoutHeight->addWidget(heightTitle);
     hLayoutHeight->addWidget(m_pHeightSlider);
     hLayoutHeight->addWidget(m_pHeightValue);
@@ -202,9 +209,9 @@ CSpriteInspector::CSpriteInspector(LM::CSpriteNode* a_pSprite, QWidget *parent):
     sizeContainer->setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Minimum);
     if(this->m_pSprite->GetWidth() == 0)
     {
-        m_pHeightCheckBox->setChecked(true);
-        m_pHeightCheckBox->setEnabled(false);
-        m_pWidthCheckBox->setChecked(false);
+        m_pHeightRadioButton->setChecked(true);
+//        m_pHeightRadioButton->setEnabled(false);
+        m_pWidthRadioButton->setChecked(false);
         m_pWidthSlider->setEnabled(false);
         m_pWidthValue->setEnabled(false);
         widthContainer->parentWidget()->setStyleSheet("#widthContainer{border: none}");
@@ -212,9 +219,9 @@ CSpriteInspector::CSpriteInspector(LM::CSpriteNode* a_pSprite, QWidget *parent):
     }
     else
     {
-        m_pHeightCheckBox->setChecked(false);
-        m_pWidthCheckBox->setChecked(true);
-        m_pWidthCheckBox->setEnabled(false);
+        m_pHeightRadioButton->setChecked(false);
+        m_pWidthRadioButton->setChecked(true);
+//        m_pWidthRadioButton->setEnabled(false);
         m_pHeightSlider->setEnabled(false);
         m_pHeightValue->setEnabled(false);
         heightContainer->setStyleSheet("#heightContainer{border: none}");
@@ -276,8 +283,8 @@ CSpriteInspector::CSpriteInspector(LM::CSpriteNode* a_pSprite, QWidget *parent):
     connect(m_pWidthValue, SIGNAL(textChanged(QString)), this, SLOT(widthTextChange(QString)));
 
     // Connect checkbox
-    connect(m_pHeightCheckBox, SIGNAL(stateChanged(int)), this, SLOT(checkHeight(int)));
-    connect(m_pWidthCheckBox, SIGNAL(stateChanged(int)), this, SLOT(checkWidth(int)));
+    connect(m_pHeightRadioButton, SIGNAL(toggled(bool)), this, SLOT(checkHeight(bool)));
+    connect(m_pWidthRadioButton, SIGNAL(toggled(bool)), this, SLOT(checkWidth(bool)));
 }
 
 
@@ -415,21 +422,16 @@ void CSpriteInspector::widthTextChange(const QString& a_rText)
 }
 
 
-void CSpriteInspector::checkHeight(int a_rState)
+void CSpriteInspector::checkHeight(bool a_rState)
 {
-    if(a_rState == 0)
+    if(a_rState)
     {
-        qDebug("Swag");
-        // Do Nothing
-    }
-    else
-    {
-        m_pWidthCheckBox->setEnabled(true);
-        m_pHeightCheckBox->setChecked(true);
-        m_pWidthCheckBox->setChecked(false);
-        m_pHeightCheckBox->parentWidget()->setStyleSheet("#heightContainer{border: 1px dashed white}");
-        m_pWidthCheckBox->parentWidget()->setStyleSheet("#widthContainer{border: none}");
-        m_pHeightCheckBox->setEnabled(false);
+//        m_pWidthRadioButton->setEnabled(true);
+//        m_pHeightRadioButton->setChecked(true);
+//        m_pWidthRadioButton->setChecked(false);
+        m_pHeightRadioButton->parentWidget()->setStyleSheet("#heightContainer{border: 1px dashed white}");
+        m_pWidthRadioButton->parentWidget()->setStyleSheet("#widthContainer{border: none}");
+//        m_pHeightRadioButton->setEnabled(false);
         m_pHeightSlider->setEnabled(true);
         m_pHeightValue->setEnabled(true);
         // Disabling width fields
@@ -441,22 +443,16 @@ void CSpriteInspector::checkHeight(int a_rState)
     }
 }
 
-void CSpriteInspector::checkWidth(int a_rState)
+void CSpriteInspector::checkWidth(bool a_rState)
 {
-
-    qDebug("Swag 2");
-    if(a_rState == 0)
+    if(a_rState)
     {
-        // Do nothing
-    }
-    else
-    {
-        m_pHeightCheckBox->setEnabled(true);
-        m_pHeightCheckBox->setChecked(false);
-        m_pWidthCheckBox->setChecked(true);
-        m_pHeightCheckBox->parentWidget()->setStyleSheet("#heightContainer{border: none}");
-        m_pWidthCheckBox->parentWidget()->setStyleSheet("#widthContainer{border: 1px dashed white}");
-        m_pWidthCheckBox->setEnabled(false);
+//        m_pHeightRadioButton->setEnabled(true);
+//        m_pHeightRadioButton->setChecked(false);
+//        m_pWidthRadioButton->setChecked(true);
+        m_pHeightRadioButton->parentWidget()->setStyleSheet("#heightContainer{border: none}");
+        m_pWidthRadioButton->parentWidget()->setStyleSheet("#widthContainer{border: 1px dashed white}");
+//        m_pWidthRadioButton->setEnabled(false);
         m_pWidthSlider->setEnabled(true);
         m_pWidthValue->setEnabled(true);
         // Disabling height fields
