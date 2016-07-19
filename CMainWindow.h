@@ -61,6 +61,8 @@ private:
     /// and save in file name a_rFileName
     void produceJson(const QString& a_rFileame);
 
+    /// \brief search and active a thumbnail by player id and scene id
+    void activeThumbnail(const QString& a_sSceneId, int a_iPlayerId);
 
 
 public slots:
@@ -82,7 +84,9 @@ private slots:
     void receiveKernel(LM::CKernel*);
     void receiveLabel(LM::CLabelNode*);
     void receiveSprite(LM::CSpriteNode*);
-    void receiveScene(LM::CSceneNode*);
+    /// \brief isNav store the fact that the scene is send after pression on
+    /// prev or next button. Thus we can know if we need to update thumbnails or not!
+    void receiveScene(LM::CSceneNode* a_pScene, bool a_bIsNav);
     void clearInspectorContainer();
     void goToSceneID(const QString&, int a_iPlayerID, CThumbnailWidget* a_pClickedThumbnails);
     void goToNextScene();

@@ -154,9 +154,12 @@ void CMainWindow::receiveKernel(LM::CKernel *aKernel)
     connect(dummyVisitor, SIGNAL(labelClicked(LM::CLabelNode*)), this, SLOT(receiveLabel(LM::CLabelNode*)));
     connect(dummyVisitor, SIGNAL(spriteClicked(LM::CSpriteNode*)), this, SLOT(receiveSprite(LM::CSpriteNode*)));
     connect(m_pKernel, SIGNAL(addingSceneFinished()), this, SLOT(addingSceneFinished()));
-    connect(m_pKernel, SIGNAL(sendScene(LM::CSceneNode*)), this, SLOT(receiveScene(LM::CSceneNode*)));
-
+    connect(m_pKernel, SIGNAL(sendScene(LM::CSceneNode*, bool)), this, SLOT(receiveScene(LM::CSceneNode*, bool)));
     this->ProcessTree();
+
+    QString currentScene(m_pKernel->m_pCurrentScene->GetSceneID().c_str());
+    m_iActivePlayer = m_pKernel->GetCurrentPlayer() + 1;
+    this->activeThumbnail(currentScene, m_iActivePlayer);
 }
 
 void CMainWindow::receiveLabel(LM::CLabelNode* a_pLabel)
@@ -167,13 +170,17 @@ void CMainWindow::receiveLabel(LM::CLabelNode* a_pLabel)
 
 void CMainWindow::receiveSprite(LM::CSpriteNode* a_pSprite)
 {
-    //qDebug("Reception d'un Sprite");
     this->inspectSprite(a_pSprite);
 }
 
-void CMainWindow::receiveScene(LM::CSceneNode *a_pScene)
+void CMainWindow::receiveScene(LM::CSceneNode *a_pScene, bool a_bIsNav)
 {
     this->inspectScene(a_pScene);
+    if(a_bIsNav)
+    {
+        qDebug("navigation transition -> changing active thumbnail");
+        this->activeThumbnail(QString(a_pScene->GetSceneID().c_str()), m_iActivePlayer);
+    }
 }
 
 void CMainWindow::clearInspectorContainer()
@@ -192,15 +199,11 @@ void CMainWindow::goToSceneID(const QString &a_id, int a_iPlayerID, CThumbnailWi
     qDebug()<<"Deplacement vers la scene d'id : "<<a_id;
     if(a_iPlayerID == PLAYER_2)
     {
-        if(m_pCurrentThumbnailWidget2 == Q_NULLPTR) // First click
+        if(m_pCurrentThumbnailWidget2 != Q_NULLPTR)
         {
-            m_pCurrentThumbnailWidget2 = a_pClickedWidget;
+            m_pCurrentThumbnailWidget2->Unselect();
         }
-        else
-        {
-            m_pCurrentThumbnailWidget2->unselect();
-            m_pCurrentThumbnailWidget2 = a_pClickedWidget;
-        }
+        m_pCurrentThumbnailWidget2 = a_pClickedWidget;
         // Change color pfor other player timeline
         if(m_pCurrentThumbnailWidget1 != Q_NULLPTR)
         {
@@ -210,15 +213,11 @@ void CMainWindow::goToSceneID(const QString &a_id, int a_iPlayerID, CThumbnailWi
     }
     else // By default take player one
     {
-        if(m_pCurrentThumbnailWidget1 == Q_NULLPTR) // First click
+        if(m_pCurrentThumbnailWidget1 != Q_NULLPTR)
         {
-            m_pCurrentThumbnailWidget1 = a_pClickedWidget;
+            m_pCurrentThumbnailWidget1->Unselect();
         }
-        else
-        {
-            m_pCurrentThumbnailWidget1->unselect();
-            m_pCurrentThumbnailWidget1 = a_pClickedWidget;
-        }
+        m_pCurrentThumbnailWidget1 = a_pClickedWidget;
         // Change color pfor other player timeline
         if(m_pCurrentThumbnailWidget2 != Q_NULLPTR)
         {
@@ -313,8 +312,8 @@ void CMainWindow::launchAddSceneWizard(bool)
                                                m_pKernel->GetSceneIDPlayer(0),
                                                m_pKernel->GetSceneIDPlayer(1),
                                                this,
-                                               m_pCurrentThumbnailWidget1->getSceneID(),
-                                               m_pCurrentThumbnailWidget2->getSceneID());
+                                               m_pCurrentThumbnailWidget1->GetSceneID(),
+                                               m_pCurrentThumbnailWidget2->GetSceneID());
         }
         else                                                                 // Only selected on P1 time line
         {
@@ -322,7 +321,7 @@ void CMainWindow::launchAddSceneWizard(bool)
                                                m_pKernel->GetSceneIDPlayer(0),
                                                m_pKernel->GetSceneIDPlayer(1),
                                                this,
-                                               m_pCurrentThumbnailWidget1->getSceneID());
+                                               m_pCurrentThumbnailWidget1->GetSceneID());
         }
     }
     else if(m_pCurrentThumbnailWidget2 != Q_NULLPTR)
@@ -332,7 +331,7 @@ void CMainWindow::launchAddSceneWizard(bool)
                                            m_pKernel->GetSceneIDPlayer(1),
                                            this,
                                            Q_NULLPTR,
-                                           m_pCurrentThumbnailWidget2->getSceneID());
+                                           m_pCurrentThumbnailWidget2->GetSceneID());
     }
     else                                                                    // No screen selected on both timeline
     {
@@ -378,8 +377,6 @@ void CMainWindow::addingSceneFinished()
 void CMainWindow::ProcessTree()
 {
     LM::CNode *mainNode = this->m_pKernel->GetBehaviorTree();
-    std::vector<LM::CNode*> allScenes = mainNode->GetChildren();
-    int i = 0;
     for(LM::CNode* currentNode : *mainNode)
     {
         LM::CSceneNode* currentSceneNode = (dynamic_cast<LM::CSceneNode*>(currentNode));
@@ -546,6 +543,73 @@ void CMainWindow::setInspectorName(const QString &a_rName)
     inspectorTitle->setAlignment(Qt::AlignHCenter);
     inspectorTitle->setStyleSheet("QLabel{color : white;}");
     this->ui->toolBarInspector->layout()->addWidget(inspectorTitle);
+}
+
+void CMainWindow::activeThumbnail(const QString &a_sSceneId, int a_iPlayerId)
+{
+    int index = 0;
+    if(a_iPlayerId == PLAYER_2)
+    {
+        QLayout* timelineLayout = this->ui->trameContainerP2->layout();
+        QLayoutItem *child;
+        if(timelineLayout != Q_NULLPTR)
+        {
+            while ((child = timelineLayout->itemAt(index++)) != 0) {
+                CThumbnailWidget* aThumbnail = dynamic_cast<CThumbnailWidget*>(child->widget());
+                if(aThumbnail)
+                {
+                    if(aThumbnail->GetSceneID() == a_sSceneId)
+                    {
+                        // Desactive previous selection
+                        if(m_pCurrentThumbnailWidget2 != Q_NULLPTR)
+                        {
+                            m_pCurrentThumbnailWidget2->Unselect();
+                        }
+                        m_pCurrentThumbnailWidget2 = aThumbnail;
+                        aThumbnail->Select();
+
+                        // take care of p1 timeline
+                        if(m_pCurrentThumbnailWidget1 != Q_NULLPTR)
+                        {
+                            m_pCurrentThumbnailWidget1->LastActive();
+                        }
+                        break; // Stop loop cause thumbnail found
+                    }
+                }
+            }
+        }
+    }
+    else
+    {
+        QLayout* timelineLayout = this->ui->trameContainerP1->layout();
+        QLayoutItem *child;
+        if(timelineLayout != Q_NULLPTR)
+        {
+            while ((child = timelineLayout->itemAt(index++)) != 0) {
+                CThumbnailWidget* aThumbnail = dynamic_cast<CThumbnailWidget*>(child->widget());
+                if(aThumbnail)
+                {
+                    if(aThumbnail->GetSceneID() == a_sSceneId)
+                    {
+                        // Desactive previous selection
+                        if(m_pCurrentThumbnailWidget1 != Q_NULLPTR)
+                        {
+                            m_pCurrentThumbnailWidget1->Unselect();
+                        }
+                        m_pCurrentThumbnailWidget1 = aThumbnail;
+                        aThumbnail->Select();
+
+                        // take care of p1 timeline
+                        if(m_pCurrentThumbnailWidget2 != Q_NULLPTR)
+                        {
+                            m_pCurrentThumbnailWidget2->LastActive();
+                        }
+                        break; // Stop loop cause thumbnail found
+                    }
+                }
+            }
+        }
+    }
 }
 
 void CMainWindow::on_fileBrowser_clicked(const QModelIndex &index)

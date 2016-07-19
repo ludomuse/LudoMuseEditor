@@ -70,9 +70,9 @@ CSceneInspector::CSceneInspector(LM::CSceneNode* a_pScene, int a_iPlayerID, QWid
 
 
     QVBoxLayout* vWidgetLayout = new QVBoxLayout(this);
-    vWidgetLayout->addWidget(firstRow);
-    vWidgetLayout->addWidget(secondRow);
-    this->setLayout(vWidgetLayout);
+    this->layout()->addWidget(firstRow);
+    this->layout()->addWidget(secondRow);
+    //this->setLayout(vWidgetLayout);
 
     // Connect all checkbox
     connect(isSynchCB, SIGNAL(clicked(bool)), this, SLOT(switchSynchro(bool)));

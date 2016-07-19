@@ -40,21 +40,29 @@ CThumbnailWidget::CThumbnailWidget(QString a_sceneID, int a_iPlayerID, QWidget *
     this->setMaximumWidth(250);
 }
 
-QString CThumbnailWidget::getSceneID()
+QString CThumbnailWidget::GetSceneID()
 {
     return this->m_sSceneID;
 }
 
-bool CThumbnailWidget::isSceneID(const QString& a_rSceneID, int a_iPlayerID)
+bool CThumbnailWidget::IsSceneID(const QString& a_rSceneID, int a_iPlayerID)
 {
     return (this->m_sSceneID.compare(a_rSceneID) && a_iPlayerID == m_iPlayerID);
 }
 
-void CThumbnailWidget::unselect()
+void CThumbnailWidget::Unselect()
 {
     this->setMinimumWidth(250);
     QPalette pal(palette());
     pal.setColor(QPalette::Background, QColor(150,150,150));
+    this->setAutoFillBackground(true);
+    this->setPalette(pal);
+}
+
+void CThumbnailWidget::Select()
+{
+    QPalette pal(palette());
+    pal.setColor(QPalette::Background, QColor(255,255,255));
     this->setAutoFillBackground(true);
     this->setPalette(pal);
 }
@@ -82,10 +90,7 @@ void CThumbnailWidget::mousePressEvent(QMouseEvent *event)
     {
         emit onClick(this->m_sSceneID, this->m_iPlayerID, this); // substract 1 to match id in Cocos ( 0 & 1 )
 //        this->setMinimumWidth(300);
-        QPalette pal(palette());
-        pal.setColor(QPalette::Background, QColor(255,255,255));
-        this->setAutoFillBackground(true);
-        this->setPalette(pal);
+        this->Select();
     }
 }
 

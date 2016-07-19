@@ -10,9 +10,10 @@ class CThumbnailWidget : public QWidget
 public:
     explicit CThumbnailWidget(QWidget *parent = 0);
     CThumbnailWidget(QString a_sId, int a_iPlayerID = 0, QWidget *parent=Q_NULLPTR);
-    bool isSceneID(const QString& a_rSceneID, int a_iPlayerID);
-    QString getSceneID();
-    void unselect();
+    bool IsSceneID(const QString& a_rSceneID, int a_iPlayerID);
+    QString GetSceneID();
+    void Unselect();
+    void Select();
     void LastActive();
 
 protected:
