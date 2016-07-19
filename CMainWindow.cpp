@@ -499,8 +499,31 @@ void CMainWindow::inspectScene(LM::CSceneNode* a_pScene)
             delete child;
         }
     }
-    CSceneInspector* sceneInspector = new  CSceneInspector(a_pScene, 0, ui->sceneInspectorContainer);
-    inspectorContainerLayout->addWidget(sceneInspector);
+    // Searching which player have the scene
+    QString sceneId(a_pScene->GetSceneID().c_str());
+    CSceneInspector* sceneInspector = Q_NULLPTR;
+    if(m_pKernel->PlayerHasScene(sceneId.toStdString(), 0)
+       && m_pKernel->PlayerHasScene(sceneId.toStdString(), 1)) //  P1 and P2
+    {
+        sceneInspector = new  CSceneInspector(a_pScene, 0, ui->sceneInspectorContainer);
+    }
+    else if (m_pKernel->PlayerHasScene(sceneId.toStdString(), 0)) // P1
+    {
+        sceneInspector = new  CSceneInspector(a_pScene, 1, ui->sceneInspectorContainer);
+    }
+    else if(m_pKernel->PlayerHasScene(sceneId.toStdString(), 1)) // P2
+    {
+        sceneInspector = new  CSceneInspector(a_pScene, 2, ui->sceneInspectorContainer);
+    }
+
+    if(sceneInspector)
+    {
+        inspectorContainerLayout->addWidget(sceneInspector);
+    }
+    else
+    {
+        qDebug("Scene id is nowhere to be found, not in p1 neither in P2");
+    }
 }
 
 void CMainWindow::setInspectorName(const QString &a_rName)

@@ -4,6 +4,8 @@
 #include <QHBoxLayout>
 #include <QLabel>
 
+#include <QDebug>
+
 CSceneInspector::CSceneInspector(LM::CSceneNode* a_pScene, int a_iPlayerID, QWidget *parent) :
     QWidget(parent),
     m_pScene(a_pScene)
@@ -72,4 +74,48 @@ CSceneInspector::CSceneInspector(LM::CSceneNode* a_pScene, int a_iPlayerID, QWid
     vWidgetLayout->addWidget(secondRow);
     this->setLayout(vWidgetLayout);
 
+    // Connect all checkbox
+    connect(isSynchCB, SIGNAL(clicked(bool)), this, SLOT(switchSynchro(bool)));
+    connect(isDashCB, SIGNAL(clicked(bool)), this, SLOT(switchDash(bool)));
+
+    // temporary disable player check box
+    player1CheckBox->setEnabled(false);
+    player2CheckBox->setEnabled(false);
+    connect(player1CheckBox, SIGNAL(clicked(bool)), this, SLOT(switchP1(bool)));
+    connect(player2CheckBox, SIGNAL(clicked(bool)), this, SLOT(switchP2(bool)));
+}
+
+
+void CSceneInspector::switchSynchro(bool a_bState)
+{
+    this->m_pScene->SetSynced(a_bState);
+}
+
+void CSceneInspector::switchDash(bool a_bState)
+{
+    this->m_pScene->m_bDashboardTrigger = a_bState;
+}
+
+void CSceneInspector::switchP1(bool a_bState)
+{
+    if(a_bState)
+    {
+
+    }
+    else
+    {
+
+    }
+}
+
+void CSceneInspector::switchP2(bool a_bState)
+{
+    if(a_bState)
+    {
+
+    }
+    else
+    {
+
+    }
 }

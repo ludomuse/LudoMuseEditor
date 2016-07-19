@@ -15,6 +15,10 @@ public:
 signals:
 
 public slots:
+    void switchSynchro(bool a_bState);
+    void switchDash(bool a_bState);
+    void switchP1(bool a_bState);
+    void switchP2(bool a_bState);
 
 private:
     LM::CSceneNode* m_pScene;
