@@ -9,6 +9,7 @@
 #include "CThumbnailWidget.h"
 #include "CLabelInspector.h"
 #include "CSpriteInspector.h"
+#include "CSceneInspector.h"
 #include "CAddSceneWizard.h"
 
 // Include QT
@@ -82,7 +83,6 @@ CMainWindow::CMainWindow(QWidget *parent) :
     ui->fileListView->setRootIndex(m_pFileModel->setRootPath(temporaryPath));
     ui->fileListView->SetCurrentPath(temporaryPath);
 
-
     // Icon creation
     ui->playlistButton->setIcon(QIcon("resources/add_playlist_w.png"));
     ui->playButton->setIcon(QIcon("resources/play_arrow.png"));
@@ -154,6 +154,7 @@ void CMainWindow::receiveKernel(LM::CKernel *aKernel)
     connect(dummyVisitor, SIGNAL(labelClicked(LM::CLabelNode*)), this, SLOT(receiveLabel(LM::CLabelNode*)));
     connect(dummyVisitor, SIGNAL(spriteClicked(LM::CSpriteNode*)), this, SLOT(receiveSprite(LM::CSpriteNode*)));
     connect(m_pKernel, SIGNAL(addingSceneFinished()), this, SLOT(addingSceneFinished()));
+    connect(m_pKernel, SIGNAL(sendScene(LM::CSceneNode*)), this, SLOT(receiveScene(LM::CSceneNode*)));
 
     this->ProcessTree();
 }
@@ -168,6 +169,11 @@ void CMainWindow::receiveSprite(LM::CSpriteNode* a_pSprite)
 {
     //qDebug("Reception d'un Sprite");
     this->inspectSprite(a_pSprite);
+}
+
+void CMainWindow::receiveScene(LM::CSceneNode *a_pScene)
+{
+    this->inspectScene(a_pScene);
 }
 
 void CMainWindow::clearInspectorContainer()
@@ -479,6 +485,22 @@ void CMainWindow::inspectSprite(LM::CSpriteNode* a_pSprite)
     CSpriteInspector* inspector = new CSpriteInspector(a_pSprite);
     inspectorContainerLayout->addWidget(inspector);
     connect(inspector, SIGNAL(closeInspector()), this, SLOT(clearInspectorContainer()));
+}
+
+void CMainWindow::inspectScene(LM::CSceneNode* a_pScene)
+{
+    // Clear inspector loayout from older inspection
+    QLayoutItem *child;
+    QLayout* inspectorContainerLayout = this->ui->sceneInspectorContainer->layout();
+    if(inspectorContainerLayout != Q_NULLPTR)
+    {
+        while ((child = inspectorContainerLayout->takeAt(0)) != 0) {
+            delete child->widget();
+            delete child;
+        }
+    }
+    CSceneInspector* sceneInspector = new  CSceneInspector(a_pScene, 0, ui->sceneInspectorContainer);
+    inspectorContainerLayout->addWidget(sceneInspector);
 }
 
 void CMainWindow::setInspectorName(const QString &a_rName)

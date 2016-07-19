@@ -26,6 +26,8 @@ CLabelInspector::CLabelInspector(LM::CLabelNode* a_pLabel, QWidget *parent):
     m_pLabel(a_pLabel),
     m_pTextEdit(Q_NULLPTR)
 {
+    this->setSizePolicy(QSizePolicy::Preferred,QSizePolicy::Expanding);
+
     // Construction de tout les champs swag
     QHBoxLayout* hLayoutId= new QHBoxLayout();
     QLineEdit* id = new QLineEdit(this);

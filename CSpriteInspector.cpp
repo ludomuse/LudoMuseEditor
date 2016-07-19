@@ -39,7 +39,9 @@ CSpriteInspector::CSpriteInspector(LM::CSpriteNode* a_pSprite, QWidget *parent):
     m_pSprite(a_pSprite),
     m_pPath(Q_NULLPTR)
 {
-    // Construction de tout les champs swag
+    this->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Expanding);
+
+    // Construction de tous les champs swag
     this->m_iCurrentAnchor = this->m_pSprite->GetAnchor();
 
     QHBoxLayout* hLayoutId= new QHBoxLayout();

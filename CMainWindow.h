@@ -50,6 +50,9 @@ private:
     /// \param CSprite the sprite which is actually under inspection/ modification
     void inspectSprite(LM::CSpriteNode* a_pSprite);
 
+    /// \brief update and allow scene inspection
+    void inspectScene(LM::CSceneNode* a_pScene);
+
     /// \brief St the name of the inspector
     /// \param a_rName desired name
     void setInspectorName(const QString& a_rName);
@@ -79,6 +82,7 @@ private slots:
     void receiveKernel(LM::CKernel*);
     void receiveLabel(LM::CLabelNode*);
     void receiveSprite(LM::CSpriteNode*);
+    void receiveScene(LM::CSceneNode*);
     void clearInspectorContainer();
     void goToSceneID(const QString&, int a_iPlayerID, CThumbnailWidget* a_pClickedThumbnails);
     void goToNextScene();
