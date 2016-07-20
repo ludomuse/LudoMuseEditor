@@ -72,12 +72,10 @@ signals:
     void chose();
 
 private slots:
+    // Automatic generated slots
     void on_bugButton_clicked();
-
     void on_playlistButton_clicked();
-
     void on_playButton_clicked();
-
     void on_lmwTestButton_clicked();
 
     void receiveHWND(int);
@@ -92,7 +90,13 @@ private slots:
     void goToNextScene();
     void goToPreviousScene();
     void launchEmulator();
+    /// \brief slot for adding new template
     void addSceneTemplate(const QString& a_sPreviousID,const QString& a_sNewID, int a_iPlayerID, int a_iTemplateNumber);
+    void addOneScene(const QString& a_sPreviousID, const QString& a_sNewID, int a_iPlayerID, int a_iTemplateNumber);
+    void addTwoScene(const QString& a_sPreviousIDP1, const QString& a_sNewIDP1,
+                     const QString& a_sPreviousIDP2, const QString& a_sNewIDP2,
+                     int a_iTemplateNumberP1);
+
     void saveAs();
     void save();
     // Temporary slot
