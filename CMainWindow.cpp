@@ -45,7 +45,6 @@ CMainWindow::CMainWindow(QWidget *parent) :
     m_pKernel(NULL),
     m_sSaveName("")
 {
-/*   atm useless code */
     QThread* thread = new QThread;
     CThreadCocos* worker = new CThreadCocos();
     worker->moveToThread(thread);
@@ -66,7 +65,8 @@ CMainWindow::CMainWindow(QWidget *parent) :
         ui->save->setEnabled(false);
     }
 
-    // File browser All path will be changed TODO
+    // File browser (tree and file display)
+    // All path will be changed TODO
     QString temporaryPath("D:\\IHMTEK\\LudoMuseEditorCocos\\build-LudoMuseEditor-Clone_de_Desktop_Qt_5_6_0_MSVC2015_32bit-Debug\\debug");
     m_pDirModel = new QFileSystemModel();
     m_pDirModel->setFilter(QDir::NoDotAndDotDot | QDir::AllDirs);
@@ -76,7 +76,6 @@ CMainWindow::CMainWindow(QWidget *parent) :
     ui->fileBrowser->setColumnHidden( 1, true );
     ui->fileBrowser->setColumnHidden( 2, true );
     ui->fileBrowser->setColumnHidden( 3, true );
-
     m_pFileModel = new QFileSystemModel(this);
     m_pFileModel->setFilter(QDir::NoDotAndDotDot | QDir::Files);
     ui->fileListView->setModel(m_pFileModel);
@@ -87,6 +86,9 @@ CMainWindow::CMainWindow(QWidget *parent) :
     ui->playlistButton->setIcon(QIcon("resources/add_playlist_w.png"));
     ui->playButton->setIcon(QIcon("resources/play_arrow.png"));
     ui->emulateButton->setIcon(QIcon("resources/emulate.png"));
+
+    // Create Template Manager
+    this->m_pTemplatesManager = CTemplateManager::Instance();
 
     // Connect Tool bar
     connect(ui->prevScreenButton, SIGNAL(clicked(bool)), this, SLOT(goToPreviousScene()));

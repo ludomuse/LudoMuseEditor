@@ -57,7 +57,9 @@ SOURCES += main.cpp\
     CAddSceneWizard.cpp \
     CFileListView.cpp \
     CLineEdit.cpp \
-    CSceneInspector.cpp
+    CSceneInspector.cpp \
+    CTemplate.cpp \
+    CTemplateManager.cpp
 
 
 HEADERS  += CMainWindow.h \
@@ -111,7 +113,9 @@ HEADERS  += CMainWindow.h \
     CAddSceneWizard.h \
     CFileListView.h \
     CLineEdit.h \
-    CSceneInspector.h
+    CSceneInspector.h \
+    CTemplate.h \
+    CTemplateManager.h
 
 FORMS    += cmainwindow.ui
 

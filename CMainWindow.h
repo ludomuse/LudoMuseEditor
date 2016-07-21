@@ -9,6 +9,7 @@
 #include <QFileSystemModel>
 
 #include "CThumbnailWidget.h"
+#include "CTemplateManager.h"
 
 #include <Classes/Engine/Include/CKernel.h>
 #include <Classes/Engine/Include/CLabelNode.h>
@@ -114,6 +115,7 @@ private:
     QProcess m_oProcessClient;
     CThumbnailWidget* m_pCurrentThumbnailWidget1;
     CThumbnailWidget* m_pCurrentThumbnailWidget2;
+    CTemplateManager* m_pTemplatesManager;
     int m_iActivePlayer;
     QString m_sSaveName;
 };
