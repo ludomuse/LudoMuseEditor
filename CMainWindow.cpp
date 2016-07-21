@@ -41,7 +41,7 @@ CMainWindow::CMainWindow(QWidget *parent) :
     ui(new Ui::CMainWindow),
     m_pCurrentThumbnailWidget1(Q_NULLPTR),
     m_pCurrentThumbnailWidget2(Q_NULLPTR),
-    m_iActivePlayer(0),
+    m_iActivePlayer(BOTH_PLAYER),
     m_pKernel(NULL),
     m_sSaveName("")
 {
@@ -158,7 +158,7 @@ void CMainWindow::receiveKernel(LM::CKernel *aKernel)
     this->ProcessTree();
 
     QString currentScene(m_pKernel->m_pCurrentScene->GetSceneID().c_str());
-    m_iActivePlayer = m_pKernel->GetCurrentPlayer() + 1;
+    m_iActivePlayer = m_pKernel->GetCurrentPlayer();
     this->activeThumbnail(currentScene, m_iActivePlayer);
 }
 
@@ -263,7 +263,9 @@ void CMainWindow::addTwoScene(const QString &a_sPreviousIDP1, const QString &a_s
                               const QString &a_sPreviousIDP2, const QString &a_sNewIDP2,
                               int a_iTemplateNumberP1)
 {
-    qDebug()<< "Addin new screen to both timeline!";
+    ON_CC_THREAD(LM::CKernel::AddNewScene, m_pKernel, "test.json", a_sPreviousIDP1.toStdString(), a_sNewIDP1.toStdString(), PLAYER_1);
+    ON_CC_THREAD(LM::CKernel::AddNewScene, m_pKernel, "test.json", a_sPreviousIDP2.toStdString(), a_sNewIDP2.toStdString(), PLAYER_2);
+
 }
 
 void CMainWindow::launchEmulator()
@@ -322,8 +324,8 @@ void CMainWindow::launchAddSceneWizard(bool)
         if(m_pCurrentThumbnailWidget2 != Q_NULLPTR)                           // selected screen for both timeline
         {
             pSceneWizard = new CAddSceneWizard(m_iActivePlayer,
-                                               m_pKernel->GetSceneIDPlayer(0),
-                                               m_pKernel->GetSceneIDPlayer(1),
+                                               m_pKernel->GetSceneIDPlayer(PLAYER_1),
+                                               m_pKernel->GetSceneIDPlayer(PLAYER_2),
                                                this,
                                                m_pCurrentThumbnailWidget1->GetSceneID(),
                                                m_pCurrentThumbnailWidget2->GetSceneID());
@@ -331,8 +333,8 @@ void CMainWindow::launchAddSceneWizard(bool)
         else                                                                 // Only selected on P1 time line
         {
             pSceneWizard = new CAddSceneWizard(m_iActivePlayer,
-                                               m_pKernel->GetSceneIDPlayer(0),
-                                               m_pKernel->GetSceneIDPlayer(1),
+                                               m_pKernel->GetSceneIDPlayer(PLAYER_1),
+                                               m_pKernel->GetSceneIDPlayer(PLAYER_2),
                                                this,
                                                m_pCurrentThumbnailWidget1->GetSceneID());
         }
@@ -340,8 +342,8 @@ void CMainWindow::launchAddSceneWizard(bool)
     else if(m_pCurrentThumbnailWidget2 != Q_NULLPTR)
     {
         pSceneWizard = new CAddSceneWizard(m_iActivePlayer,
-                                           m_pKernel->GetSceneIDPlayer(0),
-                                           m_pKernel->GetSceneIDPlayer(1),
+                                           m_pKernel->GetSceneIDPlayer(PLAYER_1),
+                                           m_pKernel->GetSceneIDPlayer(PLAYER_2),
                                            this,
                                            Q_NULLPTR,
                                            m_pCurrentThumbnailWidget2->GetSceneID());
@@ -349,13 +351,13 @@ void CMainWindow::launchAddSceneWizard(bool)
     else    // No screen selected on both timeline
     {
         pSceneWizard = new CAddSceneWizard(m_iActivePlayer,
-                                           m_pKernel->GetSceneIDPlayer(0),
-                                           m_pKernel->GetSceneIDPlayer(1),
+                                           m_pKernel->GetSceneIDPlayer(PLAYER_1),
+                                           m_pKernel->GetSceneIDPlayer(PLAYER_2),
                                            this);
     }
     connect(pSceneWizard, SIGNAL(addOneScene(QString,QString,int,int)), this, SLOT(addOneScene(QString,QString,int,int)));
-    connect(pSceneWizard, SIGNAL(addTwoScene(QString,QString,QString,QString,int,int)),
-            this, SLOT(addTwoScene(QString,QString,QString,QString,int,int)));
+    connect(pSceneWizard, SIGNAL(addTwoScene(QString,QString,QString,QString,int)),
+            this, SLOT(addTwoScene(QString,QString,QString,QString,int)));
     pSceneWizard->setModal(true);
     pSceneWizard->show();
 }
@@ -383,7 +385,7 @@ void CMainWindow::addingSceneFinished()
     // Clear pointer on current thumbnail widget
     this->m_pCurrentThumbnailWidget1 = Q_NULLPTR;
     this->m_pCurrentThumbnailWidget2 = Q_NULLPTR;
-    this->m_iActivePlayer = 0;
+    this->m_iActivePlayer = BOTH_PLAYER;
     this->ProcessTree();
 }
 
@@ -431,9 +433,9 @@ void CMainWindow::ProcessTree()
 
 int CMainWindow::ScreenIDToPlayerID(const QString &a_id)
 {
-    if (m_pKernel->PlayerHasScene(a_id.toStdString(), 0))
+    if (m_pKernel->PlayerHasScene(a_id.toStdString(), PLAYER_1))
     {
-        if(m_pKernel->PlayerHasScene(a_id.toStdString(), 1))
+        if(m_pKernel->PlayerHasScene(a_id.toStdString(), PLAYER_2))
         {
             return BOTH_PLAYER;
         }
@@ -514,18 +516,18 @@ void CMainWindow::inspectScene(LM::CSceneNode* a_pScene)
     // Searching which player have the scene
     QString sceneId(a_pScene->GetSceneID().c_str());
     CSceneInspector* sceneInspector = Q_NULLPTR;
-    if(m_pKernel->PlayerHasScene(sceneId.toStdString(), 0)
+    if(m_pKernel->PlayerHasScene(sceneId.toStdString(), PLAYER_1)
        && m_pKernel->PlayerHasScene(sceneId.toStdString(), 1)) //  P1 and P2
     {
-        sceneInspector = new  CSceneInspector(a_pScene, 0, ui->sceneInspectorContainer);
+        sceneInspector = new  CSceneInspector(a_pScene, BOTH_PLAYER, ui->sceneInspectorContainer);
     }
-    else if (m_pKernel->PlayerHasScene(sceneId.toStdString(), 0)) // P1
+    else if (m_pKernel->PlayerHasScene(sceneId.toStdString(), PLAYER_1)) // P1
     {
-        sceneInspector = new  CSceneInspector(a_pScene, 1, ui->sceneInspectorContainer);
+        sceneInspector = new  CSceneInspector(a_pScene, PLAYER_1, ui->sceneInspectorContainer);
     }
-    else if(m_pKernel->PlayerHasScene(sceneId.toStdString(), 1)) // P2
+    else if(m_pKernel->PlayerHasScene(sceneId.toStdString(), PLAYER_2)) // P2
     {
-        sceneInspector = new  CSceneInspector(a_pScene, 2, ui->sceneInspectorContainer);
+        sceneInspector = new  CSceneInspector(a_pScene, PLAYER_2, ui->sceneInspectorContainer);
     }
 
     if(sceneInspector)

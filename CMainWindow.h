@@ -109,7 +109,7 @@ private:
     QFileSystemModel* m_pDirModel;
     QFileSystemModel* m_pFileModel;
     LM::CKernel* m_pKernel;
-    enum {BOTH_PLAYER, PLAYER_1, PLAYER_2};
+    enum {PLAYER_1, PLAYER_2, BOTH_PLAYER};
     QProcess m_oProcessServer;
     QProcess m_oProcessClient;
     CThumbnailWidget* m_pCurrentThumbnailWidget1;

@@ -21,15 +21,22 @@ public:
 
 private:
     void FillComboBox(int a_iPlayerID, const QString& activeSceneID);
-    void openModalDialog(const QString& a_sText);
+    void OpenModalDialog(const QString& a_sText);
+    void SetEnabledPlayerField(int a_iPlayerID, bool a_bEnabled);
     QString m_sPreviousID1;
     QString m_sPreviousID2;
     QLabel* m_pPreviewTitle;
     QLabel* m_pPreviewTitle2;
     QLineEdit* m_pNewID;
     QLineEdit* m_pNewID2;
+    QLineEdit* m_pSoundPath;
+    QLineEdit* m_pSoundPath2;
     QCheckBox* m_pPlayer1CheckBox;
     QCheckBox* m_pPlayer2CheckBox;
+    QCheckBox* m_pDashCheckBox;
+    QCheckBox* m_pDashCheckBox2;
+    QCheckBox* m_pSynchroCheckBox;
+    QCheckBox* m_pSynchroCheckBox2;
     QComboBox* m_pComboBoxID;
     QComboBox* m_pComboBoxID2;
     int m_iTemplateNumber;

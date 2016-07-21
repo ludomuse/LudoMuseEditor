@@ -31,12 +31,12 @@ CSceneInspector::CSceneInspector(LM::CSceneNode* a_pScene, int a_iPlayerID, QWid
     hPlayerLayout->addWidget(player1CheckBox);
     hPlayerLayout->addWidget(player2CheckBox);
     // initialise check box
-    if(a_iPlayerID == 2)
+    if(a_iPlayerID == 1)
     {
         player2CheckBox->setChecked(true);
         player1CheckBox->setChecked(false);
     }
-    else if(a_iPlayerID == 1)
+    else if(a_iPlayerID == 0)
     {
         player1CheckBox->setChecked(true);
         player2CheckBox->setChecked(false);
