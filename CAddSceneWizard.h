@@ -44,6 +44,8 @@ private:
     QComboBox* m_pComboBoxID;
     QComboBox* m_pComboBoxID2;
     CTemplate* m_pCurrentTemplate;
+    bool m_bScreensSwaped; // Use for game template to know what player has got what screen
+    QPushButton* m_pSwapButton;
     // QWidget used for disabling player
     QWidget* m_pPreviewWidget;
     QWidget* m_pComboBoxWidget;
@@ -60,6 +62,7 @@ private slots:
     void clickOnValidate(bool);
     void setCurrentTemplate(CTemplate* a_pTemplate);
     void changeActivePlayer(); // Update previous id comboBox
+    void swapScreens();
 signals:
     // Signal emit when only one player box checked
     void addOneScene(const QString& a_sPreviousID, const QString& a_sNewID, int a_iPlayerID, CTemplate* a_pTemplate);

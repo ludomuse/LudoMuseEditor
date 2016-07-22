@@ -72,12 +72,26 @@ CTemplate* CTemplateManager::BuildTemplateFromFile(const QString &a_sPath)
     }
     rapidjson::Document doc;
     doc.Parse(fileContent.toStdString().c_str());
-    QString templatePicturePath, templateName, templateDescription;
+    QString templatePicturePath, templatePicturePath2, templateName, templateDescription;
     bool templateIsGame = false;
 
-    if(doc.HasMember("picture"))
+    if(doc.HasMember("game"))
     {
-        templatePicturePath = QString(doc["picture"].GetString());
+        templateIsGame = doc["game"].GetBool();
+    }
+    if(doc.HasMember("pictures") && doc["pictures"].IsArray())
+    {
+        if(templateIsGame)
+        {
+            // Have 2 different screens
+            templatePicturePath = QString(doc["pictures"][0].GetString());
+            templatePicturePath2 = QString(doc["pictures"][1].GetString());
+        }
+        else
+        {
+            templatePicturePath = QString(doc["pictures"][0].GetString());
+            templatePicturePath2 = "";
+        }
     }
     else
     {
@@ -93,11 +107,7 @@ CTemplate* CTemplateManager::BuildTemplateFromFile(const QString &a_sPath)
     {
         templateDescription = QString(doc["description"].GetString());
     }
-    if(doc.HasMember("game"))
-    {
-        templateIsGame = doc["game"].GetBool();
-    }
-    CTemplate* returnTemplate = new CTemplate(a_sPath, templatePicturePath, templateIsGame, templateName,templateDescription);
+    CTemplate* returnTemplate = new CTemplate(a_sPath, templatePicturePath, templateIsGame, templateName,templateDescription, templatePicturePath2);
 
     return returnTemplate;
 }

@@ -3,7 +3,7 @@
 #include <QFile>
 
 CTemplate::CTemplate(QString a_sPath, QString a_sPicturePath,
-                     bool a_bIsGame, QString a_sName, QString a_sDescription) :
+                     bool a_bIsGame, QString a_sName, QString a_sDescription, QString a_sPicture2Path) :
     m_sPath(a_sPath),
     m_bIsGame(a_bIsGame),
     m_sName(a_sName),
@@ -17,6 +17,19 @@ CTemplate::CTemplate(QString a_sPath, QString a_sPicturePath,
     else
     {
         m_imPicture = QPixmap(a_sPicturePath);
+    }
+
+    if(!a_sPicture2Path.isEmpty())
+    {
+        QFile pictureFile2(a_sPicture2Path);
+        if(!pictureFile2.exists())
+        {
+            qDebug("cannot load image file");
+        }
+        else
+        {
+            m_imPicture2 = QPixmap(a_sPicture2Path);
+        }
     }
 }
 
@@ -53,4 +66,9 @@ const QString& CTemplate::GetPath()
 const QPixmap& CTemplate::GetImage()
 {
     return this->m_imPicture;
+}
+
+const QPixmap& CTemplate::GetImage2()
+{
+    return this->m_imPicture2;
 }

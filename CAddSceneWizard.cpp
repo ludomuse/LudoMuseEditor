@@ -26,7 +26,8 @@ CAddSceneWizard::CAddSceneWizard(int a_iActivePlayer, const std::vector<std::str
     m_iActivePlayer(a_iActivePlayer),
     m_pComboBoxID(Q_NULLPTR),
     m_pComboBoxID2(Q_NULLPTR),
-    m_pCurrentTemplate(Q_NULLPTR)
+    m_pCurrentTemplate(Q_NULLPTR),
+    m_bScreensSwaped(false)
 {
     QHBoxLayout* hWizardLayout = new QHBoxLayout();
 
@@ -36,6 +37,7 @@ CAddSceneWizard::CAddSceneWizard(int a_iActivePlayer, const std::vector<std::str
     templateScrollArea->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     templateScrollArea->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
     templateScrollArea->setStyleSheet("QLabel{ border : 1px solid white}");
+    templateScrollArea->setMinimumWidth(300);
     QVBoxLayout* vTemplateLayout = new QVBoxLayout();
     QPushButton* template1 = new QPushButton("template1");
     template1->setMinimumHeight(120);
@@ -276,9 +278,17 @@ CAddSceneWizard::CAddSceneWizard(int a_iActivePlayer, const std::vector<std::str
     vPreviewOptionLayout2->addWidget(m_pOptionWidget2);
     previewAndOptionWidget2->setLayout(vPreviewOptionLayout2);
 
+    // Create swap widget
+    m_pSwapButton = new QPushButton("->\r\n<-", this);
+    m_pSwapButton ->setContentsMargins(1,5,1,5);
+    m_pSwapButton ->setMaximumHeight(50);
+    m_pSwapButton ->setMaximumWidth(50);
+    m_pSwapButton->setEnabled(false);
+
 
     QHBoxLayout* hPreviewsLayout = new QHBoxLayout();
     hPreviewsLayout->addWidget(previewAndOptionWidget);
+    hPreviewsLayout->addWidget(m_pSwapButton );
     hPreviewsLayout->addWidget(previewAndOptionWidget2);
     QWidget* previewsWidget = new QWidget();
     previewsWidget->setLayout(hPreviewsLayout);
@@ -292,9 +302,10 @@ CAddSceneWizard::CAddSceneWizard(int a_iActivePlayer, const std::vector<std::str
     hWizardLayout->addWidget(mainWidget);
     this->setLayout(hWizardLayout);
 
-    // Connect pushButton
+    // Connect pushButton && checkbox
     connect(backButton, SIGNAL(clicked(bool)), this, SLOT(clickOnBack(bool)));
     connect(validateButton, SIGNAL(clicked(bool)), this, SLOT(clickOnValidate(bool)));
+    connect(m_pSwapButton, SIGNAL(clicked(bool)), this, SLOT(swapScreens()));
     connect(m_pPlayer1CheckBox, SIGNAL(stateChanged(int)), this, SLOT(changeActivePlayer()));
     connect(m_pPlayer2CheckBox, SIGNAL(stateChanged(int)), this, SLOT(changeActivePlayer()));
 
@@ -317,12 +328,6 @@ void CAddSceneWizard::clickOnValidate(bool)
         this->OpenModalDialog("Selectionnez au moins un joueur");
         return;
     }
-    if(m_pNewID->text() == m_pNewID2->text())
-    {
-        this->OpenModalDialog("Les deux identifiants doivent être différents");
-        return;
-    }
-
 
     // Establish player id return
     int idReturn;
@@ -341,6 +346,14 @@ void CAddSceneWizard::clickOnValidate(bool)
     {
         idReturn = 1; // Only P2
     }
+
+    if(m_pNewID->text() == m_pNewID2->text() && idReturn == 3)
+    {
+        this->OpenModalDialog("Les deux identifiants doivent être différents");
+        return;
+    }
+
+
 
     QString previousID = m_pComboBoxID->currentText();
     QString previousID2 = m_pComboBoxID2->currentText();
@@ -410,12 +423,61 @@ void CAddSceneWizard::changeActivePlayer()
     }
 }
 
+void CAddSceneWizard::swapScreens()
+{
+    m_bScreensSwaped = !m_bScreensSwaped;
+    this->UpdatePreview();
+}
+
 void CAddSceneWizard::setCurrentTemplate(CTemplate *a_pTemplate)
 {
     // TODO
     this->m_pPreviewTitle->setText(a_pTemplate->GetName());
     this->m_pPreviewTitle2->setText(a_pTemplate->GetName());
     this->m_pCurrentTemplate = a_pTemplate;
+    if(a_pTemplate->IsGame())
+    {
+        m_pSwapButton->setEnabled(true);
+        m_pSynchroCheckBox->setChecked(true);
+        m_pSynchroCheckBox2->setChecked(true);
+        m_pPlayer1CheckBox->setChecked(true);
+        m_pPlayer2CheckBox->setChecked(true);
+        this->SetEnabledPlayerField(0, true);
+        this->SetEnabledPlayerField(1, true);
+        m_pSynchroCheckBox->setEnabled(false);
+        m_pSynchroCheckBox2->setEnabled(false);
+        m_pPlayer1CheckBox->setEnabled(false);
+        m_pPlayer2CheckBox->setEnabled(false);
+    }
+    else
+    {
+        m_pSwapButton->setEnabled(false);
+        m_pSynchroCheckBox->setChecked(false);
+        m_pSynchroCheckBox2->setChecked(false);
+        m_pSynchroCheckBox->setEnabled(true);
+        m_pSynchroCheckBox2->setEnabled(true);
+        if(m_iActivePlayer == 0) // P1
+        {
+            m_pPlayer1CheckBox->setChecked(true);
+            m_pPlayer2CheckBox->setChecked(false);
+            this->SetEnabledPlayerField(0, true);
+            this->SetEnabledPlayerField(1, false);
+            m_pSynchroCheckBox->setEnabled(true);
+            m_pSynchroCheckBox2->setEnabled(false);
+        }
+        else // P2
+        {
+            m_pPlayer1CheckBox->setChecked(false);
+            m_pPlayer2CheckBox->setChecked(true);
+            this->SetEnabledPlayerField(0, false);
+            this->SetEnabledPlayerField(1, true);
+            m_pSynchroCheckBox->setEnabled(false);
+            m_pSynchroCheckBox2->setEnabled(true);
+        }
+        m_pPlayer1CheckBox->setEnabled(true);
+        m_pPlayer2CheckBox->setEnabled(true);
+    }
+    m_bScreensSwaped = false; // reset swaping state
     this->UpdatePreview();
 }
 
@@ -547,13 +609,29 @@ void CAddSceneWizard::UpdatePreview()
     }
 //  Adding picture in background of both preview
     QPixmap scaled = m_pCurrentTemplate->GetImage().scaledToWidth(m_pPreviewWidget->width(), Qt::FastTransformation);
-    QPixmap scaled2 = m_pCurrentTemplate->GetImage().scaledToWidth(m_pPreviewWidget2->width(), Qt::FastTransformation);
+    QPixmap scaled2;
+    if(!(m_pCurrentTemplate->IsGame()))
+    {
+        scaled2= m_pCurrentTemplate->GetImage().scaledToWidth(m_pPreviewWidget2->width(), Qt::FastTransformation);
+    }
+    else
+    {
+        scaled2= m_pCurrentTemplate->GetImage2().scaledToWidth(m_pPreviewWidget2->width(), Qt::FastTransformation);
+    }
     QLabel *label = new QLabel(this);
     label->setPixmap(scaled);
-    previewLayout->addWidget(label);
     QLabel *label2 = new QLabel(this);
     label2->setPixmap(scaled2);
-    previewLayout2->addWidget(label2);
+    if(m_pCurrentTemplate->IsGame() && m_bScreensSwaped)
+    {
+        previewLayout->addWidget(label2);
+        previewLayout2->addWidget(label);
+    }
+    else
+    {
+        previewLayout->addWidget(label);
+        previewLayout2->addWidget(label2);
+    }
 }
 
 QWidget* CAddSceneWizard::CreateTemplatesWidget()
