@@ -25,6 +25,7 @@ private:
     void FillComboBox(int a_iPlayerID, const QString& activeSceneID);
     void OpenModalDialog(const QString& a_sText);
     void SetEnabledPlayerField(int a_iPlayerID, bool a_bEnabled);
+    void UpdatePreview();
     QWidget* CreateTemplatesWidget();
     QString m_sPreviousID1;
     QString m_sPreviousID2;
@@ -43,6 +44,13 @@ private:
     QComboBox* m_pComboBoxID;
     QComboBox* m_pComboBoxID2;
     CTemplate* m_pCurrentTemplate;
+    // QWidget used for disabling player
+    QWidget* m_pPreviewWidget;
+    QWidget* m_pComboBoxWidget;
+    QWidget* m_pOptionWidget;
+    QWidget* m_pPreviewWidget2;
+    QWidget* m_pComboBoxWidget2;
+    QWidget* m_pOptionWidget2;
     int m_iActivePlayer;
     const std::vector<std::string> m_rSceneIDP1;
     const std::vector<std::string> m_rSceneIDP2;

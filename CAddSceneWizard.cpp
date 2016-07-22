@@ -70,13 +70,16 @@ CAddSceneWizard::CAddSceneWizard(int a_iActivePlayer, const std::vector<std::str
     // Create preview widget
     QWidget* previewAndOptionWidget = new QWidget();
     QVBoxLayout* vPreviewOptionLayout = new QVBoxLayout();
-    QWidget* previewWidget = new QWidget();
-    previewWidget->setMinimumHeight(250);
-    previewWidget->setMinimumWidth(250);
-    previewWidget->setStyleSheet("QWidget{ background-color : white;}");
+    m_pPreviewWidget = new QWidget();
+    QVBoxLayout* vPreviewLayout = new QVBoxLayout();
+    vPreviewLayout->setContentsMargins(0, 0, 0, 0);
+    m_pPreviewWidget->setLayout(vPreviewLayout);
+    m_pPreviewWidget->setMinimumHeight(250);
+    m_pPreviewWidget->setMinimumWidth(250);
+    m_pPreviewWidget->setStyleSheet("QWidget{ background-color : white;}");
 
     // Create previous screen comboBox
-    QWidget* comboBoxWidget = new QWidget();
+    m_pComboBoxWidget = new QWidget();
     QHBoxLayout* hComboBoxLayout = new QHBoxLayout();
     QLabel* idComboBoxTitle = new QLabel("écran précédent : ");
     m_pComboBoxID = new QComboBox();
@@ -93,11 +96,11 @@ CAddSceneWizard::CAddSceneWizard(int a_iActivePlayer, const std::vector<std::str
     m_pComboBoxID->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Preferred);
     hComboBoxLayout->addWidget(idComboBoxTitle);
     hComboBoxLayout->addWidget(m_pComboBoxID);
-    comboBoxWidget->setLayout(hComboBoxLayout);
+    m_pComboBoxWidget->setLayout(hComboBoxLayout);
 
 
     // Create otpion widget
-    QWidget* optionWidget = new QWidget();
+    m_pOptionWidget = new QWidget();
     QHBoxLayout* hOptionLayout = new QHBoxLayout();
     QWidget* rightPart = new QWidget();
     QVBoxLayout* vRightPartLayout = new QVBoxLayout();
@@ -144,7 +147,7 @@ CAddSceneWizard::CAddSceneWizard(int a_iActivePlayer, const std::vector<std::str
     leftPart->setLayout(vLeftPartLayout);
     hOptionLayout->addWidget(leftPart);
     hOptionLayout->addWidget(rightPart);
-    optionWidget->setLayout(hOptionLayout);
+    m_pOptionWidget->setLayout(hOptionLayout);
 
     // Create button widget
     QWidget* buttonsWidget = new QWidget();
@@ -158,9 +161,9 @@ CAddSceneWizard::CAddSceneWizard(int a_iActivePlayer, const std::vector<std::str
     // Fill Preview and option widget
     vPreviewOptionLayout->addWidget(m_pPreviewTitle);
     vPreviewOptionLayout->addWidget(playerWidget);
-    vPreviewOptionLayout->addWidget(previewWidget);
-    vPreviewOptionLayout->addWidget(comboBoxWidget);
-    vPreviewOptionLayout->addWidget(optionWidget);
+    vPreviewOptionLayout->addWidget(m_pPreviewWidget);
+    vPreviewOptionLayout->addWidget(m_pComboBoxWidget);
+    vPreviewOptionLayout->addWidget(m_pOptionWidget);
     previewAndOptionWidget->setLayout(vPreviewOptionLayout);
 
 
@@ -174,13 +177,16 @@ CAddSceneWizard::CAddSceneWizard(int a_iActivePlayer, const std::vector<std::str
     // Create preview widget
     QWidget* previewAndOptionWidget2 = new QWidget();
     QVBoxLayout* vPreviewOptionLayout2 = new QVBoxLayout();
-    QWidget* previewWidget2 = new QWidget();
-    previewWidget2->setMinimumHeight(250);
-    previewWidget2->setMinimumWidth(250);
-    previewWidget2->setStyleSheet("QWidget{ background-color : white;}");
+    m_pPreviewWidget2 = new QWidget();
+    QVBoxLayout* vPreviewLayout2 = new QVBoxLayout();
+    vPreviewLayout2->setContentsMargins(0, 0, 0, 0);
+    m_pPreviewWidget2->setLayout(vPreviewLayout2);
+    m_pPreviewWidget2->setMinimumHeight(250);
+    m_pPreviewWidget2->setMinimumWidth(250);
+    m_pPreviewWidget2->setStyleSheet("QWidget{ background-color : white;}");
 
     // Create previous screen comboBox
-    QWidget* comboBoxWidget2 = new QWidget();
+    m_pComboBoxWidget2 = new QWidget();
     QHBoxLayout* hComboBoxLayout2 = new QHBoxLayout();
     QLabel* idComboBoxTitle2 = new QLabel("écran précédent : ");
     m_pComboBoxID2 = new QComboBox();
@@ -195,9 +201,9 @@ CAddSceneWizard::CAddSceneWizard(int a_iActivePlayer, const std::vector<std::str
     m_pComboBoxID2->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Preferred);
     hComboBoxLayout2->addWidget(idComboBoxTitle2);
     hComboBoxLayout2->addWidget(m_pComboBoxID2);
-    comboBoxWidget2->setLayout(hComboBoxLayout2);
+    m_pComboBoxWidget2->setLayout(hComboBoxLayout2);
     // Create otpion widget
-    QWidget* optionWidget2 = new QWidget();
+    m_pOptionWidget2 = new QWidget();
     QHBoxLayout* hOptionLayout2 = new QHBoxLayout();
     QWidget* rightPart2 = new QWidget();
     QVBoxLayout* vRightPartLayout2 = new QVBoxLayout();
@@ -262,12 +268,12 @@ CAddSceneWizard::CAddSceneWizard(int a_iActivePlayer, const std::vector<std::str
     leftPart2->setLayout(vLeftPartLayout2);
     hOptionLayout2->addWidget(leftPart2);
     hOptionLayout2->addWidget(rightPart2);
-    optionWidget2->setLayout(hOptionLayout2);
+    m_pOptionWidget2->setLayout(hOptionLayout2);
     vPreviewOptionLayout2->addWidget(m_pPreviewTitle2);
     vPreviewOptionLayout2->addWidget(playerWidget2);
-    vPreviewOptionLayout2->addWidget(previewWidget2);
-    vPreviewOptionLayout2->addWidget(comboBoxWidget2);
-    vPreviewOptionLayout2->addWidget(optionWidget2);
+    vPreviewOptionLayout2->addWidget(m_pPreviewWidget2);
+    vPreviewOptionLayout2->addWidget(m_pComboBoxWidget2);
+    vPreviewOptionLayout2->addWidget(m_pOptionWidget2);
     previewAndOptionWidget2->setLayout(vPreviewOptionLayout2);
 
 
@@ -285,7 +291,6 @@ CAddSceneWizard::CAddSceneWizard(int a_iActivePlayer, const std::vector<std::str
     hWizardLayout->addWidget(templateScrollArea);
     hWizardLayout->addWidget(mainWidget);
     this->setLayout(hWizardLayout);
-
 
     // Connect pushButton
     connect(backButton, SIGNAL(clicked(bool)), this, SLOT(clickOnBack(bool)));
@@ -411,6 +416,7 @@ void CAddSceneWizard::setCurrentTemplate(CTemplate *a_pTemplate)
     this->m_pPreviewTitle->setText(a_pTemplate->GetName());
     this->m_pPreviewTitle2->setText(a_pTemplate->GetName());
     this->m_pCurrentTemplate = a_pTemplate;
+    this->UpdatePreview();
 }
 
 void CAddSceneWizard::FillComboBox(int a_iPlayerID, const QString& a_rActiveScene)
@@ -493,20 +499,61 @@ void CAddSceneWizard::SetEnabledPlayerField(int a_iPlayerID, bool a_bEnabled)
 {
     if(a_iPlayerID == 1)
     {
+        this->m_pPreviewTitle2->setEnabled(a_bEnabled);
         this->m_pComboBoxID2->setEnabled(a_bEnabled);
         this->m_pNewID2->setEnabled(a_bEnabled);
         this->m_pSoundPath2->setEnabled(a_bEnabled);
         this->m_pDashCheckBox2->setEnabled(a_bEnabled);
         this->m_pSynchroCheckBox2->setEnabled(a_bEnabled);
+        this->m_pPreviewWidget2->setEnabled(a_bEnabled);
+        this->m_pComboBoxWidget2->setEnabled(a_bEnabled);
+        this->m_pOptionWidget2->setEnabled(a_bEnabled);
     }
     else
     {
+        this->m_pPreviewTitle->setEnabled(a_bEnabled);
         this->m_pComboBoxID->setEnabled(a_bEnabled);
         this->m_pNewID->setEnabled(a_bEnabled);
         this->m_pSoundPath->setEnabled(a_bEnabled);
         this->m_pDashCheckBox->setEnabled(a_bEnabled);
         this->m_pSynchroCheckBox->setEnabled(a_bEnabled);
+        this->m_pPreviewWidget->setEnabled(a_bEnabled);
+        this->m_pComboBoxWidget->setEnabled(a_bEnabled);
+        this->m_pOptionWidget->setEnabled(a_bEnabled);
     }
+}
+
+void CAddSceneWizard::UpdatePreview()
+{
+    //qDebug()<< "width :"<< m_pPreviewWidget->width() << " Height :"<< m_pPreviewWidget->height();
+    if(m_pCurrentTemplate == Q_NULLPTR)
+    {
+        qDebug()<<"no selected template, cannot update preview";
+        return;
+    }
+
+    // Clear old preview's content
+    QLayout* previewLayout = this->m_pPreviewWidget->layout();
+    QLayoutItem *child;
+    while ((child = previewLayout->takeAt(0)) != 0) {
+        delete child->widget();
+        delete child;
+    }
+    QLayout* previewLayout2 = this->m_pPreviewWidget2->layout();
+    QLayoutItem *child2;
+    while ((child2 = previewLayout2->takeAt(0)) != 0) {
+        delete child2->widget();
+        delete child2;
+    }
+//  Adding picture in background of both preview
+    QPixmap scaled = m_pCurrentTemplate->GetImage().scaledToWidth(m_pPreviewWidget->width(), Qt::FastTransformation);
+    QPixmap scaled2 = m_pCurrentTemplate->GetImage().scaledToWidth(m_pPreviewWidget2->width(), Qt::FastTransformation);
+    QLabel *label = new QLabel(this);
+    label->setPixmap(scaled);
+    previewLayout->addWidget(label);
+    QLabel *label2 = new QLabel(this);
+    label2->setPixmap(scaled2);
+    previewLayout2->addWidget(label2);
 }
 
 QWidget* CAddSceneWizard::CreateTemplatesWidget()
