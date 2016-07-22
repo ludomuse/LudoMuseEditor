@@ -8,6 +8,8 @@
 #include <QCheckBox>
 #include <QComboBox>
 
+#include "CTemplate.h"
+
 class CAddSceneWizard : public QDialog
 {
     Q_OBJECT
@@ -23,6 +25,7 @@ private:
     void FillComboBox(int a_iPlayerID, const QString& activeSceneID);
     void OpenModalDialog(const QString& a_sText);
     void SetEnabledPlayerField(int a_iPlayerID, bool a_bEnabled);
+    QWidget* CreateTemplatesWidget();
     QString m_sPreviousID1;
     QString m_sPreviousID2;
     QLabel* m_pPreviewTitle;
@@ -39,7 +42,7 @@ private:
     QCheckBox* m_pSynchroCheckBox2;
     QComboBox* m_pComboBoxID;
     QComboBox* m_pComboBoxID2;
-    int m_iTemplateNumber;
+    CTemplate* m_pCurrentTemplate;
     int m_iActivePlayer;
     const std::vector<std::string> m_rSceneIDP1;
     const std::vector<std::string> m_rSceneIDP2;
@@ -47,18 +50,16 @@ private:
 private slots:
     void clickOnBack(bool);
     void clickOnValidate(bool);
-    void setTemplate1();
-    void setTemplate2();
-    void setTemplate3();
+    void setCurrentTemplate(CTemplate* a_pTemplate);
     void changeActivePlayer(); // Update previous id comboBox
 signals:
     // Signal emit when only one player box checked
-    void addOneScene(const QString& a_sPreviousID, const QString& a_sNewID, int a_iPlayerID, int a_iTemplateNumber);
+    void addOneScene(const QString& a_sPreviousID, const QString& a_sNewID, int a_iPlayerID, CTemplate* a_pTemplate);
     // Signal emit when both player check box checked
     void addTwoScene(const QString& a_sPreviousIDP1, const QString& a_sNewIDP1,
                      const QString& a_sPreviousIDP2, const QString& a_sNewIDP2,
-                     int a_iTemplateNumberP1);
-    void validate(const QString& a_sPreviousID,const QString& a_sNewID, int a_iPlayerID, int a_iTemplateNumber);
+                     CTemplate*  a_iTemplate);
+    void validate(const QString& a_sPreviousID,const QString& a_sNewID, int a_iPlayerID, CTemplate* a_pTemplate);
 
 };
 

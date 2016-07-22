@@ -1,5 +1,9 @@
 #include "CAddSceneWizard.h"
 
+#include "CTemplateManager.h"
+#include "CTemplate.h"
+#include "CTemplatePushButton.h"
+
 // Include QT
 #include <QBoxLayout>
 #include <QLabel>
@@ -17,15 +21,16 @@ CAddSceneWizard::CAddSceneWizard(int a_iActivePlayer, const std::vector<std::str
     QDialog(a_pParent),
     m_sPreviousID1(a_sPreviousID1),
     m_sPreviousID2(a_sPreviousID2),
-    m_iTemplateNumber(1),
     m_rSceneIDP1(a_rSceneIDP1),
     m_rSceneIDP2(a_rSceneIDP2),
     m_iActivePlayer(a_iActivePlayer),
     m_pComboBoxID(Q_NULLPTR),
-    m_pComboBoxID2(Q_NULLPTR)
+    m_pComboBoxID2(Q_NULLPTR),
+    m_pCurrentTemplate(Q_NULLPTR)
 {
     QHBoxLayout* hWizardLayout = new QHBoxLayout();
 
+    // Create scroll Area and his content
     QWidget* templateWidget = new QWidget();
     QScrollArea* templateScrollArea = new QScrollArea();
     templateScrollArea->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
@@ -53,7 +58,9 @@ CAddSceneWizard::CAddSceneWizard(int a_iActivePlayer, const std::vector<std::str
     vTemplateLayout->addWidget(template6);
     templateScrollArea->setLayout(vTemplateScrollAreaLayout);
     templateWidget->setLayout(vTemplateLayout);
-    templateWidget->setMinimumWidth(300);
+    templateWidget->setMinimumWidth(350);
+
+    templateWidget = this->CreateTemplatesWidget();
     templateScrollArea->setWidget(templateWidget);
 
     // Create preview title
@@ -283,9 +290,6 @@ CAddSceneWizard::CAddSceneWizard(int a_iActivePlayer, const std::vector<std::str
     // Connect pushButton
     connect(backButton, SIGNAL(clicked(bool)), this, SLOT(clickOnBack(bool)));
     connect(validateButton, SIGNAL(clicked(bool)), this, SLOT(clickOnValidate(bool)));
-    connect(template1, SIGNAL(clicked(bool)), this, SLOT(setTemplate1()));
-    connect(template2, SIGNAL(clicked(bool)), this, SLOT(setTemplate2()));
-    connect(template3, SIGNAL(clicked(bool)), this, SLOT(setTemplate3()));
     connect(m_pPlayer1CheckBox, SIGNAL(stateChanged(int)), this, SLOT(changeActivePlayer()));
     connect(m_pPlayer2CheckBox, SIGNAL(stateChanged(int)), this, SLOT(changeActivePlayer()));
 
@@ -342,7 +346,7 @@ void CAddSceneWizard::clickOnValidate(bool)
             this->OpenModalDialog("Rentrez un identifiant de scene pour les deux joueurs");
             return;
         }
-        emit addTwoScene(previousID, m_pNewID->text(), previousID2, m_pNewID2->text(), m_iTemplateNumber);
+        emit addTwoScene(previousID, m_pNewID->text(), previousID2, m_pNewID2->text(), m_pCurrentTemplate);
     }
     else if(idReturn == 1) // Add scene on player 2 timeline
     {
@@ -351,7 +355,7 @@ void CAddSceneWizard::clickOnValidate(bool)
             this->OpenModalDialog("Rentrez un identifiant de scene pour le joueur 2");
             return;
         }
-        emit addOneScene(previousID2, m_pNewID2->text(), idReturn, m_iTemplateNumber);
+        emit addOneScene(previousID2, m_pNewID2->text(), idReturn, m_pCurrentTemplate);
     }
     else // Add scene in player 1 timeline
     {
@@ -360,33 +364,14 @@ void CAddSceneWizard::clickOnValidate(bool)
             this->OpenModalDialog("Rentrez un identifiant de scene pour le joueur 1");
             return;
         }
-        emit addOneScene(previousID, m_pNewID->text(), idReturn, m_iTemplateNumber);
+        emit addOneScene(previousID, m_pNewID->text(), idReturn, m_pCurrentTemplate);
     }
 
     this->close();
 
 }
 
-void CAddSceneWizard::setTemplate1()
-{
-    m_pPreviewTitle->setText("Template 1");
-    m_pPreviewTitle2->setText("Template 1");
-    m_iTemplateNumber = 1;
-}
 
-void CAddSceneWizard::setTemplate2()
-{
-    m_pPreviewTitle->setText("Template 2");
-    m_pPreviewTitle2->setText("Template 2");
-    m_iTemplateNumber = 2;
-}
-
-void CAddSceneWizard::setTemplate3()
-{
-    m_pPreviewTitle->setText("Template 3");
-    m_pPreviewTitle2->setText("Template 3");
-    m_iTemplateNumber = 3;
-}
 
 void CAddSceneWizard::changeActivePlayer()
 {
@@ -418,6 +403,14 @@ void CAddSceneWizard::changeActivePlayer()
         this->SetEnabledPlayerField(0, false);
         this->SetEnabledPlayerField(1, false);
     }
+}
+
+void CAddSceneWizard::setCurrentTemplate(CTemplate *a_pTemplate)
+{
+    // TODO
+    this->m_pPreviewTitle->setText(a_pTemplate->GetName());
+    this->m_pPreviewTitle2->setText(a_pTemplate->GetName());
+    this->m_pCurrentTemplate = a_pTemplate;
 }
 
 void CAddSceneWizard::FillComboBox(int a_iPlayerID, const QString& a_rActiveScene)
@@ -514,4 +507,21 @@ void CAddSceneWizard::SetEnabledPlayerField(int a_iPlayerID, bool a_bEnabled)
         this->m_pDashCheckBox->setEnabled(a_bEnabled);
         this->m_pSynchroCheckBox->setEnabled(a_bEnabled);
     }
+}
+
+QWidget* CAddSceneWizard::CreateTemplatesWidget()
+{
+    QVBoxLayout* vTemplatesLayout = new QVBoxLayout();
+    for(CTemplate* currentTemplate : CTemplateManager::Instance()->GetTemplates())
+    {
+        qDebug()<<"Création d'un nouveau push button";
+        CTemplatePushButton* temp = new CTemplatePushButton(currentTemplate);
+        connect(temp, SIGNAL(newTemplateSelected(CTemplate*)), this, SLOT(setCurrentTemplate(CTemplate*)));
+        vTemplatesLayout->addWidget(temp);
+    }
+    vTemplatesLayout->setContentsMargins(5, 5, 5, 5);
+    QWidget* returnWidget = new QWidget();
+    returnWidget->setLayout(vTemplatesLayout);
+    returnWidget->setMinimumWidth(420);
+    return returnWidget;
 }

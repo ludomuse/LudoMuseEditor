@@ -25,6 +25,7 @@ private:
 
 public:
     ~CTemplateManager();
+    const QVector<CTemplate*>& GetTemplates();
 };
 
 #endif // CTEMPLATEMANAGER_H

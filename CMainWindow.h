@@ -10,6 +10,7 @@
 
 #include "CThumbnailWidget.h"
 #include "CTemplateManager.h"
+#include "CTemplate.h"
 
 #include <Classes/Engine/Include/CKernel.h>
 #include <Classes/Engine/Include/CLabelNode.h>
@@ -93,10 +94,10 @@ private slots:
     void launchEmulator();
     /// \brief slot for adding new template
     void addSceneTemplate(const QString& a_sPreviousID,const QString& a_sNewID, int a_iPlayerID, int a_iTemplateNumber);
-    void addOneScene(const QString& a_sPreviousID, const QString& a_sNewID, int a_iPlayerID, int a_iTemplateNumber);
+    void addOneScene(const QString& a_sPreviousID, const QString& a_sNewID, int a_iPlayerID, CTemplate* a_pTemplate);
     void addTwoScene(const QString& a_sPreviousIDP1, const QString& a_sNewIDP1,
                      const QString& a_sPreviousIDP2, const QString& a_sNewIDP2,
-                     int a_iTemplateNumberP1);
+                     CTemplate* a_pTemplate);
 
     void saveAs();
     void save();

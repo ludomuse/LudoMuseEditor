@@ -59,7 +59,8 @@ SOURCES += main.cpp\
     CLineEdit.cpp \
     CSceneInspector.cpp \
     CTemplate.cpp \
-    CTemplateManager.cpp
+    CTemplateManager.cpp \
+    CTemplatePushButton.cpp
 
 
 HEADERS  += CMainWindow.h \
@@ -115,7 +116,8 @@ HEADERS  += CMainWindow.h \
     CLineEdit.h \
     CSceneInspector.h \
     CTemplate.h \
-    CTemplateManager.h
+    CTemplateManager.h \
+    CTemplatePushButton.h
 
 FORMS    += cmainwindow.ui
 
