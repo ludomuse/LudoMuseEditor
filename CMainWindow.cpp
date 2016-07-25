@@ -247,27 +247,30 @@ void CMainWindow::goToPreviousScene()
     this->setInspectorName("");
 }
 
-
-void CMainWindow::addSceneTemplate(const QString& a_sPreviousID,const QString& a_sNewID, int a_iPlayerID, int a_iTemplateNumber)
-{
-    qDebug()<<"insertion du template : "<< a_iTemplateNumber<< " avec l'id : "<< a_sNewID << "Aprés l'écran : " << a_sPreviousID << "Pour le joueur : " << a_iPlayerID;
-    //ON_CC_THREAD(LM::CKernel::AddNewScene, this->m_pKernel,"test.json","test", a_sNewID, a_iPlayerID);
-    ON_CC_THREAD(LM::CKernel::AddNewScene, m_pKernel, "test.json", a_sPreviousID.toStdString(), a_sNewID.toStdString(), a_iPlayerID);
-}
-
 void CMainWindow::addOneScene(const QString &a_sPreviousID, const QString &a_sNewID, int a_iPlayerID, CTemplate* a_pTemplate)
 {
-    //qDebug()<<"insertion du template : "<< a_iTemplateNumber<< " avec l'id : "<< a_sNewID << "Aprés l'écran : " << a_sPreviousID << "Pour le joueur : " << a_iPlayerID;
-    ON_CC_THREAD(LM::CKernel::AddNewScene, m_pKernel, a_pTemplate->GetPath().toStdString(), a_sPreviousID.toStdString(), a_sNewID.toStdString(), a_iPlayerID);
+    ON_CC_THREAD(LM::CKernel::AddNewScene, m_pKernel, a_pTemplate->GetPath().toStdString(),
+                 a_sPreviousID.toStdString(), a_sNewID.toStdString(), a_iPlayerID, 0);
 }
 
 void CMainWindow::addTwoScene(const QString &a_sPreviousIDP1, const QString &a_sNewIDP1,
                               const QString &a_sPreviousIDP2, const QString &a_sNewIDP2,
                               CTemplate* a_pTemplate)
 {
-    ON_CC_THREAD(LM::CKernel::AddNewScene, m_pKernel, a_pTemplate->GetPath().toStdString(), a_sPreviousIDP1.toStdString(), a_sNewIDP1.toStdString(), PLAYER_1);
-    ON_CC_THREAD(LM::CKernel::AddNewScene, m_pKernel, a_pTemplate->GetPath().toStdString(), a_sPreviousIDP2.toStdString(), a_sNewIDP2.toStdString(), PLAYER_2);
+    ON_CC_THREAD(LM::CKernel::AddNewScene, m_pKernel, a_pTemplate->GetPath().toStdString(),
+                 a_sPreviousIDP1.toStdString(), a_sNewIDP1.toStdString(), PLAYER_1, 0);
+    ON_CC_THREAD(LM::CKernel::AddNewScene, m_pKernel, a_pTemplate->GetPath().toStdString(),
+                 a_sPreviousIDP2.toStdString(), a_sNewIDP2.toStdString(), PLAYER_2, 1);
+}
 
+void CMainWindow::addGameScene(const QString &a_sPreviousIDP1, const QString &a_sNewIDP1,
+                               const QString &a_sPreviousIDP2, const QString &a_sNewIDP2,
+                               CTemplate *a_pTemplate, int a_iTemplateNumberP1, int a_iTemplateNumberP2)
+{
+    ON_CC_THREAD(LM::CKernel::AddNewScene, m_pKernel, a_pTemplate->GetPath().toStdString(),
+                 a_sPreviousIDP1.toStdString(), a_sNewIDP1.toStdString(), PLAYER_1, a_iTemplateNumberP1);
+    ON_CC_THREAD(LM::CKernel::AddNewScene, m_pKernel, a_pTemplate->GetPath().toStdString(),
+                 a_sPreviousIDP2.toStdString(), a_sNewIDP2.toStdString(), PLAYER_2, a_iTemplateNumberP2);
 }
 
 void CMainWindow::launchEmulator()
@@ -360,6 +363,8 @@ void CMainWindow::launchAddSceneWizard(bool)
     connect(pSceneWizard, SIGNAL(addOneScene(QString,QString,int,CTemplate*)), this, SLOT(addOneScene(QString,QString,int,CTemplate*)));
     connect(pSceneWizard, SIGNAL(addTwoScene(QString,QString,QString,QString,CTemplate*)),
             this, SLOT(addTwoScene(QString,QString,QString,QString,CTemplate*)));
+    connect(pSceneWizard, SIGNAL(addGameScene(QString,QString,QString,QString,CTemplate*,int,int)),
+            this, SLOT(addGameScene(QString,QString,QString,QString,CTemplate*,int,int)));
     pSceneWizard->setModal(true);
     pSceneWizard->show();
 }

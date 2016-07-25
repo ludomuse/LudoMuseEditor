@@ -26,44 +26,26 @@ CAddSceneWizard::CAddSceneWizard(int a_iActivePlayer, const std::vector<std::str
     m_iActivePlayer(a_iActivePlayer),
     m_pComboBoxID(Q_NULLPTR),
     m_pComboBoxID2(Q_NULLPTR),
-    m_pCurrentTemplate(Q_NULLPTR),
+    m_pCurrentTemplateButton(Q_NULLPTR),
     m_bScreensSwaped(false)
 {
     QHBoxLayout* hWizardLayout = new QHBoxLayout();
 
     // Create scroll Area and his content
-    QWidget* templateWidget = new QWidget();
+    m_pTemplatesWidget = new QWidget();
     QScrollArea* templateScrollArea = new QScrollArea();
     templateScrollArea->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     templateScrollArea->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
     templateScrollArea->setStyleSheet("QLabel{ border : 1px solid white}");
     templateScrollArea->setMinimumWidth(300);
-    QVBoxLayout* vTemplateLayout = new QVBoxLayout();
-    QPushButton* template1 = new QPushButton("template1");
-    template1->setMinimumHeight(120);
-    QPushButton* template2 = new QPushButton("template2");
-    template2->setMinimumHeight(120);
-    QPushButton* template3 = new QPushButton("template3");
-    template3->setMinimumHeight(120);
-    QPushButton* template4 = new QPushButton("template4");
-    template4->setMinimumHeight(120);
-    QPushButton* template5 = new QPushButton("template5");
-    template5->setMinimumHeight(120);
-    QPushButton* template6 = new QPushButton("template6");
-    template6->setMinimumHeight(120);
     QVBoxLayout* vTemplateScrollAreaLayout = new QVBoxLayout();
-    vTemplateLayout->addWidget(template1);
-    vTemplateLayout->addWidget(template2);
-    vTemplateLayout->addWidget(template3);
-    vTemplateLayout->addWidget(template4);
-    vTemplateLayout->addWidget(template5);
-    vTemplateLayout->addWidget(template6);
     templateScrollArea->setLayout(vTemplateScrollAreaLayout);
-    templateWidget->setLayout(vTemplateLayout);
-    templateWidget->setMinimumWidth(350);
+    QVBoxLayout* vTemplateLayout = new QVBoxLayout();
+    m_pTemplatesWidget->setLayout(vTemplateLayout);
+    m_pTemplatesWidget->setMinimumWidth(350);
 
-    templateWidget = this->CreateTemplatesWidget();
-    templateScrollArea->setWidget(templateWidget);
+    m_pTemplatesWidget = this->CreateTemplatesWidget();
+    templateScrollArea->setWidget(m_pTemplatesWidget);
 
     // Create preview title
     m_pPreviewTitle = new QLabel("");
@@ -353,10 +335,29 @@ void CAddSceneWizard::clickOnValidate(bool)
         return;
     }
 
-
-
     QString previousID = m_pComboBoxID->currentText();
     QString previousID2 = m_pComboBoxID2->currentText();
+
+    // Check if adding game scene
+    if(this->m_pCurrentTemplateButton->GetTemplate()->IsGame())
+    {
+        if(!this->m_bScreensSwaped) // Change template Number in signal
+        {
+            emit addGameScene(previousID, m_pNewID->text(), previousID2, m_pNewID2->text(),
+                              m_pCurrentTemplateButton->GetTemplate(), 0, 1);
+            this->close();
+            return;
+        }
+        else
+        {
+            emit addGameScene(previousID, m_pNewID->text(), previousID2, m_pNewID2->text(),
+                              m_pCurrentTemplateButton->GetTemplate(), 1, 0);
+            this->close();
+            return;
+        }
+    }
+
+    // Adding simple new scene
     if(idReturn == 3)
     {
         if(m_pNewID->text().isEmpty() || m_pNewID2->text().isEmpty())
@@ -364,7 +365,7 @@ void CAddSceneWizard::clickOnValidate(bool)
             this->OpenModalDialog("Rentrez un identifiant de scene pour les deux joueurs");
             return;
         }
-        emit addTwoScene(previousID, m_pNewID->text(), previousID2, m_pNewID2->text(), m_pCurrentTemplate);
+        emit addTwoScene(previousID, m_pNewID->text(), previousID2, m_pNewID2->text(), m_pCurrentTemplateButton->GetTemplate());
     }
     else if(idReturn == 1) // Add scene on player 2 timeline
     {
@@ -373,7 +374,7 @@ void CAddSceneWizard::clickOnValidate(bool)
             this->OpenModalDialog("Rentrez un identifiant de scene pour le joueur 2");
             return;
         }
-        emit addOneScene(previousID2, m_pNewID2->text(), idReturn, m_pCurrentTemplate);
+        emit addOneScene(previousID2, m_pNewID2->text(), idReturn, m_pCurrentTemplateButton->GetTemplate());
     }
     else // Add scene in player 1 timeline
     {
@@ -382,11 +383,10 @@ void CAddSceneWizard::clickOnValidate(bool)
             this->OpenModalDialog("Rentrez un identifiant de scene pour le joueur 1");
             return;
         }
-        emit addOneScene(previousID, m_pNewID->text(), idReturn, m_pCurrentTemplate);
+        emit addOneScene(previousID, m_pNewID->text(), idReturn, m_pCurrentTemplateButton->GetTemplate());
     }
 
     this->close();
-
 }
 
 
@@ -429,13 +429,18 @@ void CAddSceneWizard::swapScreens()
     this->UpdatePreview();
 }
 
-void CAddSceneWizard::setCurrentTemplate(CTemplate *a_pTemplate)
+void CAddSceneWizard::setCurrentTemplate(CTemplatePushButton* a_pTemplatePushButton)
 {
     // TODO
-    this->m_pPreviewTitle->setText(a_pTemplate->GetName());
-    this->m_pPreviewTitle2->setText(a_pTemplate->GetName());
-    this->m_pCurrentTemplate = a_pTemplate;
-    if(a_pTemplate->IsGame())
+    if(m_pCurrentTemplateButton != Q_NULLPTR)
+    {
+        this->m_pCurrentTemplateButton->Unfocus();
+    }
+    this->m_pCurrentTemplateButton = a_pTemplatePushButton;
+    CTemplate* pTemplate = a_pTemplatePushButton->GetTemplate();
+    this->m_pPreviewTitle->setText(pTemplate->GetName());
+    this->m_pPreviewTitle2->setText(pTemplate->GetName());
+    if(pTemplate->IsGame())
     {
         m_pSwapButton->setEnabled(true);
         m_pSynchroCheckBox->setChecked(true);
@@ -588,7 +593,7 @@ void CAddSceneWizard::SetEnabledPlayerField(int a_iPlayerID, bool a_bEnabled)
 void CAddSceneWizard::UpdatePreview()
 {
     //qDebug()<< "width :"<< m_pPreviewWidget->width() << " Height :"<< m_pPreviewWidget->height();
-    if(m_pCurrentTemplate == Q_NULLPTR)
+    if(m_pCurrentTemplateButton == Q_NULLPTR)
     {
         qDebug()<<"no selected template, cannot update preview";
         return;
@@ -608,21 +613,21 @@ void CAddSceneWizard::UpdatePreview()
         delete child2;
     }
 //  Adding picture in background of both preview
-    QPixmap scaled = m_pCurrentTemplate->GetImage().scaledToWidth(m_pPreviewWidget->width(), Qt::FastTransformation);
+    QPixmap scaled = m_pCurrentTemplateButton->GetTemplate()->GetImage().scaledToWidth(m_pPreviewWidget->width(), Qt::FastTransformation);
     QPixmap scaled2;
-    if(!(m_pCurrentTemplate->IsGame()))
+    if(!(m_pCurrentTemplateButton->GetTemplate()->IsGame()))
     {
-        scaled2= m_pCurrentTemplate->GetImage().scaledToWidth(m_pPreviewWidget2->width(), Qt::FastTransformation);
+        scaled2= m_pCurrentTemplateButton->GetTemplate()->GetImage().scaledToWidth(m_pPreviewWidget2->width(), Qt::FastTransformation);
     }
     else
     {
-        scaled2= m_pCurrentTemplate->GetImage2().scaledToWidth(m_pPreviewWidget2->width(), Qt::FastTransformation);
+        scaled2= m_pCurrentTemplateButton->GetTemplate()->GetImage2().scaledToWidth(m_pPreviewWidget2->width(), Qt::FastTransformation);
     }
     QLabel *label = new QLabel(this);
     label->setPixmap(scaled);
     QLabel *label2 = new QLabel(this);
     label2->setPixmap(scaled2);
-    if(m_pCurrentTemplate->IsGame() && m_bScreensSwaped)
+    if(m_pCurrentTemplateButton->GetTemplate()->IsGame() && m_bScreensSwaped)
     {
         previewLayout->addWidget(label2);
         previewLayout2->addWidget(label);
@@ -634,6 +639,23 @@ void CAddSceneWizard::UpdatePreview()
     }
 }
 
+void CAddSceneWizard::UnfocusTemplates()
+{
+    QLayout* templatesLayout = m_pTemplatesWidget->layout();
+    for (int i = 0; i < templatesLayout->count(); i++)
+    {
+      QWidget* widget = templatesLayout->itemAt(i)->widget();
+      if (widget)
+      {
+        CTemplatePushButton* pushButton = dynamic_cast<CTemplatePushButton*>(widget);
+        if(pushButton)
+        {
+            pushButton->Unfocus();
+        }
+      }
+    }
+}
+
 QWidget* CAddSceneWizard::CreateTemplatesWidget()
 {
     QVBoxLayout* vTemplatesLayout = new QVBoxLayout();
@@ -641,7 +663,10 @@ QWidget* CAddSceneWizard::CreateTemplatesWidget()
     {
         qDebug()<<"Création d'un nouveau push button";
         CTemplatePushButton* temp = new CTemplatePushButton(currentTemplate);
-        connect(temp, SIGNAL(newTemplateSelected(CTemplate*)), this, SLOT(setCurrentTemplate(CTemplate*)));
+        //temp->setFocusPolicy(Qt::NoFocus);
+        temp->setDefault(false);
+        temp->setAutoDefault(false);
+        connect(temp, SIGNAL(newTemplateSelected(CTemplatePushButton*)), this, SLOT(setCurrentTemplate(CTemplatePushButton*)));
         vTemplatesLayout->addWidget(temp);
     }
     vTemplatesLayout->setContentsMargins(5, 5, 5, 5);

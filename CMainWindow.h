@@ -93,12 +93,13 @@ private slots:
     void goToPreviousScene();
     void launchEmulator();
     /// \brief slot for adding new template
-    void addSceneTemplate(const QString& a_sPreviousID,const QString& a_sNewID, int a_iPlayerID, int a_iTemplateNumber);
     void addOneScene(const QString& a_sPreviousID, const QString& a_sNewID, int a_iPlayerID, CTemplate* a_pTemplate);
     void addTwoScene(const QString& a_sPreviousIDP1, const QString& a_sNewIDP1,
                      const QString& a_sPreviousIDP2, const QString& a_sNewIDP2,
                      CTemplate* a_pTemplate);
-
+    void addGameScene(const QString& a_sPreviousIDP1, const QString& a_sNewIDP1,
+                      const QString& a_sPreviousIDP2, const QString& a_sNewIDP2,
+                      CTemplate* a_pTemplate, int a_iTemplateNumberP1, int a_iTemplateNumberP2);
     void saveAs();
     void save();
     // Temporary slot

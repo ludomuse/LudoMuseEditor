@@ -10,6 +10,8 @@ class CTemplatePushButton : public QPushButton
     Q_OBJECT
 public:
     CTemplatePushButton(CTemplate* a_pTemplate, QWidget* a_pParent = Q_NULLPTR);
+    void Unfocus();
+    CTemplate* GetTemplate();
 
 private:
     CTemplate* m_pTemplate;
@@ -17,7 +19,7 @@ private:
 public slots:
     void onClick();
 signals:
-    void newTemplateSelected(CTemplate* a_pTemplate);
+    void newTemplateSelected(CTemplatePushButton* a_pTemplateButton);
 
 };
 

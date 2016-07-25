@@ -9,6 +9,7 @@
 #include <QComboBox>
 
 #include "CTemplate.h"
+#include "CTemplatePushButton.h"
 
 class CAddSceneWizard : public QDialog
 {
@@ -26,6 +27,7 @@ private:
     void OpenModalDialog(const QString& a_sText);
     void SetEnabledPlayerField(int a_iPlayerID, bool a_bEnabled);
     void UpdatePreview();
+    void UnfocusTemplates();
     QWidget* CreateTemplatesWidget();
     QString m_sPreviousID1;
     QString m_sPreviousID2;
@@ -43,7 +45,7 @@ private:
     QCheckBox* m_pSynchroCheckBox2;
     QComboBox* m_pComboBoxID;
     QComboBox* m_pComboBoxID2;
-    CTemplate* m_pCurrentTemplate;
+    CTemplatePushButton* m_pCurrentTemplateButton;
     bool m_bScreensSwaped; // Use for game template to know what player has got what screen
     QPushButton* m_pSwapButton;
     // QWidget used for disabling player
@@ -53,6 +55,7 @@ private:
     QWidget* m_pPreviewWidget2;
     QWidget* m_pComboBoxWidget2;
     QWidget* m_pOptionWidget2;
+    QWidget* m_pTemplatesWidget;
     int m_iActivePlayer;
     const std::vector<std::string> m_rSceneIDP1;
     const std::vector<std::string> m_rSceneIDP2;
@@ -60,7 +63,7 @@ private:
 private slots:
     void clickOnBack(bool);
     void clickOnValidate(bool);
-    void setCurrentTemplate(CTemplate* a_pTemplate);
+    void setCurrentTemplate(CTemplatePushButton* a_pTemplate);
     void changeActivePlayer(); // Update previous id comboBox
     void swapScreens();
 signals:
@@ -70,6 +73,9 @@ signals:
     void addTwoScene(const QString& a_sPreviousIDP1, const QString& a_sNewIDP1,
                      const QString& a_sPreviousIDP2, const QString& a_sNewIDP2,
                      CTemplate*  a_iTemplate);
+    void addGameScene(const QString& a_sPreviousIDP1, const QString& a_sNewIDP1,
+                     const QString& a_sPreviousIDP2, const QString& a_sNewIDP2,
+                     CTemplate*  a_iTemplate, int a_iTemplateNumberP1, int a_iTemplateNumberP2);
     void validate(const QString& a_sPreviousID,const QString& a_sNewID, int a_iPlayerID, CTemplate* a_pTemplate);
 
 };

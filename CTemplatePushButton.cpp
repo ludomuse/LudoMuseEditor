@@ -20,6 +20,7 @@ CTemplatePushButton::CTemplatePushButton(CTemplate* a_pTemplate, QWidget* a_pPar
     this->setLayout(vPushButtonLayout);
     this->setMinimumHeight(150);
     this->setMaximumWidth(260);
+    this->setStyleSheet("QPushButton { border : 1px solid rgb(175, 175, 175) } QPushButton:hover{ border : 1px solid rgb(0, 85, 255)}");
 
     if(m_pTemplate->HasDescription())
     {
@@ -28,7 +29,19 @@ CTemplatePushButton::CTemplatePushButton(CTemplate* a_pTemplate, QWidget* a_pPar
 
     connect(this, SIGNAL(clicked(bool)), this, SLOT(onClick()));
 }
+
+void CTemplatePushButton::Unfocus()
+{
+    this->setStyleSheet("QPushButton { border : 1px solid rgb(175, 175, 175) } QPushButton:hover{ border : 1px solid rgb(0, 85, 255)}");
+}
+
+CTemplate* CTemplatePushButton::GetTemplate()
+{
+    return this->m_pTemplate;
+}
+
 void CTemplatePushButton::onClick()
 {
-    emit  newTemplateSelected(m_pTemplate);
+    this->setStyleSheet("QPushButton{border : 2px solid rgb(0, 85, 255)}");
+    emit newTemplateSelected(this);
 }
