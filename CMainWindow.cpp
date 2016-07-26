@@ -83,8 +83,6 @@ CMainWindow::CMainWindow(QWidget *parent) :
     ui->fileListView->SetCurrentPath(temporaryPath);
 
     // Icon creation
-    ui->playlistButton->setIcon(QIcon("resources/add_playlist_w.png"));
-    ui->playButton->setIcon(QIcon("resources/play_arrow.png"));
     ui->emulateButton->setIcon(QIcon("resources/emulate.png"));
 
     // Create Template Manager
@@ -96,7 +94,7 @@ CMainWindow::CMainWindow(QWidget *parent) :
     connect(ui->emulateButton, SIGNAL(clicked(bool)), this, SLOT(launchEmulator()));
     connect(ui->JsonGo, SIGNAL(clicked(bool)), this, SLOT(saveAs()));
     connect(ui->save, SIGNAL(clicked(bool)), this, SLOT(save()));
-    connect(ui->lmwTestButton, SIGNAL(clicked(bool)), this, SLOT(launchAddSceneWizard(bool)));
+    connect(ui->lmwTestButton, SIGNAL(clicked(bool)), this, SLOT(launchAddSceneWizard()));
 
     this->showMaximized();
 }
@@ -156,12 +154,14 @@ void CMainWindow::receiveKernel(LM::CKernel *aKernel)
     connect(dummyVisitor, SIGNAL(labelClicked(LM::CLabelNode*)), this, SLOT(receiveLabel(LM::CLabelNode*)));
     connect(dummyVisitor, SIGNAL(spriteClicked(LM::CSpriteNode*)), this, SLOT(receiveSprite(LM::CSpriteNode*)));
     connect(m_pKernel, SIGNAL(addingSceneFinished()), this, SLOT(addingSceneFinished()));
+    connect(m_pKernel, SIGNAL(deletingSceneFinished()), this, SLOT(deletingSceneFinished()));
     connect(m_pKernel, SIGNAL(sendScene(LM::CSceneNode*, bool)), this, SLOT(receiveScene(LM::CSceneNode*, bool)));
     this->ProcessTree();
 
     QString currentScene(m_pKernel->m_pCurrentScene->GetSceneID().c_str());
     m_iActivePlayer = m_pKernel->GetCurrentPlayer();
     this->activeThumbnail(currentScene, m_iActivePlayer);
+    this->inspectScene(m_pKernel->m_pCurrentScene);
 }
 
 void CMainWindow::receiveLabel(LM::CLabelNode* a_pLabel)
@@ -227,7 +227,7 @@ void CMainWindow::goToSceneID(const QString &a_id, int a_iPlayerID, CThumbnailWi
         }
         m_iActivePlayer = PLAYER_1;
     }
-    LM::SEvent dummyEvent(LM::SEvent::NONE, nullptr, a_id.toStdString(), true, a_iPlayerID-1);
+    LM::SEvent dummyEvent(LM::SEvent::NONE, nullptr, a_id.toStdString(), true, a_iPlayerID);
     ON_CC_THREAD(LM::CKernel::GotoScreenID, this->m_pKernel, dummyEvent, nullptr);
     //void GotoScreenID(SEvent a_rEvent, CEntityNode* a_pTarget);
     this->clearInspectorContainer();
@@ -265,12 +265,18 @@ void CMainWindow::addTwoScene(const QString &a_sPreviousIDP1, const QString &a_s
 
 void CMainWindow::addGameScene(const QString &a_sPreviousIDP1, const QString &a_sNewIDP1,
                                const QString &a_sPreviousIDP2, const QString &a_sNewIDP2,
-                               CTemplate *a_pTemplate, int a_iTemplateNumberP1, int a_iTemplateNumberP2)
+                               CTemplate* a_pTemplate, int a_iTemplateNumberP1, int a_iTemplateNumberP2)
 {
     ON_CC_THREAD(LM::CKernel::AddNewScene, m_pKernel, a_pTemplate->GetPath().toStdString(),
                  a_sPreviousIDP1.toStdString(), a_sNewIDP1.toStdString(), PLAYER_1, a_iTemplateNumberP1);
     ON_CC_THREAD(LM::CKernel::AddNewScene, m_pKernel, a_pTemplate->GetPath().toStdString(),
                  a_sPreviousIDP2.toStdString(), a_sNewIDP2.toStdString(), PLAYER_2, a_iTemplateNumberP2);
+}
+
+void CMainWindow::deleteScene(QString a_sSceneID)
+{
+    //this->goToPreviousScene();
+    ON_CC_THREAD(LM::CKernel::DeleteScene, this->m_pKernel, a_sSceneID.toStdString());
 }
 
 void CMainWindow::launchEmulator()
@@ -321,7 +327,7 @@ void CMainWindow::produceJson(const QString& a_rFileName){
     //this->ui->jsonDisplayer->setText("Parsing finished");
 }
 
-void CMainWindow::launchAddSceneWizard(bool)
+void CMainWindow::launchAddSceneWizard()
 {
     CAddSceneWizard* pSceneWizard;
     if(m_pCurrentThumbnailWidget1 != Q_NULLPTR)
@@ -396,7 +402,32 @@ void CMainWindow::addingSceneFinished()
     this->ProcessTree();
 }
 
-
+void CMainWindow::deletingSceneFinished()
+{
+    // Clear thumbnails widget
+    QLayoutItem *child;
+    QLayout* trameContainerLayout = this->ui->trameContainerP1->layout();
+    if(trameContainerLayout != Q_NULLPTR)
+    {
+        while ((child = trameContainerLayout->takeAt(0)) != 0) {
+            delete child->widget();
+            delete child;
+        }
+    }
+    trameContainerLayout = this->ui->trameContainerP2->layout();
+    if(trameContainerLayout != Q_NULLPTR)
+    {
+        while ((child = trameContainerLayout->takeAt(0)) != 0) {
+            delete child->widget();
+            delete child;
+        }
+    }
+    // Clear pointer on current thumbnail widget
+    this->m_pCurrentThumbnailWidget1 = Q_NULLPTR;
+    this->m_pCurrentThumbnailWidget2 = Q_NULLPTR;
+    this->m_iActivePlayer = BOTH_PLAYER;
+    this->ProcessTree();
+}
 
 void CMainWindow::ProcessTree()
 {
@@ -520,6 +551,7 @@ void CMainWindow::inspectScene(LM::CSceneNode* a_pScene)
             delete child;
         }
     }
+
     // Searching which player have the scene
     QString sceneId(a_pScene->GetSceneID().c_str());
     CSceneInspector* sceneInspector = Q_NULLPTR;
@@ -540,6 +572,8 @@ void CMainWindow::inspectScene(LM::CSceneNode* a_pScene)
     if(sceneInspector)
     {
         inspectorContainerLayout->addWidget(sceneInspector);
+        connect(sceneInspector, SIGNAL(addScene()), this, SLOT(launchAddSceneWizard()));
+        connect(sceneInspector, SIGNAL(deleteScene(QString)), this, SLOT(deleteScene(QString)));
     }
     else
     {

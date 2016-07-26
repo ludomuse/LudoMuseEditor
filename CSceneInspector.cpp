@@ -3,6 +3,7 @@
 #include <QVBoxLayout>
 #include <QHBoxLayout>
 #include <QLabel>
+#include <QPushButton>
 
 #include <QDebug>
 
@@ -10,6 +11,9 @@ CSceneInspector::CSceneInspector(LM::CSceneNode* a_pScene, int a_iPlayerID, QWid
     QWidget(parent),
     m_pScene(a_pScene)
 {
+    QWidget* optionColWidget = new QWidget(this);
+    QWidget* buttonColWidget = new QWidget(this);
+
     QWidget* firstRow = new QWidget(this);
     QWidget* secondRow = new QWidget(this);
 
@@ -69,14 +73,57 @@ CSceneInspector::CSceneInspector(LM::CSceneNode* a_pScene, int a_iPlayerID, QWid
     secondRow->setLayout(hSecondRowLayout);
 
 
-    QVBoxLayout* vWidgetLayout = new QVBoxLayout(this);
-    this->layout()->addWidget(firstRow);
-    this->layout()->addWidget(secondRow);
-    //this->setLayout(vWidgetLayout);
+    QVBoxLayout* vOptionLayout = new QVBoxLayout(this);
+    vOptionLayout->addWidget(firstRow);
+    vOptionLayout->addWidget(secondRow);
+    optionColWidget->setLayout(vOptionLayout);
+
+    // Create button layout
+    QVBoxLayout* vButtonLayout = new QVBoxLayout();
+
+    QPushButton* deleteSceneButton = new QPushButton("Supprimer scène");
+    QPushButton* addSceneButton = new QPushButton("Ajouter scène");
+    QWidget* deleteSceneButtonWidget = new QWidget();
+    deleteSceneButtonWidget->setSizePolicy(QSizePolicy::Maximum, QSizePolicy::Maximum);
+    deleteSceneButtonWidget->setMaximumHeight(25);
+    deleteSceneButtonWidget->setMaximumWidth(150);
+    deleteSceneButton->setMaximumHeight(25);
+    QWidget* addSceneButtonWidget = new QWidget();
+    addSceneButtonWidget->setSizePolicy(QSizePolicy::Maximum, QSizePolicy::Maximum);
+    addSceneButtonWidget->setMaximumHeight(25);
+    addSceneButtonWidget->setMaximumWidth(150);
+    addSceneButton->setMaximumHeight(25);
+    QVBoxLayout* dummyLayout = new QVBoxLayout();
+    dummyLayout->setContentsMargins(0,0,0,0);
+    dummyLayout->addWidget(deleteSceneButton);
+    deleteSceneButtonWidget->setLayout(dummyLayout);
+    dummyLayout = new QVBoxLayout();
+    dummyLayout->setContentsMargins(0,0,0,0);
+    dummyLayout->addWidget(addSceneButton);
+    addSceneButtonWidget->setLayout(dummyLayout);
+    deleteSceneButton->setFlat(true);
+    addSceneButton->setFlat(true);
+    deleteSceneButtonWidget->setObjectName("deleteWidget");
+    deleteSceneButtonWidget->setStyleSheet("#deleteWidget{ border : 1px solid white;} QWidget{color : white;}");
+    addSceneButtonWidget->setObjectName("addWidget");
+    addSceneButtonWidget->setStyleSheet("#addWidget{ border : 1px solid white;} QWidget{color : white;}");
+    vButtonLayout->addWidget(deleteSceneButtonWidget);
+    vButtonLayout->addWidget(addSceneButtonWidget);
+    buttonColWidget->setLayout(vButtonLayout);
+    buttonColWidget->setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Minimum);
+    buttonColWidget->setMaximumWidth(150);
+    QHBoxLayout* hSceneInspectorLayout = new QHBoxLayout(this);
+    hSceneInspectorLayout->addWidget(optionColWidget);
+    hSceneInspectorLayout->addWidget(buttonColWidget);
+    this->setLayout(hSceneInspectorLayout);
 
     // Connect all checkbox
     connect(isSynchCB, SIGNAL(clicked(bool)), this, SLOT(switchSynchro(bool)));
     connect(isDashCB, SIGNAL(clicked(bool)), this, SLOT(switchDash(bool)));
+
+    // Connect push button
+    connect(addSceneButton, SIGNAL(clicked(bool)), this, SLOT(clickOnAdd()));
+    connect(deleteSceneButton, SIGNAL(clicked(bool)), this, SLOT(clickOnDelete()));
 
     // temporary disable player check box
     player1CheckBox->setEnabled(false);
@@ -98,24 +145,21 @@ void CSceneInspector::switchDash(bool a_bState)
 
 void CSceneInspector::switchP1(bool a_bState)
 {
-    if(a_bState)
-    {
-
-    }
-    else
-    {
-
-    }
+    // disable atm
 }
 
 void CSceneInspector::switchP2(bool a_bState)
 {
-    if(a_bState)
-    {
+    // disable atm
+}
 
-    }
-    else
-    {
+void CSceneInspector::clickOnAdd()
+{
+    emit addScene();
+}
 
-    }
+
+void CSceneInspector::clickOnDelete()
+{
+    emit deleteScene(QString(this->m_pScene->GetSceneID().c_str()));
 }

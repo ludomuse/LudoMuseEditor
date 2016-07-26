@@ -305,6 +305,11 @@ void CAddSceneWizard::clickOnBack(bool)
 
 void CAddSceneWizard::clickOnValidate(bool)
 {
+    if(m_pCurrentTemplateButton == Q_NULLPTR)
+    {
+        this->OpenModalDialog("Selectionnez un template");
+        return;
+    }
     if(!m_pPlayer1CheckBox->isChecked() && !m_pPlayer2CheckBox->isChecked())
     {
         this->OpenModalDialog("Selectionnez au moins un joueur");
