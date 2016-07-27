@@ -15,10 +15,9 @@ public:
 
 signals:
     void addScene();
-    void deleteScene(QString a_sSceneID);
+    void deleteScene(QString a_sSceneID, bool a_bIsSync);
 
 public slots:
-    void switchSynchro(bool a_bState);
     void switchDash(bool a_bState);
     void switchP1(bool a_bState);
     void switchP2(bool a_bState);

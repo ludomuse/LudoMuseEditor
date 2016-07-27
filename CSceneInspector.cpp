@@ -54,19 +54,12 @@ CSceneInspector::CSceneInspector(LM::CSceneNode* a_pScene, int a_iPlayerID, QWid
     hFirstRowLayout->addWidget(playerCheckBox);
 
     // Fill second row with synchro and dash
-    QCheckBox* isSynchCB = new QCheckBox("est synchronisée", this);
-    isSynchCB->setStyleSheet("QCheckBox{color : white;}");
     QCheckBox* isDashCB = new QCheckBox("déclenche le dashboard", this);
     isDashCB->setStyleSheet("QCheckBox{color : white}");
-    if(m_pScene->IsSynced())
-    {
-        isSynchCB->setChecked(true);
-    }
     if(m_pScene->m_bDashboardTrigger)
     {
         isDashCB->setChecked(true);
     }
-    hSecondRowLayout->addWidget(isSynchCB);
     hSecondRowLayout->addWidget(isDashCB);
 
     firstRow->setLayout(hFirstRowLayout);
@@ -118,7 +111,6 @@ CSceneInspector::CSceneInspector(LM::CSceneNode* a_pScene, int a_iPlayerID, QWid
     this->setLayout(hSceneInspectorLayout);
 
     // Connect all checkbox
-    connect(isSynchCB, SIGNAL(clicked(bool)), this, SLOT(switchSynchro(bool)));
     connect(isDashCB, SIGNAL(clicked(bool)), this, SLOT(switchDash(bool)));
 
     // Connect push button
@@ -133,10 +125,6 @@ CSceneInspector::CSceneInspector(LM::CSceneNode* a_pScene, int a_iPlayerID, QWid
 }
 
 
-void CSceneInspector::switchSynchro(bool a_bState)
-{
-    this->m_pScene->SetSynced(a_bState);
-}
 
 void CSceneInspector::switchDash(bool a_bState)
 {
@@ -161,5 +149,6 @@ void CSceneInspector::clickOnAdd()
 
 void CSceneInspector::clickOnDelete()
 {
-    emit deleteScene(QString(this->m_pScene->GetSceneID().c_str()));
+    // if sync scene, delete it's screenmate
+    emit deleteScene(QString(this->m_pScene->GetSceneID().c_str()), this->m_pScene->IsSynced());
 }

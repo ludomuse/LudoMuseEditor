@@ -101,7 +101,7 @@ private slots:
                       const QString& a_sPreviousIDP2, const QString& a_sNewIDP2,
                       CTemplate* a_pTemplate, int a_iTemplateNumberP1, int a_iTemplateNumberP2);
     void addingSceneFinished();
-    void deleteScene(QString a_sSceneID);
+    void deleteScene(QString a_sSceneID, bool a_bIsSync);
     void deletingSceneFinished();
     // Saving slots
     void saveAs();

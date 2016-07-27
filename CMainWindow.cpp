@@ -271,12 +271,19 @@ void CMainWindow::addGameScene(const QString &a_sPreviousIDP1, const QString &a_
                  a_sPreviousIDP1.toStdString(), a_sNewIDP1.toStdString(), PLAYER_1, a_iTemplateNumberP1);
     ON_CC_THREAD(LM::CKernel::AddNewScene, m_pKernel, a_pTemplate->GetPath().toStdString(),
                  a_sPreviousIDP2.toStdString(), a_sNewIDP2.toStdString(), PLAYER_2, a_iTemplateNumberP2);
+    ON_CC_THREAD(LM::CKernel::AddSyncID, m_pKernel, a_sNewIDP1.toStdString(), a_sNewIDP2.toStdString());
 }
 
-void CMainWindow::deleteScene(QString a_sSceneID)
+void CMainWindow::deleteScene(QString a_sSceneID, bool a_bIsSync)
 {
-    //this->goToPreviousScene();
-    ON_CC_THREAD(LM::CKernel::DeleteScene, this->m_pKernel, a_sSceneID.toStdString());
+    if(!a_bIsSync)
+    {
+        ON_CC_THREAD(LM::CKernel::DeleteScene, this->m_pKernel, a_sSceneID.toStdString());
+    }
+    else
+    {
+        ON_CC_THREAD(LM::CKernel::DeleteSyncScenes, this->m_pKernel, a_sSceneID.toStdString());
+    }
 }
 
 void CMainWindow::launchEmulator()
@@ -573,7 +580,7 @@ void CMainWindow::inspectScene(LM::CSceneNode* a_pScene)
     {
         inspectorContainerLayout->addWidget(sceneInspector);
         connect(sceneInspector, SIGNAL(addScene()), this, SLOT(launchAddSceneWizard()));
-        connect(sceneInspector, SIGNAL(deleteScene(QString)), this, SLOT(deleteScene(QString)));
+        connect(sceneInspector, SIGNAL(deleteScene(QString, bool)), this, SLOT(deleteScene(QString, bool)));
     }
     else
     {
