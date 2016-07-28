@@ -176,27 +176,23 @@ void CLabelInspector::closeInspectorSlot()
 void CLabelInspector::changeText()
 {
     QString content = this->m_pTextEdit->toPlainText();
-    qDebug()<<"Changement de text"<<content;
     ON_CC_THREAD(LM::CLabelNode::SetText, this->m_pLabel, content.toStdString());
 }
 
 void CLabelInspector::heightSliderChange(int a_iValue)
 {
-    qDebug()<< "Change slider height value to:"<<a_iValue;
     this->m_pHeightValue->setText(QString::number(a_iValue));
     this->m_pLabel->SetHeight(a_iValue);
 }
 
 void CLabelInspector::widthSliderChange(int a_iValue)
 {
-    qDebug()<< "Change slider width value to:"<<a_iValue;
     this->m_pWidthValue->setText(QString::number(a_iValue));
     this->m_pLabel->SetWidth(a_iValue);
 }
 
 void CLabelInspector::heightTextChange(const QString& a_rText)
 {
-    qDebug()<< "Change height value to:"<<a_rText;
     // Try convert string to int
     bool succes;
     int value = a_rText.toInt(&succes);
@@ -209,7 +205,6 @@ void CLabelInspector::heightTextChange(const QString& a_rText)
 
 void CLabelInspector::widthTextChange(const QString& a_rText)
 {
-    qDebug()<< "Change width value to:"<<a_rText;
     // Try convert string to int
     bool succes;
     int value = a_rText.toInt(&succes);

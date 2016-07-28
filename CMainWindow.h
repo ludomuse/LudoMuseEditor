@@ -67,18 +67,10 @@ private:
     void activeThumbnail(const QString& a_sSceneId, int a_iPlayerId);
 
 
-public slots:
-    void machin();
-
-signals:
-    void chose();
 
 private slots:
-    // Automatic generated slots
-    void on_bugButton_clicked();
-    void on_playlistButton_clicked();
-    void on_playButton_clicked();
-    void on_lmwTestButton_clicked();
+    void loadExistingProject(const QString& a_sProjectPath);
+    void createNewProject(const QString& a_sProjectPath);
 
     void receiveHWND(int);
     void receiveKernel(LM::CKernel*);

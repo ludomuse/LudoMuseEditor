@@ -1,6 +1,14 @@
 #include <GL/glew.h>
 #include <WinSock2.h>
 #include <vector>
+#include <string>
+
+#ifdef __linux__
+    //linux code goes here
+#elif _WIN32
+    #include <Windows.h>
+    // windows code goes here
+#endif
 
 // Include custom classes
 #include "CMainWindow.h"
@@ -11,6 +19,7 @@
 #include "CSpriteInspector.h"
 #include "CSceneInspector.h"
 #include "CAddSceneWizard.h"
+#include "CLoaderWidget.h"
 
 // Include QT
 #include <QtWidgets>
@@ -45,22 +54,20 @@ CMainWindow::CMainWindow(QWidget *parent) :
     m_pKernel(NULL),
     m_sSaveName("")
 {
-    QThread* thread = new QThread;
-    CThreadCocos* worker = new CThreadCocos();
-    worker->moveToThread(thread);
-    //connect(worker, SIGNAL(error(QString)), this, SLOT(errorString(QString)));
-    connect(worker, SIGNAL(sendHWND(int)), this, SLOT(receiveHWND(int)));
-    connect(worker, SIGNAL(sendKernel(LM::CKernel*)), this, SLOT(receiveKernel(LM::CKernel*)));
-    connect(thread, SIGNAL(started()), worker, SLOT(process()));
-    connect(worker, SIGNAL(finished()), thread, SLOT(quit()));
-    connect(worker, SIGNAL(finished()), worker, SLOT(deleteLater()));
-    connect(thread, SIGNAL(finished()), thread, SLOT(deleteLater()));
-    thread->start();
-
     ui->setupUi(this);
 
+    // Init with loader widget
+    ui->toolBarCocos->setVisible(false);
+    CLoaderWidget* loaderWidget = new CLoaderWidget();
+    ui->glViewContainer->layout()->addWidget(loaderWidget);
+    connect(loaderWidget, SIGNAL(closeEditor()), this, SLOT(close()));
+    connect(loaderWidget, SIGNAL(loadProject(const QString&)), this, SLOT(loadExistingProject(const QString&)));
+    connect(loaderWidget, SIGNAL(newProject(const QString&)), this, SLOT(createNewProject(const QString&)));
+
+    ui->sceneInspectorContainer->setStyleSheet("#sceneInspectorContainer{background-color : rgb(50, 50, 50);border-right :none}");
+
     // disable save button
-    if(this->m_sSaveName.isEmpty())
+    if(m_sSaveName.isEmpty())
     {
         ui->save->setEnabled(false);
     }
@@ -95,6 +102,7 @@ CMainWindow::CMainWindow(QWidget *parent) :
     connect(ui->JsonGo, SIGNAL(clicked(bool)), this, SLOT(saveAs()));
     connect(ui->save, SIGNAL(clicked(bool)), this, SLOT(save()));
     connect(ui->lmwTestButton, SIGNAL(clicked(bool)), this, SLOT(launchAddSceneWizard()));
+    //connect(ui->testButton, SIGNAL(clicked(bool)), this, SLOT(loadCocos()));
 
     this->showMaximized();
 }
@@ -105,36 +113,44 @@ CMainWindow::~CMainWindow()
 }
 
 
-void CMainWindow::machin()
+
+void CMainWindow::loadExistingProject(const QString& a_sProjectPath)
+{
+    // Change current path
+    QFileInfo projectInfo(a_sProjectPath);
+    if(!projectInfo.exists())
+    {
+        // TODO, launch a new CLoaderWidget
+    }
+
+    // Clear loader widget!
+    QLayout* glViewContainerLayout = ui->glViewContainer->layout();
+    QLayoutItem *child;
+    while ((child = glViewContainerLayout->takeAt(0)) != 0) {
+        delete child->widget();
+        delete child;
+    }
+    QThread* thread = new QThread;
+    CThreadCocos* worker = new CThreadCocos(a_sProjectPath);
+    worker->moveToThread(thread);
+    //connect(worker, SIGNAL(error(QString)), this, SLOT(errorString(QString)));
+    connect(worker, SIGNAL(sendHWND(int)), this, SLOT(receiveHWND(int)));
+    connect(worker, SIGNAL(sendKernel(LM::CKernel*)), this, SLOT(receiveKernel(LM::CKernel*)));
+    connect(thread, SIGNAL(started()), worker, SLOT(process()));
+    connect(worker, SIGNAL(finished()), thread, SLOT(quit()));
+    connect(worker, SIGNAL(finished()), worker, SLOT(deleteLater()));
+    connect(thread, SIGNAL(finished()), thread, SLOT(deleteLater()));
+    thread->start();
+
+    ui->sceneInspectorContainer->setStyleSheet("#sceneInspectorContainer{background-color : rgb(50, 50, 50);border-right :none}");
+    ui->toolBarCocos->setVisible(true);
+    ui->toolBarCocos->setStyleSheet("#toolBarCocos{border-bottom: 1px solid black;border-right : 2px solid rgba(255,255,255,255);}");
+}
+
+void CMainWindow::createNewProject(const QString& a_sProjectPath)
 {
 
 }
-
-void CMainWindow::on_bugButton_clicked()
-{
-    qInfo( "Click on bug Button!" );
-}
-
-void CMainWindow::on_playlistButton_clicked()
-{
-    qInfo( "Click on playList button!" );
-    //ui->glView_1->test();
-}
-
-void CMainWindow::on_playButton_clicked()
-{
-    qInfo("Click on play Button! - process behaviourTree");
-    //this->ProcessTree();
-}
-
-void CMainWindow::on_lmwTestButton_clicked()
-{
-
-}
-
-
-
-
 
 
 void CMainWindow::receiveHWND(int number)
