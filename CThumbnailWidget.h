@@ -2,6 +2,7 @@
 #define CTHUMBNAILWIDGET_H
 
 #include <QWidget>
+#include <QString>
 
 class CThumbnailWidget : public QWidget
 {
@@ -9,6 +10,11 @@ class CThumbnailWidget : public QWidget
 public:
     explicit CThumbnailWidget(QWidget *parent = 0);
     CThumbnailWidget(QString a_sId, int a_iPlayerID = 0, QWidget *parent=Q_NULLPTR);
+    bool IsSceneID(const QString& a_rSceneID, int a_iPlayerID);
+    QString GetSceneID();
+    void Unselect();
+    void Select();
+    void LastActive();
 
 protected:
     void mouseReleaseEvent(QMouseEvent *event);
@@ -17,7 +23,7 @@ protected:
     void enterEvent(QEvent * event);
 
 signals:
-    void onClick(const QString&, int a_iPlayerID);
+    void onClick(const QString&, int a_iPlayerID, CThumbnailWidget* a_pClickedWidget);
 
 
 

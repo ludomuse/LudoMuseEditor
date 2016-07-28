@@ -28,6 +28,7 @@ SOURCES += main.cpp\
     LudoMuse_src/Classes/Engine/Source/CGridNode.cpp \
     LudoMuse_src/Classes/Engine/Source/CGroupNode.cpp \
     LudoMuse_src/Classes/Engine/Source/CInputManager.cpp \
+    LudoMuse_src/Classes/Engine/Include/CInfoNode.cpp \
     LudoMuse_src/Classes/Engine/Source/CJsonParser.cpp \
     LudoMuse_src/Classes/Engine/Source/CKernel.cpp \
     LudoMuse_src/Classes/Engine/Source/CLabelNode.cpp \
@@ -54,7 +55,14 @@ SOURCES += main.cpp\
     CThumbnailWidget.cpp \
     LudoMuse_src/Classes/Engine/Source/CEditorFindEntityTouchVisitor.cpp \
     CLabelInspector.cpp \
-    CSpriteInspector.cpp
+    CSpriteInspector.cpp \
+    CAddSceneWizard.cpp \
+    CFileListView.cpp \
+    CLineEdit.cpp \
+    CSceneInspector.cpp \
+    CTemplate.cpp \
+    CTemplateManager.cpp \
+    CTemplatePushButton.cpp
 
 
 HEADERS  += CMainWindow.h \
@@ -71,6 +79,7 @@ HEADERS  += CMainWindow.h \
     LudoMuse_src/Classes/Engine/Include/CGridNode.h \
     LudoMuse_src/Classes/Engine/Include/CGroupNode.h \
     LudoMuse_src/Classes/Engine/Include/CInputManager.h \
+    LudoMuse_src/Classes/Engine/Include/CInfoNode.h \
     LudoMuse_src/Classes/Engine/Include/CJsonParser.h \
     LudoMuse_src/Classes/Engine/Include/CJsonParser_impl.h \
     LudoMuse_src/Classes/Engine/Include/CKernel.h \
@@ -101,7 +110,14 @@ HEADERS  += CMainWindow.h \
     CThumbnailWidget.h \
     LudoMuse_src/Classes/Engine/Include/CEditorFindEntityTouchVisitor.h \
     CLabelInspector.h \
-    CSpriteInspector.h
+    CSpriteInspector.h \
+    CAddSceneWizard.h \
+    CFileListView.h \
+    CLineEdit.h \
+    CSceneInspector.h \
+    CTemplate.h \
+    CTemplateManager.h \
+    CTemplatePushButton.h
 
 FORMS    += cmainwindow.ui
 
