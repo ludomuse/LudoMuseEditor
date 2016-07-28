@@ -1,5 +1,8 @@
-#include <GL/glew.h>
+#ifdef _WIN32
 #include <WinSock2.h>
+#endif
+
+#include <GL/glew.h>
 #include <vector>
 
 // Include custom classes

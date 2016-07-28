@@ -1,5 +1,4 @@
 #include "CThreadCocos.h"
-#include "CCocosWindow.h"
 #include "Classes/AppDelegate.h"
 #include "cocos2d.h"
 #include <QDebug>
@@ -13,11 +12,14 @@
 #ifndef GLFW_EXPOSE_NATIVE_WGL
 #define GLFW_EXPOSE_NATIVE_WGL
 #endif
+
+#ifdef _WIN32
 #include "glfw3native.h"
 
 // Include for native-native gl
 
 #include <wingdi.h>
+#endif
 
 
 CThreadCocos::CThreadCocos():m_bContinue(true)
