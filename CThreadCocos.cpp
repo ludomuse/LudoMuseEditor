@@ -22,20 +22,21 @@
 #endif
 
 
-CThreadCocos::CThreadCocos():m_bContinue(true)
+CThreadCocos::CThreadCocos(const QString& a_sPath):m_sProjectPath(a_sPath)
 {
     //qDebug("Build a new CThreadCocos");
 }
 
 
-CThreadCocos::~CThreadCocos(){
+CThreadCocos::~CThreadCocos()
+{
     qDebug("destroy CThreadCocos");
 }
 
 
-void CThreadCocos::process(){
-
-    AppDelegate app;
+void CThreadCocos::process()
+{
+    AppDelegate app(true, m_sProjectPath.toStdString());
     int HWNDnumber = cocos2d::Application::getInstance()->runAndLink();
     emit sendHWND(HWNDnumber);
     emit sendKernel(app.getKernel());

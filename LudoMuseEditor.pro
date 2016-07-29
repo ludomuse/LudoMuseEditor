@@ -28,7 +28,7 @@ SOURCES += main.cpp\
     LudoMuse_src/Classes/Engine/Source/CGridNode.cpp \
     LudoMuse_src/Classes/Engine/Source/CGroupNode.cpp \
     LudoMuse_src/Classes/Engine/Source/CInputManager.cpp \
-    LudoMuse_src/Classes/Engine/Include/CInfoNode.cpp \
+    LudoMuse_src/Classes/Engine/Source/CInfoNode.cpp \
     LudoMuse_src/Classes/Engine/Source/CJsonParser.cpp \
     LudoMuse_src/Classes/Engine/Source/CKernel.cpp \
     LudoMuse_src/Classes/Engine/Source/CLabelNode.cpp \
@@ -61,7 +61,11 @@ SOURCES += main.cpp\
     CSceneInspector.cpp \
     CTemplate.cpp \
     CTemplateManager.cpp \
-    CTemplatePushButton.cpp
+    CTemplatePushButton.cpp \
+    CLoaderWidget.cpp \
+    CNewProjectWizard.cpp \
+    CProjectManager.cpp \
+    UtilsQt.cpp
 
 
 HEADERS  += CMainWindow.h \
@@ -116,9 +120,15 @@ HEADERS  += CMainWindow.h \
     CSceneInspector.h \
     CTemplate.h \
     CTemplateManager.h \
-    CTemplatePushButton.h
+    CTemplatePushButton.h \
+    CLoaderWidget.h \
+    CNewProjectWizard.h \
+    CProjectManager.h \
+    UtilsQt.h
 
-FORMS    += cmainwindow.ui
+FORMS    += cmainwindow.ui \
+    CLoaderWidget.ui \
+    CNewProjectWizard.ui
 
 INCLUDEPATH += "./LudoMuse_src" \
                 ./LudoMuse_src/Classes \

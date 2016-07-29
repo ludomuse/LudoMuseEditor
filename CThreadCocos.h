@@ -10,7 +10,7 @@ class CThreadCocos : public QObject
 {
     Q_OBJECT
 public:
-    CThreadCocos();
+    CThreadCocos(const QString& a_sPath = "");
     ~CThreadCocos();
 
 public slots:
@@ -23,7 +23,7 @@ signals:
     void sendKernel(LM::CKernel*);
 
 private:
-    bool m_bContinue;
+    QString m_sProjectPath;
     //LM::CKernel* m_oLudoMuseKernel;
 };
 

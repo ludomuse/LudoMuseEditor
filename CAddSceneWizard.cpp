@@ -73,9 +73,7 @@ CAddSceneWizard::CAddSceneWizard(int a_iActivePlayer, const std::vector<std::str
     }
     else
     {
-        m_pComboBoxID->addItem("fin");
-        m_pComboBoxID->setCurrentIndex(0);
-        m_pComboBoxID->setEnabled(false);
+        FillComboBox(1, "");
     }
     m_pComboBoxID->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Preferred);
     hComboBoxLayout->addWidget(idComboBoxTitle);
@@ -305,28 +303,48 @@ void CAddSceneWizard::clickOnBack(bool)
 
 void CAddSceneWizard::clickOnValidate(bool)
 {
+    if(m_pCurrentTemplateButton == Q_NULLPTR)
+    {
+        this->OpenModalDialog("Selectionnez un template");
+        return;
+    }
     if(!m_pPlayer1CheckBox->isChecked() && !m_pPlayer2CheckBox->isChecked())
     {
         this->OpenModalDialog("Selectionnez au moins un joueur");
         return;
     }
 
-    // Establish player id return
+    // Establish player id return and test id field!
     int idReturn;
     if(m_pPlayer1CheckBox->isChecked())
     {
         if(m_pPlayer2CheckBox->isChecked())
         {
             idReturn = 3; // P1 & P2
+            if(m_pNewID->text().isEmpty() || m_pNewID2->text().isEmpty())
+            {
+                this->OpenModalDialog("Rentrez un identifiant de scene pour les deux joueurs");
+                return;
+            }
         }
         else
         {
             idReturn = 0; // Only P1
+            if(m_pNewID->text().isEmpty())
+            {
+                this->OpenModalDialog("Rentrez un identifiant de scene pour le joueur 1");
+                return;
+            }
         }
     }
     else
     {
         idReturn = 1; // Only P2
+        if(m_pNewID2->text().isEmpty())
+        {
+            this->OpenModalDialog("Rentrez un identifiant de scene pour le joueur 2");
+            return;
+        }
     }
 
     if(m_pNewID->text() == m_pNewID2->text() && idReturn == 3)
@@ -360,32 +378,16 @@ void CAddSceneWizard::clickOnValidate(bool)
     // Adding simple new scene
     if(idReturn == 3)
     {
-        if(m_pNewID->text().isEmpty() || m_pNewID2->text().isEmpty())
-        {
-            this->OpenModalDialog("Rentrez un identifiant de scene pour les deux joueurs");
-            return;
-        }
         emit addTwoScene(previousID, m_pNewID->text(), previousID2, m_pNewID2->text(), m_pCurrentTemplateButton->GetTemplate());
     }
     else if(idReturn == 1) // Add scene on player 2 timeline
     {
-        if(m_pNewID2->text().isEmpty())
-        {
-            this->OpenModalDialog("Rentrez un identifiant de scene pour le joueur 2");
-            return;
-        }
         emit addOneScene(previousID2, m_pNewID2->text(), idReturn, m_pCurrentTemplateButton->GetTemplate());
     }
     else // Add scene in player 1 timeline
     {
-        if(m_pNewID->text().isEmpty())
-        {
-            this->OpenModalDialog("Rentrez un identifiant de scene pour le joueur 1");
-            return;
-        }
         emit addOneScene(previousID, m_pNewID->text(), idReturn, m_pCurrentTemplateButton->GetTemplate());
     }
-
     this->close();
 }
 
@@ -459,15 +461,15 @@ void CAddSceneWizard::setCurrentTemplate(CTemplatePushButton* a_pTemplatePushBut
         m_pSwapButton->setEnabled(false);
         m_pSynchroCheckBox->setChecked(false);
         m_pSynchroCheckBox2->setChecked(false);
-        m_pSynchroCheckBox->setEnabled(true);
-        m_pSynchroCheckBox2->setEnabled(true);
+        m_pSynchroCheckBox->setEnabled(false);
+        m_pSynchroCheckBox2->setEnabled(false);
         if(m_iActivePlayer == 0) // P1
         {
             m_pPlayer1CheckBox->setChecked(true);
             m_pPlayer2CheckBox->setChecked(false);
             this->SetEnabledPlayerField(0, true);
             this->SetEnabledPlayerField(1, false);
-            m_pSynchroCheckBox->setEnabled(true);
+            m_pSynchroCheckBox->setEnabled(false);
             m_pSynchroCheckBox2->setEnabled(false);
         }
         else // P2
@@ -477,7 +479,7 @@ void CAddSceneWizard::setCurrentTemplate(CTemplatePushButton* a_pTemplatePushBut
             this->SetEnabledPlayerField(0, false);
             this->SetEnabledPlayerField(1, true);
             m_pSynchroCheckBox->setEnabled(false);
-            m_pSynchroCheckBox2->setEnabled(true);
+            m_pSynchroCheckBox2->setEnabled(false);
         }
         m_pPlayer1CheckBox->setEnabled(true);
         m_pPlayer2CheckBox->setEnabled(true);
@@ -570,8 +572,8 @@ void CAddSceneWizard::SetEnabledPlayerField(int a_iPlayerID, bool a_bEnabled)
         this->m_pComboBoxID2->setEnabled(a_bEnabled);
         this->m_pNewID2->setEnabled(a_bEnabled);
         this->m_pSoundPath2->setEnabled(a_bEnabled);
-        this->m_pDashCheckBox2->setEnabled(a_bEnabled);
-        this->m_pSynchroCheckBox2->setEnabled(a_bEnabled);
+        this->m_pDashCheckBox2->setEnabled(false);
+        this->m_pSynchroCheckBox2->setEnabled(false);
         this->m_pPreviewWidget2->setEnabled(a_bEnabled);
         this->m_pComboBoxWidget2->setEnabled(a_bEnabled);
         this->m_pOptionWidget2->setEnabled(a_bEnabled);
@@ -582,8 +584,8 @@ void CAddSceneWizard::SetEnabledPlayerField(int a_iPlayerID, bool a_bEnabled)
         this->m_pComboBoxID->setEnabled(a_bEnabled);
         this->m_pNewID->setEnabled(a_bEnabled);
         this->m_pSoundPath->setEnabled(a_bEnabled);
-        this->m_pDashCheckBox->setEnabled(a_bEnabled);
-        this->m_pSynchroCheckBox->setEnabled(a_bEnabled);
+        this->m_pDashCheckBox->setEnabled(false);
+        this->m_pSynchroCheckBox->setEnabled(false);
         this->m_pPreviewWidget->setEnabled(a_bEnabled);
         this->m_pComboBoxWidget->setEnabled(a_bEnabled);
         this->m_pOptionWidget->setEnabled(a_bEnabled);

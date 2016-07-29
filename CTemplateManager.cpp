@@ -12,7 +12,7 @@
 
 CTemplateManager::CTemplateManager()
 {
-    this->m_sTemplateFolder = "D:\\IHMTEK\\LudoMuseEditorCocos\\build-LudoMuseEditor-Clone_de_Desktop_Qt_5_6_0_MSVC2015_32bit-Debug\\debug\\templates";
+    this->m_sTemplateFolder = "D:/IHMTEK/LudoMuseEditorCocos/build-LudoMuseEditor-Clone_de_Desktop_Qt_5_6_0_MSVC2015_32bit-Debug/debug/templates";
     QDirIterator it(m_sTemplateFolder, QStringList() << "*.json", QDir::Files, QDirIterator::Subdirectories);
     while (it.hasNext())
     {
