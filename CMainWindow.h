@@ -67,18 +67,10 @@ private:
     void activeThumbnail(const QString& a_sSceneId, int a_iPlayerId);
 
 
-public slots:
-    void machin();
-
-signals:
-    void chose();
 
 private slots:
-    // Automatic generated slots
-    void on_bugButton_clicked();
-    void on_playlistButton_clicked();
-    void on_playButton_clicked();
-    void on_lmwTestButton_clicked();
+    void loadExistingProject(const QString& a_sProjectPath);
+    void createNewProject(const QString& a_sProjectPath);
 
     void receiveHWND(int);
     void receiveKernel(LM::CKernel*);
@@ -92,7 +84,7 @@ private slots:
     void goToNextScene();
     void goToPreviousScene();
     void launchEmulator();
-    /// \brief slot for adding new template
+    // slot for adding new template
     void addOneScene(const QString& a_sPreviousID, const QString& a_sNewID, int a_iPlayerID, CTemplate* a_pTemplate);
     void addTwoScene(const QString& a_sPreviousIDP1, const QString& a_sNewIDP1,
                      const QString& a_sPreviousIDP2, const QString& a_sNewIDP2,
@@ -100,11 +92,14 @@ private slots:
     void addGameScene(const QString& a_sPreviousIDP1, const QString& a_sNewIDP1,
                       const QString& a_sPreviousIDP2, const QString& a_sNewIDP2,
                       CTemplate* a_pTemplate, int a_iTemplateNumberP1, int a_iTemplateNumberP2);
+    void addingSceneFinished();
+    void deleteScene(QString a_sSceneID, bool a_bIsSync);
+    void deletingSceneFinished();
+    // Saving slots
     void saveAs();
     void save();
     // Temporary slot
-    void launchAddSceneWizard(bool);
-    void addingSceneFinished();
+    void launchAddSceneWizard();
     void on_fileBrowser_clicked(const QModelIndex &index);
 
 private:
