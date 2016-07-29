@@ -61,7 +61,10 @@ SOURCES += main.cpp\
     CTemplate.cpp \
     CTemplateManager.cpp \
     CTemplatePushButton.cpp \
-    CLoaderWidget.cpp
+    CLoaderWidget.cpp \
+    CNewProjectWizard.cpp \
+    CProjectManager.cpp \
+    UtilsQt.cpp
 
 
 HEADERS  += CMainWindow.h \
@@ -119,10 +122,14 @@ HEADERS  += CMainWindow.h \
     CTemplate.h \
     CTemplateManager.h \
     CTemplatePushButton.h \
-    CLoaderWidget.h
+    CLoaderWidget.h \
+    CNewProjectWizard.h \
+    CProjectManager.h \
+    UtilsQt.h
 
 FORMS    += cmainwindow.ui \
-    CLoaderWidget.ui
+    CLoaderWidget.ui \
+    CNewProjectWizard.ui
 
 INCLUDEPATH += "./LudoMuse_src" \
                 "./lib" \

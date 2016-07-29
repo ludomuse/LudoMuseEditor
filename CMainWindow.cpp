@@ -20,6 +20,7 @@
 #include "CSceneInspector.h"
 #include "CAddSceneWizard.h"
 #include "CLoaderWidget.h"
+#include "CProjectManager.h"
 
 // Include QT
 #include <QtWidgets>
@@ -114,15 +115,8 @@ CMainWindow::~CMainWindow()
 
 
 
-void CMainWindow::loadExistingProject(const QString& a_sProjectPath)
+void CMainWindow::loadExistingProject(const QString& a_sProjectFile)
 {
-    // Change current path
-    QFileInfo projectInfo(a_sProjectPath);
-    if(!projectInfo.exists())
-    {
-        // TODO, launch a new CLoaderWidget
-    }
-
     // Clear loader widget!
     QLayout* glViewContainerLayout = ui->glViewContainer->layout();
     QLayoutItem *child;
@@ -131,7 +125,7 @@ void CMainWindow::loadExistingProject(const QString& a_sProjectPath)
         delete child;
     }
     QThread* thread = new QThread;
-    CThreadCocos* worker = new CThreadCocos(a_sProjectPath);
+    CThreadCocos* worker = new CThreadCocos(a_sProjectFile);
     worker->moveToThread(thread);
     //connect(worker, SIGNAL(error(QString)), this, SLOT(errorString(QString)));
     connect(worker, SIGNAL(sendHWND(int)), this, SLOT(receiveHWND(int)));
