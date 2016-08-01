@@ -70,7 +70,6 @@ private:
 
 private slots:
     void loadExistingProject(const QString& a_sProjectPath);
-    void createNewProject(const QString& a_sProjectPath);
 
     void receiveHWND(int);
     void receiveKernel(LM::CKernel*);

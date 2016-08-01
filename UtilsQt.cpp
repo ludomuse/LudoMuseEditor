@@ -21,7 +21,6 @@ void CopyFolder(const QString &a_sFolderPath, const QString &a_sNewFolderPath)
 
         // Create folder for target path
         QFileInfo newFileInfo(newFileAbsPath);
-        QString fileName = newFileInfo.fileName();
         newFileInfo.setFile(newFileInfo.absolutePath());
 
         QString newFilePath = newFileInfo.absoluteFilePath();
@@ -29,16 +28,16 @@ void CopyFolder(const QString &a_sFolderPath, const QString &a_sNewFolderPath)
         {
             qDebug("folder inexsitant");
             QDir targetFolder(a_sNewFolderPath);
-            if(targetFolder.mkpath(newFilePath))
+            if(!targetFolder.mkpath(newFilePath))
             {
                 qDebug("creating path failed");
             }
         }
 
         // Copying file
-        if(QFile::copy(currentFile,newFileAbsPath))
+        if(!QFile::copy(currentFile,newFileAbsPath))
         {
-                qDebug("bite");
+                qDebug()<< "copying file failed, file name : " << currentFile;
         }
     }
 }

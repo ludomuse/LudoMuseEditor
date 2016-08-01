@@ -63,7 +63,6 @@ CMainWindow::CMainWindow(QWidget *parent) :
     ui->glViewContainer->layout()->addWidget(loaderWidget);
     connect(loaderWidget, SIGNAL(closeEditor()), this, SLOT(close()));
     connect(loaderWidget, SIGNAL(loadProject(const QString&)), this, SLOT(loadExistingProject(const QString&)));
-    connect(loaderWidget, SIGNAL(newProject(const QString&)), this, SLOT(createNewProject(const QString&)));
 
     ui->sceneInspectorContainer->setStyleSheet("#sceneInspectorContainer{background-color : rgb(50, 50, 50);border-right :none}");
 
@@ -139,11 +138,6 @@ void CMainWindow::loadExistingProject(const QString& a_sProjectFile)
     ui->sceneInspectorContainer->setStyleSheet("#sceneInspectorContainer{background-color : rgb(50, 50, 50);border-right :none}");
     ui->toolBarCocos->setVisible(true);
     ui->toolBarCocos->setStyleSheet("#toolBarCocos{border-bottom: 1px solid black;border-right : 2px solid rgba(255,255,255,255);}");
-}
-
-void CMainWindow::createNewProject(const QString& a_sProjectPath)
-{
-
 }
 
 

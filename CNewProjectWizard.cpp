@@ -96,7 +96,7 @@ void CNewProjectWizard::clickOnValidate()
     CopyFolder(CProjectManager::Instance()->QGetInstallPath() + "/debug/default/cache", projectPath + "/cache/");
     CopyFolder(CProjectManager::Instance()->QGetInstallPath() + "/debug/default/ui", projectPath + "/ui/");
     CopyFolder(CProjectManager::Instance()->QGetInstallPath() + "/debug/default/fonts", projectPath + "/fonts/");
-
+    emit createNewProject(projectPath + "/" + projectName + ".json");
 }
 
 void CNewProjectWizard::clickOnPathExplorer()

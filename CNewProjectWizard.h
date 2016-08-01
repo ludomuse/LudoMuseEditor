@@ -25,7 +25,7 @@ public slots:
     void folderSelected(const QString& a_sPath);
 
 signals:
-    void createNewProject();
+    void createNewProject(QString a_sProjectFile);
 };
 
 #endif // CNEWPROJECTWIZARD_H

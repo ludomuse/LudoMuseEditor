@@ -75,7 +75,9 @@ void CLoaderWidget::clickNewProject()
     {
         this->SetNewSelect(true);
         this->SetLoadSelect(false);
-        ui->wizardContainer->layout()->addWidget(new CNewProjectWizard());
+        CNewProjectWizard* newWizard = new CNewProjectWizard();
+        ui->wizardContainer->layout()->addWidget(newWizard);
+        connect(newWizard, SIGNAL(createNewProject(QString)), this, SLOT(createNewProject(QString)));
     }
     else
     {
@@ -155,7 +157,7 @@ void CLoaderWidget::projectSelected(QString a_sProjectFile)
     emit loadProject(a_sProjectFile);
 }
 
-void CLoaderWidget::validateNewProject()
+void CLoaderWidget::createNewProject(QString a_sNewProjectFile)
 {
-
+    emit loadProject(a_sNewProjectFile);
 }

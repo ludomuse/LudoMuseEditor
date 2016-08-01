@@ -29,11 +29,10 @@ public slots:
     void clickNewProject();
     void clickCloseEditor();
     void projectSelected(QString);
-    void validateNewProject();
+    void createNewProject(QString);
 
 signals:
     void loadProject(QString a_sProjectPath);
-    void newProject(const QString& a_sNewProjectPath);
     void closeEditor();
 };
 
