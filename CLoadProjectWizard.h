@@ -16,6 +16,7 @@ public:
     explicit CLoadProjectWizard(QWidget *parent = 0);
     ~CLoadProjectWizard();
     void ClearError();
+    void AnimatedOpening();
 
 private:
     Ui::CLoadProjectWizard *ui;

@@ -6,6 +6,7 @@
 #include <QFileInfo>
 #include <QDir>
 #include <QDirIterator>
+#include <QPropertyAnimation>
 
 #include <CProjectManager.h>
 
@@ -18,6 +19,7 @@ CNewProjectWizard::CNewProjectWizard(QWidget *parent) :
     ui->setupUi(this);
     connect(ui->acceptButton, SIGNAL(clicked(bool)), this, SLOT(clickOnValidate()));
     connect(ui->pathExplorerButton, SIGNAL(clicked(bool)), this, SLOT(clickOnPathExplorer()));
+    this->AnimatedOpening();
 }
 
 CNewProjectWizard::~CNewProjectWizard()
@@ -28,6 +30,18 @@ CNewProjectWizard::~CNewProjectWizard()
 void CNewProjectWizard::ClearError()
 {
     ui->errorLabel->setText("");
+}
+
+void CNewProjectWizard::AnimatedOpening()
+{
+    this->setMaximumWidth(0);
+    this->setVisible(true);
+    QPropertyAnimation *animation = new QPropertyAnimation(this, "maximumWidth");
+    animation->setDuration(350);
+    animation->setStartValue(0);
+    animation->setEndValue(800);
+
+    animation->start();
 }
 
 bool CNewProjectWizard::CheckMandatoryFields()

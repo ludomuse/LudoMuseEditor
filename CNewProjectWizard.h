@@ -14,6 +14,7 @@ class CNewProjectWizard : public QWidget
 public:
     explicit CNewProjectWizard(QWidget *parent = 0);
     void ClearError();
+    void AnimatedOpening();
     ~CNewProjectWizard();
 
 private:

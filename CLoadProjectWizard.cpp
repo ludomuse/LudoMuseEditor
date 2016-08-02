@@ -5,6 +5,8 @@
 #include <string>
 
 #include <QFileDialog>
+#include <QPropertyAnimation>
+
 #include <CProjectPushButton.h>
 #include <CProjectManager.h>
 
@@ -16,6 +18,7 @@ CLoadProjectWizard::CLoadProjectWizard(QWidget *parent) :
     this->CreatePreviousProjectButtons();
     connect(ui->acceptButton, SIGNAL(clicked(bool)), this, SLOT(clickOnValidate()));
     connect(ui->pathExplorerButton, SIGNAL(clicked(bool)), this, SLOT(clickOnPathExplorer()));
+    this->AnimatedOpening();
 }
 
 CLoadProjectWizard::~CLoadProjectWizard()
@@ -26,6 +29,18 @@ CLoadProjectWizard::~CLoadProjectWizard()
 void CLoadProjectWizard::ClearError()
 {
     ui->errorLabel->setText("");
+}
+
+void CLoadProjectWizard::AnimatedOpening()
+{
+    this->setMaximumWidth(0);
+    this->setVisible(true);
+    QPropertyAnimation *animation = new QPropertyAnimation(this, "maximumWidth");
+    animation->setDuration(350);
+    animation->setStartValue(0);
+    animation->setEndValue(800);
+
+    animation->start();
 }
 
 void CLoadProjectWizard::CreatePreviousProjectButtons()
