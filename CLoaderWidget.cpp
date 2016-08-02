@@ -1,6 +1,5 @@
 #include "CLoaderWidget.h"
 #include "ui_CLoaderWidget.h"
-#include "CNewProjectWizard.h"
 
 #include <UtilsQt.h>
 #include <CProjectManager.h>
@@ -13,12 +12,19 @@ CLoaderWidget::CLoaderWidget(QWidget *parent) :
     QWidget(parent),
     ui(new Ui::CLoaderWidget),
     m_bNewProjectWizard(false),
-    m_bLoadExistingProject(false)
+    m_bLoadExistingProject(false),
+    m_pLoadProjectWizard(new CLoadProjectWizard()),
+    m_pNewProjectWizard(new CNewProjectWizard())
 {
     ui->setupUi(this);
+    this->ClearWizardContainer();
+    ui->wizardContainer->layout()->addWidget(m_pLoadProjectWizard);
+    ui->wizardContainer->layout()->addWidget(m_pNewProjectWizard);
     connect(ui->exitButton, SIGNAL(clicked(bool)), this, SLOT(clickCloseEditor()));
     connect(ui->newButton, SIGNAL(clicked(bool)), this, SLOT(clickNewProject()));
     connect(ui->loadButton, SIGNAL(clicked(bool)), this, SLOT(clickLoadProject()));
+    connect(m_pLoadProjectWizard, SIGNAL(loadProjectFile(QString)), this, SLOT(projectSelected(QString)));
+    connect(m_pNewProjectWizard, SIGNAL(createNewProject(QString)), this, SLOT(createNewProject(QString)));
 }
 
 CLoaderWidget::~CLoaderWidget()
@@ -54,12 +60,16 @@ void CLoaderWidget::SetLoadSelect(bool a_bActive)
 
 void CLoaderWidget::ClearWizardContainer()
 {
-    QLayout* wizardContainerLayout = ui->wizardContainer->layout();
-    QLayoutItem *child;
-    while ((child = wizardContainerLayout->takeAt(0)) != 0) {
-        delete child->widget();
-        delete child;
-    }
+//    QLayout* wizardContainerLayout = ui->wizardContainer->layout();
+//    QLayoutItem *child;
+//    while ((child = wizardContainerLayout->takeAt(0)) != 0) {
+//        delete child->widget();
+//        delete child;
+//    }
+    m_pLoadProjectWizard->setVisible(false);
+    m_pLoadProjectWizard->clearError();
+    m_pNewProjectWizard->setVisible(false);
+    m_pNewProjectWizard->clearError();
 }
 
 void CLoaderWidget::clickCloseEditor()
@@ -69,15 +79,15 @@ void CLoaderWidget::clickCloseEditor()
 
 void CLoaderWidget::clickNewProject()
 {
-    m_bLoadExistingProject = false;
+    m_bLoadExistingProject = false; // disable other wizard
     this->ClearWizardContainer();
     if(!m_bNewProjectWizard)
     {
         this->SetNewSelect(true);
         this->SetLoadSelect(false);
-        CNewProjectWizard* newWizard = new CNewProjectWizard();
-        ui->wizardContainer->layout()->addWidget(newWizard);
-        connect(newWizard, SIGNAL(createNewProject(QString)), this, SLOT(createNewProject(QString)));
+        //ui->wizardContainer->layout()->addWidget(newWizard);
+        //connect(newWizard, SIGNAL(createNewProject(QString)), this, SLOT(createNewProject(QString)));
+        m_pNewProjectWizard->setVisible(true);
     }
     else
     {
@@ -88,32 +98,23 @@ void CLoaderWidget::clickNewProject()
 
 void CLoaderWidget::clickLoadProject()
 {
-    m_bNewProjectWizard = false;
+    m_bNewProjectWizard = false; // disable other wizard
     this->ClearWizardContainer();
     if(!m_bLoadExistingProject)
     {
         this->SetLoadSelect(true);
         this->SetNewSelect(false);
+        m_pLoadProjectWizard->setVisible(true);
     }
     else
     {
         this->SetLoadSelect(false);
     }
     m_bLoadExistingProject = !m_bLoadExistingProject;
-
-    QFileDialog* fileDialog = new QFileDialog();
-    fileDialog->setDirectory(QDir::home());
-    fileDialog->setNameFilter("*.json");
-    connect(fileDialog, SIGNAL(fileSelected(QString)), this, SLOT(projectSelected(QString)));
-
-    fileDialog->show();
 }
 
 void CLoaderWidget::projectSelected(QString a_sProjectFile)
 {
-    // Update CprojetManager
-    CProjectManager::Instance()->SetProjectPath(a_sProjectFile);
-
     // Search for template folder in projectPath
     QFileInfo projectFile(a_sProjectFile);
     QString projectPath = projectFile.absolutePath();

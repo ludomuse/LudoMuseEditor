@@ -4,6 +4,10 @@
 #include <QWidget>
 #include <QString>
 
+
+#include "CNewProjectWizard.h"
+#include "CLoadProjectWizard.h"
+
 namespace Ui {
 class CLoaderWidget;
 }
@@ -23,6 +27,8 @@ private:
     Ui::CLoaderWidget *ui;
     bool m_bNewProjectWizard;
     bool m_bLoadExistingProject;
+    CNewProjectWizard* m_pNewProjectWizard;
+    CLoadProjectWizard* m_pLoadProjectWizard;
 
 public slots:
     void clickLoadProject();

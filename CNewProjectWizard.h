@@ -13,6 +13,7 @@ class CNewProjectWizard : public QWidget
 
 public:
     explicit CNewProjectWizard(QWidget *parent = 0);
+    void clearError();
     ~CNewProjectWizard();
 
 private:

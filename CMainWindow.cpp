@@ -75,19 +75,7 @@ CMainWindow::CMainWindow(QWidget *parent) :
     // File browser (tree and file display)
     // All path will be changed TODO
     QString temporaryPath("D:\\IHMTEK\\LudoMuseEditorCocos\\build-LudoMuseEditor-Clone_de_Desktop_Qt_5_6_0_MSVC2015_32bit-Debug\\debug");
-    m_pDirModel = new QFileSystemModel();
-    m_pDirModel->setFilter(QDir::NoDotAndDotDot | QDir::AllDirs);
-    m_pDirModel->setRootPath(temporaryPath);
-    ui->fileBrowser->setModel(m_pDirModel);
-    ui->fileBrowser->setRootIndex(m_pDirModel->index(temporaryPath));
-    ui->fileBrowser->setColumnHidden( 1, true );
-    ui->fileBrowser->setColumnHidden( 2, true );
-    ui->fileBrowser->setColumnHidden( 3, true );
-    m_pFileModel = new QFileSystemModel(this);
-    m_pFileModel->setFilter(QDir::NoDotAndDotDot | QDir::Files);
-    ui->fileListView->setModel(m_pFileModel);
-    ui->fileListView->setRootIndex(m_pFileModel->setRootPath(temporaryPath));
-    ui->fileListView->SetCurrentPath(temporaryPath);
+
 
     // Icon creation
     ui->emulateButton->setIcon(QIcon("resources/emulate.png"));
@@ -116,6 +104,11 @@ CMainWindow::~CMainWindow()
 
 void CMainWindow::loadExistingProject(const QString& a_sProjectFile)
 {
+    // Update CprojetManager
+    CProjectManager::Instance()->SetProjectFile(a_sProjectFile);
+    m_sSaveName = a_sProjectFile;
+
+    ui->save->setEnabled(true);
     // Clear loader widget!
     QLayout* glViewContainerLayout = ui->glViewContainer->layout();
     QLayoutItem *child;
@@ -138,6 +131,22 @@ void CMainWindow::loadExistingProject(const QString& a_sProjectFile)
     ui->sceneInspectorContainer->setStyleSheet("#sceneInspectorContainer{background-color : rgb(50, 50, 50);border-right :none}");
     ui->toolBarCocos->setVisible(true);
     ui->toolBarCocos->setStyleSheet("#toolBarCocos{border-bottom: 1px solid black;border-right : 2px solid rgba(255,255,255,255);}");
+
+    QString projectPath = QFileInfo(a_sProjectFile).absolutePath();
+
+    m_pDirModel = new QFileSystemModel();
+    m_pDirModel->setFilter(QDir::NoDotAndDotDot | QDir::AllDirs);
+    m_pDirModel->setRootPath(projectPath);
+    ui->fileBrowser->setModel(m_pDirModel);
+    ui->fileBrowser->setRootIndex(m_pDirModel->index(projectPath));
+    ui->fileBrowser->setColumnHidden( 1, true );
+    ui->fileBrowser->setColumnHidden( 2, true );
+    ui->fileBrowser->setColumnHidden( 3, true );
+    m_pFileModel = new QFileSystemModel(this);
+    m_pFileModel->setFilter(QDir::NoDotAndDotDot | QDir::Files);
+    ui->fileListView->setModel(m_pFileModel);
+    ui->fileListView->setRootIndex(m_pFileModel->setRootPath(projectPath));
+    ui->fileListView->SetCurrentPath(projectPath);
 }
 
 
@@ -300,7 +309,7 @@ void CMainWindow::launchEmulator()
 void CMainWindow::saveAs()
 {
     QString filePath = QFileDialog::getSaveFileName(this, "Save File",
-                               QDir::currentPath(),
+                               CProjectManager::Instance()->QGetProjectPath(),
                                "Scénarios Ludomuse (*.json)");
     // Covering empty result
     QFileInfo fileInfo(filePath);

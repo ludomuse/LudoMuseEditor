@@ -29,14 +29,15 @@ CProjectManager* CProjectManager::Instance()
     return &instance;
 }
 
-void CProjectManager::SetProjectPath(const QString &a_sPath)
+void CProjectManager::SetProjectFile(const QString &a_sPath)
 {
     m_sProjectPath = a_sPath;
 }
 
 QString CProjectManager::QGetProjectPath()
 {
-    return m_sProjectPath;
+    QFileInfo temp(m_sProjectPath);
+    return temp.absolutePath() + "/";
 }
 
 QString CProjectManager::QGetInstallPath()
@@ -44,13 +45,45 @@ QString CProjectManager::QGetInstallPath()
     return m_sInstallPath;
 }
 
-std::string CProjectManager::GetProjectPath()
+QString CProjectManager::QGetProjectName()
 {
-    return m_sProjectPath.toStdString();
+    QFileInfo temp(m_sProjectPath);
+    return temp.baseName();
 }
 
+std::string CProjectManager::GetProjectPath()
+{
+    QFileInfo temp(m_sProjectPath);
+    return temp.absolutePath().toStdString() + "/";
+}
 
 std::string CProjectManager::GetInstallPath()
 {
     return m_sInstallPath.toStdString();
 }
+
+std::string CProjectManager::GetProjectName()
+{
+    QFileInfo temp(m_sInstallPath);
+    return temp.baseName().toStdString();
+}
+
+std::vector<std::string>::iterator CProjectManager::PushBackSource(const std::string& a_sSource)
+{
+    std::vector<std::string>::iterator it = std::find(m_vSources.begin(), m_vSources.end(), a_sSource);
+    if(it != m_vSources.end())
+    {
+        return it;
+    }
+    else
+    {
+
+        return m_vSources.insert(m_vSources.end(), a_sSource);
+    }
+}
+
+const std::string& CProjectManager::GetSourceAt(int a_iIndex)
+{
+    return m_vSources.at(a_iIndex);
+}
+

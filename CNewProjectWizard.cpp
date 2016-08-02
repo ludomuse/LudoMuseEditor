@@ -25,6 +25,11 @@ CNewProjectWizard::~CNewProjectWizard()
     delete ui;
 }
 
+void CNewProjectWizard::clearError()
+{
+    ui->errorLabel->setText("");
+}
+
 bool CNewProjectWizard::CheckMandatoryFields()
 {
     QString text = "";

@@ -64,7 +64,8 @@ SOURCES += main.cpp\
     CLoaderWidget.cpp \
     CNewProjectWizard.cpp \
     CProjectManager.cpp \
-    UtilsQt.cpp
+    UtilsQt.cpp \
+    CLoadProjectWizard.cpp
 
 
 HEADERS  += CMainWindow.h \
@@ -125,11 +126,13 @@ HEADERS  += CMainWindow.h \
     CLoaderWidget.h \
     CNewProjectWizard.h \
     CProjectManager.h \
-    UtilsQt.h
+    UtilsQt.h \
+    CLoadProjectWizard.h
 
 FORMS    += cmainwindow.ui \
     CLoaderWidget.ui \
-    CNewProjectWizard.ui
+    CNewProjectWizard.ui \
+    CLoadProjectWizard.ui
 
 INCLUDEPATH += "./LudoMuse_src" \
                 "./lib" \
