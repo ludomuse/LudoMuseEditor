@@ -25,7 +25,7 @@ CNewProjectWizard::~CNewProjectWizard()
     delete ui;
 }
 
-void CNewProjectWizard::clearError()
+void CNewProjectWizard::ClearError()
 {
     ui->errorLabel->setText("");
 }

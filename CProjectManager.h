@@ -2,6 +2,7 @@
 #define CPROJECTMANAGER_H
 
 #include <QString>
+#include <QFile>
 
 #include <string>
 #include <vector>
@@ -17,10 +18,13 @@ private:
     CProjectManager(const CProjectManager& a_oProjectManager);
     CProjectManager& operator=(const CProjectManager& a_oProjectManager);
     // Function
+    void ReadLastProject(QFile& a_fConfigFile);
+    void EditPrevFile();
     // Attributs
     QString m_sProjectPath;
     QString m_sInstallPath;
     std::vector<std::string> m_vSources;
+    std::vector<std::string> m_vPreviousProjectPaths;
 
 
 public:
@@ -35,6 +39,9 @@ public:
     /// \brief add the new source if necessary and return the index
     std::vector<std::string>::iterator PushBackSource(const std::string& a_sSource);
     const std::string& GetSourceAt(int a_iIndex);
+    const std::vector<std::string>& GetPreviousProjectPaths();
+    /// \brief update last_project propertie of config.json
+    void UpdateLastProject(const QString& a_sNewProject);
 };
 
 #endif // CPROJECTMANAGER_H

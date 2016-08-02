@@ -1,13 +1,19 @@
 #include "CLoadProjectWizard.h"
 #include "ui_CLoadProjectWizard.h"
 
+#include <vector>
+#include <string>
+
 #include <QFileDialog>
+#include <CProjectPushButton.h>
+#include <CProjectManager.h>
 
 CLoadProjectWizard::CLoadProjectWizard(QWidget *parent) :
     QWidget(parent),
     ui(new Ui::CLoadProjectWizard)
 {
     ui->setupUi(this);
+    this->CreatePreviousProjectButtons();
     connect(ui->acceptButton, SIGNAL(clicked(bool)), this, SLOT(clickOnValidate()));
     connect(ui->pathExplorerButton, SIGNAL(clicked(bool)), this, SLOT(clickOnPathExplorer()));
 }
@@ -17,12 +23,22 @@ CLoadProjectWizard::~CLoadProjectWizard()
     delete ui;
 }
 
-void CLoadProjectWizard::clearError()
+void CLoadProjectWizard::ClearError()
 {
     ui->errorLabel->setText("");
 }
 
-bool CLoadProjectWizard::checkMandatoryFields()
+void CLoadProjectWizard::CreatePreviousProjectButtons()
+{
+    for(std::string currentPath : CProjectManager::Instance()->GetPreviousProjectPaths())
+    {
+        CProjectPushButton* temp = new CProjectPushButton(QString(currentPath.c_str()));
+        ui->recentProjectList->layout()->addWidget(temp);
+        connect(temp, SIGNAL(onClick(QString)), this, SLOT(clickOnPrevProject(QString)));
+    }
+}
+
+bool CLoadProjectWizard::CheckMandatoryFields()
 {
     if(ui->pathLineEdit->text().isEmpty())
     {
@@ -34,7 +50,7 @@ bool CLoadProjectWizard::checkMandatoryFields()
 
 void CLoadProjectWizard::clickOnValidate()
 {
-    if(!this->checkMandatoryFields())
+    if(!this->CheckMandatoryFields())
     {
         return;
     }
@@ -55,3 +71,9 @@ void CLoadProjectWizard::folderSelected(const QString& a_sPath)
 {
     ui->pathLineEdit->setText(a_sPath);
 }
+
+void CLoadProjectWizard::clickOnPrevProject(const QString &a_sProjectFile)
+{
+    emit loadProjectFile(a_sProjectFile);
+}
+

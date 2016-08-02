@@ -16,6 +16,8 @@ CLoaderWidget::CLoaderWidget(QWidget *parent) :
     m_pLoadProjectWizard(new CLoadProjectWizard()),
     m_pNewProjectWizard(new CNewProjectWizard())
 {
+    CProjectManager::Instance(); // Build CprojectManager instance.
+
     ui->setupUi(this);
     this->ClearWizardContainer();
     ui->wizardContainer->layout()->addWidget(m_pLoadProjectWizard);
@@ -67,9 +69,9 @@ void CLoaderWidget::ClearWizardContainer()
 //        delete child;
 //    }
     m_pLoadProjectWizard->setVisible(false);
-    m_pLoadProjectWizard->clearError();
+    m_pLoadProjectWizard->ClearError();
     m_pNewProjectWizard->setVisible(false);
-    m_pNewProjectWizard->clearError();
+    m_pNewProjectWizard->ClearError();
 }
 
 void CLoaderWidget::clickCloseEditor()

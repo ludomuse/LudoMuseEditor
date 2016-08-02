@@ -15,16 +15,18 @@ class CLoadProjectWizard : public QWidget
 public:
     explicit CLoadProjectWizard(QWidget *parent = 0);
     ~CLoadProjectWizard();
-    void clearError();
+    void ClearError();
 
 private:
     Ui::CLoadProjectWizard *ui;
-    bool checkMandatoryFields();
+    bool CheckMandatoryFields();
+    void CreatePreviousProjectButtons();
 
 public slots:
     void clickOnValidate();
     void clickOnPathExplorer();
     void folderSelected(const QString& a_sPath);
+    void clickOnPrevProject(const QString& a_sProjectFile);
 
 signals:
     void loadProjectFile(const QString& a_sFilePath);

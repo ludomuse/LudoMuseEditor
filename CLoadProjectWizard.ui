@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>400</width>
-    <height>311</height>
+    <height>323</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -120,32 +120,20 @@ color : white;
        </widget>
       </item>
       <item>
-       <widget class="QWidget" name="widget" native="true">
+       <widget class="QWidget" name="recentProjectList" native="true">
         <layout class="QVBoxLayout" name="verticalLayout_3">
+         <property name="spacing">
+          <number>10</number>
+         </property>
+         <property name="leftMargin">
+          <number>10</number>
+         </property>
          <property name="topMargin">
           <number>0</number>
          </property>
-         <item>
-          <widget class="QLabel" name="label_2">
-           <property name="text">
-            <string>Scénario</string>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QLabel" name="label_4">
-           <property name="text">
-            <string>Scénario 2</string>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QLabel" name="label_3">
-           <property name="text">
-            <string>Scénario 3</string>
-           </property>
-          </widget>
-         </item>
+         <property name="bottomMargin">
+          <number>0</number>
+         </property>
         </layout>
        </widget>
       </item>

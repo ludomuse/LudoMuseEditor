@@ -65,7 +65,8 @@ SOURCES += main.cpp\
     CNewProjectWizard.cpp \
     CProjectManager.cpp \
     UtilsQt.cpp \
-    CLoadProjectWizard.cpp
+    CLoadProjectWizard.cpp \
+    CProjectPushButton.cpp
 
 
 HEADERS  += CMainWindow.h \
@@ -127,7 +128,8 @@ HEADERS  += CMainWindow.h \
     CNewProjectWizard.h \
     CProjectManager.h \
     UtilsQt.h \
-    CLoadProjectWizard.h
+    CLoadProjectWizard.h \
+    CProjectPushButton.h
 
 FORMS    += cmainwindow.ui \
     CLoaderWidget.ui \
