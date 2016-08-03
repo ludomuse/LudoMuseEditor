@@ -114,6 +114,8 @@ private:
     CTemplateManager* m_pTemplatesManager;
     int m_iActivePlayer;
     QString m_sSaveName;
+
+    int index;
 };
 
 #endif // CMAINWINDOW_H

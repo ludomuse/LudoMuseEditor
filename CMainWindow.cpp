@@ -57,6 +57,8 @@ CMainWindow::CMainWindow(QWidget *parent) :
 {
     ui->setupUi(this);
 
+    index = 1;
+
     // Init with loader widget
     ui->toolBarCocos->setVisible(false);
     CLoaderWidget* loaderWidget = new CLoaderWidget();
@@ -504,17 +506,21 @@ int CMainWindow::ScreenIDToPlayerID(const QString &a_id)
 
 CThumbnailWidget* CMainWindow::addSceneToTimeLine(const QString &a_id, int a_playerID)
 {
-    CThumbnailWidget *nodeWidget = new CThumbnailWidget(a_id, a_playerID);
 
     if(a_playerID == PLAYER_1)
     {
+        CThumbnailWidget* nodeWidget = new CThumbnailWidget(a_id, a_playerID, ui->trameContainerP1, index++);
         this->ui->trameContainerP1->layout()->addWidget(nodeWidget);
+        return nodeWidget;
     }
     else if(a_playerID == PLAYER_2)
     {
+        CThumbnailWidget* nodeWidget = new CThumbnailWidget(a_id, a_playerID, ui->trameContainerP2, 0);
         this->ui->trameContainerP2->layout()->addWidget(nodeWidget);
+        return nodeWidget;
     }
-    return nodeWidget;
+
+    return new CThumbnailWidget(a_id, a_playerID);
 }
 
 void CMainWindow::inspectLabel(LM::CLabelNode* a_pLabel)

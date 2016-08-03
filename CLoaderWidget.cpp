@@ -38,7 +38,11 @@ void CLoaderWidget::SetNewSelect(bool a_bActive)
 {
     if(a_bActive)
     {
-        ui->newProject->setStyleSheet("#newProject{border-left : 2px dotted rgb(255, 170, 0); border-bottom : 2px dotted rgb(255, 170, 0); border-top : 2px dotted rgb(255, 170, 0); background-color : rgb(65,65,65);}");
+        ui->newProject->setStyleSheet("#newProject{"
+                                      "border-left : 1px solid rgb(255, 170, 0);"
+                                      "border-bottom : 1px solid rgb(255, 170, 0); "
+                                      "border-top : 1px solid rgb(255, 170, 0); "
+                                      "background-color : rgb(65,65,65);}");
 
     }
     else
@@ -51,7 +55,11 @@ void CLoaderWidget::SetLoadSelect(bool a_bActive)
 {
     if(a_bActive)
     {
-        ui->loadProject->setStyleSheet("#loadProject{border-left : 2px dotted rgb(255, 170, 0); border-bottom : 2px dotted rgb(255, 170, 0); border-top : 2px dotted rgb(255, 170, 0); background-color : rgb(65,65,65);}");
+        ui->loadProject->setStyleSheet("#loadProject{"
+                                       "border-left : 1px solid rgb(255, 170, 0); "
+                                       "border-bottom : 1px solid rgb(255, 170, 0); "
+                                       "border-top : 1px solid rgb(255, 170, 0); "
+                                       "background-color : rgb(65,65,65);}");
 
     }
     else
@@ -89,7 +97,7 @@ void CLoaderWidget::clickNewProject()
         this->SetLoadSelect(false);
         //ui->wizardContainer->layout()->addWidget(newWizard);
         //connect(newWizard, SIGNAL(createNewProject(QString)), this, SLOT(createNewProject(QString)));
-        m_pNewProjectWizard->setVisible(true);
+        m_pNewProjectWizard->AnimatedOpening();
     }
     else
     {
@@ -106,7 +114,7 @@ void CLoaderWidget::clickLoadProject()
     {
         this->SetLoadSelect(true);
         this->SetNewSelect(false);
-        m_pLoadProjectWizard->setVisible(true);
+        m_pLoadProjectWizard->AnimatedOpening();
     }
     else
     {
