@@ -13,11 +13,13 @@
 // Include custom classes
 #include "CMainWindow.h"
 #include "ui_cmainwindow.h"
+#include "CEditorKernel.h"
 #include "CThreadCocos.h"
 #include "CThumbnailWidget.h"
 #include "CLabelInspector.h"
 #include "CSpriteInspector.h"
 #include "CSceneInspector.h"
+#include "CMenuNodeInspector.h"
 #include "CAddSceneWizard.h"
 #include "CLoaderWidget.h"
 #include "CProjectManager.h"
@@ -40,6 +42,7 @@
 #include "Classes/Engine/Include/CNode.h"
 #include "Classes/Engine/Include/CSceneNode.h"
 #include "Classes/Engine/Include/CSequenceNode.h"
+#include "Classes/Engine/Include/CMenuNode.h"
 #include "Classes/Engine/Include/CCallback.h"
 #include "Classes/Engine/Include/CEditorFindEntityTouchVisitor.h"
 #include "Classes/Modules/Util/Include/Util.h"
@@ -91,8 +94,10 @@ CMainWindow::CMainWindow(QWidget *parent) :
     connect(ui->emulateButton, SIGNAL(clicked(bool)), this, SLOT(launchEmulator()));
     connect(ui->JsonGo, SIGNAL(clicked(bool)), this, SLOT(saveAs()));
     connect(ui->save, SIGNAL(clicked(bool)), this, SLOT(save()));
-    connect(ui->lmwTestButton, SIGNAL(clicked(bool)), this, SLOT(launchAddSceneWizard()));
-    //connect(ui->testButton, SIGNAL(clicked(bool)), this, SLOT(loadCocos()));
+    //connect(ui->lmwTestButton, SIGNAL(clicked(bool)), this, SLOT(launchAddSceneWizard()));
+
+    // Connect kernel signal
+    connect(CEditorKernel::Instance(), SIGNAL(sendMenuNodeSignal(LM::CMenuNode*)), this, SLOT(receiveMenu(LM::CMenuNode*)));
 
     this->showMaximized();
 }
@@ -176,23 +181,29 @@ void CMainWindow::receiveKernel(LM::CKernel *aKernel)
     QString currentScene(m_pKernel->m_pCurrentScene->GetSceneID().c_str());
     m_iActivePlayer = m_pKernel->GetCurrentPlayer();
     this->activeThumbnail(currentScene, m_iActivePlayer);
-    this->inspectScene(m_pKernel->m_pCurrentScene);
+    this->InspectScene(m_pKernel->m_pCurrentScene);
 }
 
 void CMainWindow::receiveLabel(LM::CLabelNode* a_pLabel)
 {
     //qDebug("Reception d'un Label");
-    this->inspectLabel(a_pLabel);
+    this->InspectLabel(a_pLabel);
 }
 
 void CMainWindow::receiveSprite(LM::CSpriteNode* a_pSprite)
 {
-    this->inspectSprite(a_pSprite);
+    this->InspectSprite(a_pSprite);
+}
+
+void CMainWindow::receiveMenu(LM::CMenuNode* a_pMenuNode)
+{
+    qDebug("received CMenuNode");
+    this->InspectMenuNode(a_pMenuNode);
 }
 
 void CMainWindow::receiveScene(LM::CSceneNode *a_pScene, bool a_bIsNav)
 {
-    this->inspectScene(a_pScene);
+    this->InspectScene(a_pScene);
     if(a_bIsNav)
     {
         qDebug("navigation transition -> changing active thumbnail");
@@ -303,9 +314,9 @@ void CMainWindow::deleteScene(QString a_sSceneID, bool a_bIsSync)
 
 void CMainWindow::launchEmulator()
 {
-    m_oProcessServer.start("emulator\\LudoMuse.exe");
+    m_oProcessServer.start("emulator\\LudoMuse.exe", QStringList() << "server" << CProjectManager::Instance()->QGetProjectJsonFile());
     QThread::sleep(2);
-    m_oProcessClient.start("emulator\\LudoMuse.exe", QStringList()<<"client");
+    m_oProcessClient.start("emulator\\LudoMuse.exe", QStringList() << "client" << CProjectManager::Instance()->QGetProjectJsonFile());
 }
 
 void CMainWindow::saveAs()
@@ -523,7 +534,7 @@ CThumbnailWidget* CMainWindow::addSceneToTimeLine(const QString &a_id, int a_pla
     return new CThumbnailWidget(a_id, a_playerID);
 }
 
-void CMainWindow::inspectLabel(LM::CLabelNode* a_pLabel)
+void CMainWindow::InspectLabel(LM::CLabelNode* a_pLabel)
 {
     // Clear inspector tool bar
     this->setInspectorName("Éditeur de texte");
@@ -544,7 +555,7 @@ void CMainWindow::inspectLabel(LM::CLabelNode* a_pLabel)
     connect(inspector, SIGNAL(closeInspector()), this, SLOT(clearInspectorContainer()));
 }
 
-void CMainWindow::inspectSprite(LM::CSpriteNode* a_pSprite)
+void CMainWindow::InspectSprite(LM::CSpriteNode* a_pSprite)
 {
     // Clear inspector tool bar
     this->setInspectorName("Éditeur d'image");
@@ -565,7 +576,7 @@ void CMainWindow::inspectSprite(LM::CSpriteNode* a_pSprite)
     connect(inspector, SIGNAL(closeInspector()), this, SLOT(clearInspectorContainer()));
 }
 
-void CMainWindow::inspectScene(LM::CSceneNode* a_pScene)
+void CMainWindow::InspectScene(LM::CSceneNode* a_pScene)
 {
     // Clear inspector loayout from older inspection
     QLayoutItem *child;
@@ -605,6 +616,27 @@ void CMainWindow::inspectScene(LM::CSceneNode* a_pScene)
     {
         qDebug("Scene id is nowhere to be found, not in p1 neither in P2");
     }
+}
+
+void CMainWindow::InspectMenuNode(LM::CMenuNode* a_pMenuNode)
+{
+    // Clear inspector tool bar
+    this->setInspectorName("Éditeur de bouton de Navigation");
+
+    // Clear inspector loayout from older inspection
+    QLayoutItem *child;
+    QLayout* inspectorContainerLayout = this->ui->inspectorContainer->layout();
+    if(inspectorContainerLayout != Q_NULLPTR)
+    {
+        while ((child = inspectorContainerLayout->takeAt(0)) != 0) {
+            delete child->widget();
+            delete child;
+        }
+
+    }
+    CMenuNodeInspector* inspector = new CMenuNodeInspector(a_pMenuNode);
+    inspectorContainerLayout->addWidget(inspector);
+    connect(inspector, SIGNAL(closeInspector()), this, SLOT(clearInspectorContainer()));
 }
 
 void CMainWindow::setInspectorName(const QString &a_rName)

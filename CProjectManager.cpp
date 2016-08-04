@@ -150,6 +150,11 @@ QString CProjectManager::QGetProjectName()
     return temp.baseName();
 }
 
+QString CProjectManager::QGetProjectJsonFile()
+{
+    return m_sProjectPath;
+}
+
 std::string CProjectManager::GetProjectPath()
 {
     QFileInfo temp(m_sProjectPath);
@@ -167,21 +172,26 @@ std::string CProjectManager::GetProjectName()
     return temp.baseName().toStdString();
 }
 
-std::vector<std::string>::iterator CProjectManager::PushBackSource(const std::string& a_sSource)
+std::string CProjectManager::GetProjectJsonFile()
 {
-    std::vector<std::string>::iterator it = std::find(m_vSources.begin(), m_vSources.end(), a_sSource);
+    return m_sProjectPath.toStdString();
+}
+
+std::string* CProjectManager::PushBackSource(const std::string& a_sSource)
+{
+    std::vector<std::string*>::iterator it = std::find(m_vSources.begin(), m_vSources.end(), &a_sSource);
     if(it != m_vSources.end())
     {
-        return it;
+        return (*it);
     }
     else
     {
 
-        return m_vSources.insert(m_vSources.end(), a_sSource);
+        return (*(m_vSources.insert(m_vSources.end(), new std::string(a_sSource))));
     }
 }
 
-const std::string& CProjectManager::GetSourceAt(int a_iIndex)
+const std::string* CProjectManager::GetSourceAt(int a_iIndex)
 {
     return m_vSources.at(a_iIndex);
 }
