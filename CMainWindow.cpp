@@ -276,7 +276,7 @@ void CMainWindow::goToPreviousScene()
 void CMainWindow::addOneScene(const QString &a_sPreviousID, const QString &a_sNewID, int a_iPlayerID, CTemplate* a_pTemplate)
 {
     ON_CC_THREAD(LM::CKernel::AddNewScene, m_pKernel, a_pTemplate->GetPath().toStdString(),
-                 a_sPreviousID.toStdString(), a_sNewID.toStdString(), a_iPlayerID, 0);
+                 a_sPreviousID.toStdString(), a_sNewID.toStdString(), a_iPlayerID, 0, "");
 }
 
 void CMainWindow::addTwoScene(const QString &a_sPreviousIDP1, const QString &a_sNewIDP1,
@@ -284,9 +284,9 @@ void CMainWindow::addTwoScene(const QString &a_sPreviousIDP1, const QString &a_s
                               CTemplate* a_pTemplate)
 {
     ON_CC_THREAD(LM::CKernel::AddNewScene, m_pKernel, a_pTemplate->GetPath().toStdString(),
-                 a_sPreviousIDP1.toStdString(), a_sNewIDP1.toStdString(), PLAYER_1, 0);
+                 a_sPreviousIDP1.toStdString(), a_sNewIDP1.toStdString(), PLAYER_1, 0, "");
     ON_CC_THREAD(LM::CKernel::AddNewScene, m_pKernel, a_pTemplate->GetPath().toStdString(),
-                 a_sPreviousIDP2.toStdString(), a_sNewIDP2.toStdString(), PLAYER_2, 1);
+                 a_sPreviousIDP2.toStdString(), a_sNewIDP2.toStdString(), PLAYER_2, 0, "");
 }
 
 void CMainWindow::addGameScene(const QString &a_sPreviousIDP1, const QString &a_sNewIDP1,
@@ -294,9 +294,9 @@ void CMainWindow::addGameScene(const QString &a_sPreviousIDP1, const QString &a_
                                CTemplate* a_pTemplate, int a_iTemplateNumberP1, int a_iTemplateNumberP2)
 {
     ON_CC_THREAD(LM::CKernel::AddNewScene, m_pKernel, a_pTemplate->GetPath().toStdString(),
-                 a_sPreviousIDP1.toStdString(), a_sNewIDP1.toStdString(), PLAYER_1, a_iTemplateNumberP1);
+                 a_sPreviousIDP1.toStdString(), a_sNewIDP1.toStdString(), PLAYER_1, a_iTemplateNumberP1, a_sNewIDP2.toStdString());
     ON_CC_THREAD(LM::CKernel::AddNewScene, m_pKernel, a_pTemplate->GetPath().toStdString(),
-                 a_sPreviousIDP2.toStdString(), a_sNewIDP2.toStdString(), PLAYER_2, a_iTemplateNumberP2);
+                 a_sPreviousIDP2.toStdString(), a_sNewIDP2.toStdString(), PLAYER_2, a_iTemplateNumberP2, a_sNewIDP1.toStdString());
     ON_CC_THREAD(LM::CKernel::AddSyncID, m_pKernel, a_sNewIDP1.toStdString(), a_sNewIDP2.toStdString());
 }
 
@@ -314,9 +314,12 @@ void CMainWindow::deleteScene(QString a_sSceneID, bool a_bIsSync)
 
 void CMainWindow::launchEmulator()
 {
-    m_oProcessServer.start("emulator\\LudoMuse.exe", QStringList() << "server" << CProjectManager::Instance()->QGetProjectJsonFile());
+    QString execPath = CProjectManager::Instance()->QGetInstallPath() + "/debug/emulator/LudoMuse.exe";
+    QString cmd = execPath + " server " + CProjectManager::Instance()->QGetProjectJsonFile();
+    m_oProcessServer.start(cmd);
     QThread::sleep(2);
-    m_oProcessClient.start("emulator\\LudoMuse.exe", QStringList() << "client" << CProjectManager::Instance()->QGetProjectJsonFile());
+    cmd = execPath + " client " + CProjectManager::Instance()->QGetProjectJsonFile();
+    m_oProcessClient.start(cmd);
 }
 
 void CMainWindow::saveAs()
