@@ -11,6 +11,9 @@ greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 TARGET = LudoMuseEditor
 TEMPLATE = app
 
+LUDOMUSE_PATH = "C:\WORKSPACE\LudoMuse"
+COCOS_PATH = $${LUDOMUSE_PATH}/cocos2d
+JAVA_PATH = "C:\Program Files\Java\jdk1.8.0_66"
 
 SOURCES += main.cpp\
         CMainWindow.cpp\
@@ -142,29 +145,28 @@ FORMS    += cmainwindow.ui \
     CMenuNodeInspector.ui
 
 INCLUDEPATH += "./LudoMuse_src" \
-                "./lib" \
-                "D:/IHMTEK/cocos_project/LudoMuse/cocos2d/cocos" \
-                "./lib/cocos/audio/include" \
-                "./lib/external/win32-specific/gles/include/OGLES" \
-                "./lib/external/win32-specific/angle/include/EGL" \
-                "./lib/external/win32-specific/angle/include/GLES2" \
-                "./lib/external/win32-specific/angle/include/GLES3" \
-                "./lib/external/win32-specific/angle/include/KHR" \
-                "./lib/external/glfw3/include/win32" \
-                "./lib/external/json" \
-                "C:/Program Files/Java/jdk1.8.0/include" \
-                "C:/Program Files/Java/jdk1.8.0/include/win32"
+                $${COCOS_PATH}/cocos \
+                $${COCOS_PATH}/cocos/audio/include \
+                $${COCOS_PATH}/external/win32-specific/gles/include/OGLES \
+                $${COCOS_PATH}/external/win32-specific/angle/include/EGL \
+                $${COCOS_PATH}/external/win32-specific/angle/include/GLES2 \
+                $${COCOS_PATH}/external/win32-specific/angle/include/GLES3 \
+                $${COCOS_PATH}/external/win32-specific/angle/include/KHR \
+                $${COCOS_PATH}/external/glfw3/include/win32 \
+                $${COCOS_PATH}/external/json \
+                $${JAVA_PATH}/include \
+                $${JAVA_PATH}/include/win32 \
+                $${LUDOMUSE_PATH}/proj.win32/lib
 
-LIBS += -LD:/IHMTEK/LudoMuseEditorCocos/LudoMuseEditor/lib/external/png/prebuilt/win32 -llibpng-2015
-LIBS += -LD:/IHMTEK/LudoMuseEditorCocos/LudoMuseEditor/lib/external/jpeg/prebuilt/win32 -llibjpeg-2015
-LIBS += -LD:/IHMTEK/LudoMuseEditorCocos/LudoMuseEditor/lib/external/tiff/prebuilt/win32 -llibtiff-2015
-LIBS += -LD:/IHMTEK/LudoMuseEditorCocos/LudoMuseEditor/lib/external/glfw3/prebuilt/win32 -lglfw3dll
-LIBS += -LD:/IHMTEK/LudoMuseEditorCocos/LudoMuseEditor/lib/external/chipmunk/prebuilt/win32/debug-lib -llibchipmunk-2015
-LIBS += -LD:/IHMTEK/LudoMuseEditorCocos/LudoMuseEditor/lib/cocos/ -llibcocos2d
-LIBS += -LD:/IHMTEK/LudoMuseEditorCocos/LudoMuseEditor/lib/ -lpthreadVC2
-LIBS += -LD:/IHMTEK/LudoMuseEditorCocos/LudoMuseEditor/lib/ -lOpenGL32
-LIBS += -LD:/IHMTEK/LudoMuseEditorCocos/LudoMuseEditor/lib/external/win10-specific/angle/prebuilt/win32/ -llibEGL
-LIBS += -LD:/IHMTEK/LudoMuseEditorCocos/LudoMuseEditor/lib/external/win10-specific/angle/prebuilt/win32/ -llibGLESv2
+LIBS += -L$${COCOS_PATH}/external/png/prebuilt/win32 -llibpng-2015
+LIBS += -L$${COCOS_PATH}/external/jpeg/prebuilt/win32 -llibjpeg-2015
+LIBS += -L$${COCOS_PATH}/external/tiff/prebuilt/win32 -llibtiff-2015
+LIBS += -L$${COCOS_PATH}/external/glfw3/prebuilt/win32 -lglfw3dll
+LIBS += -L$${COCOS_PATH}/external/chipmunk/prebuilt/win32/debug-lib -llibchipmunk-2015
+LIBS += -L$${LUDOMUSE_PATH}/proj.win32/Debug.win32 -llibcocos2d  -lpthreadVC2
+LIBS += -lOpenGL32
+LIBS += -L$${COCOS_PATH}/external/win10-specific/angle/prebuilt/win32/ -llibEGL
+LIBS += -L$${COCOS_PATH}/external/win10-specific/angle/prebuilt/win32/ -llibGLESv2
 
 
 LIBS += -LD:/IHMTEK/LudoMuseEditorCocos/LudoMuseEditor/lib/lib -lfreetype \

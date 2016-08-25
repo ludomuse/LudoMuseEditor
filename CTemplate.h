@@ -1,7 +1,7 @@
 #ifndef CTEMPLATE_H
 #define CTEMPLATE_H
 
-#include <QString>;
+#include <QString>
 #include <QPixmap>
 
 class CTemplate
