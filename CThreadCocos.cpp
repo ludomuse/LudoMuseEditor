@@ -1,5 +1,5 @@
 #include "CThreadCocos.h"
-#include "CCocosWindow.h"
+//#include "CCocosWindow.h"
 #include "Classes/AppDelegate.h"
 #include "cocos2d.h"
 #include <QDebug>
