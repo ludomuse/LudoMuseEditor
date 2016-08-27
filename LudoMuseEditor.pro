@@ -53,7 +53,6 @@ SOURCES += main.cpp\
     LudoMuse_src/Classes/Modules/Util/Source/CStats.cpp \
     LudoMuse_src/Classes/Modules/Util/Source/Util.cpp \
     LudoMuse_src/Classes/HelloWorldScene.cpp \
-    LudoMuse_src/Classes/Modules/Networking/win/Source/CNetworkManager.cpp \
     CThreadCocos.cpp \
     LudoMuse_src/Classes/AppDelegate.cpp \
     CThumbnailWidget.cpp \
@@ -116,8 +115,6 @@ HEADERS  += CMainWindow.h \
     LudoMuse_src/Classes/Modules/Util/Include/Util.h \
     LudoMuse_src/Classes/AppDelegate.h \
     LudoMuse_src/Classes/HelloWorldScene.h \
-    LudoMuse_src/Classes/Modules/Networking/win/Include/CNetworkManager.h \
-    LudoMuse_src/Classes/Modules/Networking/INetworkManager.h \
     LudoMuse_src/Classes/Modules/Networking/Networking.h \
     LudoMuse_src/Classes/Modules/Networking/android/Include/LmBytesMessage.h \
     CThreadCocos.h \
@@ -161,6 +158,21 @@ INCLUDEPATH += "./LudoMuse_src" \
                 $${JAVA_PATH}/include/win32 \
                 $${LUDOMUSE_PATH}/proj.win32/lib
 
+                "./lib/external/glfw3/include/win32" \
+                ./lib/external/json \
+                "C:/Program Files/Java/jdk1.8.0/include" \
+                "C:/Program Files/Java/jdk1.8.0/include/win32" \
+                /usr/include/GLFW
+
+win32 {
+
+SOURCES +=     LudoMuse_src/Classes/Modules/Networking/win/Source/CNetworkManager.cpp \
+
+
+HEADERS += -    LudoMuse_src/Classes/Modules/Networking/win/Include/CNetworkManager.h \
+-    LudoMuse_src/Classes/Modules/Networking/INetworkManager.h \
+
+
 LIBS += -L$${COCOS_PATH}/external/png/prebuilt/win32 -llibpng-2015
 LIBS += -L$${COCOS_PATH}/external/jpeg/prebuilt/win32 -llibjpeg-2015
 LIBS += -L$${COCOS_PATH}/external/tiff/prebuilt/win32 -llibtiff-2015
@@ -170,16 +182,6 @@ LIBS += -L$${LUDOMUSE_PATH}/proj.win32/Debug.win32 -llibcocos2d  -lpthreadVC2
 LIBS += -lOpenGL32
 LIBS += -L$${COCOS_PATH}/external/win10-specific/angle/prebuilt/win32/ -llibEGL
 LIBS += -L$${COCOS_PATH}/external/win10-specific/angle/prebuilt/win32/ -llibGLESv2
-
-
-
-win32 {
-
-SOURCES +=     LudoMuse_src/Classes/Modules/Networking/win/Source/CNetworkManager.cpp \
-
-
-HEADERS += -    LudoMuse_src/Classes/Modules/Networking/win/Include/CNetworkManager.h \
--    LudoMuse_src/Classes/Modules/Networking/INetworkManager.h \
 
 
 LIBS += -LD:/IHMTEK/LudoMuseEditorCocos/LudoMuseEditor/lib/lib -lfreetype \
@@ -216,6 +218,12 @@ DEPENDPATH += D:/IHMTEK/LudoMuseEditorCocos/LudoMuseEditor/lib/external/tiff/pre
 DEPENDPATH += D:/IHMTEK/LudoMuseEditorCocos/LudoMuseEditor/lib/external/glfw3/prebuilt/win32
 DEPENDPATH += D:/IHMTEK/LudoMuseEditorCocos/LudoMuseEditor/lib/external/chipmunk/prebuilt/win32/debug-lib
 
-!win32 {
+linux {
+
+SOURCES +=     LudoMuse_src/Classes/Modules/Networking/linux/Source/CNetworkManager.cpp \
+
+HEADERS +=     LudoMuse_src/Classes/Modules/Networking/linux/Include/CNetworkManager.h \
+
+
 LIBS += -L/home/babouchot/workspace/IHMTEK/LudoMuseEditor/lib/ -lcocos2d -lcocos2dInternal -lX11 -lgobject-2.0 -lglib-2.0 -lfreetype -lGLEW -lfmod -ltinyxml2 -lbullet -lrecast -lflatbuffers -lxxhash -lunzip -lgtk-3 -lfontconfig -lchipmunk -lwebp -lz -lpng -ljpeg -ltiff -lglfw -lpthread -lEGL
 }
