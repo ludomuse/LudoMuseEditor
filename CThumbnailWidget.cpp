@@ -6,6 +6,7 @@
 #include <QLabel>
 #include <QDebug>
 #include <QMouseEvent>
+#include <QPoint>
 
 CThumbnailWidget::CThumbnailWidget(QWidget *parent) : QWidget(parent),
     m_bIsHover(false),
@@ -14,7 +15,7 @@ CThumbnailWidget::CThumbnailWidget(QWidget *parent) : QWidget(parent),
 
 }
 
-CThumbnailWidget::CThumbnailWidget(QString a_sceneID, int a_iPlayerID, QWidget *parent) : QWidget(parent),
+CThumbnailWidget::CThumbnailWidget(QString a_sceneID, int a_iPlayerID, QWidget *parent, int a_iIndex) : QWidget(parent),
     m_sSceneID(a_sceneID),
     m_bIsHover(false),
     m_bIsPress(false),
@@ -38,6 +39,16 @@ CThumbnailWidget::CThumbnailWidget(QString a_sceneID, int a_iPlayerID, QWidget *
     this->setLayout(vLayout);
     this->setMinimumWidth(250);
     this->setMaximumWidth(250);
+
+//    m_pAddSceneButton = new QPushButton(parent);
+//    m_pAddSceneButton->setMaximumHeight(50);
+//    m_pAddSceneButton->setMaximumWidth(50);
+//    m_pAddSceneButton->setText("+");
+//    m_pAddSceneButton->move((a_iIndex * 255) - 10, (int)(parent->height() / 2));
+//    m_pAddSceneButton->raise();
+//    m_pAddSceneButton->show();
+
+    //m_pSynchroSceneButton = new QPushButton(this);
 }
 
 QString CThumbnailWidget::GetSceneID()

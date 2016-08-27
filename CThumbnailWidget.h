@@ -3,13 +3,14 @@
 
 #include <QWidget>
 #include <QString>
+#include <QPushButton>
 
 class CThumbnailWidget : public QWidget
 {
     Q_OBJECT
 public:
     explicit CThumbnailWidget(QWidget *parent = 0);
-    CThumbnailWidget(QString a_sId, int a_iPlayerID = 0, QWidget *parent=Q_NULLPTR);
+    CThumbnailWidget(QString a_sId, int a_iPlayerID = 0, QWidget *parent=Q_NULLPTR, int a_iIndex = 0);
     bool IsSceneID(const QString& a_rSceneID, int a_iPlayerID);
     QString GetSceneID();
     void Unselect();
@@ -32,6 +33,7 @@ private:
     int m_iPlayerID;
     bool m_bIsHover;
     bool m_bIsPress;
+    QPushButton* m_pAddSceneButton;
 };
 
 #endif // CTHUMBNAILWIDGET_H

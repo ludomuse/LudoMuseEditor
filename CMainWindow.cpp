@@ -16,11 +16,13 @@
 // Include custom classes
 #include "CMainWindow.h"
 #include "ui_cmainwindow.h"
+#include "CEditorKernel.h"
 #include "CThreadCocos.h"
 #include "CThumbnailWidget.h"
 #include "CLabelInspector.h"
 #include "CSpriteInspector.h"
 #include "CSceneInspector.h"
+#include "CMenuNodeInspector.h"
 #include "CAddSceneWizard.h"
 #include "CLoaderWidget.h"
 #include "CProjectManager.h"
@@ -43,6 +45,7 @@
 #include "Classes/Engine/Include/CNode.h"
 #include "Classes/Engine/Include/CSceneNode.h"
 #include "Classes/Engine/Include/CSequenceNode.h"
+#include "Classes/Engine/Include/CMenuNode.h"
 #include "Classes/Engine/Include/CCallback.h"
 #include "Classes/Engine/Include/CEditorFindEntityTouchVisitor.h"
 #include "Classes/Modules/Util/Include/Util.h"
@@ -60,13 +63,14 @@ CMainWindow::CMainWindow(QWidget *parent) :
 {
     ui->setupUi(this);
 
+    index = 1;
+
     // Init with loader widget
     ui->toolBarCocos->setVisible(false);
     CLoaderWidget* loaderWidget = new CLoaderWidget();
     ui->glViewContainer->layout()->addWidget(loaderWidget);
     connect(loaderWidget, SIGNAL(closeEditor()), this, SLOT(close()));
     connect(loaderWidget, SIGNAL(loadProject(const QString&)), this, SLOT(loadExistingProject(const QString&)));
-    connect(loaderWidget, SIGNAL(newProject(const QString&)), this, SLOT(createNewProject(const QString&)));
 
     ui->sceneInspectorContainer->setStyleSheet("#sceneInspectorContainer{background-color : rgb(50, 50, 50);border-right :none}");
 
@@ -79,19 +83,7 @@ CMainWindow::CMainWindow(QWidget *parent) :
     // File browser (tree and file display)
     // All path will be changed TODO
     QString temporaryPath("D:\\IHMTEK\\LudoMuseEditorCocos\\build-LudoMuseEditor-Clone_de_Desktop_Qt_5_6_0_MSVC2015_32bit-Debug\\debug");
-    m_pDirModel = new QFileSystemModel();
-    m_pDirModel->setFilter(QDir::NoDotAndDotDot | QDir::AllDirs);
-    m_pDirModel->setRootPath(temporaryPath);
-    ui->fileBrowser->setModel(m_pDirModel);
-    ui->fileBrowser->setRootIndex(m_pDirModel->index(temporaryPath));
-    ui->fileBrowser->setColumnHidden( 1, true );
-    ui->fileBrowser->setColumnHidden( 2, true );
-    ui->fileBrowser->setColumnHidden( 3, true );
-    m_pFileModel = new QFileSystemModel(this);
-    m_pFileModel->setFilter(QDir::NoDotAndDotDot | QDir::Files);
-    ui->fileListView->setModel(m_pFileModel);
-    ui->fileListView->setRootIndex(m_pFileModel->setRootPath(temporaryPath));
-    ui->fileListView->SetCurrentPath(temporaryPath);
+
 
     // Icon creation
     ui->emulateButton->setIcon(QIcon("resources/emulate.png"));
@@ -105,8 +97,10 @@ CMainWindow::CMainWindow(QWidget *parent) :
     connect(ui->emulateButton, SIGNAL(clicked(bool)), this, SLOT(launchEmulator()));
     connect(ui->JsonGo, SIGNAL(clicked(bool)), this, SLOT(saveAs()));
     connect(ui->save, SIGNAL(clicked(bool)), this, SLOT(save()));
-    connect(ui->lmwTestButton, SIGNAL(clicked(bool)), this, SLOT(launchAddSceneWizard()));
-    //connect(ui->testButton, SIGNAL(clicked(bool)), this, SLOT(loadCocos()));
+    //connect(ui->lmwTestButton, SIGNAL(clicked(bool)), this, SLOT(launchAddSceneWizard()));
+
+    // Connect kernel signal
+    connect(CEditorKernel::Instance(), SIGNAL(sendMenuNodeSignal(LM::CMenuNode*)), this, SLOT(receiveMenu(LM::CMenuNode*)));
 
     this->showMaximized();
 }
@@ -120,6 +114,11 @@ CMainWindow::~CMainWindow()
 
 void CMainWindow::loadExistingProject(const QString& a_sProjectFile)
 {
+    // Update CprojetManager
+    CProjectManager::Instance()->SetProjectFile(a_sProjectFile);
+    m_sSaveName = a_sProjectFile;
+
+    ui->save->setEnabled(true);
     // Clear loader widget!
     QLayout* glViewContainerLayout = ui->glViewContainer->layout();
     QLayoutItem *child;
@@ -142,11 +141,22 @@ void CMainWindow::loadExistingProject(const QString& a_sProjectFile)
     ui->sceneInspectorContainer->setStyleSheet("#sceneInspectorContainer{background-color : rgb(50, 50, 50);border-right :none}");
     ui->toolBarCocos->setVisible(true);
     ui->toolBarCocos->setStyleSheet("#toolBarCocos{border-bottom: 1px solid black;border-right : 2px solid rgba(255,255,255,255);}");
-}
 
-void CMainWindow::createNewProject(const QString& a_sProjectPath)
-{
+    QString projectPath = QFileInfo(a_sProjectFile).absolutePath();
 
+    m_pDirModel = new QFileSystemModel();
+    m_pDirModel->setFilter(QDir::NoDotAndDotDot | QDir::AllDirs);
+    m_pDirModel->setRootPath(projectPath);
+    ui->fileBrowser->setModel(m_pDirModel);
+    ui->fileBrowser->setRootIndex(m_pDirModel->index(projectPath));
+    ui->fileBrowser->setColumnHidden( 1, true );
+    ui->fileBrowser->setColumnHidden( 2, true );
+    ui->fileBrowser->setColumnHidden( 3, true );
+    m_pFileModel = new QFileSystemModel(this);
+    m_pFileModel->setFilter(QDir::NoDotAndDotDot | QDir::Files);
+    ui->fileListView->setModel(m_pFileModel);
+    ui->fileListView->setRootIndex(m_pFileModel->setRootPath(projectPath));
+    ui->fileListView->SetCurrentPath(projectPath);
 }
 
 
@@ -174,23 +184,29 @@ void CMainWindow::receiveKernel(LM::CKernel *aKernel)
     QString currentScene(m_pKernel->m_pCurrentScene->GetSceneID().c_str());
     m_iActivePlayer = m_pKernel->GetCurrentPlayer();
     this->activeThumbnail(currentScene, m_iActivePlayer);
-    this->inspectScene(m_pKernel->m_pCurrentScene);
+    this->InspectScene(m_pKernel->m_pCurrentScene);
 }
 
 void CMainWindow::receiveLabel(LM::CLabelNode* a_pLabel)
 {
     //qDebug("Reception d'un Label");
-    this->inspectLabel(a_pLabel);
+    this->InspectLabel(a_pLabel);
 }
 
 void CMainWindow::receiveSprite(LM::CSpriteNode* a_pSprite)
 {
-    this->inspectSprite(a_pSprite);
+    this->InspectSprite(a_pSprite);
+}
+
+void CMainWindow::receiveMenu(LM::CMenuNode* a_pMenuNode)
+{
+    qDebug("received CMenuNode");
+    this->InspectMenuNode(a_pMenuNode);
 }
 
 void CMainWindow::receiveScene(LM::CSceneNode *a_pScene, bool a_bIsNav)
 {
-    this->inspectScene(a_pScene);
+    this->InspectScene(a_pScene);
     if(a_bIsNav)
     {
         qDebug("navigation transition -> changing active thumbnail");
@@ -263,7 +279,7 @@ void CMainWindow::goToPreviousScene()
 void CMainWindow::addOneScene(const QString &a_sPreviousID, const QString &a_sNewID, int a_iPlayerID, CTemplate* a_pTemplate)
 {
     ON_CC_THREAD(LM::CKernel::AddNewScene, m_pKernel, a_pTemplate->GetPath().toStdString(),
-                 a_sPreviousID.toStdString(), a_sNewID.toStdString(), a_iPlayerID, 0);
+                 a_sPreviousID.toStdString(), a_sNewID.toStdString(), a_iPlayerID, 0, "");
 }
 
 void CMainWindow::addTwoScene(const QString &a_sPreviousIDP1, const QString &a_sNewIDP1,
@@ -271,9 +287,9 @@ void CMainWindow::addTwoScene(const QString &a_sPreviousIDP1, const QString &a_s
                               CTemplate* a_pTemplate)
 {
     ON_CC_THREAD(LM::CKernel::AddNewScene, m_pKernel, a_pTemplate->GetPath().toStdString(),
-                 a_sPreviousIDP1.toStdString(), a_sNewIDP1.toStdString(), PLAYER_1, 0);
+                 a_sPreviousIDP1.toStdString(), a_sNewIDP1.toStdString(), PLAYER_1, 0, "");
     ON_CC_THREAD(LM::CKernel::AddNewScene, m_pKernel, a_pTemplate->GetPath().toStdString(),
-                 a_sPreviousIDP2.toStdString(), a_sNewIDP2.toStdString(), PLAYER_2, 1);
+                 a_sPreviousIDP2.toStdString(), a_sNewIDP2.toStdString(), PLAYER_2, 0, "");
 }
 
 void CMainWindow::addGameScene(const QString &a_sPreviousIDP1, const QString &a_sNewIDP1,
@@ -281,9 +297,9 @@ void CMainWindow::addGameScene(const QString &a_sPreviousIDP1, const QString &a_
                                CTemplate* a_pTemplate, int a_iTemplateNumberP1, int a_iTemplateNumberP2)
 {
     ON_CC_THREAD(LM::CKernel::AddNewScene, m_pKernel, a_pTemplate->GetPath().toStdString(),
-                 a_sPreviousIDP1.toStdString(), a_sNewIDP1.toStdString(), PLAYER_1, a_iTemplateNumberP1);
+                 a_sPreviousIDP1.toStdString(), a_sNewIDP1.toStdString(), PLAYER_1, a_iTemplateNumberP1, a_sNewIDP2.toStdString());
     ON_CC_THREAD(LM::CKernel::AddNewScene, m_pKernel, a_pTemplate->GetPath().toStdString(),
-                 a_sPreviousIDP2.toStdString(), a_sNewIDP2.toStdString(), PLAYER_2, a_iTemplateNumberP2);
+                 a_sPreviousIDP2.toStdString(), a_sNewIDP2.toStdString(), PLAYER_2, a_iTemplateNumberP2, a_sNewIDP1.toStdString());
     ON_CC_THREAD(LM::CKernel::AddSyncID, m_pKernel, a_sNewIDP1.toStdString(), a_sNewIDP2.toStdString());
 }
 
@@ -301,15 +317,18 @@ void CMainWindow::deleteScene(QString a_sSceneID, bool a_bIsSync)
 
 void CMainWindow::launchEmulator()
 {
-    m_oProcessServer.start("emulator\\LudoMuse.exe");
+    QString execPath = CProjectManager::Instance()->QGetInstallPath() + "/debug/emulator/LudoMuse.exe";
+    QString cmd = execPath + " server " + CProjectManager::Instance()->QGetProjectJsonFile();
+    m_oProcessServer.start(cmd);
     QThread::sleep(2);
-    m_oProcessClient.start("emulator\\LudoMuse.exe", QStringList()<<"client");
+    cmd = execPath + " client " + CProjectManager::Instance()->QGetProjectJsonFile();
+    m_oProcessClient.start(cmd);
 }
 
 void CMainWindow::saveAs()
 {
     QString filePath = QFileDialog::getSaveFileName(this, "Save File",
-                               QDir::currentPath(),
+                               CProjectManager::Instance()->QGetProjectPath(),
                                "Scénarios Ludomuse (*.json)");
     // Covering empty result
     QFileInfo fileInfo(filePath);
@@ -504,20 +523,24 @@ int CMainWindow::ScreenIDToPlayerID(const QString &a_id)
 
 CThumbnailWidget* CMainWindow::addSceneToTimeLine(const QString &a_id, int a_playerID)
 {
-    CThumbnailWidget *nodeWidget = new CThumbnailWidget(a_id, a_playerID);
 
     if(a_playerID == PLAYER_1)
     {
+        CThumbnailWidget* nodeWidget = new CThumbnailWidget(a_id, a_playerID, ui->trameContainerP1, index++);
         this->ui->trameContainerP1->layout()->addWidget(nodeWidget);
+        return nodeWidget;
     }
     else if(a_playerID == PLAYER_2)
     {
+        CThumbnailWidget* nodeWidget = new CThumbnailWidget(a_id, a_playerID, ui->trameContainerP2, 0);
         this->ui->trameContainerP2->layout()->addWidget(nodeWidget);
+        return nodeWidget;
     }
-    return nodeWidget;
+
+    return new CThumbnailWidget(a_id, a_playerID);
 }
 
-void CMainWindow::inspectLabel(LM::CLabelNode* a_pLabel)
+void CMainWindow::InspectLabel(LM::CLabelNode* a_pLabel)
 {
     // Clear inspector tool bar
     this->setInspectorName("Éditeur de texte");
@@ -538,7 +561,7 @@ void CMainWindow::inspectLabel(LM::CLabelNode* a_pLabel)
     connect(inspector, SIGNAL(closeInspector()), this, SLOT(clearInspectorContainer()));
 }
 
-void CMainWindow::inspectSprite(LM::CSpriteNode* a_pSprite)
+void CMainWindow::InspectSprite(LM::CSpriteNode* a_pSprite)
 {
     // Clear inspector tool bar
     this->setInspectorName("Éditeur d'image");
@@ -559,7 +582,7 @@ void CMainWindow::inspectSprite(LM::CSpriteNode* a_pSprite)
     connect(inspector, SIGNAL(closeInspector()), this, SLOT(clearInspectorContainer()));
 }
 
-void CMainWindow::inspectScene(LM::CSceneNode* a_pScene)
+void CMainWindow::InspectScene(LM::CSceneNode* a_pScene)
 {
     // Clear inspector loayout from older inspection
     QLayoutItem *child;
@@ -599,6 +622,27 @@ void CMainWindow::inspectScene(LM::CSceneNode* a_pScene)
     {
         qDebug("Scene id is nowhere to be found, not in p1 neither in P2");
     }
+}
+
+void CMainWindow::InspectMenuNode(LM::CMenuNode* a_pMenuNode)
+{
+    // Clear inspector tool bar
+    this->setInspectorName("Éditeur de bouton de Navigation");
+
+    // Clear inspector loayout from older inspection
+    QLayoutItem *child;
+    QLayout* inspectorContainerLayout = this->ui->inspectorContainer->layout();
+    if(inspectorContainerLayout != Q_NULLPTR)
+    {
+        while ((child = inspectorContainerLayout->takeAt(0)) != 0) {
+            delete child->widget();
+            delete child;
+        }
+
+    }
+    CMenuNodeInspector* inspector = new CMenuNodeInspector(a_pMenuNode);
+    inspectorContainerLayout->addWidget(inspector);
+    connect(inspector, SIGNAL(closeInspector()), this, SLOT(clearInspectorContainer()));
 }
 
 void CMainWindow::setInspectorName(const QString &a_rName)

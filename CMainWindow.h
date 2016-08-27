@@ -15,6 +15,7 @@
 #include <Classes/Engine/Include/CKernel.h>
 #include <Classes/Engine/Include/CLabelNode.h>
 #include <Classes/Engine/Include/CSpriteNode.h>
+#include <Classes/Engine/Include/CMenuNode.h>
 
 
 
@@ -46,14 +47,17 @@ private:
 
     /// \brief allow label inspection in the widget named : inspectorContainer
     /// \param CLabel the label which is actually under inspection/ modification
-    void inspectLabel(LM::CLabelNode*);
+    void InspectLabel(LM::CLabelNode*);
 
     /// \brief allow sprite inspection in the widget named : inspectorContainer
     /// \param CSprite the sprite which is actually under inspection/ modification
-    void inspectSprite(LM::CSpriteNode* a_pSprite);
+    void InspectSprite(LM::CSpriteNode* a_pSprite);
 
     /// \brief update and allow scene inspection
-    void inspectScene(LM::CSceneNode* a_pScene);
+    void InspectScene(LM::CSceneNode* a_pScene);
+
+    /// \brief update and allow scene inspection
+    void InspectMenuNode(LM::CMenuNode* a_pMenuNode);
 
     /// \brief St the name of the inspector
     /// \param a_rName desired name
@@ -70,12 +74,12 @@ private:
 
 private slots:
     void loadExistingProject(const QString& a_sProjectPath);
-    void createNewProject(const QString& a_sProjectPath);
 
     void receiveHWND(int);
     void receiveKernel(LM::CKernel*);
     void receiveLabel(LM::CLabelNode*);
     void receiveSprite(LM::CSpriteNode*);
+    void receiveMenu(LM::CMenuNode*);
     /// \brief isNav store the fact that the scene is send after pression on
     /// prev or next button. Thus we can know if we need to update thumbnails or not!
     void receiveScene(LM::CSceneNode* a_pScene, bool a_bIsNav);
@@ -115,6 +119,8 @@ private:
     CTemplateManager* m_pTemplatesManager;
     int m_iActivePlayer;
     QString m_sSaveName;
+
+    int index;
 };
 
 #endif // CMAINWINDOW_H

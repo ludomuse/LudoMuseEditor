@@ -13,6 +13,8 @@ class CNewProjectWizard : public QWidget
 
 public:
     explicit CNewProjectWizard(QWidget *parent = 0);
+    void ClearError();
+    void AnimatedOpening();
     ~CNewProjectWizard();
 
 private:
@@ -25,7 +27,7 @@ public slots:
     void folderSelected(const QString& a_sPath);
 
 signals:
-    void createNewProject();
+    void createNewProject(QString a_sProjectFile);
 };
 
 #endif // CNEWPROJECTWIZARD_H

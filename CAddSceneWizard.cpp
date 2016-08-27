@@ -355,6 +355,14 @@ void CAddSceneWizard::clickOnValidate(bool)
 
     QString previousID = m_pComboBoxID->currentText();
     QString previousID2 = m_pComboBoxID2->currentText();
+    if(previousID == "début") // adding scene after empty id -> adding at the beginning
+    {
+        previousID = "";
+    }
+    if(previousID2 == "début")
+    {
+        previousID2 = "";
+    }
 
     // Check if adding game scene
     if(this->m_pCurrentTemplateButton->GetTemplate()->IsGame())
@@ -490,7 +498,7 @@ void CAddSceneWizard::setCurrentTemplate(CTemplatePushButton* a_pTemplatePushBut
 
 void CAddSceneWizard::FillComboBox(int a_iPlayerID, const QString& a_rActiveScene)
 {
-    int index = 0;
+    int index = 1;
     bool activeSceneFound = false;
     if(a_iPlayerID == 1)
     {
@@ -498,6 +506,7 @@ void CAddSceneWizard::FillComboBox(int a_iPlayerID, const QString& a_rActiveScen
         {
             m_pComboBoxID->clear();
         }
+        m_pComboBoxID->addItem("début");
         for(std::string id : m_rSceneIDP1)
         {
             if(id.empty()) // ignore empty id
@@ -522,6 +531,7 @@ void CAddSceneWizard::FillComboBox(int a_iPlayerID, const QString& a_rActiveScen
         {
             m_pComboBoxID2->clear();
         }
+        m_pComboBoxID2->addItem("début");
         for(std::string id : m_rSceneIDP2)
         {
             if(id.empty()) // Ignore empty id

@@ -129,7 +129,7 @@
              <x>0</x>
              <y>0</y>
              <width>300</width>
-             <height>339</height>
+             <height>361</height>
             </rect>
            </property>
            <property name="sizePolicy">
@@ -193,26 +193,6 @@
             </item>
            </layout>
           </widget>
-         </widget>
-        </item>
-        <item>
-         <widget class="QLabel" name="label">
-          <property name="sizePolicy">
-           <sizepolicy hsizetype="Preferred" vsizetype="Minimum">
-            <horstretch>0</horstretch>
-            <verstretch>0</verstretch>
-           </sizepolicy>
-          </property>
-          <property name="text">
-           <string>TextLabel</string>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QPushButton" name="lmwTestButton">
-          <property name="text">
-           <string>open add scene wizard</string>
-          </property>
          </widget>
         </item>
        </layout>
