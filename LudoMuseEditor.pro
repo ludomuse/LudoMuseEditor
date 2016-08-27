@@ -156,8 +156,7 @@ INCLUDEPATH += "./LudoMuse_src" \
                 $${COCOS_PATH}/external/json \
                 $${JAVA_PATH}/include \
                 $${JAVA_PATH}/include/win32 \
-                $${LUDOMUSE_PATH}/proj.win32/lib
-
+                $${LUDOMUSE_PATH}/proj.win32/lib \
                 "./lib/external/glfw3/include/win32" \
                 ./lib/external/json \
                 "C:/Program Files/Java/jdk1.8.0/include" \
