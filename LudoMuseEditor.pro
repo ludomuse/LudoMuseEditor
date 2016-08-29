@@ -13,8 +13,8 @@ TEMPLATE = app
 
 CONFIG += c++14
 
-
-LUDOMUSE_PATH = "C:\WORKSPACE\LudoMuse"
+# LUDOMUSE_PATH = "C:\WORKSPACE\LudoMuse"
+LUDOMUSE_PATH = "/home/babouchot/workspace/IHMTEK/LudoMuse/"
 COCOS_PATH = $${LUDOMUSE_PATH}/cocos2d
 JAVA_PATH = "C:\Program Files\Java\jdk1.8.0_66"
 
