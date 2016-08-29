@@ -148,8 +148,6 @@ INCLUDEPATH += "./LudoMuse_src" \
                 $${COCOS_PATH}/cocos \
                 $${COCOS_PATH}/cocos/audio/include \
                 $${COCOS_PATH}/external/json \
-                ./lib/external/json \
-                /usr/include/GLFW
 
 
 linux {
