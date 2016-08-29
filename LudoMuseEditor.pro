@@ -147,15 +147,16 @@ FORMS    += cmainwindow.ui \
 INCLUDEPATH += "./LudoMuse_src" \
                 $${COCOS_PATH}/cocos \
                 $${COCOS_PATH}/cocos/audio/include \
-                $${COCOS_PATH}/external/win32-specific/gles/include/OGLES \
-                $${COCOS_PATH}/external/win32-specific/angle/include/EGL \
-                $${COCOS_PATH}/external/win32-specific/angle/include/GLES2 \
-                $${COCOS_PATH}/external/win32-specific/angle/include/GLES3 \
-                $${COCOS_PATH}/external/win32-specific/angle/include/KHR \
-                $${COCOS_PATH}/external/glfw3/include/win32 \
                 $${COCOS_PATH}/external/json \
                 ./lib/external/json \
                 /usr/include/GLFW
+
+
+linux {
+
+INCLUDEPATH +=  /usr/include/GLFW
+
+}
 
 win32 {
 
@@ -168,7 +169,12 @@ HEADERS += -    LudoMuse_src/Classes/Modules/Networking/win/Include/CNetworkMana
 INCLUDEPATH +=  $${JAVA_PATH}/include \
                 $${JAVA_PATH}/include/win32 \
                 $${LUDOMUSE_PATH}/proj.win32/lib \
-                "./lib/external/glfw3/include/win32" \
+                $${COCOS_PATH}/external/win32-specific/gles/include/OGLES \
+                $${COCOS_PATH}/external/win32-specific/angle/include/EGL \
+                $${COCOS_PATH}/external/win32-specific/angle/include/GLES2 \
+                $${COCOS_PATH}/external/win32-specific/angle/include/GLES3 \
+                $${COCOS_PATH}/external/win32-specific/angle/include/KHR \
+                $${COCOS_PATH}/external/glfw3/include/win32 \
 
 
 LIBS += -L$${COCOS_PATH}/external/png/prebuilt/win32 -llibpng-2015
