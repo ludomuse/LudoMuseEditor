@@ -162,8 +162,8 @@ win32 {
 SOURCES +=     LudoMuse_src/Classes/Modules/Networking/win/Source/CNetworkManager.cpp \
 
 
-HEADERS += -    LudoMuse_src/Classes/Modules/Networking/win/Include/CNetworkManager.h \
--    LudoMuse_src/Classes/Modules/Networking/INetworkManager.h \
+HEADERS += LudoMuse_src/Classes/Modules/Networking/win/Include/CNetworkManager.h \
+           LudoMuse_src/Classes/Modules/Networking/INetworkManager.h \
 
 INCLUDEPATH +=  $${JAVA_PATH}/include \
                 $${JAVA_PATH}/include/win32 \
@@ -180,7 +180,7 @@ LIBS += -L$${LUDOMUSE_PATH}/proj.win32/Debug.win32 -llibcocos2d  -lpthreadVC2
 LIBS += -lOpenGL32
 LIBS += -L$${COCOS_PATH}/external/win10-specific/angle/prebuilt/win32/ -llibEGL
 LIBS += -L$${COCOS_PATH}/external/win10-specific/angle/prebuilt/win32/ -llibGLESv2
-
+LIBS += -L$${PWD}/lib
 
 LIBS += -LD:/IHMTEK/LudoMuseEditorCocos/LudoMuseEditor/lib/lib -lfreetype \
          -lglew32 \
@@ -204,17 +204,8 @@ LIBS += -LD:/IHMTEK/LudoMuseEditorCocos/LudoMuseEditor/lib/lib -lfreetype \
          -lGdi32 \
          -lUser32 \
          -lWs2_32 \
+
 }
-
-
-DEPENDPATH += D:/IHMTEK/LudoMuseEditorCocos/LudoMuseEditor/lib/
-DEPENDPATH += D:/IHMTEK/LudoMuseEditorCocos/LudoMuseEditor/lib/lib
-DEPENDPATH += D:/IHMTEK/cocos_project/LudoMuse/cocos2d/cocos
-DEPENDPATH += D:/IHMTEK/LudoMuseEditorCocos/LudoMuseEditor/lib/external/png/prebuilt/win32
-DEPENDPATH += D:/IHMTEK/LudoMuseEditorCocos/LudoMuseEditor/lib/external/jpeg/prebuilt/win32
-DEPENDPATH += D:/IHMTEK/LudoMuseEditorCocos/LudoMuseEditor/lib/external/tiff/prebuilt/win32
-DEPENDPATH += D:/IHMTEK/LudoMuseEditorCocos/LudoMuseEditor/lib/external/glfw3/prebuilt/win32
-DEPENDPATH += D:/IHMTEK/LudoMuseEditorCocos/LudoMuseEditor/lib/external/chipmunk/prebuilt/win32/debug-lib
 
 linux {
 
