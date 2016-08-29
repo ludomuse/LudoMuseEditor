@@ -154,13 +154,7 @@ INCLUDEPATH += "./LudoMuse_src" \
                 $${COCOS_PATH}/external/win32-specific/angle/include/KHR \
                 $${COCOS_PATH}/external/glfw3/include/win32 \
                 $${COCOS_PATH}/external/json \
-                $${JAVA_PATH}/include \
-                $${JAVA_PATH}/include/win32 \
-                $${LUDOMUSE_PATH}/proj.win32/lib \
-                "./lib/external/glfw3/include/win32" \
                 ./lib/external/json \
-                "C:/Program Files/Java/jdk1.8.0/include" \
-                "C:/Program Files/Java/jdk1.8.0/include/win32" \
                 /usr/include/GLFW
 
 win32 {
@@ -170,6 +164,11 @@ SOURCES +=     LudoMuse_src/Classes/Modules/Networking/win/Source/CNetworkManage
 
 HEADERS += -    LudoMuse_src/Classes/Modules/Networking/win/Include/CNetworkManager.h \
 -    LudoMuse_src/Classes/Modules/Networking/INetworkManager.h \
+
+INCLUDEPATH +=  $${JAVA_PATH}/include \
+                $${JAVA_PATH}/include/win32 \
+                $${LUDOMUSE_PATH}/proj.win32/lib \
+                "./lib/external/glfw3/include/win32" \
 
 
 LIBS += -L$${COCOS_PATH}/external/png/prebuilt/win32 -llibpng-2015

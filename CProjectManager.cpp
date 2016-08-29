@@ -79,24 +79,17 @@ void CProjectManager::EditPrevFile()
     rapidjson::Document::AllocatorType& allocator = document.GetAllocator();
 
     rapidjson::Value last_projects(rapidjson::kArrayType);
-    rapidjson::Value proj0(rapidjson::kObjectType);
-    std::string temp = m_vPreviousProjectPaths.at(0);
-    temp = m_vPreviousProjectPaths.at(1);
-    temp = m_vPreviousProjectPaths.at(2);
-    proj0.AddMember("path",
-                    rapidjson::Value(m_vPreviousProjectPaths.at(0).c_str(), m_vPreviousProjectPaths.at(0).length()),
-                    allocator);
-    rapidjson::Value proj1(rapidjson::kObjectType);
-    proj1.AddMember("path",
-                    rapidjson::Value(m_vPreviousProjectPaths.at(1).c_str(), m_vPreviousProjectPaths.at(1).length()),
-                    allocator);
-    rapidjson::Value proj2(rapidjson::kObjectType);
-    proj2.AddMember("path",
-                    rapidjson::Value(m_vPreviousProjectPaths.at(2).c_str(), m_vPreviousProjectPaths.at(2).length()),
-                    allocator);
-    last_projects.PushBack(proj0, allocator);
-    last_projects.PushBack(proj1, allocator);
-    last_projects.PushBack(proj2, allocator);
+
+    int iMaxPreviousProjects = m_vPreviousProjectPaths.size() > 3 ? 3 : m_vPreviousProjectPaths.size();
+    for (int i = 0; i < iMaxPreviousProjects; ++i)
+    {
+        rapidjson::Value oProj(rapidjson::kObjectType);
+        std::string sProjectPath = m_vPreviousProjectPaths.at(i);
+        oProj.AddMember("path",
+                        rapidjson::Value(sProjectPath.c_str(), sProjectPath.length()), allocator);
+
+        last_projects.PushBack(oProj, allocator);
+    }
 
     document.AddMember("last_projects", last_projects, allocator);
 

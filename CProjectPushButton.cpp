@@ -1,5 +1,4 @@
 #include "CProjectPushButton.h"
-#include "ui_CProjectPushButton.h"
 
 #include <QFileInfo>
 
