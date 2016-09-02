@@ -7,18 +7,27 @@
 // Include GLFW3
 #define GLFW_DLL
 #include "glfw3.h"
-#ifndef GLFW_EXPOSE_NATIVE_WIN32
+
+#ifdef _WIN32
 #define GLFW_EXPOSE_NATIVE_WIN32
 #endif
-#ifndef GLFW_EXPOSE_NATIVE_WGL
+#ifdef __linux__
+#define GLFW_EXPOSE_NATIVE_LINUX
+#endif
+
+#ifndef _WIN32
 #define GLFW_EXPOSE_NATIVE_WGL
 #endif
+#ifdef __linux__
+#define GLFW_EXPOSE_NATIVE_EGL
+#endif
+
 #include "glfw3native.h"
 
 // Include for native-native gl
-
+#ifdef _WIN32
 #include <wingdi.h>
-
+#endif
 
 CThreadCocos::CThreadCocos(const QString& a_sPath):m_sProjectPath(a_sPath)
 {
