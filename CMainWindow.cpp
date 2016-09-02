@@ -330,20 +330,25 @@ void CMainWindow::saveAs()
     QString filePath = QFileDialog::getSaveFileName(this, "Save File",
                                CProjectManager::Instance()->QGetProjectPath(),
                                "Scénarios Ludomuse (*.json)");
-    // Covering empty result
-    QFileInfo fileInfo(filePath);
-    if(fileInfo.fileName() == ".json" || fileInfo.fileName().startsWith("."))
+
+    if (!filePath.isNull())
     {
-        filePath = fileInfo.absolutePath() + "/Default_save_name.json";
+        // Covering empty result
+        QFileInfo fileInfo(filePath);
+        if(fileInfo.fileName() == ".json" || fileInfo.fileName().startsWith("."))
+        {
+            filePath = fileInfo.absolutePath() + "/Default_save_name.json";
+        }
+        // Forcing extension
+        if(!filePath.endsWith(".json"))
+        {
+            filePath = filePath + ".json";
+        }
+        this->m_sSaveName = filePath;
+        this->ui->save->setEnabled(true);
+        this->produceJson(filePath);
+
     }
-    // Forcing extension
-    if(!filePath.endsWith(".json"))
-    {
-        filePath = filePath + ".json";
-    }
-    this->m_sSaveName = filePath;
-    this->ui->save->setEnabled(true);
-    this->produceJson(filePath);
 }
 
 void CMainWindow::save()
