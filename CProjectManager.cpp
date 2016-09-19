@@ -84,9 +84,9 @@ void CProjectManager::EditPrevFile()
     for (int i = 0; i < iMaxPreviousProjects; ++i)
     {
         rapidjson::Value oProj(rapidjson::kObjectType);
-        std::string sProjectPath = m_vPreviousProjectPaths.at(i);
+        // Force copy of the path, if using local variable, it will be destroyed before rapidjson writes the file.
         oProj.AddMember("path",
-                        rapidjson::Value(sProjectPath.c_str(), sProjectPath.length()), allocator);
+                        rapidjson::Value(m_vPreviousProjectPaths.at(i).c_str(), m_vPreviousProjectPaths.at(i).length()), allocator);
 
         last_projects.PushBack(oProj, allocator);
     }
