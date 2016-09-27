@@ -101,20 +101,20 @@ void CNewProjectWizard::clickOnValidate()
     dir.mkdir("cache");
     dir.mkdir("fonts");
     dir.mkdir("ui");
-    CopyFolder(CProjectManager::Instance()->QGetInstallPath() + "/debug/templates/res_templ/cache",
+    CopyFolder(CProjectManager::Instance()->QGetInstallPath() + "/templates/res_templ/cache",
                projectPath + "/res_templ/cache");
-    CopyFolder(CProjectManager::Instance()->QGetInstallPath() + "/debug/templates/res_templ/fonts",
+    CopyFolder(CProjectManager::Instance()->QGetInstallPath() + "/templates/res_templ/fonts",
                projectPath + "/res_templ/fonts");
-    CopyFolder(CProjectManager::Instance()->QGetInstallPath() + "/debug/templates/res_templ/ui",
+    CopyFolder(CProjectManager::Instance()->QGetInstallPath() + "/templates/res_templ/ui",
                projectPath + "/res_templ/ui");
 
-    QFile::copy(CProjectManager::Instance()->QGetInstallPath() + "\\debug\\default\\default.json",     projectPath + "/" + projectName + ".json");
+    QFile::copy(CProjectManager::Instance()->QGetInstallPath() + "/default/default.json",     projectPath + "/" + projectName + ".json");
     // Copy file from /cache to /cache
 
 
-    CopyFolder(CProjectManager::Instance()->QGetInstallPath() + "/debug/default/cache", projectPath + "/cache/");
-    CopyFolder(CProjectManager::Instance()->QGetInstallPath() + "/debug/default/ui", projectPath + "/ui/");
-    CopyFolder(CProjectManager::Instance()->QGetInstallPath() + "/debug/default/fonts", projectPath + "/fonts/");
+    CopyFolder(CProjectManager::Instance()->QGetInstallPath() + "/default/cache", projectPath + "/cache/");
+    CopyFolder(CProjectManager::Instance()->QGetInstallPath() + "/default/ui", projectPath + "/ui/");
+    CopyFolder(CProjectManager::Instance()->QGetInstallPath() + "/default/fonts", projectPath + "/fonts/");
     emit createNewProject(projectPath + "/" + projectName + ".json");
 }
 
