@@ -14,7 +14,8 @@ TEMPLATE = app
 CONFIG += c++14
 
 # LUDOMUSE_PATH = "C:\WORKSPACE\LudoMuse"
-LUDOMUSE_PATH = "/home/babouchot/workspace/IHMTEK/LudoMuse/"
+# LUDOMUSE_PATH = "/home/babouchot/workspace/IHMTEK/LudoMuse/"
+LUDOMUSE_PATH = "/Users/ihmtek/workspace/LudoMuse"
 COCOS_PATH = $${LUDOMUSE_PATH}/cocos2d
 JAVA_PATH = "C:\Program Files\Java\jdk1.8.0_66"
 
@@ -217,6 +218,18 @@ SOURCES +=     LudoMuse_src/Classes/Modules/Networking/linux/Source/CNetworkMana
 
 HEADERS +=     LudoMuse_src/Classes/Modules/Networking/linux/Include/CNetworkManager.h \
 
-
 LIBS += -L/home/babouchot/workspace/IHMTEK/LudoMuseEditor/lib/ -lcocos2d -lcocos2dInternal -lX11 -lgobject-2.0 -lglib-2.0 -lfreetype -lGLEW -lfmod -ltinyxml2 -lbullet -lrecast -lflatbuffers -lxxhash -lunzip -lgtk-3 -lfontconfig -lchipmunk -lwebp -lz -lpng -ljpeg -ltiff -lglfw -lpthread -lEGL
+
+}
+
+macosx
+{
+
+CXXFLAGS = -stdlib=libstdc++
+INCLUDEPATH += /Users/ihmtek/Library/glfw-3.2.1/include/GLFW
+INCLUDEPATH += /Users/ihmtek/Library/glew-1.12.0/include
+LIBS += -L/Users/ihmtek/Library/glfw-3.2.1/build/src -lglfw3 -lstdc++
+LIBS += -L/Users/ihmtek/workspace/LudoMuseEditor/lib -lcocos2d
+LIBS += -framework Cocoa -framework CoreAudio -framework CoreFoundation -framework Foundation
+
 }
