@@ -1,6 +1,6 @@
 {
   "name": "Ecran de récompense",
-  "pictures": ["D:\\IHMTEK\\LudoMuseEditorCocos\\build-LudoMuseEditor-Clone_de_Desktop_Qt_5_6_0_MSVC2015_32bit-Debug\\debug\\templates\\res\\template_5.png"],
+  "pictures": ["res/template_5.png"],
   "description": "Modèle d'écran de récompense",
   "game": false,
   "templates": [
