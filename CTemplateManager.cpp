@@ -1,4 +1,5 @@
 #include "CTemplateManager.h"
+#include "CProjectManager.h"
 
 #include "rapidjson.h"
 #include "document.h"
@@ -12,7 +13,7 @@
 
 CTemplateManager::CTemplateManager()
 {
-    this->m_sTemplateFolder = "D:/IHMTEK/LudoMuseEditorCocos/build-LudoMuseEditor-Clone_de_Desktop_Qt_5_6_0_MSVC2015_32bit-Debug/debug/templates";
+    this->m_sTemplateFolder = CProjectManager::Instance()->QGetInstallPath() + "/templates/";
     QDirIterator it(m_sTemplateFolder, QStringList() << "*.json", QDir::Files, QDirIterator::Subdirectories);
     while (it.hasNext())
     {
@@ -84,12 +85,12 @@ CTemplate* CTemplateManager::BuildTemplateFromFile(const QString &a_sPath)
         if(templateIsGame)
         {
             // Have 2 different screens
-            templatePicturePath = QString(doc["pictures"][0].GetString());
-            templatePicturePath2 = QString(doc["pictures"][1].GetString());
+            templatePicturePath = m_sTemplateFolder + QString(doc["pictures"][0].GetString());
+            templatePicturePath2 = m_sTemplateFolder + QString(doc["pictures"][1].GetString());
         }
         else
         {
-            templatePicturePath = QString(doc["pictures"][0].GetString());
+            templatePicturePath = m_sTemplateFolder + QString(doc["pictures"][0].GetString());
             templatePicturePath2 = "";
         }
     }
