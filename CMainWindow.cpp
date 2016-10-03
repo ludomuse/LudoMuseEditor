@@ -31,7 +31,6 @@
 #include "CAddSceneWizard.h"
 #include "CLoaderWidget.h"
 #include "CProjectManager.h"
-#include "CFrameWidget.h"
 
 // Include QT
 #include <QtWidgets>
@@ -218,13 +217,13 @@ void CMainWindow::receiveKernel(LM::CKernel *aKernel)
     m_iActivePlayer = m_pKernel->GetCurrentPlayer();
     this->activeThumbnail(currentScene, m_iActivePlayer);
     this->InspectScene(m_pKernel->m_pCurrentScene);
-
+/*
     CFrameWidget *pFrameWidget = new CFrameWidget();
     ui->glViewContainer->layout()->addWidget(pFrameWidget);
     connect(pFrameWidget, SIGNAL(mousePressed(QMouseEvent*)), m_pKernel, SLOT(onMousePressed(QMouseEvent*)));
     connect(pFrameWidget, SIGNAL(mouseReleased(QMouseEvent*)), m_pKernel, SLOT(onMouseReleased(QMouseEvent*)));
     connect(pFrameWidget, SIGNAL(mouseMoved(QMouseEvent*)), m_pKernel, SLOT(onMouseMoved(QMouseEvent*)));
-    pFrameWidget->start();
+    pFrameWidget->start();*/
 }
 
 void CMainWindow::receiveLabel(LM::CLabelNode* a_pLabel)

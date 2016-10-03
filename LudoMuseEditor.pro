@@ -76,8 +76,7 @@ SOURCES += main.cpp\
     CMenuNodeInspector.cpp \
     CocosQtPort/CCQApplication.cpp \
     CocosQtPort/CCQGLView.cpp \
-    CocosQtPort/CCQGLWidget.cpp \
-    CFrameWidget.cpp
+    CocosQtPort/CCQGLWidget.cpp
 
 HEADERS  += CMainWindow.h \
     LudoMuse_src/Classes/Engine/Include/CCallback.h \
@@ -142,8 +141,7 @@ HEADERS  += CMainWindow.h \
     CMenuNodeInspector.h \
     CocosQtPort/CCQApplication.h \
     CocosQtPort/CCQGLView.h \
-    CocosQtPort/CCQGLWidget.h \
-    CFrameWidget.h
+    CocosQtPort/CCQGLWidget.h
 
 FORMS    += cmainwindow.ui \
     CLoaderWidget.ui \

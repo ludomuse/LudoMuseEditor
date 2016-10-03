@@ -11,7 +11,6 @@
 #include "CThumbnailWidget.h"
 #include "CTemplateManager.h"
 #include "CTemplate.h"
-#include "CFrameWidget.h"
 
 #include <Classes/Engine/Include/CKernel.h>
 #include <Classes/Engine/Include/CLabelNode.h>
