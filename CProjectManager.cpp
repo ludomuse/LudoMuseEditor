@@ -12,7 +12,7 @@ CProjectManager::CProjectManager():
     m_sProjectPath("")
 {
     m_sInstallPath = QDir::currentPath();
-    QFile configFile(m_sInstallPath + "/debug/prev.json");
+    QFile configFile(m_sInstallPath + "/prev.json");
     this->ReadLastProject(configFile);
 }
 
@@ -84,9 +84,9 @@ void CProjectManager::EditPrevFile()
     for (int i = 0; i < iMaxPreviousProjects; ++i)
     {
         rapidjson::Value oProj(rapidjson::kObjectType);
-        std::string sProjectPath = m_vPreviousProjectPaths.at(i);
+        // Force copy of the path, if using local variable, it will be destroyed before rapidjson writes the file.
         oProj.AddMember("path",
-                        rapidjson::Value(sProjectPath.c_str(), sProjectPath.length()), allocator);
+                        rapidjson::Value(m_vPreviousProjectPaths.at(i).c_str(), m_vPreviousProjectPaths.at(i).length()), allocator);
 
         last_projects.PushBack(oProj, allocator);
     }
@@ -96,11 +96,8 @@ void CProjectManager::EditPrevFile()
     document.Accept(writer);
     qDebug()<< s.GetString();
 
-    QFile file( m_sInstallPath + "/debug/prev.json" );
-    if(!file.exists())
-    {
-        return;
-    }
+    QFile file( m_sInstallPath + "/prev.json" );
+
     QString jsonResult;
     if ( file.open(QIODevice::ReadWrite | QFile::Truncate) )
     {

@@ -93,7 +93,7 @@ CMainWindow::CMainWindow(QWidget *parent) :
 
 
     // Icon creation
-    ui->emulateButton->setIcon(QIcon("resources/emulate.png"));
+    ui->emulateButton->setIcon(QIcon("resources/play_arrow.png"));
 
     // Create Template Manager
     this->m_pTemplatesManager = CTemplateManager::Instance();
@@ -356,7 +356,7 @@ void CMainWindow::deleteScene(QString a_sSceneID, bool a_bIsSync)
 
 void CMainWindow::launchEmulator()
 {
-    QString execPath = CProjectManager::Instance()->QGetInstallPath() + "/debug/emulator/LudoMuse.exe";
+    QString execPath = CProjectManager::Instance()->QGetInstallPath() + "/emulator/LudoMuse.exe";
     QString cmd = execPath + " server " + CProjectManager::Instance()->QGetProjectJsonFile();
     m_oProcessServer.start(cmd);
     QThread::sleep(2);

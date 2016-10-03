@@ -1,7 +1,7 @@
 {
-  "name": "Ecran de narration",
-  "pictures": ["D:\\IHMTEK\\LudoMuseEditorCocos\\build-LudoMuseEditor-Clone_de_Desktop_Qt_5_6_0_MSVC2015_32bit-Debug\\debug\\templates\\res\\template_3.png"],
-  "description": "Modèle d'écran de narration",
+  "name": "Ecran d'acceuil",
+  "pictures": ["res/template_1.png"],
+  "description": "Modèle d'écran d'introduction",
   "game": false,
   "templates": [{
     "navigation": [
@@ -50,55 +50,6 @@
           "height": 100,
           "x": 0,
           "y": 0
-        }
-      },
-      {
-        "type": "Image",
-        "params": {
-          "source": "res_templ/cache/character.png",
-          "anchor": 4,
-          "width": 0,
-          "height": 60,
-          "x": 0,
-          "y": 0
-        }
-      },
-      {
-        "type": "Group",
-        "params": {
-          "anchor": 2,
-          "width": 100,
-          "height": 87,
-          "x": 0,
-          "y": 0,
-          "children": [
-            {
-              "type": "Group",
-              "params": {
-                "source": "res_templ/ui/cache-blanc-70.png",
-                "anchor": 6,
-                "width": 100,
-                "height": 35,
-                "x": 0,
-                "y": 0,
-                "children": [
-                  {
-                    "type": "Text",
-                    "params": {
-                      "content": "Text de narration",
-                      "font": "res_templ/fonts/Open_Sans/OpenSans-Regular.ttf",
-                      "fontSize": 24,
-                      "textAlign": "center",
-                      "width": 80,
-                      "height": 90,
-                      "anchor": 0,
-                      "color": "0,0,0,255"
-                    }
-                  }
-                ]
-              }
-            }
-          ]
         }
       }
     ],

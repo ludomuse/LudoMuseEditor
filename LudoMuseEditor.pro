@@ -12,6 +12,7 @@ TARGET = LudoMuseEditor2
 TEMPLATE = app
 
 CONFIG += c++14
+QMAKE_CXXFLAGS += -std=c++14
 
 # LUDOMUSE_PATH = "C:\WORKSPACE\LudoMuse"
 LUDOMUSE_PATH = "../LudoMuse/"
@@ -158,6 +159,7 @@ INCLUDEPATH += "./LudoMuse_src" \
 linux {
 
 INCLUDEPATH +=  /usr/include/GLFW
+INCLUDEPATH += /home/babouchot/lib/glew-2.0.0/include
 
 }
 
@@ -222,6 +224,26 @@ SOURCES +=     LudoMuse_src/Classes/Modules/Networking/linux/Source/CNetworkMana
 
 HEADERS +=     LudoMuse_src/Classes/Modules/Networking/linux/Include/CNetworkManager.h \
 
+LIBS += -L$${LUDOMUSE_PATH}/linux-build/lib/ -lcocos2d \
+        -L$${LUDOMUSE_PATH}/linux-build/cocos2d/cocos -lcocos2dInternal \
+        -L$${LUDOMUSE_PATH}/cocos2d/external/linux-specific/fmod/prebuilt/64-bit -lfmod \
+        -L$${LUDOMUSE_PATH}/cocos2d/external/webp/prebuilt/linux/64-bit -lwebp \
+        -L$${LUDOMUSE_PATH}/cocos2d/external/chipmunk/prebuilt/linux/64-bit -lchipmunk \
+        -L$${LUDOMUSE_PATH}/cocos2d/external/jpeg/prebuilt/linux/64-bit/ -ljpeg \
+        -lpng \
+        -lX11 -lglfw -lgobject-2.0 -lglib-2.0 -lfreetype -lGLEW -ltinyxml2 -lbullet -lrecast -lflatbuffers -lxxhash -lunzip -lgtk-3 -lfontconfig -lz -ltiff -lEGL
+}
 
-LIBS += -L/home/babouchot/workspace/IHMTEK/LudoMuseEditor/lib/ -lcocos2d -lcocos2dInternal -lX11 -lgobject-2.0 -lglib-2.0 -lfreetype -lGLEW -lfmod -ltinyxml2 -lbullet -lrecast -lflatbuffers -lxxhash -lunzip -lgtk-3 -lfontconfig -lchipmunk -lwebp -lz -lpng -ljpeg -ltiff -lglfw -lpthread -lEGL
+macosx
+{
+
+CXXFLAGS = -stdlib=libstdc++
+INCLUDEPATH += /Users/ihmtek/Library/glfw-3.2.1/include/GLFW
+INCLUDEPATH += /Users/ihmtek/Library/glew-1.12.0/include
+LIBS += -L/Users/ihmtek/Library/glfw-3.2.1/build/src -lglfw3 -lstdc++
+LIBS += -L/Users/ihmtek/workspace/LudoMuseEditor/lib -lcocos2d
+LIBS += -framework Cocoa -framework CoreAudio -framework CoreFoundation -framework Foundation
+LIBS += -liconv -lz -framework Security -framework IOKit -framework OpenGL -framework AppKit -framework Foundation -framework QuartzCore -framework OpenAL -framework AVFoundation -framework AudioToolbox
+LIBS += -Xlinker
+LIBS += -L/Users/ihmtek/Qt/5.7/clang_64/lib
 }

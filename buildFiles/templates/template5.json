@@ -1,7 +1,7 @@
 {
-  "name": "Ecran de consigne",
-  "pictures": ["D:\\IHMTEK\\LudoMuseEditorCocos\\build-LudoMuseEditor-Clone_de_Desktop_Qt_5_6_0_MSVC2015_32bit-Debug\\debug\\templates\\res\\template_4.png"],
-  "description": "Modèle d'écran de consigne",
+  "name": "Ecran de récompense",
+  "pictures": ["res/template_5.png"],
+  "description": "Modèle d'écran de récompense",
   "game": false,
   "templates": [
     {
@@ -19,7 +19,7 @@
               {
                 "type": "Text",
                 "params": {
-                  "content": "JOUER",
+                  "content": "SUIVANT",
                   "font": "res_templ/fonts/Open_Sans/OpenSans-Bold.ttf",
                   "fontSize": 20,
                   "textAlign": "right",
@@ -64,20 +64,9 @@
           "type": "Image",
           "params": {
             "source": "res_templ/cache/background.png",
-            "anchor": 0,
-            "width": 100,
-            "height": 100,
-            "x": 0,
-            "y": 0
-          }
-        },
-        {
-          "type": "Image",
-          "params": {
-            "source": "res_templ/cache/character.png",
-            "anchor": 5,
+            "anchor": 2,
             "width": 0,
-            "height": 60,
+            "height": 87,
             "x": 0,
             "y": 0
           }
@@ -92,26 +81,37 @@
             "y": 0,
             "children": [
               {
+                "type": "Image",
+                "params": {
+                  "source": "res_templ/cache/image_1.png",
+                  "anchor": 2,
+                  "width": 0,
+                  "height": 50,
+                  "x": 0,
+                  "y": 0
+                }
+              },
+              {
                 "type": "Group",
                 "params": {
-                  "source": "res_templ/ui/cache-noir-70.png",
-                  "anchor": 8,
-                  "width": 50,
-                  "height": 66,
+                  "source": "res_templ/ui/cache-blanc-70.png",
+                  "anchor": 6,
+                  "width": 100,
+                  "height": 35,
                   "x": 0,
                   "y": 0,
                   "children": [
                     {
                       "type": "Text",
                       "params": {
-                        "content": "Texte d'instruction",
+                        "content": "Texte de félicitation",
                         "font": "res_templ/fonts/Open_Sans/OpenSans-Regular.ttf",
                         "fontSize": 24,
                         "textAlign": "center",
                         "width": 80,
                         "height": 90,
                         "anchor": 0,
-                        "color": "255,255,255,255"
+                        "color": "0,0,0,255"
                       }
                     }
                   ]
@@ -133,7 +133,7 @@
               {
                 "type": "Text",
                 "params": {
-                  "content": "Etape 1/5 La Tigresse",
+                  "content": "Informations",
                   "font": "res_templ/fonts/Open_Sans/OpenSans-Regular.ttf",
                   "fontSize": 20,
                   "textAlign": "center",
