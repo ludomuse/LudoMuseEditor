@@ -128,8 +128,8 @@
             <rect>
              <x>0</x>
              <y>0</y>
-             <width>300</width>
-             <height>361</height>
+             <width>268</width>
+             <height>365</height>
             </rect>
            </property>
            <property name="sizePolicy">
@@ -573,6 +573,12 @@
         </item>
         <item>
          <widget class="QWidget" name="glAndInspector" native="true">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
           <layout class="QHBoxLayout" name="horizontalLayout_9">
            <property name="spacing">
             <number>0</number>
@@ -592,15 +598,15 @@
            <item>
             <widget class="QWidget" name="glViewAndSceneInspector" native="true">
              <property name="sizePolicy">
-              <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
+              <sizepolicy hsizetype="MinimumExpanding" vsizetype="MinimumExpanding">
                <horstretch>0</horstretch>
                <verstretch>0</verstretch>
               </sizepolicy>
              </property>
              <property name="minimumSize">
               <size>
-               <width>960</width>
-               <height>540</height>
+               <width>0</width>
+               <height>0</height>
               </size>
              </property>
              <property name="baseSize">
@@ -632,16 +638,19 @@
               </property>
               <item>
                <widget class="QWidget" name="glViewContainer" native="true">
+                <property name="enabled">
+                 <bool>true</bool>
+                </property>
                 <property name="sizePolicy">
-                 <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
+                 <sizepolicy hsizetype="MinimumExpanding" vsizetype="MinimumExpanding">
                   <horstretch>0</horstretch>
                   <verstretch>0</verstretch>
                  </sizepolicy>
                 </property>
                 <property name="minimumSize">
                  <size>
-                  <width>960</width>
-                  <height>540</height>
+                  <width>0</width>
+                  <height>0</height>
                  </size>
                 </property>
                 <property name="styleSheet">
@@ -671,7 +680,7 @@
               <item>
                <widget class="QWidget" name="sceneInspectorContainer" native="true">
                 <property name="sizePolicy">
-                 <sizepolicy hsizetype="Preferred" vsizetype="Expanding">
+                 <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
                   <horstretch>0</horstretch>
                   <verstretch>0</verstretch>
                  </sizepolicy>
@@ -679,7 +688,7 @@
                 <property name="minimumSize">
                  <size>
                   <width>0</width>
-                  <height>150</height>
+                  <height>50</height>
                  </size>
                 </property>
                 <property name="styleSheet">
@@ -712,6 +721,24 @@
            </item>
            <item>
             <widget class="QWidget" name="inspectorContainer" native="true">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Preferred" vsizetype="Expanding">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+             <property name="minimumSize">
+              <size>
+               <width>200</width>
+               <height>0</height>
+              </size>
+             </property>
+             <property name="maximumSize">
+              <size>
+               <width>150</width>
+               <height>773</height>
+              </size>
+             </property>
              <property name="styleSheet">
               <string notr="true">#inspectorContainer{
 	background-color : rgb(50,50,50);
@@ -742,10 +769,16 @@
         <item>
          <widget class="QWidget" name="mmBotView" native="true">
           <property name="sizePolicy">
-           <sizepolicy hsizetype="Preferred" vsizetype="Ignored">
+           <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
             <horstretch>0</horstretch>
             <verstretch>0</verstretch>
            </sizepolicy>
+          </property>
+          <property name="minimumSize">
+           <size>
+            <width>0</width>
+            <height>0</height>
+           </size>
           </property>
           <property name="styleSheet">
            <string notr="true">#mmBotView {
@@ -771,7 +804,7 @@
            <item>
             <widget class="QScrollArea" name="scrollArea_2">
              <property name="sizePolicy">
-              <sizepolicy hsizetype="Preferred" vsizetype="Expanding">
+              <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
                <horstretch>0</horstretch>
                <verstretch>0</verstretch>
               </sizepolicy>
@@ -784,9 +817,21 @@
                <rect>
                 <x>0</x>
                 <y>0</y>
-                <width>1123</width>
-                <height>40</height>
+                <width>1155</width>
+                <height>104</height>
                </rect>
+              </property>
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <property name="minimumSize">
+               <size>
+                <width>0</width>
+                <height>0</height>
+               </size>
               </property>
               <layout class="QHBoxLayout" name="horizontalLayout_6">
                <property name="leftMargin">
@@ -803,6 +848,18 @@
                </property>
                <item>
                 <widget class="QWidget" name="trameContainerP2" native="true">
+                 <property name="sizePolicy">
+                  <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+                   <horstretch>0</horstretch>
+                   <verstretch>0</verstretch>
+                  </sizepolicy>
+                 </property>
+                 <property name="minimumSize">
+                  <size>
+                   <width>0</width>
+                   <height>100</height>
+                  </size>
+                 </property>
                  <property name="styleSheet">
                   <string notr="true">#trame_p1 {
 	border-bottom : 1px solid black;
@@ -818,10 +875,16 @@
            <item>
             <widget class="QScrollArea" name="scrollArea">
              <property name="sizePolicy">
-              <sizepolicy hsizetype="Preferred" vsizetype="Expanding">
+              <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
                <horstretch>0</horstretch>
                <verstretch>0</verstretch>
               </sizepolicy>
+             </property>
+             <property name="minimumSize">
+              <size>
+               <width>0</width>
+               <height>0</height>
+              </size>
              </property>
              <property name="widgetResizable">
               <bool>true</bool>
@@ -831,9 +894,15 @@
                <rect>
                 <x>0</x>
                 <y>0</y>
-                <width>1123</width>
-                <height>39</height>
+                <width>1155</width>
+                <height>104</height>
                </rect>
+              </property>
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
               </property>
               <layout class="QHBoxLayout" name="horizontalLayout_5">
                <property name="leftMargin">
@@ -850,6 +919,18 @@
                </property>
                <item>
                 <widget class="QWidget" name="trameContainerP1" native="true">
+                 <property name="sizePolicy">
+                  <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+                   <horstretch>0</horstretch>
+                   <verstretch>0</verstretch>
+                  </sizepolicy>
+                 </property>
+                 <property name="minimumSize">
+                  <size>
+                   <width>0</width>
+                   <height>100</height>
+                  </size>
+                 </property>
                  <property name="styleSheet">
                   <string notr="true">#trame_p1 {
 	border-bottom : 1px solid black;

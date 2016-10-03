@@ -7,11 +7,16 @@
 #include <string>
 
 #ifdef __linux__
-    //linux code goes here
+//linux code goes here
 #elif _WIN32
-    #include <Windows.h>
-    // windows code goes here
+#include <Windows.h>
+// windows code goes here
 #endif
+
+#include "LudoMuse_src/Classes/AppDelegate.h"
+#include "CocosQtPort/CCQApplication.h"
+#include "CocosQtPort/CCQGLView.h"
+#include "CocosQtPort/CCQGLWidget.h"
 
 // Include custom classes
 #include "CMainWindow.h"
@@ -26,6 +31,7 @@
 #include "CAddSceneWizard.h"
 #include "CLoaderWidget.h"
 #include "CProjectManager.h"
+#include "CFrameWidget.h"
 
 // Include QT
 #include <QtWidgets>
@@ -37,6 +43,8 @@
 #include <QFile>
 #include <QTextStream>
 #include <QDirModel>
+#include <QMouseEvent>
+#include <QString>
 
 // Include cocos
 #include "cocos2d.h"
@@ -126,6 +134,8 @@ void CMainWindow::loadExistingProject(const QString& a_sProjectFile)
         delete child->widget();
         delete child;
     }
+
+/*    AppDelegate app (true, a_sProjectFile.toStdString());
     QThread* thread = new QThread;
     CThreadCocos* worker = new CThreadCocos(a_sProjectFile);
     worker->moveToThread(thread);
@@ -136,7 +146,7 @@ void CMainWindow::loadExistingProject(const QString& a_sProjectFile)
     connect(worker, SIGNAL(finished()), thread, SLOT(quit()));
     connect(worker, SIGNAL(finished()), worker, SLOT(deleteLater()));
     connect(thread, SIGNAL(finished()), thread, SLOT(deleteLater()));
-    thread->start();
+    thread->start();*/
 
     ui->sceneInspectorContainer->setStyleSheet("#sceneInspectorContainer{background-color : rgb(50, 50, 50);border-right :none}");
     ui->toolBarCocos->setVisible(true);
@@ -157,16 +167,39 @@ void CMainWindow::loadExistingProject(const QString& a_sProjectFile)
     ui->fileListView->setModel(m_pFileModel);
     ui->fileListView->setRootIndex(m_pFileModel->setRootPath(projectPath));
     ui->fileListView->SetCurrentPath(projectPath);
+
+    AppDelegate* app = (AppDelegate*)(cocos2d::CCQApplication::getInstance());
+    app->setPath(m_sSaveName.toStdString());
+    cocos2d::CCQApplication::getInstance()->run();
+    m_pKernel = app->getKernel();
+
+    LM::CEditorFindEntityTouchVisitor* dummyVisitor= this->m_pKernel->GetEditorVisitor();
+    connect(dummyVisitor, SIGNAL(labelClicked(LM::CLabelNode*)), this, SLOT(receiveLabel(LM::CLabelNode*)));
+    connect(dummyVisitor, SIGNAL(spriteClicked(LM::CSpriteNode*)), this, SLOT(receiveSprite(LM::CSpriteNode*)));
+    connect(m_pKernel, SIGNAL(addingSceneFinished()), this, SLOT(addingSceneFinished()));
+    connect(m_pKernel, SIGNAL(deletingSceneFinished()), this, SLOT(deletingSceneFinished()));
+    connect(m_pKernel, SIGNAL(sendScene(LM::CSceneNode*, bool)), this, SLOT(receiveScene(LM::CSceneNode*, bool)));
+    this->ProcessTree();
+
+    QString currentScene(m_pKernel->m_pCurrentScene->GetSceneID().c_str());
+    m_iActivePlayer = m_pKernel->GetCurrentPlayer();
+    this->activeThumbnail(currentScene, m_iActivePlayer);
+    this->InspectScene(m_pKernel->m_pCurrentScene);
+
+    QWidget* ccWidget = cocos2d::CCQGLView::getInstance()->getGLWidget();
+    ui->glViewContainer->layout()->addWidget(ccWidget);
 }
 
 
 void CMainWindow::receiveHWND(int number)
 {
-    WId player1ID = (WId) number;
-    QWindow *container = QWindow::fromWinId(player1ID);
-    QWidget *cocosWidget= QWidget::createWindowContainer(container);
-    this->ui->glViewContainer->layout()->addWidget(cocosWidget);
-    this->update();
+    //    WId player1ID = (WId) number;
+    //    QWindow *container = QWindow::fromWinId(player1ID);
+    //    QWidget *cocosWidget= QWidget::createWindowContainer(container);
+    //    cocosWidget->setParent(this);
+    //    this->ui->glViewContainer->layout()->addWidget(cocosWidget);
+    //    this->update();
+
 }
 
 void CMainWindow::receiveKernel(LM::CKernel *aKernel)
@@ -185,6 +218,13 @@ void CMainWindow::receiveKernel(LM::CKernel *aKernel)
     m_iActivePlayer = m_pKernel->GetCurrentPlayer();
     this->activeThumbnail(currentScene, m_iActivePlayer);
     this->InspectScene(m_pKernel->m_pCurrentScene);
+
+    CFrameWidget *pFrameWidget = new CFrameWidget();
+    ui->glViewContainer->layout()->addWidget(pFrameWidget);
+    connect(pFrameWidget, SIGNAL(mousePressed(QMouseEvent*)), m_pKernel, SLOT(onMousePressed(QMouseEvent*)));
+    connect(pFrameWidget, SIGNAL(mouseReleased(QMouseEvent*)), m_pKernel, SLOT(onMouseReleased(QMouseEvent*)));
+    connect(pFrameWidget, SIGNAL(mouseMoved(QMouseEvent*)), m_pKernel, SLOT(onMouseMoved(QMouseEvent*)));
+    pFrameWidget->start();
 }
 
 void CMainWindow::receiveLabel(LM::CLabelNode* a_pLabel)
@@ -328,8 +368,8 @@ void CMainWindow::launchEmulator()
 void CMainWindow::saveAs()
 {
     QString filePath = QFileDialog::getSaveFileName(this, "Save File",
-                               CProjectManager::Instance()->QGetProjectPath(),
-                               "Scénarios Ludomuse (*.json)");
+                                                    CProjectManager::Instance()->QGetProjectPath(),
+                                                    "Scénarios Ludomuse (*.json)");
 
     if (!filePath.isNull())
     {
@@ -604,7 +644,7 @@ void CMainWindow::InspectScene(LM::CSceneNode* a_pScene)
     QString sceneId(a_pScene->GetSceneID().c_str());
     CSceneInspector* sceneInspector = Q_NULLPTR;
     if(m_pKernel->PlayerHasScene(sceneId.toStdString(), PLAYER_1)
-       && m_pKernel->PlayerHasScene(sceneId.toStdString(), 1)) //  P1 and P2
+            && m_pKernel->PlayerHasScene(sceneId.toStdString(), PLAYER_2)) //  P1 and P2
     {
         sceneInspector = new  CSceneInspector(a_pScene, BOTH_PLAYER, ui->sceneInspectorContainer);
     }

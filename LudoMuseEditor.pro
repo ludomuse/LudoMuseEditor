@@ -8,15 +8,15 @@ QT       += core gui opengl
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
-TARGET = LudoMuseEditor
+TARGET = LudoMuseEditor2
 TEMPLATE = app
 
 CONFIG += c++14
 
 # LUDOMUSE_PATH = "C:\WORKSPACE\LudoMuse"
-LUDOMUSE_PATH = "/home/babouchot/workspace/IHMTEK/LudoMuse/"
+LUDOMUSE_PATH = "../LudoMuse/"
 COCOS_PATH = $${LUDOMUSE_PATH}/cocos2d
-JAVA_PATH = "C:\Program Files\Java\jdk1.8.0_66"
+JAVA_PATH = $$JAVA_HOME
 
 SOURCES += main.cpp\
         CMainWindow.cpp\
@@ -73,8 +73,11 @@ SOURCES += main.cpp\
     CLoadProjectWizard.cpp \
     CProjectPushButton.cpp \
     CEditorKernel.cpp \
-    CMenuNodeInspector.cpp
-
+    CMenuNodeInspector.cpp \
+    CocosQtPort/CCQApplication.cpp \
+    CocosQtPort/CCQGLView.cpp \
+    CocosQtPort/CCQGLWidget.cpp \
+    CFrameWidget.cpp
 
 HEADERS  += CMainWindow.h \
     LudoMuse_src/Classes/Engine/Include/CCallback.h \
@@ -136,7 +139,11 @@ HEADERS  += CMainWindow.h \
     CLoadProjectWizard.h \
     CProjectPushButton.h \
     CEditorKernel.h \
-    CMenuNodeInspector.h
+    CMenuNodeInspector.h \
+    CocosQtPort/CCQApplication.h \
+    CocosQtPort/CCQGLView.h \
+    CocosQtPort/CCQGLWidget.h \
+    CFrameWidget.h
 
 FORMS    += cmainwindow.ui \
     CLoaderWidget.ui \

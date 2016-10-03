@@ -43,10 +43,11 @@ CThreadCocos::~CThreadCocos()
 
 void CThreadCocos::process()
 {
-    AppDelegate app(true, m_sProjectPath.toStdString());
+//    AppDelegate app(true, m_sProjectPath.toStdString());
     int HWNDnumber = cocos2d::Application::getInstance()->runAndLink();
-    emit sendHWND(HWNDnumber);
-    emit sendKernel(app.getKernel());
+//    emit sendHWND(HWNDnumber);
+//    emit sendKernel(nullptr);
+//    emit sendKernel(app.getKernel());
     cocos2d::Application::getInstance()->runLoop();
     emit finished();
 }
