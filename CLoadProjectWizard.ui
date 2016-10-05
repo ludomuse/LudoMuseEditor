@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>400</width>
+    <width>334</width>
     <height>323</height>
    </rect>
   </property>
@@ -31,7 +31,7 @@ background-color : rgb(50,50,50);
    <item>
     <widget class="QWidget" name="loadProjectWizardContainer" native="true">
      <property name="sizePolicy">
-      <sizepolicy hsizetype="Maximum" vsizetype="Preferred">
+      <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
        <horstretch>0</horstretch>
        <verstretch>0</verstretch>
       </sizepolicy>
@@ -282,7 +282,7 @@ color : rgb(255, 170, 0);
       <item>
        <widget class="QWidget" name="widget_3" native="true">
         <property name="sizePolicy">
-         <sizepolicy hsizetype="Maximum" vsizetype="Preferred">
+         <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
           <horstretch>0</horstretch>
           <verstretch>0</verstretch>
          </sizepolicy>

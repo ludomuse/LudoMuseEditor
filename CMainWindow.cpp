@@ -73,13 +73,17 @@ CMainWindow::CMainWindow(QWidget *parent) :
     index = 1;
 
     // Init with loader widget
+    ui->mmBotView->setVisible(false);
     ui->toolBarCocos->setVisible(false);
+    ui->sceneInspectorContainer->setVisible(false);
+    ui->toolBarInspector->setVisible(false);
+    ui->inspectorContainer->setVisible(false);
     CLoaderWidget* loaderWidget = new CLoaderWidget();
     ui->glViewContainer->layout()->addWidget(loaderWidget);
     connect(loaderWidget, SIGNAL(closeEditor()), this, SLOT(close()));
     connect(loaderWidget, SIGNAL(loadProject(const QString&)), this, SLOT(loadExistingProject(const QString&)));
 
-    ui->sceneInspectorContainer->setStyleSheet("#sceneInspectorContainer{background-color : rgb(50, 50, 50);border-right :none}");
+    //    ui->sceneInspectorContainer->setStyleSheet("#sceneInspectorContainer{background-color : rgb(50, 50, 50);border-right : 1px solid white                                           }");
 
     // disable save button
     if(m_sSaveName.isEmpty())
@@ -134,7 +138,7 @@ void CMainWindow::loadExistingProject(const QString& a_sProjectFile)
         delete child;
     }
 
-/*    AppDelegate app (true, a_sProjectFile.toStdString());
+    /*    AppDelegate app (true, a_sProjectFile.toStdString());
     QThread* thread = new QThread;
     CThreadCocos* worker = new CThreadCocos(a_sProjectFile);
     worker->moveToThread(thread);
@@ -147,9 +151,13 @@ void CMainWindow::loadExistingProject(const QString& a_sProjectFile)
     connect(thread, SIGNAL(finished()), thread, SLOT(deleteLater()));
     thread->start();*/
 
-    ui->sceneInspectorContainer->setStyleSheet("#sceneInspectorContainer{background-color : rgb(50, 50, 50);border-right :none}");
+    ui->mmBotView->setVisible(true);
+    ui->inspectorContainer->setVisible(true);
+    ui->sceneInspectorContainer->setVisible(true);
+    //    ui->sceneInspectorContainer->setStyleSheet("#sceneInspectorContainer{background-color : rgb(50, 50, 50);border-right :none}");
     ui->toolBarCocos->setVisible(true);
-    ui->toolBarCocos->setStyleSheet("#toolBarCocos{border-bottom: 1px solid black;border-right : 2px solid rgba(255,255,255,255);}");
+    ui->toolBarInspector->setVisible(true);
+    //    ui->toolBarCocos->setStyleSheet("#toolBarCocos{border-bottom: 1px solid black;border-right : 2px solid rgba(255,255,255,255);}");
 
     QString projectPath = QFileInfo(a_sProjectFile).absolutePath();
 
@@ -186,7 +194,14 @@ void CMainWindow::loadExistingProject(const QString& a_sProjectFile)
     this->InspectScene(m_pKernel->m_pCurrentScene);
 
     QWidget* ccWidget = cocos2d::CCQGLView::getInstance()->getGLWidget();
-    ui->glViewContainer->layout()->addWidget(ccWidget);
+    QHBoxLayout* ccLayout = (QHBoxLayout*)ui->glViewContainer->layout();
+    ccLayout->addStretch();
+    ccLayout->addWidget(ccWidget);
+    ccLayout->addStretch();
+    /* ui->glViewContainer->layout()->addWidget(ccWidget);
+    ui->glViewContainer->layout()->setAlignment(ccWidget->layout(), Qt::AlignHCenter);
+    ui->glViewAndSceneInspector->layout()->setAlignment(ui->glViewContainer->layout(), Qt::AlignHCenter);
+    ui->glAndInspector->layout()->setAlignment(ui->glViewAndSceneInspector->layout(), Qt::AlignHCenter);*/
 }
 
 
@@ -217,7 +232,7 @@ void CMainWindow::receiveKernel(LM::CKernel *aKernel)
     m_iActivePlayer = m_pKernel->GetCurrentPlayer();
     this->activeThumbnail(currentScene, m_iActivePlayer);
     this->InspectScene(m_pKernel->m_pCurrentScene);
-/*
+    /*
     CFrameWidget *pFrameWidget = new CFrameWidget();
     ui->glViewContainer->layout()->addWidget(pFrameWidget);
     connect(pFrameWidget, SIGNAL(mousePressed(QMouseEvent*)), m_pKernel, SLOT(onMousePressed(QMouseEvent*)));
@@ -706,7 +721,8 @@ void CMainWindow::setInspectorName(const QString &a_rName)
         this->ui->toolBarInspector->setLayout(inspectorToolbarLayout);
     }
     QLabel* inspectorTitle = new QLabel(a_rName);
-    inspectorTitle->setAlignment(Qt::AlignHCenter);
+    //    inspectorTitle->setAlignment(Qt::AlignHCenter);
+    inspectorTitle->setAlignment(Qt::AlignCenter);
     inspectorTitle->setStyleSheet("QLabel{color : white;}");
     this->ui->toolBarInspector->layout()->addWidget(inspectorTitle);
 }

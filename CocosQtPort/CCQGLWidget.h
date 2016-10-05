@@ -34,6 +34,11 @@ protected:
 	virtual void keyPressEvent(QKeyEvent *event);
     virtual void keyReleaseEvent(QKeyEvent *event);
 
+    virtual void resizeEvent(QResizeEvent *event) override;
+
+    virtual QSize sizeHint() const override;
+
+
 private:
     MOUSE_PTRFUN mouseMoveFunc;
     MOUSE_PTRFUN mousePressFunc;
@@ -41,6 +46,9 @@ private:
 	WHEEL_PTRFUN wheelFunc;
 
     KEY_PTRFUN keyEventFunc;
+
+    mutable int m_iOldWidth;
+    mutable int m_iOldHeight;
 };
 
 NS_CC_END

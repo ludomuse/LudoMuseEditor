@@ -12,6 +12,10 @@ CCQGLWidget::CCQGLWidget(int width, int height, QWidget *parent)
     , keyEventFunc(nullptr)
 {
     resize(width, height);
+    m_iOldHeight = height;
+    m_iOldWidth = width;
+    QSizePolicy sizePolicy = QSizePolicy();
+
 }
 
 CCQGLWidget::~CCQGLWidget()
@@ -90,4 +94,33 @@ void CCQGLWidget::keyReleaseEvent(QKeyEvent *event)
 
     QGLWidget::keyReleaseEvent(event);
 }
+
+void CCQGLWidget::resizeEvent(QResizeEvent *event)
+{
+    QGLWidget::resizeEvent(event);
+    int width = event->size().width();
+    int height = event->size().height();
+    if (m_iOldHeight != height ||
+            m_iOldWidth != width)
+    {
+        float ratio = (float)baseSize().width() / (float)baseSize().height();
+        if ((float)width / (float)height > ratio)
+        {
+            m_iOldHeight = height;
+            m_iOldWidth = (int)(height * ratio);
+        }
+        else
+        {
+            m_iOldHeight = (int)(width / ratio);
+            m_iOldWidth = width;
+        }
+        resize(m_iOldWidth, m_iOldHeight);
+    }
+}
+
+QSize CCQGLWidget::sizeHint() const
+{
+    return QSize(m_iOldWidth, m_iOldHeight);
+}
+
 NS_CC_END
