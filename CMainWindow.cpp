@@ -194,14 +194,8 @@ void CMainWindow::loadExistingProject(const QString& a_sProjectFile)
     this->InspectScene(m_pKernel->m_pCurrentScene);
 
     QWidget* ccWidget = cocos2d::CCQGLView::getInstance()->getGLWidget();
-    QHBoxLayout* ccLayout = (QHBoxLayout*)ui->glViewContainer->layout();
-    ccLayout->addStretch();
-    ccLayout->addWidget(ccWidget);
-    ccLayout->addStretch();
-    /* ui->glViewContainer->layout()->addWidget(ccWidget);
-    ui->glViewContainer->layout()->setAlignment(ccWidget->layout(), Qt::AlignHCenter);
-    ui->glViewAndSceneInspector->layout()->setAlignment(ui->glViewContainer->layout(), Qt::AlignHCenter);
-    ui->glAndInspector->layout()->setAlignment(ui->glViewAndSceneInspector->layout(), Qt::AlignHCenter);*/
+    ui->glViewContainer->layout()->addWidget(ccWidget);
+
 }
 
 
@@ -371,7 +365,7 @@ void CMainWindow::deleteScene(QString a_sSceneID, bool a_bIsSync)
 
 void CMainWindow::launchEmulator()
 {
-    QString execPath = CProjectManager::Instance()->QGetInstallPath() + "/emulator/LudoMuse.exe";
+    QString execPath = CProjectManager::Instance()->QGetInstallPath() + "/LudoMuse.exe";
     QString cmd = execPath + " server " + CProjectManager::Instance()->QGetProjectJsonFile();
     m_oProcessServer.start(cmd);
     QThread::sleep(2);
