@@ -64,11 +64,11 @@ public:
     static CCQGLView* getInstance();
     /* create instance with base widget size */
     static bool Create();
-    static bool Create(int width, int height);
+    static bool Create(int width, int height, QWidget* parentWidget = Q_NULLPTR);
 
 private:
 
-    bool Init(int width, int height);
+    bool Init(int width, int height, QWidget* parentWidget = Q_NULLPTR);
 
     bool			_isInit;
     float			_screenScaleFactor;

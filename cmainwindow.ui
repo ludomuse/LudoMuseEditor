@@ -113,7 +113,7 @@
              <x>0</x>
              <y>0</y>
              <width>369</width>
-             <height>733</height>
+             <height>728</height>
             </rect>
            </property>
            <property name="sizePolicy">
@@ -1545,7 +1545,7 @@
            <item row="1" column="0">
             <widget class="QWidget" name="glViewAndSceneInspector" native="true">
              <property name="sizePolicy">
-              <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+              <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
                <horstretch>0</horstretch>
                <verstretch>0</verstretch>
               </sizepolicy>

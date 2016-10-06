@@ -180,6 +180,7 @@ void CMainWindow::loadExistingProject(const QString& a_sProjectFile)
 
     AppDelegate* app = (AppDelegate*)(cocos2d::CCQApplication::getInstance());
     app->setPath(m_sSaveName.toStdString());
+    app->setParentWidget(ui->glViewContainer);
     cocos2d::CCQApplication::getInstance()->run();
     m_pKernel = app->getKernel();
 
@@ -196,8 +197,8 @@ void CMainWindow::loadExistingProject(const QString& a_sProjectFile)
     this->activeThumbnail(currentScene, m_iActivePlayer);
     this->InspectScene(m_pKernel->m_pCurrentScene);
 
-    QWidget* ccWidget = cocos2d::CCQGLView::getInstance()->getGLWidget();
-    ui->glViewContainer->layout()->addWidget(ccWidget);
+//    QWidget* ccWidget = cocos2d::CCQGLView::getInstance()->getGLWidget();
+//    ui->glViewContainer->layout()->addWidget(ccWidget);
 
 }
 

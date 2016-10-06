@@ -1,3 +1,5 @@
 LudoMuseEditor.pro.user
 lib
 *.orig
+*~
+*.old

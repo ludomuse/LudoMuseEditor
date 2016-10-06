@@ -156,12 +156,8 @@ INCLUDEPATH += "./LudoMuse_src" \
                 $${COCOS_PATH}/external/json \
 
 
-linux {
 
-INCLUDEPATH +=  /usr/include/GLFW
-INCLUDEPATH += /home/babouchot/lib/glew-2.0.0/include
 
-}
 
 win32 {
 
@@ -218,7 +214,12 @@ LIBS += -LD:/IHMTEK/LudoMuseEditorCocos/LudoMuseEditor/lib/lib -lfreetype \
 
 }
 
+
+
 linux {
+
+INCLUDEPATH +=  /usr/include/GLFW
+INCLUDEPATH += /home/babouchot/lib/glew-2.0.0/include
 
 SOURCES +=     LudoMuse_src/Classes/Modules/Networking/linux/Source/CNetworkManager.cpp \
 

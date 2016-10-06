@@ -3,6 +3,7 @@
 
 #include <QDesktopWidget>
 #include <QApplication>
+#include <QLayout>
 
 NS_CC_BEGIN
 
@@ -48,12 +49,12 @@ bool CCQGLView::Create()
     return Create(960, 540);
 }
 
-bool CCQGLView::Create(int width, int height)
+bool CCQGLView::Create(int width, int height, QWidget *parentWidget)
 {
     if (s_pMainWindow == nullptr)
     {
         CCQGLView *view = new CCQGLView();
-        if (!view->Init(width, height))
+        if (!view->Init(width, height, parentWidget))
         {
             delete view;
             return false;
@@ -66,14 +67,15 @@ bool CCQGLView::Create(int width, int height)
     return true;
 }
 
-bool CCQGLView::Init(int width, int height)
+bool CCQGLView::Init(int width, int height, QWidget *parentWidget)
 {
     bool ret = false;
     do
     {
         CC_BREAK_IF(_window);
 
-        _window = new CCQGLWidget(width, height);
+        _window = new CCQGLWidget(width, height, parentWidget);
+        parentWidget->layout()->addWidget(_window);
 
         _window->setMouseMoveFunc(&cocos2d::mouseMove);
         _window->setMousePressFunc(&cocos2d::mousePress);

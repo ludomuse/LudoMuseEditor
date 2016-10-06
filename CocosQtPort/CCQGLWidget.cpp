@@ -98,6 +98,11 @@ void CCQGLWidget::resizeEvent(QResizeEvent *event)
     QGLWidget::resizeEvent(event);
     int width = event->size().width();
     int height = event->size().height();
+    if (parentWidget())
+    {
+        width = std::min(width, parentWidget()->size().width());
+        height = std::min(height, parentWidget()->size().height());
+    }
     if (m_iOldHeight != height ||
             m_iOldWidth != width)
     {
