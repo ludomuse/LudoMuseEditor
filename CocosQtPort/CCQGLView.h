@@ -7,9 +7,10 @@
 #include "glfw3.h"
 #ifdef _WIN32
 #define GLFW_EXPOSE_NATIVE_WIN32
+#include "glfw3native.h"
 #endif
 #ifdef __linux__
-#define GLFW_EXPOSE_NATIVE_LINUX
+#define GLFW_EXPOSE_NATIVE_X11
 #endif
 
 #ifndef _WIN32
@@ -18,7 +19,6 @@
 #ifdef __linux__
 #define GLFW_EXPOSE_NATIVE_EGL
 #endif
-#include "glfw3native.h"
 
 typedef void(*KEY_PTRFUN)(QKeyEvent *event);
 

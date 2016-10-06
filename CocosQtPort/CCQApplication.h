@@ -9,7 +9,7 @@ class CCQApplication : public QApplication, public cocos2d::Application
 {
     Q_OBJECT
 public:
-    CCQApplication(int argc, char *argv[]);
+    CCQApplication(int& argc, char *argv[]);
     virtual ~CCQApplication();
 
     /* Run the message loop. */

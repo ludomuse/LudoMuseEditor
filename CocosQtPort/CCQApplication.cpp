@@ -8,7 +8,7 @@ NS_CC_BEGIN
 /* sharedApplication pointer */
 CCQApplication * CCQApplication::sm_pSharedApplication = nullptr;
 
-CCQApplication::CCQApplication(int argc, char *argv[])
+CCQApplication::CCQApplication(int& argc, char *argv[])
     : QApplication(argc, argv)
     , _timer(nullptr)
 {

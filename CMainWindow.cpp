@@ -2,7 +2,22 @@
 #include <WinSock2.h>
 #endif
 
-#include <GL/glew.h>
+// Include QT
+//#include <QtWidgets>
+#include <QThread>
+#include <QProcess>
+#include <QBoxLayout>
+#include <QLayoutItem>
+#include <QStringList>
+#include <QFile>
+#include <QTextStream>
+#include <QDirModel>
+#include <QMouseEvent>
+#include <QString>
+#include <QDebug>
+#include <QFileDialog>
+
+//#include <GL/glew.h>
 #include <vector>
 #include <string>
 
@@ -32,18 +47,6 @@
 #include "CLoaderWidget.h"
 #include "CProjectManager.h"
 
-// Include QT
-#include <QtWidgets>
-#include <QThread>
-#include <QProcess>
-#include <QBoxLayout>
-#include <QLayoutItem>
-#include <QStringList>
-#include <QFile>
-#include <QTextStream>
-#include <QDirModel>
-#include <QMouseEvent>
-#include <QString>
 
 // Include cocos
 #include "cocos2d.h"
