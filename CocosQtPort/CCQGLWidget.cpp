@@ -14,8 +14,6 @@ CCQGLWidget::CCQGLWidget(int width, int height, QWidget *parent)
     resize(width, height);
     m_iOldHeight = height;
     m_iOldWidth = width;
-    QSizePolicy sizePolicy = QSizePolicy();
-
 }
 
 CCQGLWidget::~CCQGLWidget()
@@ -114,13 +112,24 @@ void CCQGLWidget::resizeEvent(QResizeEvent *event)
             m_iOldHeight = (int)(width / ratio);
             m_iOldWidth = width;
         }
-        resize(m_iOldWidth, m_iOldHeight);
+        if (parentWidget())
+        {
+            setGeometry((parentWidget()->size().width()-m_iOldWidth)/2,
+                        (parentWidget()->size().height()-m_iOldHeight)/2,
+                        m_iOldWidth, m_iOldHeight);
+        }
+        else
+        {
+            setGeometry(0, 0, m_iOldWidth, m_iOldHeight);
+        }
+        //        resize(m_iOldWidth, m_iOldHeight);
     }
 }
 
 QSize CCQGLWidget::sizeHint() const
 {
-    return QSize(m_iOldWidth, m_iOldHeight);
+    //    return QSize(m_iOldWidth, m_iOldHeight);
+    return QSize(0, 0);
 }
 
 NS_CC_END
