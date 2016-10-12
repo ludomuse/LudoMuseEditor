@@ -24,6 +24,7 @@ SOURCES += main.cpp\
     LudoMuse_src/Classes/Engine/Source/CCallback.cpp \
     LudoMuse_src/Classes/Engine/Source/CCameraFeedNode.cpp \
     LudoMuse_src/Classes/Engine/Source/CDispatchMessageVisitor.cpp \
+    LudoMuse_src/Classes/Engine/Source/CDispatchEventVisitor.cpp \
     LudoMuse_src/Classes/Engine/Source/CEditBoxNode.cpp \
     LudoMuse_src/Classes/Engine/Source/CEntityNode.cpp \
     LudoMuse_src/Classes/Engine/Source/CFindEntityFromIDVisitor.cpp \
@@ -83,6 +84,7 @@ HEADERS  += CMainWindow.h \
     LudoMuse_src/Classes/Engine/Include/CCallback.h \
     LudoMuse_src/Classes/Engine/Include/CCameraFeedNode.h \
     LudoMuse_src/Classes/Engine/Include/CDispatchMessageVisitor.h \
+    LudoMuse_src/Classes/Engine/Include/CDispatchEventVisitor.h \
     LudoMuse_src/Classes/Engine/Include/CEditBoxNode.h \
     LudoMuse_src/Classes/Engine/Include/CEntityNode.h \
     LudoMuse_src/Classes/Engine/Include/CFindEntityFromIDVisitor.h \
