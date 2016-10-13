@@ -35,7 +35,7 @@ int CCQApplication::run()
     connect(_timer, SIGNAL(timeout()), this, SLOT(timerUpdate()));
     _timer->start(_qAnimationInterval);
 //    return cocos2d::CCQApplication::getInstance()->exec();
-    return 0;
+    return 1;
 }
 
 void CCQApplication::setAnimationInterval(double interval)

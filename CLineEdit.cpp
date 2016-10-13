@@ -6,6 +6,7 @@
 #include <QList>
 #include <QFileInfo>
 #include <QDir>
+#include "CProjectManager.h"
 
 
 CLineEdit::CLineEdit(QWidget* a_pParent):
@@ -38,9 +39,10 @@ void CLineEdit::dropEvent(QDropEvent* a_pEvent)
                 {
                     qDebug("accepted format");
                     // Checking if file is in project path
-                    if(path.contains(QDir::currentPath()))
+                  //  if(path.contains(QDir::currentPath()))
+                    QString projectPath = CProjectManager::Instance()->QGetProjectPath();
+                    if (path.contains(projectPath))
                     {
-                        QString projectPath = QDir::currentPath();
                         path.replace(projectPath+'/', "");
                         this->setText(path);
                     }

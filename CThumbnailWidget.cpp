@@ -56,6 +56,11 @@ QString CThumbnailWidget::GetSceneID()
     return this->m_sSceneID;
 }
 
+int CThumbnailWidget::GetPlayerID()
+{
+    return this->m_iPlayerID;
+}
+
 bool CThumbnailWidget::IsSceneID(const QString& a_rSceneID, int a_iPlayerID)
 {
     return (this->m_sSceneID.compare(a_rSceneID) && a_iPlayerID == m_iPlayerID);
@@ -99,9 +104,8 @@ void CThumbnailWidget::mousePressEvent(QMouseEvent *event)
     this->m_bIsPress = true;
     if(this->m_bIsHover && event->button() == Qt::LeftButton)
     {
-        emit onClick(this->m_sSceneID, this->m_iPlayerID, this); // substract 1 to match id in Cocos ( 0 & 1 )
+        emit onClick(this); // substract 1 to match id in Cocos ( 0 & 1 )
 //        this->setMinimumWidth(300);
-        this->Select();
     }
 }
 

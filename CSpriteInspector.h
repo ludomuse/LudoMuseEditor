@@ -29,6 +29,7 @@ public slots:
     void setAnchor();
     void openPathFileDialog();
     void newPathSelected(QString);
+    void newDirectoryEntered(QString);
     void heightSliderChange(int a_iValue);
     void widthSliderChange(int a_iValue);
     void heightTextChange(const QString& a_rText);

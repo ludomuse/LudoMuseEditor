@@ -158,11 +158,11 @@ void CLoaderWidget::projectSelected(QString a_sProjectFile)
     {
         projectDir.mkdir("ui");
     }
-    CopyFolder(CProjectManager::Instance()->QGetInstallPath() + "/debug/templates/res_templ/cache",
+    CopyFolder(CProjectManager::Instance()->QGetInstallPath() + "/templates/res_templ/cache",
                projectPath + "/res_templ/cache");
-    CopyFolder(CProjectManager::Instance()->QGetInstallPath() + "/debug/templates/res_templ/fonts",
+    CopyFolder(CProjectManager::Instance()->QGetInstallPath() + "/templates/res_templ/fonts",
                projectPath + "/res_templ/fonts");
-    CopyFolder(CProjectManager::Instance()->QGetInstallPath() + "/debug/templates/res_templ/ui",
+    CopyFolder(CProjectManager::Instance()->QGetInstallPath() + "/templates/res_templ/ui",
                projectPath + "/res_templ/ui");
 
     emit loadProject(a_sProjectFile);

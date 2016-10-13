@@ -12,10 +12,11 @@ public:
     explicit CThumbnailWidget(QWidget *parent = 0);
     CThumbnailWidget(QString a_sId, int a_iPlayerID = 0, QWidget *parent=Q_NULLPTR, int a_iIndex = 0);
     bool IsSceneID(const QString& a_rSceneID, int a_iPlayerID);
-    QString GetSceneID();
     void Unselect();
     void Select();
     void LastActive();
+    int GetPlayerID();
+    QString GetSceneID();
 
 protected:
     void mouseReleaseEvent(QMouseEvent *event);
@@ -24,7 +25,7 @@ protected:
     void enterEvent(QEvent * event);
 
 signals:
-    void onClick(const QString&, int a_iPlayerID, CThumbnailWidget* a_pClickedWidget);
+    void onClick(CThumbnailWidget* a_pClickedWidget);
 
 
 
