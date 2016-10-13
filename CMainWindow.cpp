@@ -207,7 +207,7 @@ void CMainWindow::loadExistingProject(const QString& a_sProjectFile)
     {
         m_iCurrentThumbnailIndex2 = 0;
     }
-    this->InitiateThumbnails();
+    this->ActivateThumbnails();
     //    QString currentScene(m_pKernel->m_pCurrentScene->GetSceneID().c_str());
     //    m_iActivePlayer = m_pKernel->GetCurrentPlayer();
     //    this->activeThumbnail(currentScene, m_iActivePlayer);
@@ -377,75 +377,44 @@ void CMainWindow::goToPreviousScene()
 
 void CMainWindow::goToSceneID(CThumbnailWidget* a_pClickedWidget)
 {
-    int iPlayerID = a_pClickedWidget->GetPlayerID();
-    QString sID = a_pClickedWidget->GetSceneID();
-    if(iPlayerID == PLAYER_2)
-    {
-        Q_ASSERT(m_pThumbnailList2->count()>m_iCurrentThumbnailIndex2);
-        m_pThumbnailList2->at(m_iCurrentThumbnailIndex2)->Unselect();
-        // Change color for other player timeline
-        Q_ASSERT(m_pThumbnailList1->count()>m_iCurrentThumbnailIndex1);
-        m_pThumbnailList1->at(m_iCurrentThumbnailIndex1)->LastActive();
-        m_iCurrentThumbnailIndex2 = m_pThumbnailList2->indexOf(a_pClickedWidget);
-        m_pThumbnailList2->at(m_iCurrentThumbnailIndex2)->Select();
-        m_iActivePlayer = PLAYER_2;
-    }
-    else // By default take player one
-    {
-        Q_ASSERT(m_pThumbnailList1->count()>m_iCurrentThumbnailIndex1);
-        m_pThumbnailList1->at(m_iCurrentThumbnailIndex1)->Unselect();
-        // Change color for other player timeline
-        Q_ASSERT(m_pThumbnailList2->count()>m_iCurrentThumbnailIndex2);
-        m_pThumbnailList2->at(m_iCurrentThumbnailIndex2)->LastActive();
-        m_iCurrentThumbnailIndex1 = m_pThumbnailList1->indexOf(a_pClickedWidget);
-        m_pThumbnailList1->at(m_iCurrentThumbnailIndex1)->Select();
-        m_iActivePlayer = PLAYER_1;
-    }
-    LM::SEvent dummyEvent(LM::SEvent::NONE, nullptr, sID.toStdString(), true, iPlayerID);
-    //    ON_CC_THREAD(LM::CKernel::GotoScreenID, this->m_pKernel, dummyEvent, nullptr);
-    m_pKernel->GotoScreenID(dummyEvent, nullptr);
-    //void GotoScreenID(SEvent a_rEvent, CEntityNode* a_pTarget);
-    this->clearInspectorContainer();
-    this->setInspectorName("");
+    DeactivateThumbnails();
+    m_iActivePlayer = a_pClickedWidget->GetPlayerID();
+    SetCurrentThumbnailIndex(m_iActivePlayer, GetThumbnailList(m_iActivePlayer)->indexOf(a_pClickedWidget));
+    ActivateThumbnails();
+    UpdateScene();
 }
 
 void CMainWindow::goToNextScene()
 {
-    if (m_iActivePlayer == PLAYER_2)
-    {
-        int iNextIndex = m_iCurrentThumbnailIndex2 + 1;
-        if (iNextIndex < m_pThumbnailList2->count())
-        {
-            goToSceneID(m_pThumbnailList2->at(iNextIndex));
-        }
-    }
-    else
-    {
-        int iNextIndex = m_iCurrentThumbnailIndex1 + 1;
-        if (iNextIndex < m_pThumbnailList1->count())
-        {
-            goToSceneID(m_pThumbnailList1->at(iNextIndex));
-        }
-    }
+    DeactivateThumbnails();
+    SetCurrentThumbnailIndex(m_iActivePlayer, GetCurrentThumbnailIndex(m_iActivePlayer)+1);
+    ActivateThumbnails();
+    UpdateScene();
 }
 
 void CMainWindow::goToPreviousScene()
 {
-    if (m_iActivePlayer == PLAYER_2)
+    DeactivateThumbnails();
+    SetCurrentThumbnailIndex(m_iActivePlayer, GetCurrentThumbnailIndex(m_iActivePlayer)-1);
+    ActivateThumbnails();
+    UpdateScene();
+}
+
+void CMainWindow::UpdateScene()
+{
+    if (GetThumbnailList(m_iActivePlayer)->count() > GetCurrentThumbnailIndex(m_iActivePlayer) &&
+            GetCurrentThumbnailIndex(m_iActivePlayer) >= 0)
     {
-        int iPrevIndex = m_iCurrentThumbnailIndex2 - 1;
-        if (iPrevIndex >= 0)
-        {
-            goToSceneID(m_pThumbnailList2->at(iPrevIndex));
-        }
-    }
-    else
-    {
-        int iPrevIndex = m_iCurrentThumbnailIndex1 - 1;
-        if (iPrevIndex >= 0)
-        {
-            goToSceneID(m_pThumbnailList1->at(iPrevIndex));
-        }
+        CThumbnailWidget* pCurrentThumbnail = GetThumbnailList(m_iActivePlayer)
+                ->at(GetCurrentThumbnailIndex(m_iActivePlayer));
+
+        QString sID = pCurrentThumbnail->GetSceneID();
+        int iPlayerID = pCurrentThumbnail->GetPlayerID();
+
+        LM::SEvent dummyEvent(LM::SEvent::NONE, nullptr, sID.toStdString(), true, iPlayerID);
+        m_pKernel->GotoScreenID(dummyEvent, nullptr);
+        this->clearInspectorContainer();
+        this->setInspectorName("");
     }
 }
 
@@ -561,10 +530,10 @@ void CMainWindow::launchAddSceneWizard()
 {
     CAddSceneWizard* pSceneWizard;
     //    if(m_pCurrentThumbnailWidget1 != Q_NULLPTR)
-    if (m_pThumbnailList1->count()>m_iCurrentThumbnailIndex1)
+    if (m_pThumbnailList1->count()>m_iCurrentThumbnailIndex1 && m_iCurrentThumbnailIndex1>= 0)
     {
         //        if(m_pCurrentThumbnailWidget2 != Q_NULLPTR)                           // selected screen for both timeline
-        if (m_pThumbnailList2->count()>m_iCurrentThumbnailIndex2)
+        if (m_pThumbnailList2->count()>m_iCurrentThumbnailIndex2 &&m_iCurrentThumbnailIndex2>= 0)
         {
             pSceneWizard = new CAddSceneWizard(m_iActivePlayer,
                                                m_pKernel->GetSceneIDPlayer(PLAYER_1),
@@ -586,7 +555,7 @@ void CMainWindow::launchAddSceneWizard()
         }
     }
     //    else if(m_pCurrentThumbnailWidget2 != Q_NULLPTR)
-    else if (m_pThumbnailList2->count()>m_iCurrentThumbnailIndex2)
+    else if (m_pThumbnailList2->count()>m_iCurrentThumbnailIndex2 && m_iCurrentThumbnailIndex2>= 0)
     {
         pSceneWizard = new CAddSceneWizard(m_iActivePlayer,
                                            m_pKernel->GetSceneIDPlayer(PLAYER_1),
@@ -632,10 +601,14 @@ void CMainWindow::addingSceneFinished(std::string a_sSceneID, int a_iPlayerID)
             delete child;
         }
     }
+    m_pThumbnailList1->clear();
+    m_pThumbnailList2->clear();
     this->ProcessTree();
-    SetCurrentThumbnailIndex(a_iPlayerID, FindThumbnailIndexByID(QString::fromStdString(a_sSceneID), a_iPlayerID));
-    this->InitiateThumbnails();
-    goToSceneID(GetThumbnailList(m_iActivePlayer)->at(GetCurrentThumbnailIndex(m_iActivePlayer)));
+    //    this->InitiateThumbnails();
+    SetCurrentThumbnailIndex(a_iPlayerID,
+                             FindThumbnailIndexByID(QString::fromStdString(a_sSceneID), a_iPlayerID));
+    ActivateThumbnails();
+    UpdateScene();
 }
 
 void CMainWindow::deletingSceneFinished()
@@ -658,8 +631,8 @@ void CMainWindow::deletingSceneFinished()
             delete child;
         }
     }
-    this->m_pThumbnailList1->clear();
-    this->m_pThumbnailList2->clear();
+    m_pThumbnailList1->clear();
+    m_pThumbnailList2->clear();
     this->ProcessTree();
     if (m_pThumbnailList1->count() <= m_iCurrentThumbnailIndex1)
     {
@@ -669,8 +642,8 @@ void CMainWindow::deletingSceneFinished()
     {
         m_iCurrentThumbnailIndex2--;
     }
-    this->InitiateThumbnails();
-    goToSceneID(GetThumbnailList(m_iActivePlayer)->at(GetCurrentThumbnailIndex(m_iActivePlayer)));
+    ActivateThumbnails();
+    UpdateScene();
 }
 
 void CMainWindow::ProcessTree()
@@ -942,7 +915,7 @@ void CMainWindow::activeThumbnail(const QString &a_sSceneId, int a_iPlayerId)
     }
 }*/
 
-void CMainWindow::InitiateThumbnails()
+void CMainWindow::ActivateThumbnails()
 {
     QList<CThumbnailWidget*>* pActiveList = GetThumbnailList(m_iActivePlayer);
     QList<CThumbnailWidget*>* pOtherList = GetThumbnailList(GetOtherPlayer(m_iActivePlayer));
@@ -964,6 +937,26 @@ void CMainWindow::InitiateThumbnails()
              pOtherList->count() > iOtherIndex)
     {
         pOtherList->at(iOtherIndex)->Select();
+    }
+}
+
+void CMainWindow::DeactivateThumbnails()
+{
+    QList<CThumbnailWidget*>* pActiveList = GetThumbnailList(m_iActivePlayer);
+    QList<CThumbnailWidget*>* pOtherList = GetThumbnailList(GetOtherPlayer(m_iActivePlayer));
+    int iActiveIndex = GetCurrentThumbnailIndex(m_iActivePlayer);
+    int iOtherIndex = GetCurrentThumbnailIndex(GetOtherPlayer(m_iActivePlayer));
+
+
+    if (iActiveIndex >= 0 &&
+            pActiveList->count() > iActiveIndex)
+    {
+        pActiveList->at(iActiveIndex)->Unselect();
+    }
+    if (iOtherIndex >= 0 &&
+            pOtherList->count() > iOtherIndex)
+    {
+        pOtherList->at(iOtherIndex)->Unselect();
     }
 }
 

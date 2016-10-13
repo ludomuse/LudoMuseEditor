@@ -353,13 +353,15 @@ void CAddSceneWizard::clickOnValidate(bool)
         return;
     }
 
-    if(m_pPlayer1CheckBox->isChecked() && FindExistingID(m_pNewID->text().toStdString(), 0))
+    if(m_pPlayer1CheckBox->isChecked() && (FindExistingID(m_pNewID->text().toStdString(), 0) ||
+                                           FindExistingID(m_pNewID->text().toStdString(), 1)))
     {
         this->OpenModalDialog("L'identifiant de scène doit être unique");
         return;
     }
 
-    if(m_pPlayer1CheckBox->isChecked() && FindExistingID(m_pNewID2->text().toStdString(), 1))
+    if(m_pPlayer2CheckBox->isChecked() && (FindExistingID(m_pNewID2->text().toStdString(), 0) ||
+                                           FindExistingID(m_pNewID2->text().toStdString(), 1)))
     {
         this->OpenModalDialog("L'identifiant de scène doit être unique");
         return;

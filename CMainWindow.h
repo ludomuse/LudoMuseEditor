@@ -70,7 +70,9 @@ private:
     /// \brief search and active a thumbnail by player id and scene id
 //    void activeThumbnail(const QString& a_sSceneId, int a_iPlayerId);
     int FindThumbnailIndexByID(const QString& a_sSceneId, int a_iPlayerId);
-    void InitiateThumbnails();
+    void ActivateThumbnails();
+    void DeactivateThumbnails();
+    void UpdateScene();
 
 
 

@@ -22,7 +22,7 @@
               "type": "Text",
               "params": {
                 "content": "SUIVANT",
-                "font": "res_templ/fonts/Open_Sans/OpenSans-Bold.ttf",
+                "source": "res_templ/fonts/Open_Sans/OpenSans-Bold.ttf",
                 "fontSize": 20,
                 "textAlign": "right",
                 "width": 80,
@@ -66,7 +66,7 @@
               "type": "Text",
               "params": {
                 "content": "Texte d'information",
-                "font": "res_templ/fonts/Open_Sans/OpenSans-Regular.ttf",
+                "source": "res_templ/fonts/Open_Sans/OpenSans-Regular.ttf",
                 "fontSize": 20,
                 "textAlign": "center",
                 "width": 100,
