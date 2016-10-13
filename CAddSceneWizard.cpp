@@ -102,7 +102,7 @@ CAddSceneWizard::CAddSceneWizard(int a_iActivePlayer, const std::vector<std::str
     m_pDashCheckBox = new QCheckBox("Déclenche le dashboard");
     hDashLayout->addWidget(m_pDashCheckBox);
     dashWidget->setLayout(hDashLayout);
-//    vRightPartLayout->addWidget(playerWidget);
+    //    vRightPartLayout->addWidget(playerWidget);
     vRightPartLayout->addWidget(synchroWidget);
     vRightPartLayout->addWidget(dashWidget);
     rightPart->setLayout(vRightPartLayout);
@@ -223,7 +223,7 @@ CAddSceneWizard::CAddSceneWizard(int a_iActivePlayer, const std::vector<std::str
     m_pDashCheckBox2 = new QCheckBox("Déclenche le dashboard");
     hDashLayout2->addWidget(m_pDashCheckBox2);
     dashWidget2->setLayout(hDashLayout2);
-//    vRightPartLayout2->addWidget(playerWidget2);
+    //    vRightPartLayout2->addWidget(playerWidget2);
     vRightPartLayout2->addWidget(synchroWidget2);
     vRightPartLayout2->addWidget(dashWidget2);
     rightPart2->setLayout(vRightPartLayout2);
@@ -353,6 +353,18 @@ void CAddSceneWizard::clickOnValidate(bool)
         return;
     }
 
+    if(m_pPlayer1CheckBox->isChecked() && FindExistingID(m_pNewID->text().toStdString(), 0))
+    {
+        this->OpenModalDialog("L'identifiant de scène doit être unique");
+        return;
+    }
+
+    if(m_pPlayer1CheckBox->isChecked() && FindExistingID(m_pNewID2->text().toStdString(), 1))
+    {
+        this->OpenModalDialog("L'identifiant de scène doit être unique");
+        return;
+    }
+
     QString previousID = m_pComboBoxID->currentText();
     QString previousID2 = m_pComboBoxID2->currentText();
     if(previousID == "début") // adding scene after empty id -> adding at the beginning
@@ -406,18 +418,18 @@ void CAddSceneWizard::changeActivePlayer()
     QString dummy("");
     if(m_pPlayer1CheckBox->isChecked())
     {
-       if(m_pPlayer2CheckBox->isChecked())
-       {
-           // Both player -> only end available
-           //this->FillComboBox(0, dummy);
-           this->SetEnabledPlayerField(0, true);
-           this->SetEnabledPlayerField(1, true);
-       }
-       else
-       {
-           // Only P1 scene id available
-           this->SetEnabledPlayerField(0, true);
-           this->SetEnabledPlayerField(1, false);       }
+        if(m_pPlayer2CheckBox->isChecked())
+        {
+            // Both player -> only end available
+            //this->FillComboBox(0, dummy);
+            this->SetEnabledPlayerField(0, true);
+            this->SetEnabledPlayerField(1, true);
+        }
+        else
+        {
+            // Only P1 scene id available
+            this->SetEnabledPlayerField(0, true);
+            this->SetEnabledPlayerField(1, false);       }
     }
     else if(m_pPlayer2CheckBox->isChecked())
     {
@@ -624,7 +636,7 @@ void CAddSceneWizard::UpdatePreview()
         delete child2->widget();
         delete child2;
     }
-//  Adding picture in background of both preview
+    //  Adding picture in background of both preview
     QPixmap scaled = m_pCurrentTemplateButton->GetTemplate()->GetImage().scaledToWidth(m_pPreviewWidget->width(), Qt::FastTransformation);
     QPixmap scaled2;
     if(!(m_pCurrentTemplateButton->GetTemplate()->IsGame()))
@@ -656,15 +668,15 @@ void CAddSceneWizard::UnfocusTemplates()
     QLayout* templatesLayout = m_pTemplatesWidget->layout();
     for (int i = 0; i < templatesLayout->count(); i++)
     {
-      QWidget* widget = templatesLayout->itemAt(i)->widget();
-      if (widget)
-      {
-        CTemplatePushButton* pushButton = dynamic_cast<CTemplatePushButton*>(widget);
-        if(pushButton)
+        QWidget* widget = templatesLayout->itemAt(i)->widget();
+        if (widget)
         {
-            pushButton->Unfocus();
+            CTemplatePushButton* pushButton = dynamic_cast<CTemplatePushButton*>(widget);
+            if(pushButton)
+            {
+                pushButton->Unfocus();
+            }
         }
-      }
     }
 }
 
@@ -686,4 +698,28 @@ QWidget* CAddSceneWizard::CreateTemplatesWidget()
     returnWidget->setLayout(vTemplatesLayout);
     returnWidget->setMinimumWidth(420);
     return returnWidget;
+}
+
+bool CAddSceneWizard::FindExistingID(const std::string& a_rSceneID, int a_iPlayerID)
+{
+    std::vector<std::string> rSceneID;
+    if (a_iPlayerID == 0)
+    {
+        rSceneID = m_rSceneIDP1;
+    }
+    else
+    {
+        rSceneID = m_rSceneIDP2;
+    }
+    std::vector<std::string>::iterator itSceneID;
+    for (itSceneID = rSceneID.begin();
+         itSceneID != rSceneID.end();
+         ++itSceneID)
+    {
+        if (*itSceneID == a_rSceneID)
+        {
+            return true;
+        }
+    }
+    return false;
 }

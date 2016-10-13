@@ -28,6 +28,7 @@ private:
     void SetEnabledPlayerField(int a_iPlayerID, bool a_bEnabled);
     void UpdatePreview();
     void UnfocusTemplates();
+    bool FindExistingID(const std::string& a_rSceneID, int a_iPlayerID);
     QWidget* CreateTemplatesWidget();
     QString m_sPreviousID1;
     QString m_sPreviousID2;

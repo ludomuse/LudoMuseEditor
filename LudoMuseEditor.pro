@@ -8,7 +8,7 @@ QT       += core gui opengl
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
-TARGET = LudoMuseEditor2
+TARGET = LudoMuseEditor
 TEMPLATE = app
 
 CONFIG += c++14
@@ -235,16 +235,16 @@ LIBS += -L$${LUDOMUSE_PATH}/linux-build/lib/ -lcocos2d \
         -lX11 -lglfw -lgobject-2.0 -lglib-2.0 -lfreetype -lGLEW -ltinyxml2 -lbullet -lrecast -lflatbuffers -lxxhash -lunzip -lgtk-3 -lfontconfig -lz -ltiff -lEGL
 }
 
-macosx
-{
+#macosx
+#{
 
-CXXFLAGS = -stdlib=libstdc++
-INCLUDEPATH += /Users/ihmtek/Library/glfw-3.2.1/include/GLFW
-INCLUDEPATH += /Users/ihmtek/Library/glew-1.12.0/include
-LIBS += -L/Users/ihmtek/Library/glfw-3.2.1/build/src -lglfw3 -lstdc++
-LIBS += -L/Users/ihmtek/workspace/LudoMuseEditor/lib -lcocos2d
-LIBS += -framework Cocoa -framework CoreAudio -framework CoreFoundation -framework Foundation
-LIBS += -liconv -lz -framework Security -framework IOKit -framework OpenGL -framework AppKit -framework Foundation -framework QuartzCore -framework OpenAL -framework AVFoundation -framework AudioToolbox
-LIBS += -Xlinker
-LIBS += -L/Users/ihmtek/Qt/5.7/clang_64/lib
-}
+#CXXFLAGS = -stdlib=libstdc++
+#INCLUDEPATH += /Users/ihmtek/Library/glfw-3.2.1/include/GLFW
+#INCLUDEPATH += /Users/ihmtek/Library/glew-1.12.0/include
+#LIBS += -L/Users/ihmtek/Library/glfw-3.2.1/build/src -lglfw3 -lstdc++
+#LIBS += -L/Users/ihmtek/workspace/LudoMuseEditor/lib -lcocos2d
+#LIBS += -framework Cocoa -framework CoreAudio -framework CoreFoundation -framework Foundation
+#LIBS += -liconv -lz -framework Security -framework IOKit -framework OpenGL -framework AppKit -framework Foundation -framework QuartzCore -framework OpenAL -framework AVFoundation -framework AudioToolbox
+#LIBS += -Xlinker
+#LIBS += -L/Users/ihmtek/Qt/5.7/clang_64/lib
+#}

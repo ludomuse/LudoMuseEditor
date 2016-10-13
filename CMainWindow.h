@@ -68,7 +68,9 @@ private:
     void produceJson(const QString& a_rFileame);
 
     /// \brief search and active a thumbnail by player id and scene id
-    void activeThumbnail(const QString& a_sSceneId, int a_iPlayerId);
+//    void activeThumbnail(const QString& a_sSceneId, int a_iPlayerId);
+    int FindThumbnailIndexByID(const QString& a_sSceneId, int a_iPlayerId);
+    void InitiateThumbnails();
 
 
 
@@ -84,9 +86,10 @@ private slots:
     /// prev or next button. Thus we can know if we need to update thumbnails or not!
     void receiveScene(LM::CSceneNode* a_pScene, bool a_bIsNav);
     void clearInspectorContainer();
-    void goToSceneID(const QString&, int a_iPlayerID, CThumbnailWidget* a_pClickedThumbnails);
+    void goToSceneID(CThumbnailWidget* a_pClickedThumbnails);
     void goToNextScene();
     void goToPreviousScene();
+//    void updateScene(CThumbnailWidget* a_pNewThumnail);
     void launchEmulator();
     // slot for adding new template
     void addOneScene(const QString& a_sPreviousID, const QString& a_sNewID, int a_iPlayerID, CTemplate* a_pTemplate);
@@ -96,7 +99,7 @@ private slots:
     void addGameScene(const QString& a_sPreviousIDP1, const QString& a_sNewIDP1,
                       const QString& a_sPreviousIDP2, const QString& a_sNewIDP2,
                       CTemplate* a_pTemplate, int a_iTemplateNumberP1, int a_iTemplateNumberP2);
-    void addingSceneFinished();
+    void addingSceneFinished(std::string a_sSceneID, int a_iPlayerID);
     void deleteScene(QString a_sSceneID, bool a_bIsSync);
     void deletingSceneFinished();
     // Saving slots
@@ -105,6 +108,10 @@ private slots:
     // Temporary slot
     void launchAddSceneWizard();
     void on_fileBrowser_clicked(const QModelIndex &index);
+    void SetCurrentThumbnailIndex(int a_iPlayerID, int a_iNewThumbnailIndex);
+    int GetCurrentThumbnailIndex(int a_iPlayerID);
+    QList<CThumbnailWidget*>* GetThumbnailList(int a_iPlayerID);
+    int GetOtherPlayer(int a_iPlayerID);
 
 private:
     Ui::CMainWindow *ui;
@@ -114,8 +121,15 @@ private:
     enum {PLAYER_1, PLAYER_2, BOTH_PLAYER};
     QProcess m_oProcessServer;
     QProcess m_oProcessClient;
+    //DEPRECATED
     CThumbnailWidget* m_pCurrentThumbnailWidget1;
     CThumbnailWidget* m_pCurrentThumbnailWidget2;
+    //REPLACED BY
+    int m_iCurrentThumbnailIndex1;
+    int m_iCurrentThumbnailIndex2;
+    QList<CThumbnailWidget*>* m_pThumbnailList1;
+    QList<CThumbnailWidget*>* m_pThumbnailList2;
+    //
     CTemplateManager* m_pTemplatesManager;
     int m_iActivePlayer;
     QString m_sSaveName;
