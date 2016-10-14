@@ -39,7 +39,7 @@
                 "type": "Text",
                 "params": {
                   "content": "SUIVANT",
-                  "font": "res_templ/fonts/Open_Sans/OpenSans-Bold.ttf",
+                  "source": "res_templ/fonts/Open_Sans/OpenSans-Bold.ttf",
                   "fontSize": 20,
                   "textAlign": "right",
                   "width": 80,
@@ -155,7 +155,7 @@
                                   "type": "Text",
                                   "params": {
                                     "content": "Mauvaise réponse",
-                                    "font": "res_templ/fonts/Open_Sans/OpenSans-Regular.ttf",
+                                    "source": "res_templ/fonts/Open_Sans/OpenSans-Regular.ttf",
                                     "fontSize": 24,
                                     "textAlign": "center",
                                     "width": 100,
@@ -258,7 +258,7 @@
                                   "type": "Text",
                                   "params": {
                                     "content": "Mauvaise réponse",
-                                    "font": "res_templ/fonts/Open_Sans/OpenSans-Regular.ttf",
+                                    "source": "res_templ/fonts/Open_Sans/OpenSans-Regular.ttf",
                                     "fontSize": 24,
                                     "textAlign": "center",
                                     "width": 100,
@@ -375,7 +375,7 @@
                                   "type": "Text",
                                   "params": {
                                     "content": "La bonne réponse",
-                                    "font": "res_templ/fonts/Open_Sans/OpenSans-Regular.ttf",
+                                    "source": "res_templ/fonts/Open_Sans/OpenSans-Regular.ttf",
                                     "fontSize": 24,
                                     "textAlign": "center",
                                     "width": 100,
@@ -471,7 +471,7 @@
                                   "type": "Text",
                                   "params": {
                                     "content": "Mauvaise réponse",
-                                    "font": "res_templ/fonts/Open_Sans/OpenSans-Regular.ttf",
+                                    "source": "res_templ/fonts/Open_Sans/OpenSans-Regular.ttf",
                                     "fontSize": 24,
                                     "textAlign": "center",
                                     "width": 100,
@@ -600,7 +600,7 @@
                       "id": "InfoText",
                       "params": {
                         "content": "Question N°1",
-                        "font": "res_templ/fonts/Open_Sans/OpenSans-Regular.ttf",
+                        "source": "res_templ/fonts/Open_Sans/OpenSans-Regular.ttf",
                         "fontSize": 20,
                         "textAlign": "center",
                         "width": 80,
@@ -643,7 +643,7 @@
                 "type": "Text",
                 "params": {
                   "content": "Texte d'aide ou autre",
-                  "font": "res_templ/fonts/Open_Sans/OpenSans-Regular.ttf",
+                  "source": "res_templ/fonts/Open_Sans/OpenSans-Regular.ttf",
                   "fontSize": 20,
                   "textAlign": "center",
                   "width": 90,
@@ -691,7 +691,7 @@
                 "type": "Text",
                 "params": {
                   "content": "SUIVANT",
-                  "font": "res_templ/fonts/Open_Sans/OpenSans-Bold.ttf",
+                  "source": "res_templ/fonts/Open_Sans/OpenSans-Bold.ttf",
                   "fontSize": 20,
                   "textAlign": "right",
                   "width": 80,
@@ -821,7 +821,7 @@
                                   "type": "Text",
                                   "params": {
                                     "content": "La bonne réponse",
-                                    "font": "res_templ/fonts/Open_Sans/OpenSans-Regular.ttf",
+                                    "source": "res_templ/fonts/Open_Sans/OpenSans-Regular.ttf",
                                     "fontSize": 24,
                                     "textAlign": "center",
                                     "width": 100,
@@ -917,7 +917,7 @@
                                   "type": "Text",
                                   "params": {
                                     "content": "Mauvaise réponse",
-                                    "font": "res_templ/fonts/Open_Sans/OpenSans-Regular.ttf",
+                                    "source": "res_templ/fonts/Open_Sans/OpenSans-Regular.ttf",
                                     "fontSize": 24,
                                     "textAlign": "center",
                                     "width": 100,
@@ -1020,7 +1020,7 @@
                                   "type": "Text",
                                   "params": {
                                     "content": "Mauvaise réponse",
-                                    "font": "res_templ/fonts/Open_Sans/OpenSans-Regular.ttf",
+                                    "source": "res_templ/fonts/Open_Sans/OpenSans-Regular.ttf",
                                     "fontSize": 24,
                                     "textAlign": "center",
                                     "width": 100,
@@ -1123,7 +1123,7 @@
                                   "type": "Text",
                                   "params": {
                                     "content": "Mauvaise réponse",
-                                    "font": "res_templ/fonts/Open_Sans/OpenSans-Regular.ttf",
+                                    "source": "res_templ/fonts/Open_Sans/OpenSans-Regular.ttf",
                                     "fontSize": 24,
                                     "textAlign": "center",
                                     "width": 100,
@@ -1252,7 +1252,7 @@
                       "id": "InfoText",
                       "params": {
                         "content": "Question N°1",
-                        "font": "res_templ/fonts/Open_Sans/OpenSans-Regular.ttf",
+                        "source": "res_templ/fonts/Open_Sans/OpenSans-Regular.ttf",
                         "fontSize": 20,
                         "textAlign": "center",
                         "width": 80,
@@ -1295,7 +1295,7 @@
                 "type": "Text",
                 "params": {
                   "content": "Texte d'aide ou autre",
-                  "font": "res_templ/fonts/Open_Sans/OpenSans-Regular.ttf",
+                  "source": "res_templ/fonts/Open_Sans/OpenSans-Regular.ttf",
                   "fontSize": 20,
                   "textAlign": "center",
                   "width": 90,

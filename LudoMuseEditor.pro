@@ -8,7 +8,7 @@ QT       += core gui opengl
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
-TARGET = LudoMuseEditor2
+TARGET = LudoMuseEditor
 TEMPLATE = app
 
 CONFIG += c++14
@@ -24,6 +24,7 @@ SOURCES += main.cpp\
     LudoMuse_src/Classes/Engine/Source/CCallback.cpp \
     LudoMuse_src/Classes/Engine/Source/CCameraFeedNode.cpp \
     LudoMuse_src/Classes/Engine/Source/CDispatchMessageVisitor.cpp \
+    LudoMuse_src/Classes/Engine/Source/CDispatchEventVisitor.cpp \
     LudoMuse_src/Classes/Engine/Source/CEditBoxNode.cpp \
     LudoMuse_src/Classes/Engine/Source/CEntityNode.cpp \
     LudoMuse_src/Classes/Engine/Source/CFindEntityFromIDVisitor.cpp \
@@ -83,6 +84,7 @@ HEADERS  += CMainWindow.h \
     LudoMuse_src/Classes/Engine/Include/CCallback.h \
     LudoMuse_src/Classes/Engine/Include/CCameraFeedNode.h \
     LudoMuse_src/Classes/Engine/Include/CDispatchMessageVisitor.h \
+    LudoMuse_src/Classes/Engine/Include/CDispatchEventVisitor.h \
     LudoMuse_src/Classes/Engine/Include/CEditBoxNode.h \
     LudoMuse_src/Classes/Engine/Include/CEntityNode.h \
     LudoMuse_src/Classes/Engine/Include/CFindEntityFromIDVisitor.h \
@@ -235,8 +237,8 @@ LIBS += -L$${LUDOMUSE_PATH}/linux-build/lib/ -lcocos2d \
         -lX11 -lglfw -lgobject-2.0 -lglib-2.0 -lfreetype -lGLEW -ltinyxml2 -lbullet -lrecast -lflatbuffers -lxxhash -lunzip -lgtk-3 -lfontconfig -lz -ltiff -lEGL
 }
 
-macosx
-{
+#macosx
+#{
 
 QMAKE_MAC_SDK = macosx10.12
 CXXFLAGS = -stdlib=libstdc++

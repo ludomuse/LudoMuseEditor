@@ -20,7 +20,7 @@
                 "type": "Text",
                 "params": {
                   "content": "SUIVANT",
-                  "font": "res_templ/fonts/Open_Sans/OpenSans-Bold.ttf",
+                  "source": "res_templ/fonts/Open_Sans/OpenSans-Bold.ttf",
                   "fontSize": 20,
                   "textAlign": "right",
                   "width": 80,
@@ -46,7 +46,7 @@
                 "type": "Text",
                 "params": {
                   "content": "PRÉCÉDENT",
-                  "font": "res_templ/fonts/Open_Sans/OpenSans-Bold.ttf",
+                  "source": "res_templ/fonts/Open_Sans/OpenSans-Bold.ttf",
                   "fontSize": 20,
                   "textAlign": "left",
                   "width": 80,
@@ -105,7 +105,7 @@
                       "type": "Text",
                       "params": {
                         "content": "Texte de félicitation",
-                        "font": "res_templ/fonts/Open_Sans/OpenSans-Regular.ttf",
+                        "source": "res_templ/fonts/Open_Sans/OpenSans-Regular.ttf",
                         "fontSize": 24,
                         "textAlign": "center",
                         "width": 80,
@@ -134,7 +134,7 @@
                 "type": "Text",
                 "params": {
                   "content": "Informations",
-                  "font": "res_templ/fonts/Open_Sans/OpenSans-Regular.ttf",
+                  "source": "res_templ/fonts/Open_Sans/OpenSans-Regular.ttf",
                   "fontSize": 20,
                   "textAlign": "center",
                   "width": 60,
