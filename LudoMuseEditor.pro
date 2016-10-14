@@ -238,6 +238,7 @@ LIBS += -L$${LUDOMUSE_PATH}/linux-build/lib/ -lcocos2d \
 macosx
 {
 
+QMAKE_MAC_SDK = macosx10.12
 CXXFLAGS = -stdlib=libstdc++
 INCLUDEPATH += /Users/ihmtek/Library/glfw-3.2.1/include/GLFW
 INCLUDEPATH += /Users/ihmtek/Library/glew-1.12.0/include
@@ -247,4 +248,5 @@ LIBS += -framework Cocoa -framework CoreAudio -framework CoreFoundation -framewo
 LIBS += -liconv -lz -framework Security -framework IOKit -framework OpenGL -framework AppKit -framework Foundation -framework QuartzCore -framework OpenAL -framework AVFoundation -framework AudioToolbox
 LIBS += -Xlinker
 LIBS += -L/Users/ihmtek/Qt/5.7/clang_64/lib
+
 }
