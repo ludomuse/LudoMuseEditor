@@ -65,8 +65,14 @@
 CMainWindow::CMainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::CMainWindow),
-    m_pCurrentThumbnailWidget1(Q_NULLPTR),
-    m_pCurrentThumbnailWidget2(Q_NULLPTR),
+    // REPLACE
+    //    m_pCurrentThumbnailWidget1(Q_NULLPTR),
+    //    m_pCurrentThumbnailWidget2(Q_NULLPTR),
+    // BY
+    m_iCurrentThumbnailIndex1(-1),
+    m_iCurrentThumbnailIndex2(-1),
+    m_pThumbnailList1(new QList<CThumbnailWidget*>()),
+    m_pThumbnailList2(new QList<CThumbnailWidget*>()),
     m_iActivePlayer(BOTH_PLAYER),
     m_pKernel(NULL),
     m_sSaveName("")
@@ -183,23 +189,32 @@ void CMainWindow::loadExistingProject(const QString& a_sProjectFile)
     app->setParentWidget(ui->glViewContainer);
     cocos2d::CCQApplication::getInstance()->run();
     m_pKernel = app->getKernel();
-
     LM::CEditorFindEntityTouchVisitor* dummyVisitor= this->m_pKernel->GetEditorVisitor();
     connect(dummyVisitor, SIGNAL(labelClicked(LM::CLabelNode*)), this, SLOT(receiveLabel(LM::CLabelNode*)));
     connect(dummyVisitor, SIGNAL(spriteClicked(LM::CSpriteNode*)), this, SLOT(receiveSprite(LM::CSpriteNode*)));
-    connect(m_pKernel, SIGNAL(addingSceneFinished()), this, SLOT(addingSceneFinished()));
+    connect(m_pKernel, SIGNAL(addingSceneFinished(std::string, int)), this, SLOT(addingSceneFinished(std::string, int)));
     connect(m_pKernel, SIGNAL(deletingSceneFinished()), this, SLOT(deletingSceneFinished()));
     connect(m_pKernel, SIGNAL(sendScene(LM::CSceneNode*, bool)), this, SLOT(receiveScene(LM::CSceneNode*, bool)));
-    this->ProcessTree();
 
-    QString currentScene(m_pKernel->m_pCurrentScene->GetSceneID().c_str());
     m_iActivePlayer = m_pKernel->GetCurrentPlayer();
-    this->activeThumbnail(currentScene, m_iActivePlayer);
+    m_iCurrentThumbnailIndex1 = -1;
+    m_iCurrentThumbnailIndex2 = -1;
+    this->ProcessTree();
+    if (!m_pThumbnailList1->empty()){
+        m_iCurrentThumbnailIndex1 = 0;
+    }
+    if (!m_pThumbnailList2->empty())
+    {
+        m_iCurrentThumbnailIndex2 = 0;
+    }
+    this->ActivateThumbnails();
+    //    QString currentScene(m_pKernel->m_pCurrentScene->GetSceneID().c_str());
+    //    m_iActivePlayer = m_pKernel->GetCurrentPlayer();
+    //    this->activeThumbnail(currentScene, m_iActivePlayer);
     this->InspectScene(m_pKernel->m_pCurrentScene);
 
-//    QWidget* ccWidget = cocos2d::CCQGLView::getInstance()->getGLWidget();
-//    ui->glViewContainer->layout()->addWidget(ccWidget);
-
+    //    QWidget* ccWidget = cocos2d::CCQGLView::getInstance()->getGLWidget();
+    //    ui->glViewContainer->layout()->addWidget(ccWidget);
 }
 
 
@@ -226,10 +241,7 @@ void CMainWindow::receiveKernel(LM::CKernel *aKernel)
     connect(m_pKernel, SIGNAL(sendScene(LM::CSceneNode*, bool)), this, SLOT(receiveScene(LM::CSceneNode*, bool)));
     this->ProcessTree();
 
-    QString currentScene(m_pKernel->m_pCurrentScene->GetSceneID().c_str());
-    m_iActivePlayer = m_pKernel->GetCurrentPlayer();
-    this->activeThumbnail(currentScene, m_iActivePlayer);
-    this->InspectScene(m_pKernel->m_pCurrentScene);
+
     /*
     CFrameWidget *pFrameWidget = new CFrameWidget();
     ui->glViewContainer->layout()->addWidget(pFrameWidget);
@@ -259,11 +271,11 @@ void CMainWindow::receiveMenu(LM::CMenuNode* a_pMenuNode)
 void CMainWindow::receiveScene(LM::CSceneNode *a_pScene, bool a_bIsNav)
 {
     this->InspectScene(a_pScene);
-    if(a_bIsNav)
+    /*    if(a_bIsNav)
     {
         qDebug("navigation transition -> changing active thumbnail");
         this->activeThumbnail(QString(a_pScene->GetSceneID().c_str()), m_iActivePlayer);
-    }
+    }*/
 }
 
 void CMainWindow::clearInspectorContainer()
@@ -276,11 +288,15 @@ void CMainWindow::clearInspectorContainer()
     }
     this->setInspectorName("");
 }
-
-void CMainWindow::goToSceneID(const QString &a_id, int a_iPlayerID, CThumbnailWidget* a_pClickedWidget)
+/*
+void CMainWindow::goToSceneID(CThumbnailWidget* a_pClickedWidget)
 {
-    qDebug()<<"Deplacement vers la scene d'id : "<<a_id;
-    if(a_iPlayerID == PLAYER_2)
+    QString sSceneID = a_pClickedWidget->GetSceneID();
+    int iPlayerID = a_pClickedWidget->GetPlayerID();
+
+    qDebug()<<"Deplacement vers la scene d'id : "<< sSceneID;
+
+    if(iPlayerID == PLAYER_2)
     {
         if(m_pCurrentThumbnailWidget2 != Q_NULLPTR)
         {
@@ -293,6 +309,7 @@ void CMainWindow::goToSceneID(const QString &a_id, int a_iPlayerID, CThumbnailWi
             m_pCurrentThumbnailWidget1->LastActive();
         }
         m_iActivePlayer = PLAYER_2;
+        m_pCurrentThumbnailWidget2->Select();
     }
     else // By default take player one
     {
@@ -307,63 +324,150 @@ void CMainWindow::goToSceneID(const QString &a_id, int a_iPlayerID, CThumbnailWi
             m_pCurrentThumbnailWidget2->LastActive();
         }
         m_iActivePlayer = PLAYER_1;
+        m_pCurrentThumbnailWidget1->Select();
     }
-    LM::SEvent dummyEvent(LM::SEvent::NONE, nullptr, a_id.toStdString(), true, a_iPlayerID);
-    ON_CC_THREAD(LM::CKernel::GotoScreenID, this->m_pKernel, dummyEvent, nullptr);
+
+    LM::SEvent dummyEvent(LM::SEvent::NONE, nullptr, sSceneID.toStdString(), true, iPlayerID);
+    //    ON_CC_THREAD(LM::CKernel::GotoScreenID, this->m_pKernel, dummyEvent, nullptr);
+    m_pKernel->GotoScreenID(dummyEvent, nullptr);
     //void GotoScreenID(SEvent a_rEvent, CEntityNode* a_pTarget);
     this->clearInspectorContainer();
 }
 
 void CMainWindow::goToNextScene()
 {
-    ON_CC_THREAD(LM::CKernel::NavNext, this->m_pKernel, nullptr, nullptr);
-    this->clearInspectorContainer();
-    this->setInspectorName("");
+    CThumbnailWidget *pNextWidget;
+    if (m_iActivePlayer == PLAYER_2)
+    {
+        pNextWidget = FindThumbnailWidget(m_pCurrentThumbnailWidget2->GetSceneID(), m_iActivePlayer, +1);
+    }
+    else
+    {
+        pNextWidget = FindThumbnailWidget(m_pCurrentThumbnailWidget1->GetSceneID(), m_iActivePlayer, +1);
+    }
+    if (pNextWidget != nullptr)
+    {
+        this->goToSceneID(pNextWidget);
+        //    ON_CC_THREAD(LM::CKernel::NavNext, this->m_pKernel, nullptr, nullptr);
+        this->clearInspectorContainer();
+        this->setInspectorName("");
+    }
 }
 
 void CMainWindow::goToPreviousScene()
 {
-    ON_CC_THREAD(LM::CKernel::NavPrevious, this->m_pKernel, nullptr, nullptr);
-    this->clearInspectorContainer();
-    this->setInspectorName("");
+    CThumbnailWidget *pPrevWidget;
+    if (m_iActivePlayer == PLAYER_2)
+    {
+        pPrevWidget = FindThumbnailWidget(m_pCurrentThumbnailWidget2->GetSceneID(), m_iActivePlayer, -1);
+    }
+    else
+    {
+        pPrevWidget = FindThumbnailWidget(m_pCurrentThumbnailWidget1->GetSceneID(), m_iActivePlayer, -1);
+    }
+    if (pPrevWidget != nullptr)
+    {
+        this->goToSceneID(pPrevWidget);
+        //    ON_CC_THREAD(LM::CKernel::NavPrevious, this->m_pKernel, nullptr, nullptr);
+        this->clearInspectorContainer();
+        this->setInspectorName("");
+    }
+}
+*/
+
+void CMainWindow::goToSceneID(CThumbnailWidget* a_pClickedWidget)
+{
+    DeactivateThumbnails();
+    m_iActivePlayer = a_pClickedWidget->GetPlayerID();
+    SetCurrentThumbnailIndex(m_iActivePlayer, GetThumbnailList(m_iActivePlayer)->indexOf(a_pClickedWidget));
+    ActivateThumbnails();
+    UpdateScene();
+}
+
+void CMainWindow::goToNextScene()
+{
+    DeactivateThumbnails();
+    SetCurrentThumbnailIndex(m_iActivePlayer, GetCurrentThumbnailIndex(m_iActivePlayer)+1);
+    ActivateThumbnails();
+    UpdateScene();
+}
+
+void CMainWindow::goToPreviousScene()
+{
+    DeactivateThumbnails();
+    SetCurrentThumbnailIndex(m_iActivePlayer, GetCurrentThumbnailIndex(m_iActivePlayer)-1);
+    ActivateThumbnails();
+    UpdateScene();
+}
+
+void CMainWindow::UpdateScene()
+{
+    if (GetThumbnailList(m_iActivePlayer)->count() > GetCurrentThumbnailIndex(m_iActivePlayer) &&
+            GetCurrentThumbnailIndex(m_iActivePlayer) >= 0)
+    {
+        CThumbnailWidget* pCurrentThumbnail = GetThumbnailList(m_iActivePlayer)
+                ->at(GetCurrentThumbnailIndex(m_iActivePlayer));
+
+        QString sID = pCurrentThumbnail->GetSceneID();
+        int iPlayerID = pCurrentThumbnail->GetPlayerID();
+
+        LM::SEvent dummyEvent(LM::SEvent::NONE, nullptr, sID.toStdString(), true, iPlayerID);
+        m_pKernel->GotoScreenID(dummyEvent, nullptr);
+        this->clearInspectorContainer();
+        this->setInspectorName("");
+    }
 }
 
 void CMainWindow::addOneScene(const QString &a_sPreviousID, const QString &a_sNewID, int a_iPlayerID, CTemplate* a_pTemplate)
 {
-    ON_CC_THREAD(LM::CKernel::AddNewScene, m_pKernel, a_pTemplate->GetPath().toStdString(),
-                 a_sPreviousID.toStdString(), a_sNewID.toStdString(), a_iPlayerID, 0, "");
+    //    ON_CC_THREAD(LM::CKernel::AddNewScene, m_pKernel, a_pTemplate->GetPath().toStdString(),
+    //                 a_sPreviousID.toStdString(), a_sNewID.toStdString(), a_iPlayerID, 0, "");
+    m_iActivePlayer = a_iPlayerID;
+    m_pKernel->AddNewScene( a_pTemplate->GetPath().toStdString(),
+                            a_sPreviousID.toStdString(), a_sNewID.toStdString(), a_iPlayerID, 0, "");
 }
 
 void CMainWindow::addTwoScene(const QString &a_sPreviousIDP1, const QString &a_sNewIDP1,
                               const QString &a_sPreviousIDP2, const QString &a_sNewIDP2,
                               CTemplate* a_pTemplate)
 {
-    ON_CC_THREAD(LM::CKernel::AddNewScene, m_pKernel, a_pTemplate->GetPath().toStdString(),
-                 a_sPreviousIDP1.toStdString(), a_sNewIDP1.toStdString(), PLAYER_1, 0, "");
-    ON_CC_THREAD(LM::CKernel::AddNewScene, m_pKernel, a_pTemplate->GetPath().toStdString(),
-                 a_sPreviousIDP2.toStdString(), a_sNewIDP2.toStdString(), PLAYER_2, 0, "");
+    //    ON_CC_THREAD(LM::CKernel::AddNewScene, m_pKernel, a_pTemplate->GetPath().toStdString(),
+    //                 a_sPreviousIDP1.toStdString(), a_sNewIDP1.toStdString(), PLAYER_1, 0, "");
+    //    ON_CC_THREAD(LM::CKernel::AddNewScene, m_pKernel, a_pTemplate->GetPath().toStdString(),
+    //                 a_sPreviousIDP2.toStdString(), a_sNewIDP2.toStdString(), PLAYER_2, 0, "");
+    m_pKernel->AddNewScene(a_pTemplate->GetPath().toStdString(),
+                           a_sPreviousIDP1.toStdString(), a_sNewIDP1.toStdString(), PLAYER_1, 0, "");
+    m_pKernel->AddNewScene(a_pTemplate->GetPath().toStdString(),
+                           a_sPreviousIDP2.toStdString(), a_sNewIDP2.toStdString(), PLAYER_2, 0, "");
 }
 
 void CMainWindow::addGameScene(const QString &a_sPreviousIDP1, const QString &a_sNewIDP1,
                                const QString &a_sPreviousIDP2, const QString &a_sNewIDP2,
                                CTemplate* a_pTemplate, int a_iTemplateNumberP1, int a_iTemplateNumberP2)
 {
-    ON_CC_THREAD(LM::CKernel::AddNewScene, m_pKernel, a_pTemplate->GetPath().toStdString(),
-                 a_sPreviousIDP1.toStdString(), a_sNewIDP1.toStdString(), PLAYER_1, a_iTemplateNumberP1, a_sNewIDP2.toStdString());
-    ON_CC_THREAD(LM::CKernel::AddNewScene, m_pKernel, a_pTemplate->GetPath().toStdString(),
-                 a_sPreviousIDP2.toStdString(), a_sNewIDP2.toStdString(), PLAYER_2, a_iTemplateNumberP2, a_sNewIDP1.toStdString());
-    ON_CC_THREAD(LM::CKernel::AddSyncID, m_pKernel, a_sNewIDP1.toStdString(), a_sNewIDP2.toStdString());
+    //    ON_CC_THREAD(LM::CKernel::AddNewScene, m_pKernel, a_pTemplate->GetPath().toStdString(),
+    //                 a_sPreviousIDP1.toStdString(), a_sNewIDP1.toStdString(), PLAYER_1, a_iTemplateNumberP1, a_sNewIDP2.toStdString());
+    //    ON_CC_THREAD(LM::CKernel::AddNewScene, m_pKernel, a_pTemplate->GetPath().toStdString(),
+    //                 a_sPreviousIDP2.toStdString(), a_sNewIDP2.toStdString(), PLAYER_2, a_iTemplateNumberP2, a_sNewIDP1.toStdString());
+    //    ON_CC_THREAD(LM::CKernel::AddSyncID, m_pKernel, a_sNewIDP1.toStdString(), a_sNewIDP2.toStdString());
+    m_pKernel->AddNewScene(a_pTemplate->GetPath().toStdString(),
+                           a_sPreviousIDP1.toStdString(), a_sNewIDP1.toStdString(), PLAYER_1, a_iTemplateNumberP1, a_sNewIDP2.toStdString());
+    m_pKernel->AddNewScene(a_pTemplate->GetPath().toStdString(),
+                           a_sPreviousIDP2.toStdString(), a_sNewIDP2.toStdString(), PLAYER_2, a_iTemplateNumberP2, a_sNewIDP1.toStdString());
+    m_pKernel->AddSyncID(a_sNewIDP1.toStdString(), a_sNewIDP2.toStdString());
 }
 
 void CMainWindow::deleteScene(QString a_sSceneID, bool a_bIsSync)
 {
     if(!a_bIsSync)
     {
-        ON_CC_THREAD(LM::CKernel::DeleteScene, this->m_pKernel, a_sSceneID.toStdString());
+        //        ON_CC_THREAD(LM::CKernel::DeleteScene, this->m_pKernel, a_sSceneID.toStdString());
+        m_pKernel->DeleteScene(a_sSceneID.toStdString());
     }
     else
     {
-        ON_CC_THREAD(LM::CKernel::DeleteSyncScenes, this->m_pKernel, a_sSceneID.toStdString());
+        //        ON_CC_THREAD(LM::CKernel::DeleteSyncScenes, this->m_pKernel, a_sSceneID.toStdString());
+        m_pKernel->DeleteSyncScenes(a_sSceneID.toStdString());
     }
 }
 
@@ -399,7 +503,6 @@ void CMainWindow::saveAs()
         this->m_sSaveName = filePath;
         this->ui->save->setEnabled(true);
         this->produceJson(filePath);
-
     }
 }
 
@@ -426,16 +529,20 @@ void CMainWindow::produceJson(const QString& a_rFileName){
 void CMainWindow::launchAddSceneWizard()
 {
     CAddSceneWizard* pSceneWizard;
-    if(m_pCurrentThumbnailWidget1 != Q_NULLPTR)
+    //    if(m_pCurrentThumbnailWidget1 != Q_NULLPTR)
+    if (m_pThumbnailList1->count()>m_iCurrentThumbnailIndex1 && m_iCurrentThumbnailIndex1>= 0)
     {
-        if(m_pCurrentThumbnailWidget2 != Q_NULLPTR)                           // selected screen for both timeline
+        //        if(m_pCurrentThumbnailWidget2 != Q_NULLPTR)                           // selected screen for both timeline
+        if (m_pThumbnailList2->count()>m_iCurrentThumbnailIndex2 &&m_iCurrentThumbnailIndex2>= 0)
         {
             pSceneWizard = new CAddSceneWizard(m_iActivePlayer,
                                                m_pKernel->GetSceneIDPlayer(PLAYER_1),
                                                m_pKernel->GetSceneIDPlayer(PLAYER_2),
                                                this,
-                                               m_pCurrentThumbnailWidget1->GetSceneID(),
-                                               m_pCurrentThumbnailWidget2->GetSceneID());
+                                               //                                               m_pCurrentThumbnailWidget1->GetSceneID(),
+                                               //                                               m_pCurrentThumbnailWidget2->GetSceneID());
+                                               m_pThumbnailList1->at(m_iCurrentThumbnailIndex1)->GetSceneID(),
+                                               m_pThumbnailList2->at(m_iCurrentThumbnailIndex2)->GetSceneID());
         }
         else                                                                 // Only selected on P1 time line
         {
@@ -443,17 +550,20 @@ void CMainWindow::launchAddSceneWizard()
                                                m_pKernel->GetSceneIDPlayer(PLAYER_1),
                                                m_pKernel->GetSceneIDPlayer(PLAYER_2),
                                                this,
-                                               m_pCurrentThumbnailWidget1->GetSceneID());
+                                               //                                               m_pCurrentThumbnailWidget1->GetSceneID());
+                                               m_pThumbnailList1->at(m_iCurrentThumbnailIndex1)->GetSceneID());
         }
     }
-    else if(m_pCurrentThumbnailWidget2 != Q_NULLPTR)
+    //    else if(m_pCurrentThumbnailWidget2 != Q_NULLPTR)
+    else if (m_pThumbnailList2->count()>m_iCurrentThumbnailIndex2 && m_iCurrentThumbnailIndex2>= 0)
     {
         pSceneWizard = new CAddSceneWizard(m_iActivePlayer,
                                            m_pKernel->GetSceneIDPlayer(PLAYER_1),
                                            m_pKernel->GetSceneIDPlayer(PLAYER_2),
                                            this,
                                            Q_NULLPTR,
-                                           m_pCurrentThumbnailWidget2->GetSceneID());
+                                           //                                           m_pCurrentThumbnailWidget2->GetSceneID());
+                                           m_pThumbnailList2->at(m_iCurrentThumbnailIndex2)->GetSceneID());
     }
     else    // No screen selected on both timeline
     {
@@ -471,7 +581,7 @@ void CMainWindow::launchAddSceneWizard()
     pSceneWizard->show();
 }
 
-void CMainWindow::addingSceneFinished()
+void CMainWindow::addingSceneFinished(std::string a_sSceneID, int a_iPlayerID)
 {
     // Clear thumbnails widget
     QLayoutItem *child;
@@ -491,11 +601,14 @@ void CMainWindow::addingSceneFinished()
             delete child;
         }
     }
-    // Clear pointer on current thumbnail widget
-    this->m_pCurrentThumbnailWidget1 = Q_NULLPTR;
-    this->m_pCurrentThumbnailWidget2 = Q_NULLPTR;
-    this->m_iActivePlayer = BOTH_PLAYER;
+    m_pThumbnailList1->clear();
+    m_pThumbnailList2->clear();
     this->ProcessTree();
+    //    this->InitiateThumbnails();
+    SetCurrentThumbnailIndex(a_iPlayerID,
+                             FindThumbnailIndexByID(QString::fromStdString(a_sSceneID), a_iPlayerID));
+    ActivateThumbnails();
+    UpdateScene();
 }
 
 void CMainWindow::deletingSceneFinished()
@@ -518,11 +631,19 @@ void CMainWindow::deletingSceneFinished()
             delete child;
         }
     }
-    // Clear pointer on current thumbnail widget
-    this->m_pCurrentThumbnailWidget1 = Q_NULLPTR;
-    this->m_pCurrentThumbnailWidget2 = Q_NULLPTR;
-    this->m_iActivePlayer = BOTH_PLAYER;
+    m_pThumbnailList1->clear();
+    m_pThumbnailList2->clear();
     this->ProcessTree();
+    if (m_pThumbnailList1->count() <= m_iCurrentThumbnailIndex1)
+    {
+        m_iCurrentThumbnailIndex1--;
+    }
+    if (m_pThumbnailList2->count() <= m_iCurrentThumbnailIndex2)
+    {
+        m_iCurrentThumbnailIndex2--;
+    }
+    ActivateThumbnails();
+    UpdateScene();
 }
 
 void CMainWindow::ProcessTree()
@@ -538,27 +659,27 @@ void CMainWindow::ProcessTree()
             if(id == BOTH_PLAYER)
             {
                 connect(this->addSceneToTimeLine(sceneId, PLAYER_1),
-                        SIGNAL(onClick(const QString&, int, CThumbnailWidget*)),
+                        SIGNAL(onClick(CThumbnailWidget*)),
                         this,
-                        SLOT(goToSceneID(const QString&, int, CThumbnailWidget*)));
+                        SLOT(goToSceneID(CThumbnailWidget*)));
                 connect(this->addSceneToTimeLine(sceneId, PLAYER_2),
-                        SIGNAL(onClick(const QString&, int, CThumbnailWidget*)),
+                        SIGNAL(onClick(CThumbnailWidget*)),
                         this,
-                        SLOT(goToSceneID(const QString&, int, CThumbnailWidget*)));
+                        SLOT(goToSceneID(CThumbnailWidget*)));
             }
             else if(id == PLAYER_1)
             {
                 connect(this->addSceneToTimeLine(sceneId, PLAYER_1),
-                        SIGNAL(onClick(const QString&, int, CThumbnailWidget*)),
+                        SIGNAL(onClick(CThumbnailWidget*)),
                         this,
-                        SLOT(goToSceneID(const QString&, int, CThumbnailWidget*)));
+                        SLOT(goToSceneID(CThumbnailWidget*)));
             }
             else
             {
                 connect(this->addSceneToTimeLine(sceneId, PLAYER_2),
-                        SIGNAL(onClick(const QString&, int, CThumbnailWidget*)),
+                        SIGNAL(onClick(CThumbnailWidget*)),
                         this,
-                        SLOT(goToSceneID(const QString&, int, CThumbnailWidget*)));
+                        SLOT(goToSceneID(CThumbnailWidget*)));
             }
         }
 
@@ -583,14 +704,16 @@ CThumbnailWidget* CMainWindow::addSceneToTimeLine(const QString &a_id, int a_pla
 
     if(a_playerID == PLAYER_1)
     {
-        CThumbnailWidget* nodeWidget = new CThumbnailWidget(a_id, a_playerID, ui->trameContainerP1, index++);
+        CThumbnailWidget* nodeWidget = new CThumbnailWidget(a_id, a_playerID, ui->trameContainerP1);
         this->ui->trameContainerP1->layout()->addWidget(nodeWidget);
+        this->m_pThumbnailList1->append(nodeWidget);
         return nodeWidget;
     }
     else if(a_playerID == PLAYER_2)
     {
-        CThumbnailWidget* nodeWidget = new CThumbnailWidget(a_id, a_playerID, ui->trameContainerP2, 0);
+        CThumbnailWidget* nodeWidget = new CThumbnailWidget(a_id, a_playerID, ui->trameContainerP2);
         this->ui->trameContainerP2->layout()->addWidget(nodeWidget);
+        this->m_pThumbnailList2->append(nodeWidget);
         return nodeWidget;
     }
 
@@ -602,7 +725,7 @@ void CMainWindow::InspectLabel(LM::CLabelNode* a_pLabel)
     // Clear inspector tool bar
     this->setInspectorName("Éditeur de texte");
 
-    // Clear inspector loayout from older inspection
+    // Clear inspector layout from older inspection
     QLayoutItem *child;
     QLayout* inspectorContainerLayout = this->ui->inspectorContainer->layout();
     if(inspectorContainerLayout != Q_NULLPTR)
@@ -724,7 +847,7 @@ void CMainWindow::setInspectorName(const QString &a_rName)
     inspectorTitle->setStyleSheet("QLabel{color : white;}");
     this->ui->toolBarInspector->layout()->addWidget(inspectorTitle);
 }
-
+/*
 void CMainWindow::activeThumbnail(const QString &a_sSceneId, int a_iPlayerId)
 {
     int index = 0;
@@ -790,6 +913,65 @@ void CMainWindow::activeThumbnail(const QString &a_sSceneId, int a_iPlayerId)
             }
         }
     }
+}*/
+
+void CMainWindow::ActivateThumbnails()
+{
+    QList<CThumbnailWidget*>* pActiveList = GetThumbnailList(m_iActivePlayer);
+    QList<CThumbnailWidget*>* pOtherList = GetThumbnailList(GetOtherPlayer(m_iActivePlayer));
+    int iActiveIndex = GetCurrentThumbnailIndex(m_iActivePlayer);
+    int iOtherIndex = GetCurrentThumbnailIndex(GetOtherPlayer(m_iActivePlayer));
+
+
+    if (iActiveIndex >= 0 &&
+            pActiveList->count() > iActiveIndex)
+    {
+        pActiveList->at(iActiveIndex)->Select();
+        if (iOtherIndex >= 0 &&
+                pOtherList->count() > iOtherIndex)
+        {
+            pOtherList->at(iOtherIndex)->LastActive();
+        }
+    }
+    else if (iOtherIndex >= 0 &&
+             pOtherList->count() > iOtherIndex)
+    {
+        pOtherList->at(iOtherIndex)->Select();
+    }
+}
+
+void CMainWindow::DeactivateThumbnails()
+{
+    QList<CThumbnailWidget*>* pActiveList = GetThumbnailList(m_iActivePlayer);
+    QList<CThumbnailWidget*>* pOtherList = GetThumbnailList(GetOtherPlayer(m_iActivePlayer));
+    int iActiveIndex = GetCurrentThumbnailIndex(m_iActivePlayer);
+    int iOtherIndex = GetCurrentThumbnailIndex(GetOtherPlayer(m_iActivePlayer));
+
+
+    if (iActiveIndex >= 0 &&
+            pActiveList->count() > iActiveIndex)
+    {
+        pActiveList->at(iActiveIndex)->Unselect();
+    }
+    if (iOtherIndex >= 0 &&
+            pOtherList->count() > iOtherIndex)
+    {
+        pOtherList->at(iOtherIndex)->Unselect();
+    }
+}
+
+int CMainWindow::FindThumbnailIndexByID(const QString& a_sSceneId, int a_iPlayerId)
+{
+    QList<CThumbnailWidget*>* pTimeline = GetThumbnailList(a_iPlayerId);
+    int iIndex;
+    for (iIndex = 0; iIndex < pTimeline->count(); iIndex++)
+    {
+        if (pTimeline->at(iIndex)->GetSceneID() == a_sSceneId)
+        {
+            return iIndex;
+        }
+    }
+    return -1;
 }
 
 void CMainWindow::on_fileBrowser_clicked(const QModelIndex &index)
@@ -797,4 +979,51 @@ void CMainWindow::on_fileBrowser_clicked(const QModelIndex &index)
     QString path = m_pDirModel->fileInfo(index).absoluteFilePath();
     ui->fileListView->setRootIndex(m_pFileModel->setRootPath(path));
     ui->fileListView->SetCurrentPath(path);
+}
+
+void CMainWindow::SetCurrentThumbnailIndex(int a_iPlayerID, int a_iNewThumbnailIndex)
+{
+    if (a_iPlayerID == PLAYER_2)
+    {
+        m_iCurrentThumbnailIndex2 = a_iNewThumbnailIndex;
+    }
+    else
+    {
+        m_iCurrentThumbnailIndex1 = a_iNewThumbnailIndex;
+    }
+}
+
+int CMainWindow::GetCurrentThumbnailIndex(int a_iPlayerID)
+{
+    if (a_iPlayerID == PLAYER_2)
+    {
+        return m_iCurrentThumbnailIndex2;
+    }
+    else
+    {
+        return m_iCurrentThumbnailIndex1;
+    }
+}
+
+QList<CThumbnailWidget*>* CMainWindow::GetThumbnailList(int a_iPlayerID)
+{
+    if (a_iPlayerID == PLAYER_2)
+    {
+        return m_pThumbnailList2;
+    }
+    else
+    {
+        return m_pThumbnailList1;
+    }
+}
+
+int CMainWindow::GetOtherPlayer(int a_iPlayerID)
+{
+    if (a_iPlayerID == PLAYER_2) {
+        return PLAYER_1;
+    }
+    else
+    {
+        return PLAYER_2;
+    }
 }

@@ -26,6 +26,7 @@
 
 // Personnal include
 #include "CLineEdit.h"
+#include "CProjectManager.h"
 
 CSpriteInspector::CSpriteInspector(QWidget *parent):
     QWidget(parent)
@@ -212,7 +213,7 @@ CSpriteInspector::CSpriteInspector(LM::CSpriteNode* a_pSprite, QWidget *parent):
     if(this->m_pSprite->GetWidth() == 0)
     {
         m_pHeightRadioButton->setChecked(true);
-//        m_pHeightRadioButton->setEnabled(false);
+        //        m_pHeightRadioButton->setEnabled(false);
         m_pWidthRadioButton->setChecked(false);
         m_pWidthSlider->setEnabled(false);
         m_pWidthValue->setEnabled(false);
@@ -223,7 +224,7 @@ CSpriteInspector::CSpriteInspector(LM::CSpriteNode* a_pSprite, QWidget *parent):
     {
         m_pHeightRadioButton->setChecked(false);
         m_pWidthRadioButton->setChecked(true);
-//        m_pWidthRadioButton->setEnabled(false);
+        //        m_pWidthRadioButton->setEnabled(false);
         m_pHeightSlider->setEnabled(false);
         m_pHeightValue->setEnabled(false);
         heightContainer->setStyleSheet("#heightContainer{border: none}");
@@ -317,15 +318,15 @@ void CSpriteInspector::validatePath()
     myFile.setFileName(path);
     if(myFile.exists())
     {
-//        QLabel* infoLabel = new QLabel("marche bien" + path);
-//        this->layout()->addWidget(infoLabel);
+        //        QLabel* infoLabel = new QLabel("marche bien" + path);
+        //        this->layout()->addWidget(infoLabel);
         qDebug()<<"validate with path :"<<path;
         this->m_pSprite->SetPath(path.toStdString());
     }
     else
     {
-//        QLabel* infoLabel = new QLabel("marche pas" + path);
-//        this->layout()->addWidget(infoLabel);
+        //        QLabel* infoLabel = new QLabel("marche pas" + path);
+        //        this->layout()->addWidget(infoLabel);
         qDebug()<<"File doesn't seem to exist : "<<path;
         QPalette pal(palette());
         pal.setColor(QPalette::Text, QColor(255,0,0,255));
@@ -354,7 +355,8 @@ void CSpriteInspector::openPathFileDialog()
 
     //qDebug()<<currentDir.absolutePath();
     //qDebug()<<" Image path : "<<this->m_pPath->text();
-    QDir currentDir = QDir::currentPath();
+    //    QDir currentDir = QDir::currentPath();
+    QDir currentDir = QDir(CProjectManager::Instance()->QGetProjectPath());
 
     std::vector<std::string> pathToImage = StringSplit(this->m_pPath->text().toStdString(), '/');
 
@@ -367,6 +369,7 @@ void CSpriteInspector::openPathFileDialog()
 
     fileDialog->setNameFilter("Images (*.jpeg, *.jpg, *.png");
 
+    connect(fileDialog, SIGNAL(directoryEntered(QString)), this, SLOT(newDirectoryEntered(QString)));
     connect(fileDialog, SIGNAL(fileSelected(QString)), this, SLOT(newPathSelected(QString)));
 
     fileDialog->show();
@@ -382,6 +385,18 @@ void CSpriteInspector::newPathSelected(QString a_sPath)
     qDebug()<<"etablish new path via file windonw -"<<a_sPath;
 }
 
+void CSpriteInspector::newDirectoryEntered(QString a_sPath)
+{
+    QString sProjectPath = CProjectManager::Instance()->QGetProjectPath();
+    if (!a_sPath.contains(sProjectPath))
+    {
+        QFileDialog* fileDialog = dynamic_cast<QFileDialog*>(QObject::sender());
+        if (fileDialog != Q_NULLPTR)
+        {
+            fileDialog->setDirectory(sProjectPath);
+        }
+    }
+}
 
 void CSpriteInspector::heightSliderChange(int a_iValue)
 {
@@ -428,12 +443,12 @@ void CSpriteInspector::checkHeight(bool a_rState)
 {
     if(a_rState)
     {
-//        m_pWidthRadioButton->setEnabled(true);
-//        m_pHeightRadioButton->setChecked(true);
-//        m_pWidthRadioButton->setChecked(false);
+        //        m_pWidthRadioButton->setEnabled(true);
+        //        m_pHeightRadioButton->setChecked(true);
+        //        m_pWidthRadioButton->setChecked(false);
         m_pHeightRadioButton->parentWidget()->setStyleSheet("#heightContainer{border: 1px dashed white}");
         m_pWidthRadioButton->parentWidget()->setStyleSheet("#widthContainer{border: none}");
-//        m_pHeightRadioButton->setEnabled(false);
+        //        m_pHeightRadioButton->setEnabled(false);
         m_pHeightSlider->setEnabled(true);
         m_pHeightValue->setEnabled(true);
         // Disabling width fields
@@ -449,12 +464,12 @@ void CSpriteInspector::checkWidth(bool a_rState)
 {
     if(a_rState)
     {
-//        m_pHeightRadioButton->setEnabled(true);
-//        m_pHeightRadioButton->setChecked(false);
-//        m_pWidthRadioButton->setChecked(true);
+        //        m_pHeightRadioButton->setEnabled(true);
+        //        m_pHeightRadioButton->setChecked(false);
+        //        m_pWidthRadioButton->setChecked(true);
         m_pHeightRadioButton->parentWidget()->setStyleSheet("#heightContainer{border: none}");
         m_pWidthRadioButton->parentWidget()->setStyleSheet("#widthContainer{border: 1px dashed white}");
-//        m_pWidthRadioButton->setEnabled(false);
+        //        m_pWidthRadioButton->setEnabled(false);
         m_pWidthSlider->setEnabled(true);
         m_pWidthValue->setEnabled(true);
         // Disabling height fields

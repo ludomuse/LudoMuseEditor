@@ -127,14 +127,12 @@ void CCQGLWidget::resizeEvent(QResizeEvent *event)
         {
             setGeometry(0, 0, m_iOldWidth, m_iOldHeight);
         }
-        //        resize(m_iOldWidth, m_iOldHeight);
     }
 }
 
 QSize CCQGLWidget::sizeHint() const
 {
-    //    return QSize(m_iOldWidth, m_iOldHeight);
-    return QSize(0, 0);
+    return baseSize();
 }
 
 NS_CC_END
