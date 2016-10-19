@@ -7,11 +7,13 @@
 
 #include <QDir>
 #include <QDebug>
+#include <QCoreApplication>
 
 CProjectManager::CProjectManager():
     m_sProjectPath("")
 {
-    m_sInstallPath = QDir::currentPath();
+    m_sInstallPath = QCoreApplication::applicationDirPath();
+
     QFile configFile(m_sInstallPath + "/prev.json");
     this->ReadLastProject(configFile);
 }
