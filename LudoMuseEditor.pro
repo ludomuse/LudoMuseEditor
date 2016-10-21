@@ -237,10 +237,13 @@ LIBS += -L$${LUDOMUSE_PATH}/linux-build/lib/ -lcocos2d \
         -lX11 -lglfw -lgobject-2.0 -lglib-2.0 -lfreetype -lGLEW -ltinyxml2 -lbullet -lrecast -lflatbuffers -lxxhash -lunzip -lgtk-3 -lfontconfig -lz -ltiff -lEGL
 }
 
-#macosx
-#{
-
+macosx
+{
+QMAKE_CXXFLAGS += -D__gl3_h_
 QMAKE_MAC_SDK = macosx10.12
+QMAKE_RPATHDIR += ./
+QMAKE_RPATHDIR += @executable_path/
+QMAKE_RPATHDIR += @executable_path/../Plugins/platforms/
 CXXFLAGS = -stdlib=libstdc++
 INCLUDEPATH += /Users/ihmtek/Library/glfw-3.2.1/include/GLFW
 INCLUDEPATH += /Users/ihmtek/Library/glew-1.12.0/include
