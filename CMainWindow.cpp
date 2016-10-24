@@ -704,11 +704,11 @@ void CMainWindow::deletingSceneFinished(const QString a_sSceneID, int a_iPlayerI
         m_pThumbnailList2->removeAt(iIndex2);
         pDeletedThumbnail1->deleteLater();
         pDeletedThumbnail2->deleteLater();
-        if (iIndex1 <= m_iCurrentThumbnailIndex1)
+        if (iIndex1 < m_iCurrentThumbnailIndex1)
         {
             m_iCurrentThumbnailIndex1--;
         }
-        if (iIndex2 <= m_iCurrentThumbnailIndex2)
+        if (iIndex2 < m_iCurrentThumbnailIndex2)
         {
             m_iCurrentThumbnailIndex2--;
         }
@@ -720,7 +720,7 @@ void CMainWindow::deletingSceneFinished(const QString a_sSceneID, int a_iPlayerI
         m_pLoader->RemoveThumbnail(pDeletedThumbnail);
         GetThumbnailList(a_iPlayerID)->removeAt(iIndex);
         pDeletedThumbnail->deleteLater();
-        if (iIndex <= GetCurrentThumbnailIndex(a_iPlayerID))
+        if (iIndex < GetCurrentThumbnailIndex(a_iPlayerID))
         {
             SetCurrentThumbnailIndex(a_iPlayerID, GetCurrentThumbnailIndex(a_iPlayerID) - 1);
         }
