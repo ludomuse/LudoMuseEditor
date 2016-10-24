@@ -101,13 +101,9 @@ CMainWindow::CMainWindow(QWidget *parent) :
         ui->save->setEnabled(false);
     }
 
-    // File browser (tree and file display)
-    // All path will be changed TODO
-    QString temporaryPath("D:\\IHMTEK\\LudoMuseEditorCocos\\build-LudoMuseEditor-Clone_de_Desktop_Qt_5_6_0_MSVC2015_32bit-Debug\\debug");
-
-
     // Icon creation
-    ui->emulateButton->setIcon(QIcon("resources/play_arrow.png"));
+    ui->emulateButton->setIcon(QIcon(CProjectManager::Instance()->QGetInstallPath().append("/resources/play_arrow.png")));
+    ui->testButton->setIcon(QIcon(CProjectManager::Instance()->QGetInstallPath().append("/resources/add_playlist_w.png")));
 
     // Create Template Manager
     this->m_pTemplatesManager = CTemplateManager::Instance();
