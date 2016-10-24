@@ -36,6 +36,7 @@ public:
     virtual bool isOpenGLReady() override;
     virtual void end() override;
     virtual void swapBuffers() override;
+    virtual void pollEvents() override {}
     virtual void setFrameSize(float width, float height) override;
     virtual void setIMEKeyboardState(bool bOpen) override;
     virtual void setViewName(const char* pszViewName);

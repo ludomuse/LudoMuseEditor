@@ -1,4 +1,4 @@
-#-------------------------------------------------
+ #-------------------------------------------------
 #
 # Project created by QtCreator 2016-06-02T10:47:42
 #
@@ -76,6 +76,7 @@ SOURCES += main.cpp\
     CProjectPushButton.cpp \
     CEditorKernel.cpp \
     CMenuNodeInspector.cpp \
+    CThumbnailsLoaderThread.cpp \
     CocosQtPort/CCQApplication.cpp \
     CocosQtPort/CCQGLView.cpp \
     CocosQtPort/CCQGLWidget.cpp
@@ -142,6 +143,7 @@ HEADERS  += CMainWindow.h \
     CProjectPushButton.h \
     CEditorKernel.h \
     CMenuNodeInspector.h \
+    CThumbnailsLoaderThread.h \
     CocosQtPort/CCQApplication.h \
     CocosQtPort/CCQGLView.h \
     CocosQtPort/CCQGLWidget.h

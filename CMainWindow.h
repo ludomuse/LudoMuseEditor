@@ -11,6 +11,7 @@
 #include "CThumbnailWidget.h"
 #include "CTemplateManager.h"
 #include "CTemplate.h"
+#include "CThumbnailsLoaderThread.h"
 
 #include <Classes/Engine/Include/CKernel.h>
 #include <Classes/Engine/Include/CLabelNode.h>
@@ -68,13 +69,23 @@ private:
     void produceJson(const QString& a_rFileame);
 
     /// \brief search and active a thumbnail by player id and scene id
-//    void activeThumbnail(const QString& a_sSceneId, int a_iPlayerId);
+    //    void activeThumbnail(const QString& a_sSceneId, int a_iPlayerId);
     int FindThumbnailIndexByID(const QString& a_sSceneId, int a_iPlayerId);
+
+    /// \Activate current selected and last active thumbnails
     void ActivateThumbnails();
+    /// Unselect thumbnails
     void DeactivateThumbnails();
-    void UpdateScene();
+    /// \Displays current scene
+    void ShowCurrentScene();
+    /// \Update current thumbnail preview
+    void SaveThumbnail();
 
-
+    void SetCurrentThumbnailIndex(int a_iPlayerID, int a_iNewThumbnailIndex);
+    int GetCurrentThumbnailIndex(int a_iPlayerID);
+    QList<CThumbnailWidget*>* GetThumbnailList(int a_iPlayerID);
+    int GetOtherPlayer(int a_iPlayerID);
+    void UpdateThumbnailView(int a_iPlayerID);
 
 private slots:
     void loadExistingProject(const QString& a_sProjectPath);
@@ -91,7 +102,7 @@ private slots:
     void goToSceneID(CThumbnailWidget* a_pClickedThumbnails);
     void goToNextScene();
     void goToPreviousScene();
-//    void updateScene(CThumbnailWidget* a_pNewThumnail);
+    //    void updateScene(CThumbnailWidget* a_pNewThumnail);
     void launchEmulator();
     // slot for adding new template
     void addOneScene(const QString& a_sPreviousID, const QString& a_sNewID, int a_iPlayerID, CTemplate* a_pTemplate);
@@ -101,19 +112,18 @@ private slots:
     void addGameScene(const QString& a_sPreviousIDP1, const QString& a_sNewIDP1,
                       const QString& a_sPreviousIDP2, const QString& a_sNewIDP2,
                       CTemplate* a_pTemplate, int a_iTemplateNumberP1, int a_iTemplateNumberP2);
-    void addingSceneFinished(std::string a_sSceneID, int a_iPlayerID);
     void deleteScene(QString a_sSceneID, bool a_bIsSync);
+    void addingSceneFinished(std::string a_sSceneID, int a_iPlayerID);
     void deletingSceneFinished();
+    void addingSceneFinished(const QString a_sPrevSceneID, const QString a_sSceneID, int a_iPlayerID);
+    void deletingSceneFinished(const QString a_sSceneID, int a_iPlayerID);
     // Saving slots
     void saveAs();
     void save();
     // Temporary slot
     void launchAddSceneWizard();
     void on_fileBrowser_clicked(const QModelIndex &index);
-    void SetCurrentThumbnailIndex(int a_iPlayerID, int a_iNewThumbnailIndex);
-    int GetCurrentThumbnailIndex(int a_iPlayerID);
-    QList<CThumbnailWidget*>* GetThumbnailList(int a_iPlayerID);
-    int GetOtherPlayer(int a_iPlayerID);
+    void loadCapture(QString);
 
 private:
     Ui::CMainWindow *ui;
@@ -135,8 +145,7 @@ private:
     CTemplateManager* m_pTemplatesManager;
     int m_iActivePlayer;
     QString m_sSaveName;
-
-    int index;
+    CThumbnailsLoaderThread *m_pLoader;
 };
 
 #endif // CMAINWINDOW_H
