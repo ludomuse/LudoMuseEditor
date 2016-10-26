@@ -27,6 +27,10 @@ CLoaderWidget::CLoaderWidget(QWidget *parent) :
     connect(ui->loadButton, SIGNAL(clicked(bool)), this, SLOT(clickLoadProject()));
     connect(m_pLoadProjectWizard, SIGNAL(loadProjectFile(QString)), this, SLOT(projectSelected(QString)));
     connect(m_pNewProjectWizard, SIGNAL(createNewProject(QString)), this, SLOT(createNewProject(QString)));
+
+    ui->loadButton->setIcon(QIcon(CProjectManager::Instance()->QGetInstallPath().append("/resources/ic_open_in_browser_white_48dp_2x.png")));
+    ui->newButton->setIcon(QIcon(CProjectManager::Instance()->QGetInstallPath().append("/resources/ic_create_new_folder_white_48dp_2x.png")));
+    ui->exitButton->setIcon(QIcon(CProjectManager::Instance()->QGetInstallPath().append("/resources/ic_close_white_48dp_2x.png")));
 }
 
 CLoaderWidget::~CLoaderWidget()

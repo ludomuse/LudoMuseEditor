@@ -7,48 +7,79 @@
 #include <QDebug>
 #include <QMouseEvent>
 #include <QPoint>
+#include <CProjectManager.h>
+#include <QGraphicsColorizeEffect>
+#include <QGraphicsDropShadowEffect>
 
-CThumbnailWidget::CThumbnailWidget(QWidget *parent) : QWidget(parent),
+CThumbnailWidget::CThumbnailWidget(QWidget *parent) : QFrame(parent),
     m_bIsHover(false),
     m_bIsPress(false)
 {
 
 }
 
-CThumbnailWidget::CThumbnailWidget(QString a_sceneID, int a_iPlayerID, QWidget *parent, int a_iIndex) : QWidget(parent),
+CThumbnailWidget::CThumbnailWidget(QString a_sceneID, int a_iPlayerID, QWidget *parent) : QFrame(parent),
     m_sSceneID(a_sceneID),
     m_bIsHover(false),
     m_bIsPress(false),
     m_iPlayerID(a_iPlayerID)
 {
-    QVBoxLayout *vLayout = new QVBoxLayout();
-
-//    QPixmap pic("D:/IHMTEK/LudoMuseEditorCocos/build-LudoMuseEditor-Clone_de_Desktop_Qt_5_6_0_MSVC2015_32bit-Debug/debug/thumbnails/screen-playerid.png");
-//    QPixmap scaled=pic.scaledToWidth(250, Qt::FastTransformation);
-//    QLabel *label = new QLabel(this);
-//    label->setPixmap(scaled);
-
-    QPalette pal(palette());
-    pal.setColor(QPalette::Background, QColor(150,150,150));
-    QLabel* labelID = new QLabel(m_sSceneID, this);
-    labelID->setAlignment(Qt::AlignCenter);
-//    vLayout->addWidget(label);
-    vLayout->addWidget(labelID);
-    this->setAutoFillBackground(true);
-    this->setPalette(pal);
-    this->setLayout(vLayout);
+    this->setFrameShape(QFrame::Box);
     this->setMinimumWidth(250);
     this->setMaximumWidth(250);
+    QVBoxLayout *vLayout = new QVBoxLayout();
+    this->setLayout(vLayout);
 
-//    m_pAddSceneButton = new QPushButton(parent);
-//    m_pAddSceneButton->setMaximumHeight(50);
-//    m_pAddSceneButton->setMaximumWidth(50);
-//    m_pAddSceneButton->setText("+");
-//    m_pAddSceneButton->move((a_iIndex * 255) - 10, (int)(parent->height() / 2));
-//    m_pAddSceneButton->raise();
-//    m_pAddSceneButton->show();
+    Unselect();
 
+    FillThumbnail();
+
+    //    m_pAddSceneButton = new QPushButton(parent);
+    //    m_pAddSceneButton->setMaximumHeight(50);
+    //    m_pAddSceneButton->setMaximumWidth(50);
+    //    m_pAddSceneButton->setText("+");
+    //    m_pAddSceneButton->move((a_iIndex * 255) - 10, (int)(parent->height() / 2));
+    //    m_pAddSceneButton->raise();
+    //    m_pAddSceneButton->show();
     //m_pSynchroSceneButton = new QPushButton(this);
+
+    //    QPixmap bkgnd();
+    //    bkgnd = bkgnd.scaled(this->size(), Qt::KeepAspectRatioByExpanding);
+    //    QPalette palette;
+    //    palette.setBrush(QPalette::Background, bkgnd);
+    //    this->setPalette(palette);
+}
+
+void CThumbnailWidget::UpdateThumbnail()
+{
+    //    QLayoutItem *child;
+    //    while ((child = this->layout()->takeAt(0)) != 0) {
+    //        delete child->widget();
+    //        delete child;
+    //    }
+    //    FillThumbnail();
+    QLabel* label = this->findChild<QLabel*>("image", Qt::FindDirectChildrenOnly);
+    if (label)
+    {
+        QPixmap pic(QString::fromStdString(CProjectManager::Instance()->GetProjectPath())+"/thumbnails/"+m_sSceneID+".png");
+        if (!pic.isNull())
+        {
+            pic = pic.scaledToWidth(this->width(), Qt::SmoothTransformation);
+            label->setPixmap(pic);
+        }
+    }
+}
+
+void CThumbnailWidget::FillThumbnail()
+{
+    QLayout* layout = this->layout();
+    QLabel *label = new QLabel(this);
+    label->setObjectName("image");
+    QLabel* labelID = new QLabel(m_sSceneID, this);
+    labelID->setObjectName("text");
+    labelID->setAlignment(Qt::AlignHCenter);
+    layout->addWidget(labelID);
+    layout->addWidget(label);
 }
 
 QString CThumbnailWidget::GetSceneID()
@@ -68,34 +99,54 @@ bool CThumbnailWidget::IsSceneID(const QString& a_rSceneID, int a_iPlayerID)
 
 void CThumbnailWidget::Unselect()
 {
-    this->setMinimumWidth(250);
+    this->layout()->setContentsMargins(5,5,5,5);
+    this->setLineWidth(0);
+
     QPalette pal(palette());
-    pal.setColor(QPalette::Background, QColor(150,150,150));
+    pal.setColor(QPalette::Background, QColor(100,100,100));
+    pal.setColor(QPalette::Foreground, QColor(0, 85, 255));
     this->setAutoFillBackground(true);
     this->setPalette(pal);
+
+    QGraphicsColorizeEffect *cEffect = new QGraphicsColorizeEffect;
+    cEffect->setStrength(1);
+    cEffect->setColor(Qt::black);
+
+    this->setGraphicsEffect(cEffect);
 }
 
 void CThumbnailWidget::Select()
 {
+    this->layout()->setContentsMargins(2,2,2,2);
+    this->setLineWidth(3);
+
     QPalette pal(palette());
-    pal.setColor(QPalette::Background, QColor(255,255,255));
+    pal.setColor(QPalette::Background, QColor(250,250,250));
+    pal.setColor(QPalette::Foreground, QColor(0, 85, 255));
     this->setAutoFillBackground(true);
     this->setPalette(pal);
+
+    this->setGraphicsEffect(0);
 }
 
 void CThumbnailWidget::LastActive()
 {
-    this->setMinimumWidth(250);
+    this->layout()->setContentsMargins(3,3,3,3);
+    this->setLineWidth(2);
+
     QPalette pal(palette());
-    pal.setColor(QPalette::Background, QColor(200,200,200));
+    pal.setColor(QPalette::Background, QColor(175,175,175));
+    pal.setColor(QPalette::Foreground, QColor(0, 85, 255));
     this->setAutoFillBackground(true);
     this->setPalette(pal);
+
+    this->setGraphicsEffect(0);
 }
 
 void CThumbnailWidget::mouseReleaseEvent(QMouseEvent *event)
 {
     if(this->m_bIsHover && this->m_bIsPress){
-//        emit onClick(this->m_sSceneID, this->m_iPlayerID);
+        //        emit onClick(this->m_sSceneID, this->m_iPlayerID);
     }
 }
 
@@ -105,7 +156,7 @@ void CThumbnailWidget::mousePressEvent(QMouseEvent *event)
     if(this->m_bIsHover && event->button() == Qt::LeftButton)
     {
         emit onClick(this); // substract 1 to match id in Cocos ( 0 & 1 )
-//        this->setMinimumWidth(300);
+        //        this->setMinimumWidth(300);
     }
 }
 
@@ -119,4 +170,3 @@ void CThumbnailWidget::enterEvent(QEvent * event)
 {
     this->m_bIsHover = true;
 }
-

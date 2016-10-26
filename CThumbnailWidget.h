@@ -2,21 +2,24 @@
 #define CTHUMBNAILWIDGET_H
 
 #include <QWidget>
+#include <QFrame>
 #include <QString>
 #include <QPushButton>
 
-class CThumbnailWidget : public QWidget
+class CThumbnailWidget : public QFrame
 {
     Q_OBJECT
 public:
     explicit CThumbnailWidget(QWidget *parent = 0);
-    CThumbnailWidget(QString a_sId, int a_iPlayerID = 0, QWidget *parent=Q_NULLPTR, int a_iIndex = 0);
+    CThumbnailWidget(QString a_sId, int a_iPlayerID = 0, QWidget *parent=Q_NULLPTR);
     bool IsSceneID(const QString& a_rSceneID, int a_iPlayerID);
     void Unselect();
     void Select();
     void LastActive();
     int GetPlayerID();
     QString GetSceneID();
+    void UpdateThumbnail();
+    void FillThumbnail();
 
 protected:
     void mouseReleaseEvent(QMouseEvent *event);

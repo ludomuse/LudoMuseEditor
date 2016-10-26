@@ -148,8 +148,8 @@ void CCQGLView::resize()
     {
         float ratio = (float)(_window->baseSize().width()) / (float)(_window->baseSize().height());
         setFrameSize(_window->size().height() * ratio, _window->size().height());
-//        float height = std::fmin((float)_window->size().height(), (float)_window->size().width() / ratio);
-//        setFrameSize(height * ratio, height);
+        //        float height = std::fmin((float)_window->size().height(), (float)_window->size().width() / ratio);
+        //        setFrameSize(height * ratio, height);
     }
 }
 
