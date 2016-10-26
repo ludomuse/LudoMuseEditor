@@ -20,6 +20,7 @@ private:
     // Function
     void ReadLastProject(QFile& a_fConfigFile);
     void EditPrevFile();
+    std::size_t GetProjectHash();
     // Attributs
     QString m_sProjectPath;
     QString m_sInstallPath;
@@ -32,10 +33,13 @@ public:
     void SetProjectFile(const QString& a_sPath);
     QString QGetProjectPath();
     QString QGetInstallPath();
+    QString QGetAbsoluteWritablePath();
     QString QGetProjectName();
     QString QGetProjectJsonFile();
     std::string GetProjectPath();
     std::string GetInstallPath();
+    std::string GetAbsoluteWritablePath();
+    std::string GetRelativeWritablePath();
     std::string GetProjectName();
     std::string GetProjectJsonFile();
     /// \brief add the new source if necessary and return the index

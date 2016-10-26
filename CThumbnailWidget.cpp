@@ -61,7 +61,7 @@ void CThumbnailWidget::UpdateThumbnail()
     QLabel* label = this->findChild<QLabel*>("image", Qt::FindDirectChildrenOnly);
     if (label)
     {
-        QPixmap pic(QString::fromStdString(CProjectManager::Instance()->GetProjectPath())+"/thumbnails/"+m_sSceneID+".png");
+        QPixmap pic(CProjectManager::Instance()->QGetAbsoluteWritablePath() + m_sSceneID+".png");
         if (!pic.isNull())
         {
             pic = pic.scaledToWidth(this->width(), Qt::SmoothTransformation);
