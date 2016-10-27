@@ -151,10 +151,14 @@ QString CProjectManager::QGetAbsoluteWritablePath()
 {
     std::string pathHashDir = std::to_string(GetProjectHash());
 
+#ifdef TARGET_OS_MAC
+    QDir writableDir(std::string(cocos2d::FileUtils::getInstance()->getWritablePath() + "/LudoMuseEditor/" + pathHashDir).c_str());
+#else
     QDir writableDir(std::string(cocos2d::FileUtils::getInstance()->getWritablePath() + "/" + pathHashDir).c_str());
+#endif
     if (!writableDir.exists())
     {
-        writableDir.mkdir(writableDir.absolutePath());
+        writableDir.mkpath(writableDir.absolutePath());
     }
 
     return writableDir.absolutePath() + "/";
@@ -189,7 +193,11 @@ std::string CProjectManager::GetAbsoluteWritablePath()
 
 std::string CProjectManager::GetRelativeWritablePath()
 {
+#ifdef TARGET_OS_MAC
+    return std::string("LudoMuseEditor/") + std::to_string(GetProjectHash());
+#else
     return std::to_string(GetProjectHash());
+#endif
 }
 
 
