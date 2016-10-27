@@ -1157,7 +1157,7 @@ int CMainWindow::GetOtherPlayer(int a_iPlayerID)
 void CMainWindow::SaveThumbnail()
 {
     //    ON_CC_THREAD(LM::CKernel::CaptureScreen, m_pKernel, CProjectManager::Instance()->GetProjectPath()+"thumbnails/");
-    m_pKernel->CaptureScreen(CProjectManager::Instance()->GetProjectPath()+"thumbnails/");
+    m_pKernel->CaptureScreen();
 }
 
 void CMainWindow::loadCapture(QString a_sSceneID)

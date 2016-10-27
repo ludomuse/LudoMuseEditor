@@ -5,6 +5,8 @@
 #include <stringbuffer.h>
 #include <writer.h>
 
+#include <cocos2d.h>
+
 #include <QDir>
 #include <QDebug>
 #include <QCoreApplication>
@@ -112,6 +114,15 @@ void CProjectManager::EditPrevFile()
     }
 }
 
+
+std::size_t CProjectManager::GetProjectHash()
+{
+    std::hash<std::string> hash;
+    std::size_t projectHash = hash(GetProjectJsonFile());
+
+    return projectHash;
+}
+
 CProjectManager* CProjectManager::Instance()
 {
     static CProjectManager instance;
@@ -136,6 +147,19 @@ QString CProjectManager::QGetInstallPath()
     return m_sInstallPath;
 }
 
+QString CProjectManager::QGetAbsoluteWritablePath()
+{
+    std::string pathHashDir = std::to_string(GetProjectHash());
+
+    QDir writableDir(std::string(cocos2d::FileUtils::getInstance()->getWritablePath() + "/" + pathHashDir).c_str());
+    if (!writableDir.exists())
+    {
+        writableDir.mkdir(writableDir.absolutePath());
+    }
+
+    return writableDir.absolutePath() + "/";
+}
+
 QString CProjectManager::QGetProjectName()
 {
     QFileInfo temp(m_sProjectPath);
@@ -157,6 +181,18 @@ std::string CProjectManager::GetInstallPath()
 {
     return m_sInstallPath.toStdString();
 }
+
+std::string CProjectManager::GetAbsoluteWritablePath()
+{
+    return QGetAbsoluteWritablePath().toStdString();
+}
+
+std::string CProjectManager::GetRelativeWritablePath()
+{
+    return std::to_string(GetProjectHash());
+}
+
+
 
 std::string CProjectManager::GetProjectName()
 {
