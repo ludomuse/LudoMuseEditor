@@ -22,11 +22,19 @@ private:
     Ui::CMenuNodeInspector *ui;
     LM::CMenuNode* m_pMenuNode;
 
+    std::string m_sSavedText;
+    bool m_bSavedNav;
+
+protected:
+    virtual void closeEvent(QCloseEvent *event);
+
 public slots:
     void checkNext(bool);
     void checkPrev(bool);
     void textChanged(QString);
-    void closeInspectorSlot();
+//    void closeInspectorSlot();
+    void validateChanges();
+    void discardChanges();
 
 signals:
     void closeInspector();

@@ -17,7 +17,9 @@ CMenuNodeInspector::CMenuNodeInspector(QWidget *parent) :
 CMenuNodeInspector::CMenuNodeInspector(LM::CMenuNode *a_pMenuNode, QWidget *parent) :
     QWidget(parent),
     ui(new Ui::CMenuNodeInspector),
-    m_pMenuNode(a_pMenuNode)
+    m_pMenuNode(a_pMenuNode),
+
+    m_sSavedText(a_pMenuNode->GetText())
 {
     ui->setupUi(this);
 
@@ -27,11 +29,13 @@ CMenuNodeInspector::CMenuNodeInspector(LM::CMenuNode *a_pMenuNode, QWidget *pare
     QString action = QString(m_pMenuNode->GetAction().c_str());
     if(action == "next")
     {
+        m_bSavedNav = true;
         ui->prevRButton->setChecked(false);
         ui->nextRButton->setChecked(true);
     }
     else
     {
+        m_bSavedNav = false;
         ui->prevRButton->setChecked(true);
         ui->nextRButton->setChecked(false);
     }
@@ -39,7 +43,8 @@ CMenuNodeInspector::CMenuNodeInspector(LM::CMenuNode *a_pMenuNode, QWidget *pare
     radioButtons->addButton(ui->prevRButton);
     ui->TextLineEdit->setText(QString(m_pMenuNode->GetText().c_str()));
 
-    connect(ui->backButton, SIGNAL(clicked(bool)), this, SLOT(closeInspectorSlot()));
+    connect(ui->backButton, SIGNAL(clicked(bool)), this, SLOT(discardChanges()));
+    connect(ui->okButton, SIGNAL(clicked(bool)), this, SLOT(validateChanges()));
     connect(ui->prevRButton, SIGNAL(toggled(bool)), this, SLOT(checkPrev(bool)));
     connect(ui->nextRButton, SIGNAL(toggled(bool)), this, SLOT(checkNext(bool)));
     connect(ui->TextLineEdit, SIGNAL(textChanged(QString)), this, SLOT(textChanged(QString)));
@@ -48,6 +53,25 @@ CMenuNodeInspector::CMenuNodeInspector(LM::CMenuNode *a_pMenuNode, QWidget *pare
 CMenuNodeInspector::~CMenuNodeInspector()
 {
     delete ui;
+}
+
+void CMenuNodeInspector::validateChanges()
+{
+    m_sSavedText = m_pMenuNode->GetText();
+    if(m_pMenuNode->GetAction() == "next")
+    {
+        m_bSavedNav = true;
+    }
+    else
+    {
+        m_bSavedNav = false;
+    }
+    emit closeInspector();
+}
+
+void CMenuNodeInspector::discardChanges()
+{
+    emit closeInspector();
 }
 
 void CMenuNodeInspector::checkPrev(bool a_rState)
@@ -71,8 +95,11 @@ void CMenuNodeInspector::textChanged(QString a_sText)
     ON_CC_THREAD(LM::CMenuNode::SetText, m_pMenuNode, a_sText.toStdString());
 }
 
-void CMenuNodeInspector::closeInspectorSlot()
+void CMenuNodeInspector::closeEvent (QCloseEvent *event)
 {
-    emit closeInspector();
+    ON_CC_THREAD(LM::CMenuNode::SetText, m_pMenuNode, m_sSavedText);
+    m_pMenuNode->SetNavAction(m_bSavedNav);
+//    discardChanges();
+    QWidget::closeEvent(event);
 }
 

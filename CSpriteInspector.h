@@ -21,11 +21,12 @@ public:
 
 signals:
     void closeInspector();
+    void modifySprite(LM::CEntityNode* a_pSprite);
 
 public slots:
-    void closeInspectorSlot();
+//    void closeInspectorSlot();
     void pathChanged(const QString&);
-    void validatePath();
+//    void validatePath();
     void setAnchor();
     void openPathFileDialog();
     void newPathSelected(QString);
@@ -36,6 +37,8 @@ public slots:
     void widthTextChange(const QString& a_rText);
     void checkHeight(bool a_rState);
     void checkWidth(bool a_rState);
+    void validateChanges();
+    void discardChanges();
 
 private:
 
@@ -49,6 +52,14 @@ private:
     QSlider* m_pWidthSlider;
     QRadioButton* m_pWidthRadioButton;
     QRadioButton* m_pHeightRadioButton;
+
+    std::string m_sSavedPath;
+    int m_iSavedWidth;
+    int m_iSavedHeight;
+    int m_iSavedAnchor;
+
+protected:
+    virtual void closeEvent(QCloseEvent *event) override;
 };
 
 #endif // CSPRITEINSPECTOR_H

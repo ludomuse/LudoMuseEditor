@@ -38,7 +38,12 @@ CSpriteInspector::CSpriteInspector(QWidget *parent):
 CSpriteInspector::CSpriteInspector(LM::CSpriteNode* a_pSprite, QWidget *parent):
     QWidget(parent),
     m_pSprite(a_pSprite),
-    m_pPath(Q_NULLPTR)
+    m_pPath(Q_NULLPTR),
+
+    m_sSavedPath(a_pSprite->GetPath()),
+    m_iSavedHeight(a_pSprite->GetHeight()),
+    m_iSavedWidth(a_pSprite->GetWidth()),
+    m_iSavedAnchor(a_pSprite->GetAnchor())
 {
     this->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Expanding);
 
@@ -255,9 +260,7 @@ CSpriteInspector::CSpriteInspector(LM::CSpriteNode* a_pSprite, QWidget *parent):
     this->m_pPath = path;
 
     connect(path, SIGNAL(textChanged(QString)), this, SLOT(pathChanged(QString)));
-    connect(okButton, SIGNAL(clicked(bool)), this, SLOT(validatePath()));
     connect(pathFileDialogButton, SIGNAL(clicked(bool)), this, SLOT(openPathFileDialog()));
-    connect(backButton, SIGNAL(clicked(bool)), this, SLOT(closeInspectorSlot()));
 
     // Connect Anchor and stock it in object
     connect(anchor0Button, SIGNAL(clicked(bool)), this, SLOT(setAnchor()));
@@ -288,16 +291,10 @@ CSpriteInspector::CSpriteInspector(LM::CSpriteNode* a_pSprite, QWidget *parent):
     // Connect checkbox
     connect(m_pHeightRadioButton, SIGNAL(toggled(bool)), this, SLOT(checkHeight(bool)));
     connect(m_pWidthRadioButton, SIGNAL(toggled(bool)), this, SLOT(checkWidth(bool)));
+
+    connect(okButton, SIGNAL(clicked(bool)), this, SLOT(validateChanges()));
+    connect(backButton, SIGNAL(clicked(bool)), this, SLOT(discardChanges()));
 }
-
-
-
-void CSpriteInspector::closeInspectorSlot()
-{
-    emit closeInspector();
-}
-
-
 
 // SIGNALS ***********************************************
 
@@ -308,31 +305,64 @@ void CSpriteInspector::pathChanged(const QString& a_sPath)
     pal.setColor(QPalette::Text, QColor(0,0,0,255));
     this->m_pPath->setPalette(pal);
     this->m_pPath->update();
-}
 
-void CSpriteInspector::validatePath()
-{
     // Test if file exist!
     QFile myFile;
-    QString path = this->m_pPath->text();
-    myFile.setFileName(path);
+    myFile.setFileName(a_sPath);
     if(myFile.exists())
     {
         //        QLabel* infoLabel = new QLabel("marche bien" + path);
         //        this->layout()->addWidget(infoLabel);
-        qDebug()<<"validate with path :"<<path;
-        this->m_pSprite->SetPath(path.toStdString());
+        qDebug()<<"validate with path :"<<a_sPath;
+        this->m_pSprite->SetPath(a_sPath.toStdString());
     }
     else
     {
         //        QLabel* infoLabel = new QLabel("marche pas" + path);
         //        this->layout()->addWidget(infoLabel);
-        qDebug()<<"File doesn't seem to exist : "<<path;
+        qDebug()<<"File doesn't seem to exist : "<<a_sPath;
         QPalette pal(palette());
         pal.setColor(QPalette::Text, QColor(255,0,0,255));
         this->m_pPath->setPalette(pal);
         this->m_pPath->update();
     }
+}
+
+void CSpriteInspector::validateChanges()
+{
+    //    // Test if file exist!
+    //    QFile myFile;
+    //    QString path = this->m_pPath->text();
+    //    myFile.setFileName(path);
+    //    if(myFile.exists())
+    //    {
+    //        //        QLabel* infoLabel = new QLabel("marche bien" + path);
+    //        //        this->layout()->addWidget(infoLabel);
+    //        qDebug()<<"validate with path :"<<path;
+    //        this->m_pSprite->SetPath(path.toStdString());
+    //        emit modifySprite(m_pSprite);
+    //    }
+    //    else
+    //    {
+    //        //        QLabel* infoLabel = new QLabel("marche pas" + path);
+    //        //        this->layout()->addWidget(infoLabel);
+    //        qDebug()<<"File doesn't seem to exist : "<<path;
+    //        QPalette pal(palette());
+    //        pal.setColor(QPalette::Text, QColor(255,0,0,255));
+    //        this->m_pPath->setPalette(pal);
+    //        this->m_pPath->update();
+    //    }
+    m_sSavedPath = m_pSprite->GetPath();
+    m_iSavedHeight = m_pSprite->GetHeight();
+    m_iSavedWidth = m_pSprite->GetWidth();
+    m_iSavedAnchor = m_pSprite->GetAnchor();
+    emit modifySprite(m_pSprite);
+    emit closeInspector();
+}
+
+void CSpriteInspector::discardChanges()
+{
+    emit closeInspector();
 }
 
 void CSpriteInspector::setAnchor()
@@ -478,4 +508,14 @@ void CSpriteInspector::checkWidth(bool a_rState)
         // Setting size propertie
         m_pSprite->SetWidth(m_pWidthSlider->value());
     }
+}
+
+void CSpriteInspector::closeEvent (QCloseEvent *event)
+{
+    m_pSprite->SetPath(m_sSavedPath);
+    m_pSprite->SetWidth(m_iSavedWidth);
+    m_pSprite->SetHeight(m_iSavedHeight);
+    ON_CC_THREAD(LM::CSpriteNode::ChangeAnchor, m_pSprite, m_iSavedAnchor);
+    discardChanges();
+    QWidget::closeEvent(event);
 }
