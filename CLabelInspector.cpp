@@ -24,7 +24,11 @@ CLabelInspector::CLabelInspector(QWidget *parent):
 CLabelInspector::CLabelInspector(LM::CLabelNode* a_pLabel, QWidget *parent):
     QWidget(parent),
     m_pLabel(a_pLabel),
-    m_pTextEdit(Q_NULLPTR)
+    m_pTextEdit(Q_NULLPTR),
+
+    m_sSavedText(a_pLabel->GetText()),
+    m_iSavedHeight(a_pLabel->GetHeight()),
+    m_iSavedWidth(a_pLabel->GetWidth())
 {
     this->setSizePolicy(QSizePolicy::Preferred,QSizePolicy::Expanding);
 
@@ -104,36 +108,36 @@ CLabelInspector::CLabelInspector(LM::CLabelNode* a_pLabel, QWidget *parent):
     vLayoutSize->addWidget(widthContainer);
     sizeContainer->setLayout(vLayoutSize);
     sizeContainer->setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Minimum);
-//    QVBoxLayout* vLayoutSize = new QVBoxLayout();
-//    QHBoxLayout* hLayoutHeight = new QHBoxLayout();
-//    QHBoxLayout* hLayoutWidth = new QHBoxLayout();
-//    QWidget* heightContainer = new QWidget();
-//    QWidget* widthContainer = new QWidget();
-//    QLabel* widthTitle = new QLabel("Largeur :");
-//    widthTitle->setStyleSheet("QLabel{color : white;}");
-//    QLabel* heightTitle = new QLabel("Hauteur :");
-//    heightTitle->setStyleSheet("QLabel{color : white;}");
-//    QSlider*  widthSlider = new QSlider(Qt::Horizontal);
-//    QSlider*  heightSlider = new QSlider(Qt::Horizontal);
-//    widthSlider->setTickInterval(1);
-//    widthSlider->setMaximum(100);
-//    widthSlider->setMinimum(0);
-//    widthSlider->setSliderPosition(50);
-//    heightSlider->setTickInterval(1);
-//    heightSlider->setMaximum(100);
-//    heightSlider->setMinimum(0);
-//    heightSlider->setSliderPosition(50);
-//    hLayoutWidth->addWidget(widthTitle);
-//    hLayoutWidth->addWidget(widthSlider);
-//    hLayoutHeight->addWidget(heightTitle);
-//    hLayoutHeight->addWidget(heightSlider);
-//    heightContainer->setLayout(hLayoutHeight);
-//    widthContainer->setLayout(hLayoutWidth);
-//    QWidget* sizeContainer = new QWidget();
-//    vLayoutSize->addWidget(heightContainer);
-//    vLayoutSize->addWidget(widthContainer);
-//    sizeContainer->setLayout(vLayoutSize);
-//    sizeContainer->setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Minimum);
+    //    QVBoxLayout* vLayoutSize = new QVBoxLayout();
+    //    QHBoxLayout* hLayoutHeight = new QHBoxLayout();
+    //    QHBoxLayout* hLayoutWidth = new QHBoxLayout();
+    //    QWidget* heightContainer = new QWidget();
+    //    QWidget* widthContainer = new QWidget();
+    //    QLabel* widthTitle = new QLabel("Largeur :");
+    //    widthTitle->setStyleSheet("QLabel{color : white;}");
+    //    QLabel* heightTitle = new QLabel("Hauteur :");
+    //    heightTitle->setStyleSheet("QLabel{color : white;}");
+    //    QSlider*  widthSlider = new QSlider(Qt::Horizontal);
+    //    QSlider*  heightSlider = new QSlider(Qt::Horizontal);
+    //    widthSlider->setTickInterval(1);
+    //    widthSlider->setMaximum(100);
+    //    widthSlider->setMinimum(0);
+    //    widthSlider->setSliderPosition(50);
+    //    heightSlider->setTickInterval(1);
+    //    heightSlider->setMaximum(100);
+    //    heightSlider->setMinimum(0);
+    //    heightSlider->setSliderPosition(50);
+    //    hLayoutWidth->addWidget(widthTitle);
+    //    hLayoutWidth->addWidget(widthSlider);
+    //    hLayoutHeight->addWidget(heightTitle);
+    //    hLayoutHeight->addWidget(heightSlider);
+    //    heightContainer->setLayout(hLayoutHeight);
+    //    widthContainer->setLayout(hLayoutWidth);
+    //    QWidget* sizeContainer = new QWidget();
+    //    vLayoutSize->addWidget(heightContainer);
+    //    vLayoutSize->addWidget(widthContainer);
+    //    sizeContainer->setLayout(vLayoutSize);
+    //    sizeContainer->setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Minimum);
 
 
     QHBoxLayout* hLayoutButton = new QHBoxLayout();
@@ -158,17 +162,27 @@ CLabelInspector::CLabelInspector(LM::CLabelNode* a_pLabel, QWidget *parent):
 
     // Connect SLOT and SIGNAL
     connect(m_pTextEdit, SIGNAL(textChanged()), this, SLOT(changeText()));
-    connect(backButton, SIGNAL(clicked(bool)), this, SLOT(closeInspectorSlot()));
-    connect(okButton, SIGNAL(clicked(bool)), this, SLOT(closeInspectorSlot()));
+    connect(backButton, SIGNAL(clicked(bool)), this, SLOT(discardChanges()));
+    connect(okButton, SIGNAL(clicked(bool)), this, SLOT(validateChanges()));
 
     // Connect slider and text value
     connect(m_pHeightSlider, SIGNAL(valueChanged(int)), this, SLOT(heightSliderChange(int)));
     connect(m_pWidthSlider, SIGNAL(valueChanged(int)), this, SLOT(widthSliderChange(int)));
     connect(m_pHeightValue, SIGNAL(textChanged(QString)), this, SLOT(heightTextChange(QString)));
     connect(m_pWidthValue, SIGNAL(textChanged(QString)), this, SLOT(widthTextChange(QString)));
+
 }
 
-void CLabelInspector::closeInspectorSlot()
+void CLabelInspector::validateChanges()
+{
+    m_sSavedText = m_pLabel->GetText();
+    m_iSavedHeight = m_pLabel->GetHeight();
+    m_iSavedWidth = m_pLabel->GetWidth();
+    emit modifyLabel(m_pLabel);
+    emit closeInspector();
+}
+
+void CLabelInspector::discardChanges()
 {
     emit closeInspector();
 }
@@ -215,3 +229,11 @@ void CLabelInspector::widthTextChange(const QString& a_rText)
     }
 }
 
+void CLabelInspector::closeEvent (QCloseEvent *event)
+{
+    ON_CC_THREAD(LM::CLabelNode::SetText, this->m_pLabel, m_sSavedText);
+    m_pLabel->SetWidth(m_iSavedWidth);
+    m_pLabel->SetHeight(m_iSavedHeight);
+//    discardChanges();
+    QWidget::closeEvent(event);
+}

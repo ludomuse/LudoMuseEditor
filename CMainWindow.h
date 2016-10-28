@@ -123,7 +123,8 @@ private slots:
     // Temporary slot
     void launchAddSceneWizard();
     void on_fileBrowser_clicked(const QModelIndex &index);
-    void loadCapture(QString);
+    void loadCapture(QString a_sScreenName);
+    void nodeModified(LM::CEntityNode* a_pNode);
 
 private:
     Ui::CMainWindow *ui;

@@ -56,6 +56,8 @@
 #include "Classes/Engine/Include/CNode.h"
 #include "Classes/Engine/Include/CSceneNode.h"
 #include "Classes/Engine/Include/CSequenceNode.h"
+#include "Classes/Engine/Include/CEntityNode.h"
+#include "Classes/Engine/Include/CSpriteNode.h"
 #include "Classes/Engine/Include/CMenuNode.h"
 #include "Classes/Engine/Include/CCallback.h"
 #include "Classes/Engine/Include/CEditorFindEntityTouchVisitor.h"
@@ -191,7 +193,7 @@ void CMainWindow::loadExistingProject(const QString& a_sProjectFile)
     connect(dummyVisitor, SIGNAL(spriteClicked(LM::CSpriteNode*)), this, SLOT(receiveSprite(LM::CSpriteNode*)));
     //    connect(m_pKernel, SIGNAL(addingSceneFinished(std::string, int)), this, SLOT(addingSceneFinished(std::string, int)));
     //    connect(m_pKernel, SIGNAL(deletingSceneFinished()), this, SLOT(deletingSceneFinished()));
-    connect(m_pKernel, SIGNAL(addingingSceneFinished(const QString, const QString, int)),
+    connect(m_pKernel, SIGNAL(addingSceneFinished(const QString, const QString, int)),
             this, SLOT(addingSceneFinished(const QString, const QString, int)));
     connect(m_pKernel, SIGNAL(deletingSceneFinished(const QString, int)),
             this, SLOT(deletingSceneFinished(const QString, int)));
@@ -200,9 +202,10 @@ void CMainWindow::loadExistingProject(const QString& a_sProjectFile)
     connect(m_pKernel, SIGNAL(captureFinished(QString)),
             this, SLOT(loadCapture(QString)));
 
-    m_iActivePlayer = m_pKernel->GetCurrentPlayer();
-    m_iCurrentThumbnailIndex1 = -1;
-    m_iCurrentThumbnailIndex2 = -1;
+    this->ProcessTree();
+    this->InspectScene(m_pKernel->m_pCurrentScene);
+    m_iActivePlayer = m_pKernel->GetActivePlayer();
+
 
     //    connect(pLoader, SIGNAL(finished()), pLoader, SLOT(deleteLater()));
     //    connect(this, SIGNAL(loadThumbnail(CThumbnailWidget*)),
@@ -210,8 +213,8 @@ void CMainWindow::loadExistingProject(const QString& a_sProjectFile)
     //    connect(this, SIGNAL(finishLoading()),
     //            pLoader, SLOT(terminate()));
 
-    this->ProcessTree();
-
+    m_iCurrentThumbnailIndex1 = -1;
+    m_iCurrentThumbnailIndex2 = -1;
     if (!m_pThumbnailList1->empty()){
         m_iCurrentThumbnailIndex1 = 0;
     }
@@ -223,7 +226,6 @@ void CMainWindow::loadExistingProject(const QString& a_sProjectFile)
     //    QString currentScene(m_pKernel->m_pCurrentScene->GetSceneID().c_str());
     //    m_iActivePlayer = m_pKernel->GetCurrentPlayer();
     //    this->activeThumbnail(currentScene, m_iActivePlayer);
-    this->InspectScene(m_pKernel->m_pCurrentScene);
 
     //    QWidget* ccWidget = cocos2d::CCQGLView::getInstance()->getGLWidget();
     //    ui->glViewContainer->layout()->addWidget(ccWidget);
@@ -298,6 +300,7 @@ void CMainWindow::clearInspectorContainer()
     QLayout* inspectorContainerLayout = this->ui->inspectorContainer->layout();
     QLayoutItem *child;
     while ((child = inspectorContainerLayout->takeAt(0)) != 0) {
+        child->widget()->close();
         delete child->widget();
         delete child;
     }
@@ -827,6 +830,7 @@ void CMainWindow::InspectLabel(LM::CLabelNode* a_pLabel)
     CLabelInspector* inspector = new CLabelInspector(a_pLabel);
     inspectorContainerLayout->addWidget(inspector);
     connect(inspector, SIGNAL(closeInspector()), this, SLOT(clearInspectorContainer()));
+    connect(inspector, SIGNAL(modifyLabel(LM::CEntityNode*)), this, SLOT(nodeModified(LM::CEntityNode*)));
 }
 
 void CMainWindow::InspectSprite(LM::CSpriteNode* a_pSprite)
@@ -848,7 +852,41 @@ void CMainWindow::InspectSprite(LM::CSpriteNode* a_pSprite)
     CSpriteInspector* inspector = new CSpriteInspector(a_pSprite);
     inspectorContainerLayout->addWidget(inspector);
     connect(inspector, SIGNAL(closeInspector()), this, SLOT(clearInspectorContainer()));
+    connect(inspector, SIGNAL(modifySprite(LM::CEntityNode*)), this, SLOT(nodeModified(LM::CEntityNode*)));
 }
+
+void CMainWindow::nodeModified(LM::CEntityNode* a_pNode)
+{
+    //    LM::CSceneNode* pScene = a_pSprite->GetParentSceneNode();
+    //    LM::CSceneNode* pSyncedScene = m_pKernel->GetSyncedScene(pScene);
+    //    if (pSyncedScene != nullptr)
+    //    {
+    //        LM::CSpriteNode* pSyncedSprite = dynamic_cast<LM::CSpriteNode*>
+    //                (pSyncedScene->FindChildByID(a_pSprite->GetID(), true));
+    //        if (pSyncedSprite != nullptr && !pSyncedSprite->hasID(""))
+    //        {
+    //            pSyncedSprite->Copy(a_pSprite);
+    //        }
+    //    }
+    LM::CSceneNode* pScene = a_pNode->GetParentSceneNode();
+    LM::CSceneNode* pSyncedScene = m_pKernel->GetSyncedScene(pScene);
+    if (pSyncedScene != nullptr)
+    {
+        std::string sSyncedID = a_pNode->GetHierarchyID();
+        if (sSyncedID != "")
+        {
+            LM::CEntityNode* pBaseNode = dynamic_cast<LM::CEntityNode*>
+                    (pScene->FindChildByID(sSyncedID, true));
+            LM::CEntityNode* pSyncedNode = dynamic_cast<LM::CEntityNode*>
+                    (pSyncedScene->FindChildByID(sSyncedID, true));
+            if (pSyncedNode)
+            {
+                pSyncedNode->Copy(pBaseNode);
+            }
+        }
+    }
+}
+
 
 void CMainWindow::InspectScene(LM::CSceneNode* a_pScene)
 {
@@ -1124,7 +1162,6 @@ void CMainWindow::SaveThumbnail()
 
 void CMainWindow::loadCapture(QString a_sSceneID)
 {
-    qDebug() << a_sSceneID;
     int iIndex = FindThumbnailIndexByID(a_sSceneID, PLAYER_1);
     if (iIndex != -1) {
         m_pLoader->RemoveThumbnail(GetThumbnailList(PLAYER_1)->at(iIndex));
