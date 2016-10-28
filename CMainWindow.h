@@ -120,11 +120,14 @@ private slots:
     // Saving slots
     void saveAs();
     void save();
+    void exportProject(const QString& a_rDestination);
     // Temporary slot
     void launchAddSceneWizard();
     void on_fileBrowser_clicked(const QModelIndex &index);
     void loadCapture(QString a_sScreenName);
     void nodeModified(LM::CEntityNode* a_pNode);
+
+    void on_archiveButton_clicked();
 
 private:
     Ui::CMainWindow *ui;

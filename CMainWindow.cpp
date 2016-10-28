@@ -47,6 +47,7 @@
 #include "CLoaderWidget.h"
 #include "CProjectManager.h"
 #include "CThumbnailsLoaderThread.h"
+#include "CArchiver.h"
 
 
 // Include cocos
@@ -105,7 +106,7 @@ CMainWindow::CMainWindow(QWidget *parent) :
 
     // Icon creation
     ui->emulateButton->setIcon(QIcon(CProjectManager::Instance()->QGetInstallPath().append("/resources/play_arrow.png")));
-    ui->testButton->setIcon(QIcon(CProjectManager::Instance()->QGetInstallPath().append("/resources/add_playlist_w.png")));
+    ui->archiveButton->setIcon(QIcon(CProjectManager::Instance()->QGetInstallPath().append("/resources/add_playlist_w.png")));
 
     // Create Template Manager
     this->m_pTemplatesManager = CTemplateManager::Instance();
@@ -117,6 +118,7 @@ CMainWindow::CMainWindow(QWidget *parent) :
     connect(ui->JsonGo, SIGNAL(clicked(bool)), this, SLOT(saveAs()));
     connect(ui->save, SIGNAL(clicked(bool)), this, SLOT(save()));
     //connect(ui->lmwTestButton, SIGNAL(clicked(bool)), this, SLOT(launchAddSceneWizard()));
+    connect(ui->archiveButton, SIGNAL(clicked(bool)), this, SLOT(exportProject));
 
     // Connect kernel signal
     connect(CEditorKernel::Instance(), SIGNAL(sendMenuNodeSignal(LM::CMenuNode*)), this, SLOT(receiveMenu(LM::CMenuNode*)));
@@ -536,6 +538,15 @@ void CMainWindow::saveAs()
 void CMainWindow::save()
 {
     this->produceJson(this->m_sSaveName);
+}
+
+void CMainWindow::exportProject(const QString& a_rDestination)
+{
+    if (!a_rDestination.isEmpty())
+    {
+        std::string projectFolder = CProjectManager::Instance()->GetProjectPath();
+        CArchiver::CompressFolder(projectFolder.substr(0, projectFolder.length()-1), a_rDestination.toStdString());
+    }
 }
 
 void CMainWindow::produceJson(const QString& a_rFileName){
@@ -1200,4 +1211,14 @@ void CMainWindow::UpdateThumbnailView(int a_iPlayerID)
         pList->at(i)->setParent(pParentWidget);
         pParentWidget->layout()->addWidget(pList->at(i));
     }
+}
+
+
+void CMainWindow::on_archiveButton_clicked()
+{
+    QFileDialog* fileDialog = new QFileDialog();
+    fileDialog->setDirectory(QDir::home());
+    connect(fileDialog, SIGNAL(fileSelected(QString)), this, SLOT(exportProject(QString)));
+
+    fileDialog->show();
 }

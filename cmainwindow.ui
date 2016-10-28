@@ -112,8 +112,8 @@
             <rect>
              <x>0</x>
              <y>0</y>
-             <width>369</width>
-             <height>733</height>
+             <width>390</width>
+             <height>730</height>
             </rect>
            </property>
            <property name="sizePolicy">
@@ -1265,7 +1265,7 @@
                </widget>
               </item>
               <item>
-               <widget class="QPushButton" name="testButton">
+               <widget class="QPushButton" name="archiveButton">
                 <property name="enabled">
                  <bool>true</bool>
                 </property>
@@ -1299,6 +1299,12 @@
                   <inactive/>
                   <disabled/>
                  </palette>
+                </property>
+                <property name="toolTip">
+                 <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Exporter le projet sous forme d'archive&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                </property>
+                <property name="whatsThis">
+                 <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;exporter&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                 </property>
                 <property name="autoFillBackground">
                  <bool>false</bool>
@@ -1731,7 +1737,7 @@
                <rect>
                 <x>0</x>
                 <y>0</y>
-                <width>1054</width>
+                <width>1033</width>
                 <height>104</height>
                </rect>
               </property>
@@ -1808,7 +1814,7 @@
                <rect>
                 <x>0</x>
                 <y>0</y>
-                <width>1054</width>
+                <width>1033</width>
                 <height>104</height>
                </rect>
               </property>
@@ -1866,14 +1872,6 @@
     </item>
    </layout>
   </widget>
-  <action name="actionCompile">
-   <property name="text">
-    <string>Compile</string>
-   </property>
-   <property name="toolTip">
-    <string>du test</string>
-   </property>
-  </action>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
  <customwidgets>
