@@ -47,7 +47,6 @@
 #include "CLoaderWidget.h"
 #include "CProjectManager.h"
 #include "CThumbnailsLoaderThread.h"
-#include "CArchiver.h"
 
 
 // Include cocos
@@ -81,7 +80,9 @@ CMainWindow::CMainWindow(QWidget *parent) :
     m_pKernel(NULL),
     m_sSaveName(""),
 
-    m_pLoader(new CThumbnailsLoaderThread())
+    m_pLoader(new CThumbnailsLoaderThread()),
+
+    m_oArchiver(this)
 {
     ui->setupUi(this);
 
@@ -545,7 +546,7 @@ void CMainWindow::exportProject(const QString& a_rDestination)
     if (!a_rDestination.isEmpty())
     {
         std::string projectFolder = CProjectManager::Instance()->GetProjectPath();
-        CArchiver::CompressFolder(projectFolder.substr(0, projectFolder.length()-1), a_rDestination.toStdString());
+        m_oArchiver.CompressFolder(projectFolder.substr(0, projectFolder.length()-1), a_rDestination.toStdString());
     }
 }
 

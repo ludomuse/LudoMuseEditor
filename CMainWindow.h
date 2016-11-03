@@ -12,6 +12,7 @@
 #include "CTemplateManager.h"
 #include "CTemplate.h"
 #include "CThumbnailsLoaderThread.h"
+#include "CArchiver.h"
 
 #include <Classes/Engine/Include/CKernel.h>
 #include <Classes/Engine/Include/CLabelNode.h>
@@ -150,6 +151,7 @@ private:
     int m_iActivePlayer;
     QString m_sSaveName;
     CThumbnailsLoaderThread *m_pLoader;
+    CArchiver m_oArchiver;
 };
 
 #endif // CMAINWINDOW_H
