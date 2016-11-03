@@ -47,9 +47,13 @@ void CLoadProjectWizard::CreatePreviousProjectButtons()
 {
     for(std::string currentPath : CProjectManager::Instance()->GetPreviousProjectPaths())
     {
-        CProjectPushButton* temp = new CProjectPushButton(QString(currentPath.c_str()));
-        ui->recentProjectList->layout()->addWidget(temp);
-        connect(temp, SIGNAL(onClick(QString)), this, SLOT(clickOnPrevProject(QString)));
+        QFile currentFile(currentPath.c_str());
+        if (currentFile.exists())
+        {
+            CProjectPushButton* temp = new CProjectPushButton(QString(currentPath.c_str()));
+            ui->recentProjectList->layout()->addWidget(temp);
+            connect(temp, SIGNAL(onClick(QString)), this, SLOT(clickOnPrevProject(QString)));
+        }
     }
 }
 
