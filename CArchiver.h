@@ -5,14 +5,15 @@
 #include <QObject>
 #include <QProcess>
 #include <QProgressDialog>
+#include <QDir>
 
 class CArchiver : public QObject
 {
     Q_OBJECT
 private:
+    QWidget* m_pParent;
     QProcess* m_pProcess;
     QProgressDialog* m_pDialog;
-    QWidget* m_pParent;
 
 
 public:
@@ -21,8 +22,12 @@ public:
 
     void ExtractArchive(const std::string& a_rArchive);
 
+private:
+    int CountItemsInArchive(QDir a_rFolder);
+
 public slots:
     void ArchiveCompleted(int a_iExitCode, QProcess::ExitStatus a_oExitStatus);
+    void ProcessReadyRead();
 };
 
 #endif // CZIPCOMPRESSOR_H
