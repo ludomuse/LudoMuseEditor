@@ -392,13 +392,6 @@
               {
                 "type": "Validate",
                 "params": {
-                  "callback": "LocalMessage",
-                  "arg": "Dashboard:Show:Amulette"
-                }
-              },
-              {
-                "type": "Validate",
-                "params": {
                   "callback": "SendMessage",
                   "arg": "kernel:Validate"
                 }
@@ -655,7 +648,7 @@
                       "type": "AnchoredFailed",
                       "params": {
                         "callback": "SendMessage",
-                        "arg": "ID_SCENE_2:ReturnElement:Statue1"
+                        "arg": "ID_SCENE_2:ReturnElement:Image1"
                       }
                     },
                     {
@@ -743,7 +736,7 @@
                       "type": "AnchoredFailed",
                       "params": {
                         "callback": "SendMessage",
-                        "arg": "ID_SCENE_2:ReturnElement:Statue2"
+                        "arg": "ID_SCENE_2:ReturnElement:Image2"
                       }
                     },
                     {
@@ -831,7 +824,7 @@
                       "type": "AnchoredFailed",
                       "params": {
                         "callback": "SendMessage",
-                        "arg": "ID_SCENE_2:ReturnElement:Statue3"
+                        "arg": "ID_SCENE_2:ReturnElement:Image3"
                       }
                     },
                     {
@@ -919,7 +912,7 @@
                       "type": "AnchoredFailed",
                       "params": {
                         "callback": "SendMessage",
-                        "arg": "ID_SCENE_2:ReturnElement:Statue4"
+                        "arg": "ID_SCENE_2:ReturnElement:Image4"
                       }
                     },
                     {
