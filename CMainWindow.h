@@ -12,6 +12,7 @@
 #include "CTemplateManager.h"
 #include "CTemplate.h"
 #include "CThumbnailsLoaderThread.h"
+#include "CArchiver.h"
 
 #include <Classes/Engine/Include/CKernel.h>
 #include <Classes/Engine/Include/CLabelNode.h>
@@ -120,6 +121,7 @@ private slots:
     // Saving slots
     void saveAs();
     void save();
+    void exportProject(const QString& a_rDestination);
     // Temporary slot
     void launchAddSceneWizard();
     void on_fileBrowser_clicked(const QModelIndex &index);
@@ -127,6 +129,8 @@ private slots:
     void nodeModified(LM::CEntityNode* a_pNode);
     void nodeSoundModified(LM::CEntityNode* a_pNode, const QString& a_sEvent, const QString& a_sArgument);
     void nodeSoundRemoved(LM::CEntityNode* a_pNode);
+
+    void on_archiveButton_clicked();
 
 private:
     Ui::CMainWindow *ui;
@@ -149,6 +153,7 @@ private:
     int m_iActivePlayer;
     QString m_sSaveName;
     CThumbnailsLoaderThread *m_pLoader;
+    CArchiver m_oArchiver;
 };
 
 #endif // CMAINWINDOW_H
