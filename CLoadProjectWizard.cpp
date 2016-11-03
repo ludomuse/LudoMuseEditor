@@ -6,6 +6,7 @@
 
 #include <QFileDialog>
 #include <QPropertyAnimation>
+#include <QMessageBox>
 
 #include <CProjectPushButton.h>
 #include <CProjectManager.h>
@@ -93,6 +94,15 @@ void CLoadProjectWizard::folderSelected(const QString& a_sPath)
 
 void CLoadProjectWizard::clickOnPrevProject(const QString &a_sProjectFile)
 {
-    emit loadProjectFile(a_sProjectFile);
+    QFile projectFile(a_sProjectFile);
+    if (projectFile.exists())
+    {
+        emit loadProjectFile(a_sProjectFile);
+    }
+    else
+    {
+        QMessageBox::critical(this, "Impossible d'ouvrir le projet",
+                              "Le chemin spécifié est inaccessible.\nLe projet a peut être été supprimé.");
+    }
 }
 
