@@ -27,6 +27,7 @@
 // Personnal include
 #include "CLineEdit.h"
 #include "CProjectManager.h"
+#include "CSoundInspector.h"
 
 CSpriteInspector::CSpriteInspector(QWidget *parent):
     QWidget(parent)
@@ -57,14 +58,14 @@ CSpriteInspector::CSpriteInspector(LM::CSpriteNode* a_pSprite, QWidget *parent):
     id->setAlignment(Qt::AlignLeft);
     QLabel* idTitle = new QLabel("ID :");
     idTitle->setStyleSheet("QLabel{color : white;}");
-    idTitle->setAlignment(Qt::AlignRight);
+    idTitle->setAlignment(Qt::AlignRight | Qt::AlignVCenter);
     hLayoutId->addWidget(idTitle);
     hLayoutId->addWidget(id);
     QWidget* idContainer = new QWidget();
     idContainer->setLayout(hLayoutId);
     idContainer->setMaximumHeight(100);
     idContainer->setStyleSheet("border-bottom : 1px solid grey");
-    idContainer->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Minimum);
+    idContainer->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Maximum);
 
     // Create path widget
     QHBoxLayout* hLayoutPath= new QHBoxLayout();
@@ -77,7 +78,7 @@ CSpriteInspector::CSpriteInspector(LM::CSpriteNode* a_pSprite, QWidget *parent):
     pathTitle->setStyleSheet("QLabel{color : white;}");
     QPushButton* pathFileDialogButton = new QPushButton();
     pathFileDialogButton->setText("...");
-    pathFileDialogButton->setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Minimum);
+    pathFileDialogButton->setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Maximum);
     pathTitle->setAlignment(Qt::AlignRight | Qt::AlignVCenter);
     hLayoutPath->addWidget(pathTitle);
     hLayoutPath->addWidget(path);
@@ -86,7 +87,7 @@ CSpriteInspector::CSpriteInspector(LM::CSpriteNode* a_pSprite, QWidget *parent):
     pathContainer->setLayout(hLayoutPath);
     pathContainer->setMaximumHeight(100);
     pathContainer->setStyleSheet("border-bottom : 1px solid grey");
-    pathContainer->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Minimum);
+    pathContainer->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Maximum);
 
     // Create anchor widget
     QLabel* anchorTitle = new QLabel("Ancrage");
@@ -134,7 +135,7 @@ CSpriteInspector::CSpriteInspector(LM::CSpriteNode* a_pSprite, QWidget *parent):
     vLayoutAnchor->addWidget(anchorScheme);
     QWidget* anchorContainer = new QWidget();
     anchorContainer->setLayout(vLayoutAnchor);
-    anchorContainer->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
+    anchorContainer->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Maximum);
     switch(this->m_iCurrentAnchor){
     case 1:
         anchor1Button->setText("[1]");
@@ -241,8 +242,12 @@ CSpriteInspector::CSpriteInspector(LM::CSpriteNode* a_pSprite, QWidget *parent):
     QPushButton* backButton = new QPushButton("Retour");
     hLayoutButton->addWidget(backButton);
     hLayoutButton->addWidget(okButton);
+    QVBoxLayout* vLayoutButton = new QVBoxLayout();
+    QPushButton* soundButton = new QPushButton("Editer son");
+    vLayoutButton->addLayout(hLayoutButton);
+    vLayoutButton->addWidget(soundButton);
     QWidget* buttonContainer = new QWidget();
-    buttonContainer->setLayout(hLayoutButton);
+    buttonContainer->setLayout(vLayoutButton);
     buttonContainer->setMaximumHeight(100);
 
     QVBoxLayout *verticalLayout = new QVBoxLayout();
@@ -294,6 +299,8 @@ CSpriteInspector::CSpriteInspector(LM::CSpriteNode* a_pSprite, QWidget *parent):
 
     connect(okButton, SIGNAL(clicked(bool)), this, SLOT(validateChanges()));
     connect(backButton, SIGNAL(clicked(bool)), this, SLOT(discardChanges()));
+
+    connect(soundButton, SIGNAL(clicked(bool)), this, SLOT(editSound()));
 }
 
 // SIGNALS ***********************************************
@@ -397,7 +404,7 @@ void CSpriteInspector::openPathFileDialog()
     fileDialog->setDirectory(currentDir);
     fileDialog->selectFile(pathToImage[pathToImage.size() - 1].c_str());
 
-    fileDialog->setNameFilter("Images (*.jpeg, *.jpg, *.png");
+    fileDialog->setNameFilter("Images (*.jpeg, *.jpg, *.png)");
 
     connect(fileDialog, SIGNAL(directoryEntered(QString)), this, SLOT(newDirectoryEntered(QString)));
     connect(fileDialog, SIGNAL(fileSelected(QString)), this, SLOT(newPathSelected(QString)));
@@ -516,6 +523,11 @@ void CSpriteInspector::closeEvent (QCloseEvent *event)
     m_pSprite->SetWidth(m_iSavedWidth);
     m_pSprite->SetHeight(m_iSavedHeight);
     ON_CC_THREAD(LM::CSpriteNode::ChangeAnchor, m_pSprite, m_iSavedAnchor);
-    discardChanges();
     QWidget::closeEvent(event);
 }
+
+void CSpriteInspector::editSound()
+{
+    emit callSoundInspector();
+}
+

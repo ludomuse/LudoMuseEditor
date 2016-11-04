@@ -22,6 +22,7 @@ public:
 signals:
     void closeInspector();
     void modifySprite(LM::CEntityNode* a_pSprite);
+    void callSoundInspector();
 
 public slots:
 //    void closeInspectorSlot();
@@ -39,6 +40,7 @@ public slots:
     void checkWidth(bool a_rState);
     void validateChanges();
     void discardChanges();
+    void editSound();
 
 private:
 

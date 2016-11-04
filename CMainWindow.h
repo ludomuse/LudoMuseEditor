@@ -127,6 +127,8 @@ private slots:
     void on_fileBrowser_clicked(const QModelIndex &index);
     void loadCapture(QString a_sScreenName);
     void nodeModified(LM::CEntityNode* a_pNode);
+    void nodeSoundModified(LM::CEntityNode* a_pNode, const QString& a_sEvent, const QString& a_sArgument);
+    void nodeSoundRemoved(LM::CEntityNode* a_pNode);
 
     void on_archiveButton_clicked();
 

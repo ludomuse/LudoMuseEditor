@@ -41,6 +41,7 @@
 #include "CThumbnailWidget.h"
 #include "CLabelInspector.h"
 #include "CSpriteInspector.h"
+#include "CSoundInspector.h"
 #include "CSceneInspector.h"
 #include "CMenuNodeInspector.h"
 #include "CAddSceneWizard.h"
@@ -304,8 +305,8 @@ void CMainWindow::clearInspectorContainer()
     QLayoutItem *child;
     while ((child = inspectorContainerLayout->takeAt(0)) != 0) {
         child->widget()->close();
-        delete child->widget();
-        delete child;
+        //        child->widget()->deleteLater();
+        //        delete child;
     }
     this->setInspectorName("");
 }
@@ -435,10 +436,10 @@ void CMainWindow::ShowCurrentScene()
         QString sID = pCurrentThumbnail->GetSceneID();
         int iPlayerID = pCurrentThumbnail->GetPlayerID();
         LM::SEvent dummyEvent(LM::SEvent::NONE, nullptr, sID.toStdString(), true, iPlayerID);
-        //        ON_CC_THREAD(LM::CKernel::GotoScreenID, this->m_pKernel, dummyEvent, nullptr);
+        ON_CC_THREAD(LM::CKernel::GotoScreenID, this->m_pKernel, dummyEvent, nullptr);
         //        ON_CC_THREAD(LM::CKernel::GotoScreenID, this->m_pKernel, sID.toStdString(), iPlayerID);
         //                m_pKernel->GotoScreenID(sID.toStdString(), iPlayerID);
-        m_pKernel->GotoScreenID(dummyEvent, nullptr);
+        //        m_pKernel->GotoScreenID(dummyEvent, nullptr);
         this->clearInspectorContainer();
         this->setInspectorName("");
     }
@@ -447,53 +448,54 @@ void CMainWindow::ShowCurrentScene()
 void CMainWindow::addOneScene(const QString &a_sPreviousID, const QString &a_sNewID, int a_iPlayerID, CTemplate* a_pTemplate)
 {
     m_iActivePlayer = a_iPlayerID;
-    //    ON_CC_THREAD(LM::CKernel::AddNewScene, m_pKernel, a_pTemplate->GetPath().toStdString(),
-    //                 a_sPreviousID.toStdString(), a_sNewID.toStdString(), a_iPlayerID, 0, "");
-    m_pKernel->AddNewScene( a_pTemplate->GetPath().toStdString(),
-                            a_sPreviousID.toStdString(), a_sNewID.toStdString(), a_iPlayerID, 0, "");
+    ON_CC_THREAD(LM::CKernel::AddNewScene, m_pKernel, a_pTemplate->GetPath().toStdString(),
+                 a_sPreviousID.toStdString(), a_sNewID.toStdString(), a_iPlayerID, 0, "");
+    //    m_pKernel->AddNewScene( a_pTemplate->GetPath().toStdString(),
+    //                            a_sPreviousID.toStdString(), a_sNewID.toStdString(), a_iPlayerID, 0, "");
 }
 
 void CMainWindow::addTwoScene(const QString &a_sPreviousIDP1, const QString &a_sNewIDP1,
                               const QString &a_sPreviousIDP2, const QString &a_sNewIDP2,
                               CTemplate* a_pTemplate)
 {
-    //    ON_CC_THREAD(LM::CKernel::AddNewScene, m_pKernel, a_pTemplate->GetPath().toStdString(),
-    //                 a_sPreviousIDP1.toStdString(), a_sNewIDP1.toStdString(), PLAYER_1, 0, "");
-    //    ON_CC_THREAD(LM::CKernel::AddNewScene, m_pKernel, a_pTemplate->GetPath().toStdString(),
-    //                 a_sPreviousIDP2.toStdString(), a_sNewIDP2.toStdString(), PLAYER_2, 0, "");
-    m_pKernel->AddNewScene(a_pTemplate->GetPath().toStdString(),
-                           a_sPreviousIDP1.toStdString(), a_sNewIDP1.toStdString(), PLAYER_1, 0, "");
-    m_pKernel->AddNewScene(a_pTemplate->GetPath().toStdString(),
-                           a_sPreviousIDP2.toStdString(), a_sNewIDP2.toStdString(), PLAYER_2, 0, "");
+        ON_CC_THREAD(LM::CKernel::AddNewScene, m_pKernel, a_pTemplate->GetPath().toStdString(),
+                     a_sPreviousIDP1.toStdString(), a_sNewIDP1.toStdString(), PLAYER_1, 0, "");
+        ON_CC_THREAD(LM::CKernel::AddNewScene, m_pKernel, a_pTemplate->GetPath().toStdString(),
+                     a_sPreviousIDP2.toStdString(), a_sNewIDP2.toStdString(), PLAYER_2, 0, "");
+//    m_pKernel->AddNewScene(a_pTemplate->GetPath().toStdString(),
+//                           a_sPreviousIDP1.toStdString(), a_sNewIDP1.toStdString(), PLAYER_1, 0, "");
+//    m_pKernel->AddNewScene(a_pTemplate->GetPath().toStdString(),
+//                           a_sPreviousIDP2.toStdString(), a_sNewIDP2.toStdString(), PLAYER_2, 0, "");
 }
 
 void CMainWindow::addGameScene(const QString &a_sPreviousIDP1, const QString &a_sNewIDP1,
                                const QString &a_sPreviousIDP2, const QString &a_sNewIDP2,
                                CTemplate* a_pTemplate, int a_iTemplateNumberP1, int a_iTemplateNumberP2)
 {
-    //    ON_CC_THREAD(LM::CKernel::AddNewScene, m_pKernel, a_pTemplate->GetPath().toStdString(),
-    //                 a_sPreviousIDP1.toStdString(), a_sNewIDP1.toStdString(), PLAYER_1, a_iTemplateNumberP1, a_sNewIDP2.toStdString());
-    //    ON_CC_THREAD(LM::CKernel::AddNewScene, m_pKernel, a_pTemplate->GetPath().toStdString(),
-    //                 a_sPreviousIDP2.toStdString(), a_sNewIDP2.toStdString(), PLAYER_2, a_iTemplateNumberP2, a_sNewIDP1.toStdString());
-    //    ON_CC_THREAD(LM::CKernel::AddSyncID, m_pKernel, a_sNewIDP1.toStdString(), a_sNewIDP2.toStdString());
-    m_pKernel->AddNewScene(a_pTemplate->GetPath().toStdString(),
-                           a_sPreviousIDP1.toStdString(), a_sNewIDP1.toStdString(), PLAYER_1, a_iTemplateNumberP1, a_sNewIDP2.toStdString());
-    m_pKernel->AddNewScene(a_pTemplate->GetPath().toStdString(),
-                           a_sPreviousIDP2.toStdString(), a_sNewIDP2.toStdString(), PLAYER_2, a_iTemplateNumberP2, a_sNewIDP1.toStdString());
-    m_pKernel->AddSyncID(a_sNewIDP1.toStdString(), a_sNewIDP2.toStdString());
+    ON_CC_THREAD(LM::CKernel::AddNewScene, m_pKernel, a_pTemplate->GetPath().toStdString(),
+                 a_sPreviousIDP1.toStdString(), a_sNewIDP1.toStdString(), PLAYER_1, a_iTemplateNumberP1, a_sNewIDP2.toStdString());
+    ON_CC_THREAD(LM::CKernel::AddNewScene, m_pKernel, a_pTemplate->GetPath().toStdString(),
+                 a_sPreviousIDP2.toStdString(), a_sNewIDP2.toStdString(), PLAYER_2, a_iTemplateNumberP2, a_sNewIDP1.toStdString());
+    ON_CC_THREAD(LM::CKernel::AddSyncID, m_pKernel, a_sNewIDP1.toStdString(), a_sNewIDP2.toStdString());
+    //    m_pKernel->AddNewScene(a_pTemplate->GetPath().toStdString(),
+    //                           a_sPreviousIDP1.toStdString(), a_sNewIDP1.toStdString(), PLAYER_1, a_iTemplateNumberP1, a_sNewIDP2.toStdString());
+    //    m_pKernel->AddNewScene(a_pTemplate->GetPath().toStdString(),
+    //                           a_sPreviousIDP2.toStdString(), a_sNewIDP2.toStdString(), PLAYER_2, a_iTemplateNumberP2, a_sNewIDP1.toStdString());
+    //    m_pKernel->AddSyncID(a_sNewIDP1.toStdString(), a_sNewIDP2.toStdString());
 }
 
 void CMainWindow::deleteScene(QString a_sSceneID, bool a_bIsSync)
 {
+    clearInspectorContainer();
     if(!a_bIsSync)
     {
-        //        ON_CC_THREAD(LM::CKernel::DeleteScene, this->m_pKernel, a_sSceneID.toStdString());
-        m_pKernel->DeleteScene(a_sSceneID.toStdString());
+        ON_CC_THREAD(LM::CKernel::DeleteScene, this->m_pKernel, a_sSceneID.toStdString());
+        //        m_pKernel->DeleteScene(a_sSceneID.toStdString());
     }
     else
     {
-        //        ON_CC_THREAD(LM::CKernel::DeleteSyncScenes, this->m_pKernel, a_sSceneID.toStdString());
-        m_pKernel->DeleteSyncScenes(a_sSceneID.toStdString());
+        ON_CC_THREAD(LM::CKernel::DeleteSyncScenes, this->m_pKernel, a_sSceneID.toStdString());
+        //        m_pKernel->DeleteSyncScenes(a_sSceneID.toStdString());
     }
 }
 
@@ -719,11 +721,13 @@ void CMainWindow::deletingSceneFinished(const QString a_sSceneID, int a_iPlayerI
         m_pThumbnailList2->removeAt(iIndex2);
         pDeletedThumbnail1->deleteLater();
         pDeletedThumbnail2->deleteLater();
-        if (iIndex1 < m_iCurrentThumbnailIndex1)
+        if (iIndex1 < m_iCurrentThumbnailIndex1 ||
+                m_pThumbnailList1->count() == m_iCurrentThumbnailIndex1)
         {
             m_iCurrentThumbnailIndex1--;
         }
-        if (iIndex2 < m_iCurrentThumbnailIndex2)
+        if (iIndex2 < m_iCurrentThumbnailIndex2 ||
+                m_pThumbnailList2->count() == m_iCurrentThumbnailIndex1)
         {
             m_iCurrentThumbnailIndex2--;
         }
@@ -735,7 +739,8 @@ void CMainWindow::deletingSceneFinished(const QString a_sSceneID, int a_iPlayerI
         m_pLoader->RemoveThumbnail(pDeletedThumbnail);
         GetThumbnailList(a_iPlayerID)->removeAt(iIndex);
         pDeletedThumbnail->deleteLater();
-        if (iIndex < GetCurrentThumbnailIndex(a_iPlayerID))
+        if (iIndex < GetCurrentThumbnailIndex(a_iPlayerID) ||
+                GetThumbnailList(a_iPlayerID)->count() == GetCurrentThumbnailIndex(a_iPlayerID))
         {
             SetCurrentThumbnailIndex(a_iPlayerID, GetCurrentThumbnailIndex(a_iPlayerID) - 1);
         }
@@ -825,21 +830,23 @@ CThumbnailWidget* CMainWindow::addSceneToTimeLine(const QString &a_id, int a_pla
 
 void CMainWindow::InspectLabel(LM::CLabelNode* a_pLabel)
 {
+    clearInspectorContainer();
     // Clear inspector tool bar
     this->setInspectorName("Éditeur de texte");
 
     // Clear inspector layout from older inspection
     QLayoutItem *child;
     QLayout* inspectorContainerLayout = this->ui->inspectorContainer->layout();
-    if(inspectorContainerLayout != Q_NULLPTR)
-    {
-        while ((child = inspectorContainerLayout->takeAt(0)) != 0) {
-            delete child->widget();
-            delete child;
-        }
-    }
+    //    if(inspectorContainerLayout != Q_NULLPTR)
+    //    {
+    //        while ((child = inspectorContainerLayout->takeAt(0)) != 0) {
+    //            delete child->widget();
+    //            delete child;
+    //        }
+    //    }
 
     CLabelInspector* inspector = new CLabelInspector(a_pLabel);
+    inspector->setAttribute( Qt::WA_DeleteOnClose );
     inspectorContainerLayout->addWidget(inspector);
     connect(inspector, SIGNAL(closeInspector()), this, SLOT(clearInspectorContainer()));
     connect(inspector, SIGNAL(modifyLabel(LM::CEntityNode*)), this, SLOT(nodeModified(LM::CEntityNode*)));
@@ -847,39 +854,44 @@ void CMainWindow::InspectLabel(LM::CLabelNode* a_pLabel)
 
 void CMainWindow::InspectSprite(LM::CSpriteNode* a_pSprite)
 {
+    clearInspectorContainer();
     // Clear inspector tool bar
     this->setInspectorName("Éditeur d'image");
 
     // Clear inspector loayout from older inspection
     QLayoutItem *child;
     QLayout* inspectorContainerLayout = this->ui->inspectorContainer->layout();
-    if(inspectorContainerLayout != Q_NULLPTR)
-    {
-        while ((child = inspectorContainerLayout->takeAt(0)) != 0) {
-            delete child->widget();
-            delete child;
-        }
+    //    if(inspectorContainerLayout != Q_NULLPTR)
+    //    {
+    //        while ((child = inspectorContainerLayout->takeAt(0)) != 0) {
+    //            delete child->widget();
+    //            delete child;
+    //        }
 
-    }
+    //    }
     CSpriteInspector* inspector = new CSpriteInspector(a_pSprite);
+    CSoundInspector* soundInspector = new CSoundInspector(a_pSprite);
+    inspector->setAttribute( Qt::WA_DeleteOnClose );
+    soundInspector->setAttribute( Qt::WA_DeleteOnClose );
+    soundInspector->hide();
+
     inspectorContainerLayout->addWidget(inspector);
+    inspectorContainerLayout->addWidget(soundInspector);
+
+    connect(inspector, SIGNAL(callSoundInspector()), inspector, SLOT(hide()));
+    connect(inspector, SIGNAL(callSoundInspector()), soundInspector, SLOT(show()));
+    connect(soundInspector, SIGNAL(closeInspector()), inspector, SLOT(show()));
+    connect(soundInspector, SIGNAL(closeInspector()), soundInspector, SLOT(hide()));
+
     connect(inspector, SIGNAL(closeInspector()), this, SLOT(clearInspectorContainer()));
     connect(inspector, SIGNAL(modifySprite(LM::CEntityNode*)), this, SLOT(nodeModified(LM::CEntityNode*)));
+
+    connect(soundInspector, SIGNAL(modifySound(LM::CEntityNode*,QString,QString)), this, SLOT(nodeSoundModified(LM::CEntityNode*,QString,QString)));
+    connect(soundInspector, SIGNAL(removeSound(LM::CEntityNode*)), this, SLOT(nodeSoundRemoved(LM::CEntityNode*)));
 }
 
 void CMainWindow::nodeModified(LM::CEntityNode* a_pNode)
 {
-    //    LM::CSceneNode* pScene = a_pSprite->GetParentSceneNode();
-    //    LM::CSceneNode* pSyncedScene = m_pKernel->GetSyncedScene(pScene);
-    //    if (pSyncedScene != nullptr)
-    //    {
-    //        LM::CSpriteNode* pSyncedSprite = dynamic_cast<LM::CSpriteNode*>
-    //                (pSyncedScene->FindChildByID(a_pSprite->GetID(), true));
-    //        if (pSyncedSprite != nullptr && !pSyncedSprite->hasID(""))
-    //        {
-    //            pSyncedSprite->Copy(a_pSprite);
-    //        }
-    //    }
     LM::CSceneNode* pScene = a_pNode->GetParentSceneNode();
     LM::CSceneNode* pSyncedScene = m_pKernel->GetSyncedScene(pScene);
     if (pSyncedScene != nullptr)
@@ -899,6 +911,51 @@ void CMainWindow::nodeModified(LM::CEntityNode* a_pNode)
     }
 }
 
+void CMainWindow::nodeSoundModified(LM::CEntityNode* a_pNode, const QString& a_sEvent, const QString& a_sArgument)
+{
+    LM::CEventCallback oCallback("PlaySound", m_pKernel, &LM::CKernel::PlaySoundCallback,
+                                 LM::SEvent(LM::SEvent::STRING, a_pNode, a_sArgument.toStdString()));
+    a_pNode->RemoveCallbacks("PlaySound");
+    a_pNode->AddListener(a_sEvent.toStdString(), oCallback);
+
+    LM::CSceneNode* pScene = a_pNode->GetParentSceneNode();
+    LM::CSceneNode* pSyncedScene = m_pKernel->GetSyncedScene(pScene);
+    if (pSyncedScene != nullptr)
+    {
+        std::string sSyncedID = a_pNode->GetID();
+        if (sSyncedID != "")
+        {
+            LM::CEntityNode* pSyncedNode = dynamic_cast<LM::CEntityNode*>
+                    (pSyncedScene->FindChildByID(sSyncedID, true));
+            if (pSyncedNode)
+            {
+                pSyncedNode->RemoveCallbacks("PlaySound");
+                pSyncedNode->AddListener(a_sEvent.toStdString(), oCallback);
+            }
+        }
+    }
+}
+
+void CMainWindow::nodeSoundRemoved(LM::CEntityNode* a_pNode)
+{
+    a_pNode->RemoveCallbacks("PlaySound");
+
+    LM::CSceneNode* pScene = a_pNode->GetParentSceneNode();
+    LM::CSceneNode* pSyncedScene = m_pKernel->GetSyncedScene(pScene);
+    if (pSyncedScene != nullptr)
+    {
+        std::string sSyncedID = a_pNode->GetID();
+        if (sSyncedID != "")
+        {
+            LM::CEntityNode* pSyncedNode = dynamic_cast<LM::CEntityNode*>
+                    (pSyncedScene->FindChildByID(sSyncedID, true));
+            if (pSyncedNode)
+            {
+                pSyncedNode->RemoveCallbacks("PlaySound");
+            }
+        }
+    }
+}
 
 void CMainWindow::InspectScene(LM::CSceneNode* a_pScene)
 {
@@ -944,21 +1001,23 @@ void CMainWindow::InspectScene(LM::CSceneNode* a_pScene)
 
 void CMainWindow::InspectMenuNode(LM::CMenuNode* a_pMenuNode)
 {
+    clearInspectorContainer();
     // Clear inspector tool bar
     this->setInspectorName("Éditeur de bouton de Navigation");
 
     // Clear inspector loayout from older inspection
     QLayoutItem *child;
     QLayout* inspectorContainerLayout = this->ui->inspectorContainer->layout();
-    if(inspectorContainerLayout != Q_NULLPTR)
-    {
-        while ((child = inspectorContainerLayout->takeAt(0)) != 0) {
-            delete child->widget();
-            delete child;
-        }
+    //    if(inspectorContainerLayout != Q_NULLPTR)
+    //    {
+    //        while ((child = inspectorContainerLayout->takeAt(0)) != 0) {
+    //            delete child->widget();
+    //            delete child;
+    //        }
 
-    }
+    //    }
     CMenuNodeInspector* inspector = new CMenuNodeInspector(a_pMenuNode);
+    inspector->setAttribute(Qt::WA_DeleteOnClose);
     inspectorContainerLayout->addWidget(inspector);
     connect(inspector, SIGNAL(closeInspector()), this, SLOT(clearInspectorContainer()));
 }
@@ -1169,7 +1228,8 @@ int CMainWindow::GetOtherPlayer(int a_iPlayerID)
 void CMainWindow::SaveThumbnail()
 {
     //    ON_CC_THREAD(LM::CKernel::CaptureScreen, m_pKernel, CProjectManager::Instance()->GetProjectPath()+"thumbnails/");
-    m_pKernel->CaptureScreen();
+    ON_CC_THREAD(LM::CKernel::CaptureScreen, m_pKernel);
+    //    m_pKernel->CaptureScreen();
 }
 
 void CMainWindow::loadCapture(QString a_sSceneID)
