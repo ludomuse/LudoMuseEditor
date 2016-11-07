@@ -166,7 +166,7 @@ INCLUDEPATH += "./LudoMuse_src" \
 
 
 
-LIBS += -lbz2
+#LIBS += -lbz2
 
 
 win32 {
