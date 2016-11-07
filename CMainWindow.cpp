@@ -92,7 +92,7 @@ CMainWindow::CMainWindow(QWidget *parent) :
     ui->toolBarCocos->setVisible(false);
     ui->sceneInspectorContainer->setVisible(false);
     ui->toolBarInspector->setVisible(false);
-    ui->inspectorContainer->setVisible(false);
+    ui->scrollInspector->setVisible(false);
     CLoaderWidget* loaderWidget = new CLoaderWidget();
     ui->glViewContainer->layout()->addWidget(loaderWidget);
     connect(loaderWidget, SIGNAL(closeEditor()), this, SLOT(close()));
@@ -164,13 +164,13 @@ void CMainWindow::loadExistingProject(const QString& a_sProjectFile)
     thread->start();*/
 
     ui->mmBotView->setVisible(true);
-    ui->inspectorContainer->setVisible(true);
+    ui->scrollInspector->setVisible(true);
     ui->sceneInspectorContainer->setVisible(true);
     //    ui->sceneInspectorContainer->setStyleSheet("#sceneInspectorContainer{background-color : rgb(50, 50, 50);border-right :none}");
     ui->toolBarCocos->setVisible(true);
     ui->toolBarInspector->setVisible(true);
     //    ui->toolBarCocos->setStyleSheet("#toolBarCocos{border-bottom: 1px solid black;border-right : 2px solid rgba(255,255,255,255);}");
-
+    ui->inspectorContainer->layout()->setAlignment(Qt::AlignTop);
     QString projectPath = QFileInfo(a_sProjectFile).absolutePath();
 
     m_pDirModel = new QFileSystemModel();
@@ -409,20 +409,26 @@ void CMainWindow::goToSceneID(CThumbnailWidget* a_pClickedWidget)
 
 void CMainWindow::goToNextScene()
 {
-    SaveThumbnail();
-    DeactivateThumbnails();
-    SetCurrentThumbnailIndex(m_iActivePlayer, GetCurrentThumbnailIndex(m_iActivePlayer)+1);
-    ActivateThumbnails();
-    ShowCurrentScene();
+    if (GetCurrentThumbnailIndex(m_iActivePlayer) < GetThumbnailList(m_iActivePlayer)->count()-1)
+    {
+        SaveThumbnail();
+        DeactivateThumbnails();
+        SetCurrentThumbnailIndex(m_iActivePlayer, GetCurrentThumbnailIndex(m_iActivePlayer)+1);
+        ActivateThumbnails();
+        ShowCurrentScene();
+    }
 }
 
 void CMainWindow::goToPreviousScene()
 {
-    SaveThumbnail();
-    DeactivateThumbnails();
-    SetCurrentThumbnailIndex(m_iActivePlayer, GetCurrentThumbnailIndex(m_iActivePlayer)-1);
-    ActivateThumbnails();
-    ShowCurrentScene();
+    if (GetCurrentThumbnailIndex(m_iActivePlayer) > 0)
+    {
+        SaveThumbnail();
+        DeactivateThumbnails();
+        SetCurrentThumbnailIndex(m_iActivePlayer, GetCurrentThumbnailIndex(m_iActivePlayer)-1);
+        ActivateThumbnails();
+        ShowCurrentScene();
+    }
 }
 
 void CMainWindow::ShowCurrentScene()
@@ -436,10 +442,10 @@ void CMainWindow::ShowCurrentScene()
         QString sID = pCurrentThumbnail->GetSceneID();
         int iPlayerID = pCurrentThumbnail->GetPlayerID();
         LM::SEvent dummyEvent(LM::SEvent::NONE, nullptr, sID.toStdString(), true, iPlayerID);
-        ON_CC_THREAD(LM::CKernel::GotoScreenID, this->m_pKernel, dummyEvent, nullptr);
+        //        ON_CC_THREAD(LM::CKernel::GotoScreenID, this->m_pKernel, dummyEvent, nullptr);
         //        ON_CC_THREAD(LM::CKernel::GotoScreenID, this->m_pKernel, sID.toStdString(), iPlayerID);
         //                m_pKernel->GotoScreenID(sID.toStdString(), iPlayerID);
-        //        m_pKernel->GotoScreenID(dummyEvent, nullptr);
+        m_pKernel->GotoScreenID(dummyEvent, nullptr);
         this->clearInspectorContainer();
         this->setInspectorName("");
     }
@@ -458,30 +464,30 @@ void CMainWindow::addTwoScene(const QString &a_sPreviousIDP1, const QString &a_s
                               const QString &a_sPreviousIDP2, const QString &a_sNewIDP2,
                               CTemplate* a_pTemplate)
 {
-        ON_CC_THREAD(LM::CKernel::AddNewScene, m_pKernel, a_pTemplate->GetPath().toStdString(),
-                     a_sPreviousIDP1.toStdString(), a_sNewIDP1.toStdString(), PLAYER_1, 0, "");
-        ON_CC_THREAD(LM::CKernel::AddNewScene, m_pKernel, a_pTemplate->GetPath().toStdString(),
-                     a_sPreviousIDP2.toStdString(), a_sNewIDP2.toStdString(), PLAYER_2, 0, "");
-//    m_pKernel->AddNewScene(a_pTemplate->GetPath().toStdString(),
-//                           a_sPreviousIDP1.toStdString(), a_sNewIDP1.toStdString(), PLAYER_1, 0, "");
-//    m_pKernel->AddNewScene(a_pTemplate->GetPath().toStdString(),
-//                           a_sPreviousIDP2.toStdString(), a_sNewIDP2.toStdString(), PLAYER_2, 0, "");
+    ON_CC_THREAD(LM::CKernel::AddNewScene, m_pKernel, a_pTemplate->GetPath().toStdString(),
+                 a_sPreviousIDP1.toStdString(), a_sNewIDP1.toStdString(), PLAYER_1, 0, "");
+    ON_CC_THREAD(LM::CKernel::AddNewScene, m_pKernel, a_pTemplate->GetPath().toStdString(),
+                 a_sPreviousIDP2.toStdString(), a_sNewIDP2.toStdString(), PLAYER_2, 0, "");
+    //    m_pKernel->AddNewScene(a_pTemplate->GetPath().toStdString(),
+    //                           a_sPreviousIDP1.toStdString(), a_sNewIDP1.toStdString(), PLAYER_1, 0, "");
+    //    m_pKernel->AddNewScene(a_pTemplate->GetPath().toStdString(),
+    //                           a_sPreviousIDP2.toStdString(), a_sNewIDP2.toStdString(), PLAYER_2, 0, "");
 }
 
 void CMainWindow::addGameScene(const QString &a_sPreviousIDP1, const QString &a_sNewIDP1,
                                const QString &a_sPreviousIDP2, const QString &a_sNewIDP2,
                                CTemplate* a_pTemplate, int a_iTemplateNumberP1, int a_iTemplateNumberP2)
 {
-    ON_CC_THREAD(LM::CKernel::AddNewScene, m_pKernel, a_pTemplate->GetPath().toStdString(),
-                 a_sPreviousIDP1.toStdString(), a_sNewIDP1.toStdString(), PLAYER_1, a_iTemplateNumberP1, a_sNewIDP2.toStdString());
-    ON_CC_THREAD(LM::CKernel::AddNewScene, m_pKernel, a_pTemplate->GetPath().toStdString(),
-                 a_sPreviousIDP2.toStdString(), a_sNewIDP2.toStdString(), PLAYER_2, a_iTemplateNumberP2, a_sNewIDP1.toStdString());
-    ON_CC_THREAD(LM::CKernel::AddSyncID, m_pKernel, a_sNewIDP1.toStdString(), a_sNewIDP2.toStdString());
-    //    m_pKernel->AddNewScene(a_pTemplate->GetPath().toStdString(),
-    //                           a_sPreviousIDP1.toStdString(), a_sNewIDP1.toStdString(), PLAYER_1, a_iTemplateNumberP1, a_sNewIDP2.toStdString());
-    //    m_pKernel->AddNewScene(a_pTemplate->GetPath().toStdString(),
-    //                           a_sPreviousIDP2.toStdString(), a_sNewIDP2.toStdString(), PLAYER_2, a_iTemplateNumberP2, a_sNewIDP1.toStdString());
-    //    m_pKernel->AddSyncID(a_sNewIDP1.toStdString(), a_sNewIDP2.toStdString());
+    //    ON_CC_THREAD(LM::CKernel::AddNewScene, m_pKernel, a_pTemplate->GetPath().toStdString(),
+    //                 a_sPreviousIDP1.toStdString(), a_sNewIDP1.toStdString(), PLAYER_1, a_iTemplateNumberP1, a_sNewIDP2.toStdString());
+    //    ON_CC_THREAD(LM::CKernel::AddNewScene, m_pKernel, a_pTemplate->GetPath().toStdString(),
+    //                 a_sPreviousIDP2.toStdString(), a_sNewIDP2.toStdString(), PLAYER_2, a_iTemplateNumberP2, a_sNewIDP1.toStdString());
+    //    ON_CC_THREAD(LM::CKernel::AddSyncID, m_pKernel, a_sNewIDP1.toStdString(), a_sNewIDP2.toStdString());
+    m_pKernel->AddNewScene(a_pTemplate->GetPath().toStdString(),
+                           a_sPreviousIDP1.toStdString(), a_sNewIDP1.toStdString(), PLAYER_1, a_iTemplateNumberP1, a_sNewIDP2.toStdString());
+    m_pKernel->AddNewScene(a_pTemplate->GetPath().toStdString(),
+                           a_sPreviousIDP2.toStdString(), a_sNewIDP2.toStdString(), PLAYER_2, a_iTemplateNumberP2, a_sNewIDP1.toStdString());
+    m_pKernel->AddSyncID(a_sNewIDP1.toStdString(), a_sNewIDP2.toStdString());
 }
 
 void CMainWindow::deleteScene(QString a_sSceneID, bool a_bIsSync)
@@ -656,6 +662,7 @@ void CMainWindow::addingSceneFinished(std::string a_sSceneID, int a_iPlayerID)
 
 void CMainWindow::addingSceneFinished(const QString a_sPrevSceneID, const QString a_sSceneID, int a_iPlayerID)
 {
+    qDebug() << "adding scene finished";
     DeactivateThumbnails();
     int iPrevIndex = FindThumbnailIndexByID(a_sPrevSceneID, a_iPlayerID);
     CThumbnailWidget* pNewThumbnail = new CThumbnailWidget(a_sSceneID, a_iPlayerID);

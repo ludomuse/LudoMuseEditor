@@ -65,7 +65,7 @@ CSpriteInspector::CSpriteInspector(LM::CSpriteNode* a_pSprite, QWidget *parent):
     idContainer->setLayout(hLayoutId);
     idContainer->setMaximumHeight(100);
     idContainer->setStyleSheet("border-bottom : 1px solid grey");
-    idContainer->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Maximum);
+    idContainer->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Fixed);
 
     // Create path widget
     QHBoxLayout* hLayoutPath= new QHBoxLayout();
@@ -87,7 +87,7 @@ CSpriteInspector::CSpriteInspector(LM::CSpriteNode* a_pSprite, QWidget *parent):
     pathContainer->setLayout(hLayoutPath);
     pathContainer->setMaximumHeight(100);
     pathContainer->setStyleSheet("border-bottom : 1px solid grey");
-    pathContainer->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Maximum);
+    pathContainer->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Fixed);
 
     // Create anchor widget
     QLabel* anchorTitle = new QLabel("Ancrage");
@@ -135,7 +135,7 @@ CSpriteInspector::CSpriteInspector(LM::CSpriteNode* a_pSprite, QWidget *parent):
     vLayoutAnchor->addWidget(anchorScheme);
     QWidget* anchorContainer = new QWidget();
     anchorContainer->setLayout(vLayoutAnchor);
-    anchorContainer->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Maximum);
+    anchorContainer->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
     switch(this->m_iCurrentAnchor){
     case 1:
         anchor1Button->setText("[1]");
@@ -249,18 +249,21 @@ CSpriteInspector::CSpriteInspector(LM::CSpriteNode* a_pSprite, QWidget *parent):
     QWidget* buttonContainer = new QWidget();
     buttonContainer->setLayout(vLayoutButton);
     buttonContainer->setMaximumHeight(100);
+    buttonContainer->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Fixed);
 
     QVBoxLayout *verticalLayout = new QVBoxLayout();
+    verticalLayout->addWidget(idContainer);
+    verticalLayout->addWidget(pathContainer);
+    verticalLayout->addWidget(anchorContainer);
+    verticalLayout->addWidget(sizeContainer);
+    verticalLayout->addSpacerItem(new QSpacerItem(0,0, QSizePolicy::Preferred, QSizePolicy::Expanding));
+    verticalLayout->addWidget(buttonContainer);
+
     QPalette pal(palette());
     pal.setColor(QPalette::Background, QColor(50,50,50,255));
     this->setLayout(verticalLayout);
     this->setAutoFillBackground(true);
     this->setPalette(pal);
-    this->layout()->addWidget(idContainer);
-    this->layout()->addWidget(pathContainer);
-    this->layout()->addWidget(anchorContainer);
-    this->layout()->addWidget(sizeContainer);
-    this->layout()->addWidget(buttonContainer);
 
     this->m_pPath = path;
 

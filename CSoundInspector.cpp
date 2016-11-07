@@ -119,7 +119,6 @@ CSoundInspector::CSoundInspector(LM::CEntityNode* a_pNode, QWidget *parent):
     QWidget* listenerContainer = new QWidget();
     listenerContainer->setLayout(vLayoutListener);
     listenerContainer->setMaximumHeight(160);
-    listenerContainer->setStyleSheet("border-bottom : 1px solid grey");
     listenerContainer->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Fixed);
 
     QHBoxLayout* hLayoutButton = new QHBoxLayout();
@@ -130,6 +129,7 @@ CSoundInspector::CSoundInspector(LM::CEntityNode* a_pNode, QWidget *parent):
     QWidget* buttonContainer = new QWidget();
     buttonContainer->setLayout(hLayoutButton);
     buttonContainer->setMaximumHeight(100);
+    buttonContainer->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Fixed);
 
 
     QVBoxLayout *verticalLayout = new QVBoxLayout();
@@ -138,7 +138,7 @@ CSoundInspector::CSoundInspector(LM::CEntityNode* a_pNode, QWidget *parent):
     verticalLayout->addWidget(checkContainer);
     verticalLayout->addWidget(pathContainer);
     verticalLayout->addWidget(listenerContainer);
-    verticalLayout->addSpacerItem(new QSpacerItem(0,0));
+    verticalLayout->addSpacerItem(new QSpacerItem(0,0, QSizePolicy::Preferred, QSizePolicy::Expanding));
     verticalLayout->addWidget(buttonContainer);
     this->setLayout(verticalLayout);
     this->setAutoFillBackground(true);

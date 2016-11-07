@@ -45,7 +45,7 @@ void CArchiver::CompressFolder(const std::string &a_rFolder, const std::string& 
 }
 
 
-void CArchiver::ExtractArchive(const std::__1::string &a_rArchive)
+void CArchiver::ExtractArchive(const std::string &a_rArchive)
 {
     // tar xjf a_rfolder.lm
     system(std::string(std::string("tar xjf ") + a_rArchive + ".lm").c_str());
