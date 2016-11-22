@@ -15,7 +15,11 @@ CSceneInspector::CSceneInspector(LM::CSceneNode* a_pScene, int a_iPlayerID, QWid
     QWidget* buttonColWidget = new QWidget(this);
 
     QWidget* firstRow = new QWidget(this);
+    firstRow->setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Minimum);
+    firstRow->setMinimumHeight(50);
     QWidget* secondRow = new QWidget(this);
+    secondRow->setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Maximum);
+    secondRow->setMinimumHeight(50);
 
     QHBoxLayout* hFirstRowLayout = new QHBoxLayout(this);
     QHBoxLayout* hSecondRowLayout = new QHBoxLayout(this);
@@ -50,12 +54,14 @@ CSceneInspector::CSceneInspector(LM::CSceneNode* a_pScene, int a_iPlayerID, QWid
         player1CheckBox->setChecked(true);
         player2CheckBox->setChecked(true);
     }
+
     playerCheckBox->setLayout(hPlayerLayout);
     hFirstRowLayout->addWidget(playerCheckBox);
 
     // Fill second row with synchro and dash
     QCheckBox* isDashCB = new QCheckBox("déclenche le dashboard", this);
     isDashCB->setStyleSheet("QCheckBox{color : white}");
+
     if(m_pScene->m_bDashboardTrigger)
     {
         isDashCB->setChecked(true);
