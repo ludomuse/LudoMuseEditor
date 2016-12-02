@@ -1,0 +1,793 @@
+{
+  "name": "Invente un dialogue",
+  "pictures": ["res/template_game_1_1.png",
+    "res/template_game_1_2.png"],
+  "description": "Invente un dialogue en associant les images avec les bulles",
+  "game": true,
+  "templates": [
+    {
+      "sync": true,
+      "navigation": [
+        {
+          "type": "Nav",
+          "params": {
+            "width": 0,
+            "height": 13,
+            "anchor": 5,
+            "normal": "ui/nav-5.png",
+            "selected": "ui/nav-5-active.png",
+            "action": "next",
+            "children": [
+              {
+                "type": "Text",
+                "params": {
+                  "content": "ENTREZ",
+                  "source": "fonts/Open_Sans/OpenSans-Bold.ttf",
+                  "fontSize": 20,
+                  "textAlign": "right",
+                  "width": 80,
+                  "height": 100,
+                  "anchor": 0,
+                  "color": ""
+                }
+              }
+            ],
+            "listeners": [
+              {
+                "type": "Validate",
+                "params": {
+                  "callback": "Show",
+                  "arg": true
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "Validator",
+          "params": {
+            "ids": [
+              "zone1",
+              "zone2",
+              "zone3",
+              "zone4"
+            ],
+            "sound": "cache/audio/gong.mp3"
+          }
+        }
+      ],
+      "content": [
+        {
+          "type": "Image",
+          "params": {
+            "source": "res_templ/cache/background_dark.png",
+            "anchor": 0,
+            "width": 100,
+            "height": 100,
+            "x": 0,
+            "y": 0
+          }
+        },
+        {
+          "type": "Image",
+          "id": "dropArea2",
+          "params": {
+            "source": "res_templ/cache/shared_zone.png",
+            "anchor": 8,
+            "width": 25,
+            "children": [
+              {
+                "type": "Image",
+                "id": "bubble1",
+                "params": {
+                  "source": "ui/cache-noir-70.png",
+                  "anchor": 0,
+                  "height": 30,
+                  "children": [
+                    {
+                      "type": "Text",
+                      "id": "text1",
+                      "params": {
+                        "content": "Texte 1",
+                        "source": "fonts/Open_Sans/OpenSans-Regular.ttf",
+                        "fontSize": 24,
+                        "textAlign": "center",
+                        "anchor": 0,
+                        "height": 90,
+                        "width": 95
+                      }
+                    }
+                  ],
+                  "listeners": [
+                    {
+                      "type": "Move",
+                      "params": {
+                        "callback": ""
+                      }
+                    },
+                    {
+                      "type": "Show",
+                      "params": {
+                        "callback": "Show",
+                        "arg": true
+                      }
+                    }
+                  ]
+                }
+              },
+              {
+                "type": "Image",
+                "id": "bubble2",
+                "params": {
+                  "source": "ui/cache-noir-70.png",
+                  "anchor": 0,
+                  "height": 30,
+                  "children": [
+                    {
+                      "type": "Text",
+                      "id": "text2",
+                      "params": {
+                        "content": "Texte 2",
+                        "source": "fonts/Open_Sans/OpenSans-Regular.ttf",
+                        "fontSize": 24,
+                        "textAlign": "center",
+                        "anchor": 0,
+                        "height": 90,
+                        "width": 95
+                      }
+                    }
+                  ],
+                  "listeners": [
+                    {
+                      "type": "Move",
+                      "params": {
+                        "callback": ""
+                      }
+                    },
+                    {
+                      "type": "Show",
+                      "params": {
+                        "callback": "Show",
+                        "arg": true
+                      }
+                    }
+                  ]
+                }
+              },
+              {
+                "type": "Image",
+                "id": "bubble3",
+                "params": {
+                  "source": "ui/cache-noir-70.png",
+                  "anchor": 0,
+                  "height": 30,
+                  "children": [
+                    {
+                      "type": "Text",
+                      "id": "text3",
+                      "params": {
+                        "content": "Texte 3",
+                        "source": "fonts/Open_Sans/OpenSans-Regular.ttf",
+                        "fontSize": 24,
+                        "textAlign": "center",
+                        "anchor": 0,
+                        "height": 90,
+                        "width": 95
+                      }
+                    }
+                  ],
+                  "listeners": [
+                    {
+                      "type": "Move",
+                      "params": {
+                        "callback": ""
+                      }
+                    },
+                    {
+                      "type": "Show",
+                      "params": {
+                        "callback": "Show",
+                        "arg": true
+                      }
+                    }
+                  ]
+                }
+              },
+              {
+                "type": "Image",
+                "id": "bubble4",
+                "params": {
+                  "source": "ui/cache-noir-70.png",
+                  "anchor": 0,
+                  "height": 30,
+                  "children": [
+                    {
+                      "type": "Text",
+                      "id": "text4",
+                      "params": {
+                        "content": "Texte 4",
+                        "source": "fonts/Open_Sans/OpenSans-Regular.ttf",
+                        "fontSize": 24,
+                        "textAlign": "center",
+                        "anchor": 0,
+                        "height": 90,
+                        "width": 95
+                      }
+                    }
+                  ],
+                  "listeners": [
+                    {
+                      "type": "Move",
+                      "params": {
+                        "callback": ""
+                      }
+                    },
+                    {
+                      "type": "Show",
+                      "params": {
+                        "callback": "Show",
+                        "arg": true
+                      }
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "Grid",
+          "params": {
+            "rows": 2,
+            "cols": 2,
+            "anchor": 4,
+            "width": 75,
+            "height": 75,
+            "children": [
+              {
+                "type": "Group",
+                "params": {
+                  "width": 100,
+                  "height": 100,
+                  "anchor": 0,
+                  "children": [
+                    {
+                      "type": "Image",
+                      "params": {
+                        "source": "res_templ/ui/perso.png",
+                        "anchor": 2,
+                        "height": 70
+                      }
+                    },
+                    {
+                      "type": "Group",
+                      "params": {
+                        "height": 30,
+                        "width": 100,
+                        "anchor": 6,
+                        "children": [
+                          {
+                            "type": "Image",
+                            "id": "zone1",
+                            "params": {
+                              "source": "ui/cache-blanc-70.png",
+                              "height": 100,
+                              "anchor": 0,
+                              "listeners": [
+                                {
+                                  "type": "Drop",
+                                  "params": {
+                                    "callback": "AnchorEntity",
+                                    "arg": "bubble1:bubble2:bubble3:bubble4"
+                                  }
+                                },
+                                {
+                                  "type": "Drop",
+                                  "params": {
+                                    "callback": "Validate",
+                                    "arg": "zone1"
+                                  }
+                                },
+                                {
+                                  "type": "Drop",
+                                  "params": {
+                                    "callback": "SendMessage",
+                                    "arg": "ID_SCENE_2:DropEnableBack:photosDropArea"
+                                  }
+                                },
+                                {
+                                  "type": "Drop",
+                                  "params": {
+                                    "callback": "DisableEvent",
+                                    "arg": "zone1:Drop"
+                                  }
+                                }
+                              ]
+                            }
+                          }
+                        ]
+                      }
+                    }
+                  ]
+                }
+              },
+              {
+                "type": "Group",
+                "params": {
+                  "width": 100,
+                  "height": 100,
+                  "anchor": 0,
+                  "children": [
+                    {
+                      "type": "Image",
+                      "params": {
+                        "source": "res_templ/ui/perso.png",
+                        "anchor": 2,
+                        "height": 70
+                      }
+                    },
+                    {
+                      "type": "Group",
+                      "params": {
+                        "height": 30,
+                        "width": 100,
+                        "anchor": 6,
+                        "children": [
+                          {
+                            "type": "Image",
+                            "id": "zone2",
+                            "params": {
+                              "source": "ui/cache-blanc-70.png",
+                              "height": 100,
+                              "anchor": 0,
+                              "listeners": [
+                                {
+                                  "type": "Drop",
+                                  "params": {
+                                    "callback": "AnchorEntity",
+                                    "arg": "bubble1:bubble2:bubble3:bubble4"
+                                  }
+                                },
+                                {
+                                  "type": "Drop",
+                                  "params": {
+                                    "callback": "Validate",
+                                    "arg": "zone2"
+                                  }
+                                },
+                                {
+                                  "type": "Drop",
+                                  "params": {
+                                    "callback": "SendMessage",
+                                    "arg": "ID_SCENE_2:DropEnableBack:photosDropArea"
+                                  }
+                                },
+                                {
+                                  "type": "Drop",
+                                  "params": {
+                                    "callback": "DisableEvent",
+                                    "arg": "zone2:Drop"
+                                  }
+                                }
+                              ]
+                            }
+                          }
+                        ]
+                      }
+                    }
+                  ]
+                }
+              },
+              {
+                "type": "Group",
+                "params": {
+                  "width": 100,
+                  "height": 100,
+                  "anchor": 0,
+                  "children": [
+                    {
+                      "type": "Image",
+                      "params": {
+                        "source": "res_templ/ui/perso.png",
+                        "anchor": 2,
+                        "height": 70
+                      }
+                    },
+                    {
+                      "type": "Group",
+                      "params": {
+                        "height": 30,
+                        "width": 100,
+                        "anchor": 6,
+                        "children": [
+                          {
+                            "type": "Image",
+                            "id": "zone3",
+                            "params": {
+                              "source": "ui/cache-blanc-70.png",
+                              "height": 100,
+                              "anchor": 0,
+                              "listeners": [
+                                {
+                                  "type": "Drop",
+                                  "params": {
+                                    "callback": "AnchorEntity",
+                                    "arg": "bubble1:bubble2:bubble3:bubble4"
+                                  }
+                                },
+                                {
+                                  "type": "Drop",
+                                  "params": {
+                                    "callback": "Validate",
+                                    "arg": "zone3"
+                                  }
+                                },
+                                {
+                                  "type": "Drop",
+                                  "params": {
+                                    "callback": "SendMessage",
+                                    "arg": "ID_SCENE_2:DropEnableBack:photosDropArea"
+                                  }
+                                },
+                                {
+                                  "type": "Drop",
+                                  "params": {
+                                    "callback": "DisableEvent",
+                                    "arg": "zone3:Drop"
+                                  }
+                                }
+                              ]
+                            }
+                          }
+                        ]
+                      }
+                    }
+                  ]
+                }
+              },
+              {
+                "type": "Group",
+                "params": {
+                  "width": 100,
+                  "height": 100,
+                  "anchor": 0,
+                  "children": [
+                    {
+                      "type": "Image",
+                      "params": {
+                        "source": "res_templ/ui/perso.png",
+                        "anchor": 2,
+                        "height": 70
+                      }
+                    },
+                    {
+                      "type": "Group",
+                      "params": {
+                        "height": 30,
+                        "width": 100,
+                        "anchor": 6,
+                        "children": [
+                          {
+                            "type": "Image",
+                            "id": "zone4",
+                            "params": {
+                              "source": "ui/cache-blanc-70.png",
+                              "height": 100,
+                              "anchor": 0,
+                              "listeners": [
+                                {
+                                  "type": "Drop",
+                                  "params": {
+                                    "callback": "AnchorEntity",
+                                    "arg": "bubble1:bubble2:bubble3:bubble4"
+                                  }
+                                },
+                                {
+                                  "type": "Drop",
+                                  "params": {
+                                    "callback": "Validate",
+                                    "arg": "zone4"
+                                  }
+                                },
+                                {
+                                  "type": "Drop",
+                                  "params": {
+                                    "callback": "SendMessage",
+                                    "arg": "ID_SCENE_2:DropEnableBack:photosDropArea"
+                                  }
+                                },
+                                {
+                                  "type": "Drop",
+                                  "params": {
+                                    "callback": "DisableEvent",
+                                    "arg": "zone4:Drop"
+                                  }
+                                }
+                              ]
+                            }
+                          }
+                        ]
+                      }
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        }
+      ],
+      "information": []
+    },
+    {
+      "sync" : true,
+      "navigation": [
+        {
+          "type": "Nav",
+          "params": {
+            "width": 0,
+            "height": 13,
+            "anchor": 5,
+            "normal": "ui/nav-5.png",
+            "selected": "ui/nav-5-active.png",
+            "action": "next",
+            "children": [
+              {
+                "type": "Text",
+                "params": {
+                  "content": "ENTREZ",
+                  "source": "fonts/Open_Sans/OpenSans-Bold.ttf",
+                  "fontSize": 20,
+                  "textAlign": "right",
+                  "width": 80,
+                  "height": 100,
+                  "anchor": 0,
+                  "color": ""
+                }
+              }
+            ],
+            "listeners": [
+              {
+                "type": "Validate",
+                "params": {
+                  "callback": "Show",
+                  "arg": true
+                }
+              }
+            ]
+          }
+        }
+      ],
+      "content": [
+        {
+          "type": "Image",
+          "params": {
+            "source": "res_templ/cache/background_dark.png",
+            "anchor": 0,
+            "width": 100,
+            "height": 100,
+            "x": 0,
+            "y": 0
+          }
+        },
+        {
+          "type": "Image",
+          "id": "photosDropArea",
+          "params": {
+            "source": "res_templ/cache/shared_zone.png",
+            "anchor": 4,
+            "width": 25,
+            "listeners": [
+              {
+                "type": "Drop",
+                "params": {
+                  "callback": "DisableEvent",
+                  "arg": "photosDropArea:Drop"
+                }
+              },
+              {
+                "type": "DropEnableBack",
+                "params": {
+                  "callback": "EnableEvent",
+                  "arg": "photosDropArea:Drop"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "Grid",
+          "params": {
+            "rows": 2,
+            "cols": 2,
+            "anchor": 8,
+            "width": 75,
+            "height": 80,
+            "children": [
+              {
+                "type": "Image",
+                "id": "bubble1",
+                "params": {
+                  "source": "ui/cache-noir-70.png",
+                  "anchor": 0,
+                  "height": 90,
+                  "children": [
+                    {
+                      "type": "Text",
+                      "id": "text1",
+                      "params": {
+                        "content": "Texte 1",
+                        "source": "fonts/Open_Sans/OpenSans-Regular.ttf",
+                        "fontSize": 24,
+                        "textAlign": "center",
+                        "anchor": 0,
+                        "height": 90,
+                        "width": 95
+                      }
+                    }
+                  ],
+                  "listeners": [
+                    {
+                      "type": "Move",
+                      "params": {
+                        "callback": ""
+                      }
+                    },
+                    {
+                      "type": "Droped",
+                      "params": {
+                        "callback": "SendMessage",
+                        "arg": "ID_SCENE_1:Show:bubble1"
+                      }
+                    },
+                    {
+                      "type": "Droped",
+                      "params": {
+                        "callback": "Fade"
+                      }
+                    }
+                  ]
+                }
+              },
+              {
+                "type": "Image",
+                "id": "bubble2",
+                "params": {
+                  "source": "ui/cache-noir-70.png",
+                  "anchor": 0,
+                  "height": 90,
+                  "children": [
+                    {
+                      "type": "Text",
+                      "id": "text2",
+                      "params": {
+                        "content": "Texte 2",
+                        "source": "fonts/Open_Sans/OpenSans-Regular.ttf",
+                        "fontSize": 24,
+                        "textAlign": "center",
+                        "anchor": 0,
+                        "height": 90,
+                        "width": 95
+                      }
+                    }
+                  ],
+                  "listeners": [
+                    {
+                      "type": "Move",
+                      "params": {
+                        "callback": ""
+                      }
+                    },
+                    {
+                      "type": "Droped",
+                      "params": {
+                        "callback": "SendMessage",
+                        "arg": "ID_SCENE_1:Show:bubble2"
+                      }
+                    },
+                    {
+                      "type": "Droped",
+                      "params": {
+                        "callback": "Fade"
+                      }
+                    }
+                  ]
+                }
+              },
+              {
+                "type": "Image",
+                "id": "bubble3",
+                "params": {
+                  "source": "ui/cache-noir-70.png",
+                  "anchor": 0,
+                  "height": 90,
+                  "children": [
+                    {
+                      "type": "Text",
+                      "id": "text3",
+                      "params": {
+                        "content": "Texte 3",
+                        "source": "fonts/Open_Sans/OpenSans-Regular.ttf",
+                        "fontSize": 24,
+                        "textAlign": "center",
+                        "anchor": 0,
+                        "height": 90,
+                        "width": 95
+                      }
+                    }
+                  ],
+                  "listeners": [
+                    {
+                      "type": "Move",
+                      "params": {
+                        "callback": ""
+                      }
+                    },
+                    {
+                      "type": "Droped",
+                      "params": {
+                        "callback": "SendMessage",
+                        "arg": "ID_SCENE_1:Show:bubble3"
+                      }
+                    },
+                    {
+                      "type": "Droped",
+                      "params": {
+                        "callback": "Fade"
+                      }
+                    }
+                  ]
+                }
+              },
+              {
+                "type": "Image",
+                "id": "bubble4",
+                "params": {
+                  "source": "ui/cache-noir-70.png",
+                  "anchor": 0,
+                  "height": 90,
+                  "children": [
+                    {
+                      "type": "Text",
+                      "id": "text4",
+                      "params": {
+                        "content": "Texte 4",
+                        "source": "fonts/Open_Sans/OpenSans-Regular.ttf",
+                        "fontSize": 24,
+                        "textAlign": "center",
+                        "anchor": 0,
+                        "height": 90,
+                        "width": 95
+                      }
+                    }
+                  ],
+                  "listeners": [
+                    {
+                      "type": "Move",
+                      "params": {
+                        "callback": ""
+                      }
+                    },
+                    {
+                      "type": "Droped",
+                      "params": {
+                        "callback": "SendMessage",
+                        "arg": "ID_SCENE_1:Show:bubble4"
+                      }
+                    },
+                    {
+                      "type": "Droped",
+                      "params": {
+                        "callback": "Fade"
+                      }
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        }
+      ],
+      "information": []
+    }
+  ]
+}
