@@ -636,7 +636,7 @@
                       "type": "Droped",
                       "params": {
                         "callback": "SendMessage",
-                        "arg": "ID_SCENE_1:Show:bubble1"
+                        "arg": "ID_SCENE_2:Show:bubble1"
                       }
                     },
                     {
@@ -681,7 +681,7 @@
                       "type": "Droped",
                       "params": {
                         "callback": "SendMessage",
-                        "arg": "ID_SCENE_1:Show:bubble2"
+                        "arg": "ID_SCENE_2:Show:bubble2"
                       }
                     },
                     {
@@ -726,7 +726,7 @@
                       "type": "Droped",
                       "params": {
                         "callback": "SendMessage",
-                        "arg": "ID_SCENE_1:Show:bubble3"
+                        "arg": "ID_SCENE_2:Show:bubble3"
                       }
                     },
                     {
@@ -771,7 +771,7 @@
                       "type": "Droped",
                       "params": {
                         "callback": "SendMessage",
-                        "arg": "ID_SCENE_1:Show:bubble4"
+                        "arg": "ID_SCENE_2:Show:bubble4"
                       }
                     },
                     {
