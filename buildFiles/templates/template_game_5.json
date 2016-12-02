@@ -80,7 +80,7 @@
                 "type": "Image",
                 "id": "bubble1",
                 "params": {
-                  "source": "ui/cache-noir-70.png",
+                  "source": "res_templ/ui/cache-noir-70.png",
                   "anchor": 0,
                   "height": 30,
                   "children": [
@@ -119,7 +119,7 @@
                 "type": "Image",
                 "id": "bubble2",
                 "params": {
-                  "source": "ui/cache-noir-70.png",
+                  "source": "res_templ/ui/cache-noir-70.png",
                   "anchor": 0,
                   "height": 30,
                   "children": [
@@ -158,7 +158,7 @@
                 "type": "Image",
                 "id": "bubble3",
                 "params": {
-                  "source": "ui/cache-noir-70.png",
+                  "source": "res_templ/ui/cache-noir-70.png",
                   "anchor": 0,
                   "height": 30,
                   "children": [
@@ -197,7 +197,7 @@
                 "type": "Image",
                 "id": "bubble4",
                 "params": {
-                  "source": "ui/cache-noir-70.png",
+                  "source": "res_templ/ui/cache-noir-70.png",
                   "anchor": 0,
                   "height": 30,
                   "children": [
@@ -607,7 +607,7 @@
                 "type": "Image",
                 "id": "bubble1",
                 "params": {
-                  "source": "ui/cache-noir-70.png",
+                  "source": "res_templ/ui/cache-noir-70.png",
                   "anchor": 0,
                   "height": 90,
                   "children": [
@@ -652,7 +652,7 @@
                 "type": "Image",
                 "id": "bubble2",
                 "params": {
-                  "source": "ui/cache-noir-70.png",
+                  "source": "res_templ/ui/cache-noir-70.png",
                   "anchor": 0,
                   "height": 90,
                   "children": [
@@ -697,7 +697,7 @@
                 "type": "Image",
                 "id": "bubble3",
                 "params": {
-                  "source": "ui/cache-noir-70.png",
+                  "source": "res_templ/ui/cache-noir-70.png",
                   "anchor": 0,
                   "height": 90,
                   "children": [
@@ -742,7 +742,7 @@
                 "type": "Image",
                 "id": "bubble4",
                 "params": {
-                  "source": "ui/cache-noir-70.png",
+                  "source": "res_templ/ui/cache-noir-70.png",
                   "anchor": 0,
                   "height": 90,
                   "children": [
