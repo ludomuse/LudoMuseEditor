@@ -14,15 +14,15 @@
             "width": 0,
             "height": 13,
             "anchor": 5,
-            "normal": "ui/nav-5.png",
-            "selected": "ui/nav-5-active.png",
+            "normal": "res_templ/ui/nav-5.png",
+            "selected": "res_templ/ui/nav-5-active.png",
             "action": "next",
             "children": [
               {
                 "type": "Text",
                 "params": {
                   "content": "ENTREZ",
-                  "source": "fonts/Open_Sans/OpenSans-Bold.ttf",
+                  "source": "res_templ/fonts/Open_Sans/OpenSans-Bold.ttf",
                   "fontSize": 20,
                   "textAlign": "right",
                   "width": 80,
@@ -89,7 +89,7 @@
                       "id": "text1",
                       "params": {
                         "content": "Texte 1",
-                        "source": "fonts/Open_Sans/OpenSans-Regular.ttf",
+                        "source": "res_templ/fonts/Open_Sans/OpenSans-Regular.ttf",
                         "fontSize": 24,
                         "textAlign": "center",
                         "anchor": 0,
@@ -128,7 +128,7 @@
                       "id": "text2",
                       "params": {
                         "content": "Texte 2",
-                        "source": "fonts/Open_Sans/OpenSans-Regular.ttf",
+                        "source": "res_templ/fonts/Open_Sans/OpenSans-Regular.ttf",
                         "fontSize": 24,
                         "textAlign": "center",
                         "anchor": 0,
@@ -167,7 +167,7 @@
                       "id": "text3",
                       "params": {
                         "content": "Texte 3",
-                        "source": "fonts/Open_Sans/OpenSans-Regular.ttf",
+                        "source": "res_templ/fonts/Open_Sans/OpenSans-Regular.ttf",
                         "fontSize": 24,
                         "textAlign": "center",
                         "anchor": 0,
@@ -206,7 +206,7 @@
                       "id": "text4",
                       "params": {
                         "content": "Texte 4",
-                        "source": "fonts/Open_Sans/OpenSans-Regular.ttf",
+                        "source": "res_templ/fonts/Open_Sans/OpenSans-Regular.ttf",
                         "fontSize": 24,
                         "textAlign": "center",
                         "anchor": 0,
@@ -270,7 +270,7 @@
                             "type": "Image",
                             "id": "zone1",
                             "params": {
-                              "source": "ui/cache-blanc-70.png",
+                              "source": "res_templ/ui/cache-blanc-70.png",
                               "height": 100,
                               "anchor": 0,
                               "listeners": [
@@ -337,7 +337,7 @@
                             "type": "Image",
                             "id": "zone2",
                             "params": {
-                              "source": "ui/cache-blanc-70.png",
+                              "source": "res_templ/ui/cache-blanc-70.png",
                               "height": 100,
                               "anchor": 0,
                               "listeners": [
@@ -404,7 +404,7 @@
                             "type": "Image",
                             "id": "zone3",
                             "params": {
-                              "source": "ui/cache-blanc-70.png",
+                              "source": "res_templ/ui/cache-blanc-70.png",
                               "height": 100,
                               "anchor": 0,
                               "listeners": [
@@ -471,7 +471,7 @@
                             "type": "Image",
                             "id": "zone4",
                             "params": {
-                              "source": "ui/cache-blanc-70.png",
+                              "source": "res_templ/ui/cache-blanc-70.png",
                               "height": 100,
                               "anchor": 0,
                               "listeners": [
@@ -527,15 +527,15 @@
             "width": 0,
             "height": 13,
             "anchor": 5,
-            "normal": "ui/nav-5.png",
-            "selected": "ui/nav-5-active.png",
+            "normal": "res_templ/ui/nav-5.png",
+            "selected": "res_templ/ui/nav-5-active.png",
             "action": "next",
             "children": [
               {
                 "type": "Text",
                 "params": {
                   "content": "ENTREZ",
-                  "source": "fonts/Open_Sans/OpenSans-Bold.ttf",
+                  "source": "res_templ/fonts/Open_Sans/OpenSans-Bold.ttf",
                   "fontSize": 20,
                   "textAlign": "right",
                   "width": 80,
@@ -616,7 +616,7 @@
                       "id": "text1",
                       "params": {
                         "content": "Texte 1",
-                        "source": "fonts/Open_Sans/OpenSans-Regular.ttf",
+                        "source": "res_templ/fonts/Open_Sans/OpenSans-Regular.ttf",
                         "fontSize": 24,
                         "textAlign": "center",
                         "anchor": 0,
@@ -661,7 +661,7 @@
                       "id": "text2",
                       "params": {
                         "content": "Texte 2",
-                        "source": "fonts/Open_Sans/OpenSans-Regular.ttf",
+                        "source": "res_templ/fonts/Open_Sans/OpenSans-Regular.ttf",
                         "fontSize": 24,
                         "textAlign": "center",
                         "anchor": 0,
@@ -706,7 +706,7 @@
                       "id": "text3",
                       "params": {
                         "content": "Texte 3",
-                        "source": "fonts/Open_Sans/OpenSans-Regular.ttf",
+                        "source": "res_templ/fonts/Open_Sans/OpenSans-Regular.ttf",
                         "fontSize": 24,
                         "textAlign": "center",
                         "anchor": 0,
@@ -751,7 +751,7 @@
                       "id": "text4",
                       "params": {
                         "content": "Texte 4",
-                        "source": "fonts/Open_Sans/OpenSans-Regular.ttf",
+                        "source": "res_templ/fonts/Open_Sans/OpenSans-Regular.ttf",
                         "fontSize": 24,
                         "textAlign": "center",
                         "anchor": 0,
