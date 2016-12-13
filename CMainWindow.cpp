@@ -533,6 +533,15 @@ void CMainWindow::launchEmulator()
     produceJson(jsonPath);
     //    QString cmd = execPath + " server " + CProjectManager::Instance()->QGetProjectJsonFile();
     QString cmd = execPath + " server " + jsonPath;
+
+    QString sLogServer = CProjectManager::Instance()->QGetAbsoluteWritablePath() + "/server.log";
+    QString sLogClient = CProjectManager::Instance()->QGetAbsoluteWritablePath() + "/client.log";
+
+    m_oProcessServer.setStandardOutputFile(sLogServer);
+    m_oProcessServer.setStandardErrorFile(sLogServer);
+    m_oProcessClient.setStandardOutputFile(sLogClient);
+    m_oProcessClient.setStandardErrorFile(sLogClient);
+
     m_oProcessServer.start(cmd);
     QThread::sleep(2);
     //    cmd = execPath + " client " + CProjectManager::Instance()->QGetProjectJsonFile();

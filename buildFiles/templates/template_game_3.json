@@ -391,7 +391,7 @@
                   "children": [
                     {
                       "type": "Image",
-											"id": "Image3",
+                      "id": "Image3",
                       "params": {
                         "source": "res_templ/cache/image_3.png",
                         "anchor": 0,
@@ -431,7 +431,7 @@
                   "children": [
                     {
                       "type": "Image",
-											"id": "Image4",
+                      "id": "Image4",
                       "params": {
                         "source": "res_templ/cache/image_4.png",
                         "anchor": 0,
@@ -471,7 +471,7 @@
                   "children": [
                     {
                       "type": "Image",
-											"id": "Image1",
+                      "id": "Image1",
                       "params": {
                         "source": "res_templ/cache/image_1.png",
                         "anchor": 0,
@@ -511,7 +511,7 @@
                   "children": [
                     {
                       "type": "Image",
-											"id": "Image2",
+                      "id": "Image2",
                       "params": {
                         "source": "res_templ/cache/image_2.png",
                         "anchor": 0,
