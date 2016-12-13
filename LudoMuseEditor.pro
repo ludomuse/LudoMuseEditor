@@ -78,6 +78,7 @@ SOURCES += main.cpp\
     CEditorKernel.cpp \
     CMenuNodeInspector.cpp \
     CThumbnailsLoaderThread.cpp \
+    CTimelineWidget.cpp \
     CocosQtPort/CCQApplication.cpp \
     CocosQtPort/CCQGLView.cpp \
     CocosQtPort/CCQGLWidget.cpp \
@@ -147,6 +148,7 @@ HEADERS  += CMainWindow.h \
     CEditorKernel.h \
     CMenuNodeInspector.h \
     CThumbnailsLoaderThread.h \
+    CTimelineWidget.h \
     CocosQtPort/CCQApplication.h \
     CocosQtPort/CCQGLView.h \
     CocosQtPort/CCQGLWidget.h \

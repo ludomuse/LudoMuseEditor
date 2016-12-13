@@ -14,7 +14,7 @@
    <string>CMainWindow</string>
   </property>
   <widget class="QWidget" name="centralWidget">
-   <layout class="QVBoxLayout" name="verticalLayout_8">
+   <layout class="QVBoxLayout" name="verticalLayout_7">
     <property name="leftMargin">
      <number>0</number>
     </property>
@@ -685,6 +685,12 @@
                <verstretch>0</verstretch>
               </sizepolicy>
              </property>
+             <property name="minimumSize">
+              <size>
+               <width>260</width>
+               <height>0</height>
+              </size>
+             </property>
              <property name="frameShape">
               <enum>QFrame::NoFrame</enum>
              </property>
@@ -705,8 +711,8 @@
                <rect>
                 <x>0</x>
                 <y>0</y>
-                <width>250</width>
-                <height>559</height>
+                <width>260</width>
+                <height>551</height>
                </rect>
               </property>
               <property name="autoFillBackground">
@@ -747,7 +753,7 @@
                  </property>
                  <property name="maximumSize">
                   <size>
-                   <width>250</width>
+                   <width>240</width>
                    <height>16777215</height>
                   </size>
                  </property>
@@ -766,7 +772,6 @@
 }</string>
                  </property>
                  <layout class="QVBoxLayout" name="verticalLayout_12"/>
-                 <zorder>verticalLayoutWidget</zorder>
                 </widget>
                </item>
               </layout>
@@ -1689,7 +1694,7 @@
              </property>
              <property name="maximumSize">
               <size>
-               <width>250</width>
+               <width>16777215</width>
                <height>25</height>
               </size>
              </property>
@@ -1761,7 +1766,7 @@
            <item>
             <widget class="QScrollArea" name="scrollArea_2">
              <property name="sizePolicy">
-              <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+              <sizepolicy hsizetype="Expanding" vsizetype="Minimum">
                <horstretch>0</horstretch>
                <verstretch>0</verstretch>
               </sizepolicy>
@@ -1769,7 +1774,7 @@
              <property name="minimumSize">
               <size>
                <width>0</width>
-               <height>106</height>
+               <height>220</height>
               </size>
              </property>
              <property name="widgetResizable">
@@ -1781,11 +1786,11 @@
                 <x>0</x>
                 <y>0</y>
                 <width>1054</width>
-                <height>104</height>
+                <height>218</height>
                </rect>
               </property>
               <property name="sizePolicy">
-               <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+               <sizepolicy hsizetype="Expanding" vsizetype="Minimum">
                 <horstretch>0</horstretch>
                 <verstretch>0</verstretch>
                </sizepolicy>
@@ -1793,26 +1798,29 @@
               <property name="minimumSize">
                <size>
                 <width>0</width>
-                <height>0</height>
+                <height>200</height>
                </size>
               </property>
-              <layout class="QHBoxLayout" name="horizontalLayout_6">
+              <layout class="QHBoxLayout" name="horizontalLayout_14">
+               <property name="spacing">
+                <number>0</number>
+               </property>
                <property name="leftMargin">
-                <number>2</number>
+                <number>0</number>
                </property>
                <property name="topMargin">
-                <number>2</number>
+                <number>0</number>
                </property>
                <property name="rightMargin">
-                <number>2</number>
+                <number>0</number>
                </property>
                <property name="bottomMargin">
-                <number>2</number>
+                <number>0</number>
                </property>
-               <item>
-                <widget class="QWidget" name="trameContainerP2" native="true">
+               <item alignment="Qt::AlignVCenter">
+                <widget class="QWidget" name="timelineContainer" native="true">
                  <property name="sizePolicy">
-                  <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+                  <sizepolicy hsizetype="Maximum" vsizetype="Maximum">
                    <horstretch>0</horstretch>
                    <verstretch>0</verstretch>
                   </sizepolicy>
@@ -1820,86 +1828,26 @@
                  <property name="minimumSize">
                   <size>
                    <width>0</width>
-                   <height>0</height>
+                   <height>100</height>
                   </size>
                  </property>
-                 <property name="styleSheet">
-                  <string notr="true">#trame_p1 {
-	border-bottom : 1px solid black;
-}</string>
-                 </property>
-                 <layout class="QHBoxLayout" name="horizontalLayout_7"/>
-                </widget>
-               </item>
-              </layout>
-             </widget>
-            </widget>
-           </item>
-           <item>
-            <widget class="QScrollArea" name="scrollArea">
-             <property name="sizePolicy">
-              <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
-               <horstretch>0</horstretch>
-               <verstretch>0</verstretch>
-              </sizepolicy>
-             </property>
-             <property name="minimumSize">
-              <size>
-               <width>0</width>
-               <height>106</height>
-              </size>
-             </property>
-             <property name="widgetResizable">
-              <bool>true</bool>
-             </property>
-             <widget class="QWidget" name="scrollAreaWidgetContents">
-              <property name="geometry">
-               <rect>
-                <x>0</x>
-                <y>0</y>
-                <width>1054</width>
-                <height>104</height>
-               </rect>
-              </property>
-              <property name="sizePolicy">
-               <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
-                <horstretch>0</horstretch>
-                <verstretch>0</verstretch>
-               </sizepolicy>
-              </property>
-              <layout class="QHBoxLayout" name="horizontalLayout_5">
-               <property name="leftMargin">
-                <number>2</number>
-               </property>
-               <property name="topMargin">
-                <number>2</number>
-               </property>
-               <property name="rightMargin">
-                <number>2</number>
-               </property>
-               <property name="bottomMargin">
-                <number>2</number>
-               </property>
-               <item>
-                <widget class="QWidget" name="trameContainerP1" native="true">
-                 <property name="sizePolicy">
-                  <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-                   <horstretch>0</horstretch>
-                   <verstretch>0</verstretch>
-                  </sizepolicy>
-                 </property>
-                 <property name="minimumSize">
-                  <size>
-                   <width>0</width>
-                   <height>0</height>
-                  </size>
-                 </property>
-                 <property name="styleSheet">
-                  <string notr="true">#trame_p1 {
-	border-bottom : 1px solid black;
-}</string>
-                 </property>
-                 <layout class="QHBoxLayout" name="horizontalLayout_3"/>
+                 <layout class="QHBoxLayout" name="trameContainerCommonLayout">
+                  <property name="spacing">
+                   <number>0</number>
+                  </property>
+                  <property name="leftMargin">
+                   <number>0</number>
+                  </property>
+                  <property name="topMargin">
+                   <number>0</number>
+                  </property>
+                  <property name="rightMargin">
+                   <number>0</number>
+                  </property>
+                  <property name="bottomMargin">
+                   <number>0</number>
+                  </property>
+                 </layout>
                 </widget>
                </item>
               </layout>

@@ -25,8 +25,14 @@ CThumbnailWidget::CThumbnailWidget(QString a_sceneID, int a_iPlayerID, QWidget *
     m_iPlayerID(a_iPlayerID)
 {
     this->setFrameShape(QFrame::Box);
-    this->setMinimumWidth(250);
-    this->setMaximumWidth(250);
+//    this->setMinimumWidth(250);
+//    this->setMaximumWidth(250);
+    this->setMinimumHeight(90);
+    this->setMaximumHeight(90);
+    this->setMinimumWidth(150);
+    this->setMaximumWidth(150);
+
+
     QVBoxLayout *vLayout = new QVBoxLayout();
     this->setLayout(vLayout);
 
@@ -64,7 +70,8 @@ void CThumbnailWidget::UpdateThumbnail()
         QPixmap pic(CProjectManager::Instance()->QGetAbsoluteWritablePath() + m_sSceneID+".png");
         if (!pic.isNull())
         {
-            pic = pic.scaledToWidth(this->width(), Qt::SmoothTransformation);
+//            pic = pic.scaledToWidth(this->width(), Qt::SmoothTransformation);
+            pic = pic.scaledToHeight(label->height(), Qt::SmoothTransformation);
             label->setPixmap(pic);
         }
     }
@@ -75,9 +82,12 @@ void CThumbnailWidget::FillThumbnail()
     QLayout* layout = this->layout();
     QLabel *label = new QLabel(this);
     label->setObjectName("image");
+    label->setAlignment(Qt::AlignHCenter);
+    label->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
     QLabel* labelID = new QLabel(m_sSceneID, this);
     labelID->setObjectName("text");
     labelID->setAlignment(Qt::AlignHCenter);
+    labelID->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
     layout->addWidget(labelID);
     layout->addWidget(label);
 }

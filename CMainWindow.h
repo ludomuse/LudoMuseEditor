@@ -13,6 +13,7 @@
 #include "CTemplate.h"
 #include "CThumbnailsLoaderThread.h"
 #include "CArchiver.h"
+#include "CTimelineWidget.h"
 
 #include <Classes/Engine/Include/CKernel.h>
 #include <Classes/Engine/Include/CLabelNode.h>
@@ -32,6 +33,8 @@ class CMainWindow : public QMainWindow
 public:
     explicit CMainWindow(QWidget *parent = 0);
     ~CMainWindow();
+
+    enum {PLAYER_1, PLAYER_2, BOTH_PLAYER};
 
 private:
 
@@ -100,6 +103,7 @@ private slots:
     /// prev or next button. Thus we can know if we need to update thumbnails or not!
     void receiveScene(LM::CSceneNode* a_pScene, bool a_bIsNav);
     void clearInspectorContainer();
+    void clearSceneInspector();
     void goToSceneID(CThumbnailWidget* a_pClickedThumbnails);
     void goToNextScene();
     void goToPreviousScene();
@@ -137,7 +141,6 @@ private:
     QFileSystemModel* m_pDirModel;
     QFileSystemModel* m_pFileModel;
     LM::CKernel* m_pKernel;
-    enum {PLAYER_1, PLAYER_2, BOTH_PLAYER};
     QProcess m_oProcessServer;
     QProcess m_oProcessClient;
     //DEPRECATED
@@ -154,6 +157,7 @@ private:
     QString m_sSaveName;
     CThumbnailsLoaderThread *m_pLoader;
     CArchiver m_oArchiver;
+    CTimelineWidget* m_pTimeline;
 };
 
 #endif // CMAINWINDOW_H

@@ -30,8 +30,8 @@ void CLineEdit::dropEvent(QDropEvent* a_pEvent)
         QList<QUrl> urls = a_pEvent->mimeData()->urls();
         for(QUrl currentUrl : urls)
         {
-            QString path = currentUrl.path();
-            path = path.mid(1);
+            QString path = currentUrl.toLocalFile();
+
             QFileInfo newFile(path);
             if(newFile.exists())
             {
