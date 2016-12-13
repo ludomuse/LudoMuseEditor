@@ -332,7 +332,7 @@ int CTimelineWidget::FindThumbnailIndexByID(const QString& a_sSceneId)
 
 const QString& CTimelineWidget::GetCurrentSceneID()
 {
-    if (m_iActivePlayer == CMainWindow::PLAYER2)
+    if (m_iActivePlayer == CMainWindow::PLAYER_2)
     {
         return m_pThumbnailList->at(m_iCurrentIndex2)->GetSceneID();
     }
