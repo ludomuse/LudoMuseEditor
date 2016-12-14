@@ -15,10 +15,13 @@ public:
     CTimelineWidget(QWidget* parent = Q_NULLPTR);
 
     void UpdateTimeline();
-    void PushScene(const QString& a_sSceneID, int a_iPlayerID);
+    void PushScene(const QString& a_sSceneID, int a_iPlayerID, const QString &a_sSyncedScene = "");
+    void InsertScene(const QString& a_sPrevSceneID, const QString& a_sSceneID, int a_iPlayerID, const QString &a_sSyncedScene = "");
+    void RemoveScene(const QString& a_sSceneID);
     //    void InsertScene(a_sSceneID, a_iPlayerID, a_sPrevSceneID);
     //    void RemoveScene(a_sSceneID);
     void SelectThumbnail(CThumbnailWidget* a_pThumbnail);
+    void SelectThumbnail(const QString& a_sSceneID);
     void SelectNextThumbnail();
     void SelectPrevThumbnail();
     void DeactivateThumbnails();
@@ -28,13 +31,17 @@ public:
     void LoadPreviews();
     void LoadPreview(const QString& a_sSceneID);
     //    CThumbnailWidget* RemoveThumbnail(a_sSceneID);
-    const QString& GetCurrentSceneID();
+    QString GetCurrentSceneID();
+    QString GetPlayerSceneID(int a_iPlayerID);
+    int GetCurrentPlayer();
+    void SetCurrentPlayer(int a_iPlayerID);
 
 private slots:
     void thumbnailClicked(CThumbnailWidget* a_pThumbnail);
 
 signals:
-    void thumbnailSelected(const QString& a_sSceneID);
+    void thumbnailSelected();
+    void saveThumbnail();
 
 private:
     QList<CThumbnailWidget*>* m_pThumbnailList;
@@ -46,6 +53,10 @@ private:
     void ConnectThumbnail(CThumbnailWidget* a_pThumbnail);
     QWidget* NewColumn();
     int FindThumbnailIndexByID(const QString& a_sStringID);
+    int GetCurrentThumbnailIndex(int a_iPlayerID);
+    void SetCurrentThumbnailIndex(int a_iPlayerID, int a_iIndex);
+    int FindNextThumbnailIndex(int a_iStartIndex, int a_iPlayerID);
+    int FindPrevThumbnailIndex(int a_iStartIndex, int a_iPlayerID);
 
     //    void AddOneThumbnail(CThumbnailWidget* a_pThumbnail);
     //    void AddTwoThumbnails(CThumbnailWidget* a_pThumbnail1, CThumbnailWidget* a_pThumbnail2);

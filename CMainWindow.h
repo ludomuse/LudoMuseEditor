@@ -44,12 +44,6 @@ private:
     /// \brief return playerId who have the scene matching the param id
     int ScreenIDToPlayerID(const QString &a_id);
 
-    /// \brief Add scene id to the time line by creating a new widget
-    /// \param int player number
-    /// \param @&id scene id in string type
-    /// \returns Return widget associated with the scene id passed through param
-    CThumbnailWidget* addSceneToTimeLine(const QString &id, int);
-
     /// \brief allow label inspection in the widget named : inspectorContainer
     /// \param CLabel the label which is actually under inspection/ modification
     void InspectLabel(LM::CLabelNode*);
@@ -72,30 +66,13 @@ private:
     /// and save in file name a_rFileName
     void produceJson(const QString& a_rFileame);
 
-    /// \brief search and active a thumbnail by player id and scene id
-    //    void activeThumbnail(const QString& a_sSceneId, int a_iPlayerId);
-    int FindThumbnailIndexByID(const QString& a_sSceneId, int a_iPlayerId);
-
-    /// \Activate current selected and last active thumbnails
-    void ActivateThumbnails();
-    /// Unselect thumbnails
-    void DeactivateThumbnails();
     /// \Displays current scene
     void ShowCurrentScene();
-    /// \Update current thumbnail preview
-    void SaveThumbnail();
-
-    void SetCurrentThumbnailIndex(int a_iPlayerID, int a_iNewThumbnailIndex);
-    int GetCurrentThumbnailIndex(int a_iPlayerID);
-    QList<CThumbnailWidget*>* GetThumbnailList(int a_iPlayerID);
     int GetOtherPlayer(int a_iPlayerID);
-    void UpdateThumbnailView(int a_iPlayerID);
 
 private slots:
     void loadExistingProject(const QString& a_sProjectPath);
 
-    void receiveHWND(int);
-    void receiveKernel(LM::CKernel*);
     void receiveLabel(LM::CLabelNode*);
     void receiveSprite(LM::CSpriteNode*);
     void receiveMenu(LM::CMenuNode*);
@@ -104,10 +81,9 @@ private slots:
     void receiveScene(LM::CSceneNode* a_pScene, bool a_bIsNav);
     void clearInspectorContainer();
     void clearSceneInspector();
-    void goToSceneID(CThumbnailWidget* a_pClickedThumbnails);
     void goToNextScene();
     void goToPreviousScene();
-    //    void updateScene(CThumbnailWidget* a_pNewThumnail);
+    void changeScene();
     void launchEmulator();
     // slot for adding new template
     void addOneScene(const QString& a_sPreviousID, const QString& a_sNewID, int a_iPlayerID, CTemplate* a_pTemplate);
@@ -118,10 +94,8 @@ private slots:
                       const QString& a_sPreviousIDP2, const QString& a_sNewIDP2,
                       CTemplate* a_pTemplate, int a_iTemplateNumberP1, int a_iTemplateNumberP2);
     void deleteScene(QString a_sSceneID, bool a_bIsSync);
-    void addingSceneFinished(std::string a_sSceneID, int a_iPlayerID);
-    void deletingSceneFinished();
     void addingSceneFinished(const QString a_sPrevSceneID, const QString a_sSceneID, int a_iPlayerID);
-    void deletingSceneFinished(const QString a_sSceneID, int a_iPlayerID);
+    void deletingSceneFinished(const QString a_sSceneID);
     // Saving slots
     void saveAs();
     void save();
@@ -130,6 +104,7 @@ private slots:
     void launchAddSceneWizard();
     void on_fileBrowser_clicked(const QModelIndex &index);
     void loadCapture(QString a_sScreenName);
+    void saveCapture();
     void nodeModified(LM::CEntityNode* a_pNode);
     void nodeSoundModified(LM::CEntityNode* a_pNode, const QString& a_sEvent, const QString& a_sArgument);
     void nodeSoundRemoved(LM::CEntityNode* a_pNode);
@@ -143,17 +118,9 @@ private:
     LM::CKernel* m_pKernel;
     QProcess m_oProcessServer;
     QProcess m_oProcessClient;
-    //DEPRECATED
-    CThumbnailWidget* m_pCurrentThumbnailWidget1;
-    CThumbnailWidget* m_pCurrentThumbnailWidget2;
-    //REPLACED BY
-    int m_iCurrentThumbnailIndex1;
-    int m_iCurrentThumbnailIndex2;
-    QList<CThumbnailWidget*>* m_pThumbnailList1;
-    QList<CThumbnailWidget*>* m_pThumbnailList2;
-    //
+
     CTemplateManager* m_pTemplatesManager;
-    int m_iActivePlayer;
+
     QString m_sSaveName;
     CThumbnailsLoaderThread *m_pLoader;
     CArchiver m_oArchiver;
