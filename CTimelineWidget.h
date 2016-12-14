@@ -52,7 +52,7 @@ private:
 
     void ConnectThumbnail(CThumbnailWidget* a_pThumbnail);
     QWidget* NewColumn();
-    int FindThumbnailIndexByID(const QString& a_sStringID);
+    int FindThumbnailIndex(const QString& a_sStringID);
     int GetCurrentThumbnailIndex(int a_iPlayerID);
     void SetCurrentThumbnailIndex(int a_iPlayerID, int a_iIndex);
     int FindNextThumbnailIndex(int a_iStartIndex, int a_iPlayerID);

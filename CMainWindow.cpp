@@ -177,8 +177,8 @@ void CMainWindow::loadExistingProject(const QString& a_sProjectFile)
     //    connect(m_pKernel, SIGNAL(deletingSceneFinished()), this, SLOT(deletingSceneFinished()));
     connect(m_pKernel, SIGNAL(addingSceneFinished(const QString, const QString, int)),
             this, SLOT(addingSceneFinished(const QString, const QString, int)));
-    connect(m_pKernel, SIGNAL(deletingSceneFinished(const QString, int)),
-            this, SLOT(deletingSceneFinished(const QString, int)));
+    connect(m_pKernel, SIGNAL(deletingSceneFinished(const QString)),
+            this, SLOT(deletingSceneFinished(const QString)));
     connect(m_pKernel, SIGNAL(sendScene(LM::CSceneNode*, bool)),
             this, SLOT(receiveScene(LM::CSceneNode*, bool)));
     connect(m_pKernel, SIGNAL(captureFinished(QString)),
@@ -257,7 +257,7 @@ void CMainWindow::ShowCurrentScene()
 
 void CMainWindow::changeScene()
 {
-    saveCapture();
+//    saveCapture();
     ShowCurrentScene();
 }
 

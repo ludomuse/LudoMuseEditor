@@ -18,8 +18,9 @@ CThumbnailWidget::CThumbnailWidget(QWidget *parent) : QFrame(parent),
 
 }
 
-CThumbnailWidget::CThumbnailWidget(QString a_sceneID, int a_iPlayerID, QWidget *parent) : QFrame(parent),
-    m_sSceneID(a_sceneID),
+CThumbnailWidget::CThumbnailWidget(QString a_sSceneID, int a_iPlayerID, QString a_sSyncedID,QWidget *parent) : QFrame(parent),
+    m_sSceneID(a_sSceneID),
+    m_sSyncedID(a_sSyncedID),
     m_bIsHover(false),
     m_bIsPress(false),
     m_iPlayerID(a_iPlayerID)
@@ -95,6 +96,11 @@ void CThumbnailWidget::FillThumbnail()
 QString CThumbnailWidget::GetSceneID()
 {
     return this->m_sSceneID;
+}
+
+QString CThumbnailWidget::GetSyncedID()
+{
+    return this->m_sSyncedID;
 }
 
 int CThumbnailWidget::GetPlayerID()
