@@ -28,6 +28,7 @@
 // Personnal include
 #include "CLineEdit.h"
 #include "CProjectManager.h"
+#include "CPathWidget.h"
 
 CSoundInspector::CSoundInspector(QWidget *parent):
     QWidget(parent)
@@ -59,25 +60,36 @@ CSoundInspector::CSoundInspector(LM::CEntityNode* a_pNode, QWidget *parent):
 
     // Create path widget
     QHBoxLayout* hLayoutPath= new QHBoxLayout();
-    CLineEdit* path = new CLineEdit(this);
-    path->setPlaceholderText("chemin non défini");
-    path->setAlignment(Qt::AlignLeft);
-    path->setAttribute(Qt::WA_TranslucentBackground, false);
     QLabel* pathTitle = new QLabel("Chemin :");
     pathTitle->setStyleSheet("QLabel{ color: white; border-bottom : 0px }");
-    QPushButton* pathFileDialogButton = new QPushButton();
-    pathFileDialogButton->setText("...");
-    pathFileDialogButton->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
-    pathTitle->setAlignment(Qt::AlignRight | Qt::AlignVCenter);
-    hLayoutPath->addWidget(pathTitle);
-    hLayoutPath->addWidget(path);
-    hLayoutPath->addWidget(pathFileDialogButton);
-    QWidget* pathContainer = new QWidget(this);
-    pathContainer->setLayout(hLayoutPath);
-    pathContainer->setMaximumHeight(40);
-    pathContainer->setStyleSheet("border-bottom : 1px solid grey");
-    pathContainer->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Fixed);
-    m_pPath = path;
+//    QStringList lExtensions;
+//    lExtensions << "mp3" << "wav";
+//    CLineEdit* path = new CLineEdit(lExtensions, this);
+//    path->setPlaceholderText("chemin non défini");
+//    path->setAlignment(Qt::AlignLeft);
+//    path->setAttribute(Qt::WA_TranslucentBackground, false);
+
+        CPathWidget* pathWidget = new CPathWidget("", QString("(*.mp3, *.wav)"), this);
+        hLayoutPath->addWidget(pathTitle);
+        hLayoutPath->addWidget(pathWidget);
+        QWidget* pathContainer = new QWidget();
+        pathContainer->setLayout(hLayoutPath);
+        pathContainer->setMaximumHeight(100);
+        pathContainer->setStyleSheet("border-bottom : 1px solid grey");
+        pathContainer->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);
+//    QPushButton* pathFileDialogButton = new QPushButton();
+//    pathFileDialogButton->setText("...");
+//    pathFileDialogButton->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
+//    pathTitle->setAlignment(Qt::AlignRight | Qt::AlignVCenter);
+//    hLayoutPath->addWidget(pathTitle);
+//    hLayoutPath->addWidget(path);
+//    hLayoutPath->addWidget(pathFileDialogButton);
+//    QWidget* pathContainer = new QWidget(this);
+//    pathContainer->setLayout(hLayoutPath);
+//    pathContainer->setMaximumHeight(40);
+//    pathContainer->setStyleSheet("border-bottom : 1px solid grey");
+//    pathContainer->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Fixed);
+//    m_pPath = path;
 
     // Create listener selector
     QButtonGroup* radiobuttons = new QButtonGroup(this);
@@ -149,14 +161,14 @@ CSoundInspector::CSoundInspector(LM::CEntityNode* a_pNode, QWidget *parent):
     //    this->layout()->addWidget(sizeContainer);
     //    this->layout()->addWidget(buttonContainer);
 
+    Initialize();
+    pathWidget->SetPath(m_pPath);
     // Connect path file dialog
-    connect(path, SIGNAL(textChanged(QString)), this, SLOT(pathChanged(QString)));
-    connect(pathFileDialogButton, SIGNAL(clicked(bool)), this, SLOT(openPathFileDialog()));
+    connect(pathWidget, SIGNAL(pathChanged(QString)), this, SLOT(changePath(QString)));
+//    connect(pathFileDialogButton, SIGNAL(clicked(bool)), this, SLOT(openPathFileDialog()));
 
     connect(okButton, SIGNAL(clicked(bool)), this, SLOT(validateChanges()));
     connect(backButton, SIGNAL(clicked(bool)), this, SLOT(discardChanges()));
-
-    Initialize();
 }
 
 void CSoundInspector::Initialize()
@@ -174,7 +186,7 @@ void CSoundInspector::Initialize()
     if (pCallback)
     {
         m_pPlaySoundCheckButton->toggle();
-        m_pPath->setText(CProjectManager::Instance()->QGetProjectPath()+
+        m_pPath = QString(CProjectManager::Instance()->QGetProjectPath()+
                          QString::fromStdString(pCallback->second.getArg().m_sStringValue));
         if(pCallback->first == "Init")
         {
@@ -197,41 +209,56 @@ void CSoundInspector::Initialize()
 
 // SIGNALS ***********************************************
 
-void CSoundInspector::pathChanged(const QString& a_sPath)
-{
-    // Keep this for latter animation
-    QPalette pal(palette());
-    pal.setColor(QPalette::Text, QColor(0,0,0,255));
-    this->m_pPath->setPalette(pal);
-    this->m_pPath->update();
+//void CSoundInspector::pathChanged(const QString& a_sPath)
+//{
+//    // Keep this for latter animation
+//    QPalette pal(palette());
+//    pal.setColor(QPalette::Text, QColor(0,0,0,255));
+//    this->m_pPath->setPalette(pal);
+//    this->m_pPath->update();
 
-    // Test if file exist!
-    QFile myFile;
-    myFile.setFileName(a_sPath);
-    if(myFile.exists())
-    {
-        //        QLabel* infoLabel = new QLabel("marche bien" + path);
-        //        this->layout()->addWidget(infoLabel);
-        qDebug()<<"validate with path :"<<a_sPath;
-        //        this->m_pSprite->SetPath(a_sPath.toStdString());
-    }
-    else
-    {
-        //        QLabel* infoLabel = new QLabel("marche pas" + path);
-        //        this->layout()->addWidget(infoLabel);
-        qDebug()<<"File doesn't seem to exist : "<<a_sPath;
-        QPalette pal(palette());
-        pal.setColor(QPalette::Text, QColor(255,0,0,255));
-        this->m_pPath->setPalette(pal);
-        this->m_pPath->update();
-    }
-}
+//    // Test if file exist!
+//    QFile myFile;
+//    myFile.setFileName(a_sPath);
+//    if(myFile.exists())
+//    {
+//        //        QLabel* infoLabel = new QLabel("marche bien" + path);
+//        //        this->layout()->addWidget(infoLabel);
+//        qDebug()<<"validate with path :"<<a_sPath;
+//        //        this->m_pSprite->SetPath(a_sPath.toStdString());
+//    }
+//    else
+//    {
+//        //        QLabel* infoLabel = new QLabel("marche pas" + path);
+//        //        this->layout()->addWidget(infoLabel);
+//        qDebug()<<"File doesn't seem to exist : "<<a_sPath;
+//        QPalette pal(palette());
+//        pal.setColor(QPalette::Text, QColor(255,0,0,255));
+//        this->m_pPath->setPalette(pal);
+//        this->m_pPath->update();
+//    }
+//}
 
 bool CSoundInspector::PathIsValid()
 {
     QFileInfo myFile;
-    myFile.setFile(m_pPath->text());
+    myFile.setFile(m_pPath);
     return myFile.exists()/* && (myFile.suffix() == "mp3" || myFile.suffix() == "wav")*/;
+}
+
+void CSoundInspector::changePath(const QString& a_sPath)
+{
+//    QFile myFile;
+//    myFile.setFileName(a_sPath);
+//    if(myFile.exists())
+//    {        qDebug()<<"validate with path :"<<a_sPath;
+//        m_pPath = a_sPath;
+//    }
+//    else
+//    {
+//        qDebug()<<"File doesn't seem to exist : "<<a_sPath;
+//    }
+    m_pPath = a_sPath;
 }
 
 void CSoundInspector::validateChanges()
@@ -277,7 +304,7 @@ void CSoundInspector::validateChanges()
         }
         else
         {
-            QString path = m_pPath->text().remove(CProjectManager::Instance()->QGetProjectPath());
+            QString path = m_pPath.remove(CProjectManager::Instance()->QGetProjectPath());
             emit modifySound(m_pNode, GetEvent(), path);
             emit closeInspector();
         }
@@ -313,54 +340,54 @@ void CSoundInspector::discardChanges()
     emit closeInspector();
 }
 
-void CSoundInspector::openPathFileDialog()
-{
-    QFileDialog* fileDialog = new QFileDialog();
+//void CSoundInspector::openPathFileDialog()
+//{
+//    QFileDialog* fileDialog = new QFileDialog();
 
-    //qDebug()<<currentDir.absolutePath();
-    //qDebug()<<" Image path : "<<this->m_pPath->text();
-    //    QDir currentDir = QDir::currentPath();
-    QDir currentDir = QDir(CProjectManager::Instance()->QGetProjectPath());
+//    //qDebug()<<currentDir.absolutePath();
+//    //qDebug()<<" Image path : "<<this->m_pPath->text();
+//    //    QDir currentDir = QDir::currentPath();
+//    QDir currentDir = QDir(CProjectManager::Instance()->QGetProjectPath());
 
-    std::vector<std::string> pathToSound = StringSplit(this->m_pPath->text().toStdString(), '/');
+//    std::vector<std::string> pathToSound = StringSplit(this->m_pPath->text().toStdString(), '/');
 
-    for (int i = 0; i < pathToSound.size() - 1; ++i)
-    {
-        currentDir.cd(pathToSound[i].c_str());
-    }
-    fileDialog->setDirectory(currentDir);
-    fileDialog->selectFile(pathToSound[pathToSound.size() - 1].c_str());
+//    for (int i = 0; i < pathToSound.size() - 1; ++i)
+//    {
+//        currentDir.cd(pathToSound[i].c_str());
+//    }
+//    fileDialog->setDirectory(currentDir);
+//    fileDialog->selectFile(pathToSound[pathToSound.size() - 1].c_str());
 
-    fileDialog->setNameFilter("Audio format (*.mp3 *.wav)");
+//    fileDialog->setNameFilter("Audio format (*.mp3 *.wav)");
 
-    connect(fileDialog, SIGNAL(directoryEntered(QString)), this, SLOT(newDirectoryEntered(QString)));
-    connect(fileDialog, SIGNAL(fileSelected(QString)), this, SLOT(newPathSelected(QString)));
+//    connect(fileDialog, SIGNAL(directoryEntered(QString)), this, SLOT(newDirectoryEntered(QString)));
+//    connect(fileDialog, SIGNAL(fileSelected(QString)), this, SLOT(newPathSelected(QString)));
 
-    fileDialog->show();
-}
+//    fileDialog->show();
+//}
 
 
-void CSoundInspector::newPathSelected(QString a_sPath)
-{
-    QDir currentDir = QDir::currentPath();
-    QString currentPath = currentDir.absolutePath();
-    a_sPath.remove(currentPath + "/");
-    this->m_pPath->setText(a_sPath);
-    qDebug()<<"etablish new path via file windonw -"<<a_sPath;
-}
+//void CSoundInspector::newPathSelected(QString a_sPath)
+//{
+//    QDir currentDir = QDir::currentPath();
+//    QString currentPath = currentDir.absolutePath();
+//    a_sPath.remove(currentPath + "/");
+//    this->m_pPath->setText(a_sPath);
+//    qDebug()<<"etablish new path via file windonw -"<<a_sPath;
+//}
 
-void CSoundInspector::newDirectoryEntered(QString a_sPath)
-{
-    QString sProjectPath = CProjectManager::Instance()->QGetProjectPath();
-    if (!a_sPath.contains(sProjectPath))
-    {
-        QFileDialog* fileDialog = dynamic_cast<QFileDialog*>(QObject::sender());
-        if (fileDialog != Q_NULLPTR)
-        {
-            fileDialog->setDirectory(sProjectPath);
-        }
-    }
-}
+//void CSoundInspector::newDirectoryEntered(QString a_sPath)
+//{
+//    QString sProjectPath = CProjectManager::Instance()->QGetProjectPath();
+//    if (!a_sPath.contains(sProjectPath))
+//    {
+//        QFileDialog* fileDialog = dynamic_cast<QFileDialog*>(QObject::sender());
+//        if (fileDialog != Q_NULLPTR)
+//        {
+//            fileDialog->setDirectory(sProjectPath);
+//        }
+//    }
+//}
 
 void CSoundInspector::closeEvent (QCloseEvent *event)
 {

@@ -26,8 +26,10 @@
 
 // Personnal include
 #include "CLineEdit.h"
+#include "CPathWidget.h"
 #include "CProjectManager.h"
 #include "CSoundInspector.h"
+#include "CAnchorWidget.h"
 
 CSpriteInspector::CSpriteInspector(QWidget *parent):
     QWidget(parent)
@@ -39,7 +41,7 @@ CSpriteInspector::CSpriteInspector(QWidget *parent):
 CSpriteInspector::CSpriteInspector(LM::CSpriteNode* a_pSprite, QWidget *parent):
     QWidget(parent),
     m_pSprite(a_pSprite),
-    m_pPath(Q_NULLPTR),
+//    m_pPath(Q_NULLPTR),
 
     m_sSavedPath(a_pSprite->GetPath()),
     m_iSavedHeight(a_pSprite->GetHeight()),
@@ -49,7 +51,7 @@ CSpriteInspector::CSpriteInspector(LM::CSpriteNode* a_pSprite, QWidget *parent):
     this->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Expanding);
 
     // Construction de tous les champs swag
-    this->m_iCurrentAnchor = this->m_pSprite->GetAnchor();
+//    this->m_iCurrentAnchor = this->m_pSprite->GetAnchor();
 
     QHBoxLayout* hLayoutId= new QHBoxLayout();
     QLineEdit* id = new QLineEdit(this);
@@ -69,102 +71,46 @@ CSpriteInspector::CSpriteInspector(LM::CSpriteNode* a_pSprite, QWidget *parent):
 
     // Create path widget
     QHBoxLayout* hLayoutPath= new QHBoxLayout();
-    CLineEdit* path = new CLineEdit(this);
-    path->setPlaceholderText("id non définie");
-    path->setText(QString(this->m_pSprite->GetPath().c_str()));
-    path->setAlignment(Qt::AlignLeft);
-    path->setAttribute(Qt::WA_TranslucentBackground, false);
+//    QStringList lExtensions;
+//    lExtensions << "jpg" << "png" << "jpeg";
+//    CLineEdit* path = new CLineEdit(lExtensions, this);
+//    path->setPlaceholderText("id non définie");
+//    path->setText(QString(this->m_pSprite->GetPath().c_str()));
+//    path->setAlignment(Qt::AlignLeft);
+//    path->setAttribute(Qt::WA_TranslucentBackground, false);
+//    QLabel* pathTitle = new QLabel("Chemin :");
+//    pathTitle->setStyleSheet("QLabel{color : white;}");
+//    QPushButton* pathFileDialogButton = new QPushButton();
+//    pathFileDialogButton->setText("...");
+//    pathFileDialogButton->setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Maximum);
+//    pathTitle->setAlignment(Qt::AlignRight | Qt::AlignVCenter);
+//    hLayoutPath->addWidget(pathTitle);
+//    hLayoutPath->addWidget(path);
+//    hLayoutPath->addWidget(pathFileDialogButton);
     QLabel* pathTitle = new QLabel("Chemin :");
     pathTitle->setStyleSheet("QLabel{color : white;}");
-    QPushButton* pathFileDialogButton = new QPushButton();
-    pathFileDialogButton->setText("...");
-    pathFileDialogButton->setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Maximum);
-    pathTitle->setAlignment(Qt::AlignRight | Qt::AlignVCenter);
+    CPathWidget* pathWidget = new CPathWidget(QString::fromStdString(m_sSavedPath), QString("(*.jpeg, *.jpg, *.png)"), this);
+//    pathWidget->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Minimum);
     hLayoutPath->addWidget(pathTitle);
-    hLayoutPath->addWidget(path);
-    hLayoutPath->addWidget(pathFileDialogButton);
+    hLayoutPath->addWidget(pathWidget);
     QWidget* pathContainer = new QWidget();
     pathContainer->setLayout(hLayoutPath);
     pathContainer->setMaximumHeight(100);
     pathContainer->setStyleSheet("border-bottom : 1px solid grey");
-    pathContainer->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Fixed);
+    pathContainer->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);
 
     // Create anchor widget
     QLabel* anchorTitle = new QLabel("Ancrage");
     anchorTitle->setAlignment(Qt::AlignCenter);
     anchorTitle->setStyleSheet("QLabel{color : white;}");
-    QPushButton* anchor1Button = new QPushButton("1");
-    QPushButton* anchor2Button = new QPushButton("2");
-    QPushButton* anchor3Button = new QPushButton("3");
-    QHBoxLayout* hLayoutAnchorFirstLine = new QHBoxLayout();
-    hLayoutAnchorFirstLine->addWidget(anchor1Button);
-    hLayoutAnchorFirstLine->addWidget(anchor2Button);
-    hLayoutAnchorFirstLine->addWidget(anchor3Button);
-    QWidget* anchorFirstLineContainer = new QWidget();
-    anchorFirstLineContainer->setLayout(hLayoutAnchorFirstLine);
-    QPushButton* anchor8Button = new QPushButton("8");
-    QPushButton* anchor0Button = new QPushButton("0");
-    QPushButton* anchor4Button = new QPushButton("4");
-    QHBoxLayout* hLayoutAnchorSecondLine = new QHBoxLayout();
-    hLayoutAnchorSecondLine->addWidget(anchor8Button);
-    hLayoutAnchorSecondLine->addWidget(anchor0Button);
-    hLayoutAnchorSecondLine->addWidget(anchor4Button);
-    QWidget* anchorSecondLineContainer = new QWidget();
-    anchorSecondLineContainer->setLayout(hLayoutAnchorSecondLine);
-    QPushButton* anchor7Button = new QPushButton("7");
-    QPushButton* anchor6Button = new QPushButton("6");
-    QPushButton* anchor5Button = new QPushButton("5");
-    QHBoxLayout* hLayoutAnchorThirdLine = new QHBoxLayout();
-    hLayoutAnchorThirdLine->addWidget(anchor7Button);
-    hLayoutAnchorThirdLine->addWidget(anchor6Button);
-    hLayoutAnchorThirdLine->addWidget(anchor5Button);
-    QWidget* anchorThirdLineContainer = new QWidget();
-    anchorThirdLineContainer->setLayout(hLayoutAnchorThirdLine);
-    QVBoxLayout* vLayoutAnchorScheme = new QVBoxLayout();
-    vLayoutAnchorScheme->addWidget(anchorFirstLineContainer);
-    vLayoutAnchorScheme->addWidget(anchorSecondLineContainer);
-    vLayoutAnchorScheme->addWidget(anchorThirdLineContainer);
-    QWidget* anchorScheme = new QWidget();
-    QPalette palAnchorScheme(palette());
-    palAnchorScheme.setColor(QPalette::Background, QColor(255, 255, 255));
-    anchorScheme->setLayout(vLayoutAnchorScheme);
-    anchorScheme->setAutoFillBackground(true);
-    anchorScheme->setPalette(palAnchorScheme);
+
+    CAnchorWidget* anchorWidget = new CAnchorWidget(m_iSavedAnchor, this);
     QVBoxLayout* vLayoutAnchor = new QVBoxLayout();
     vLayoutAnchor->addWidget(anchorTitle);
-    vLayoutAnchor->addWidget(anchorScheme);
-    QWidget* anchorContainer = new QWidget();
+    vLayoutAnchor->addWidget(anchorWidget);
+    QWidget* anchorContainer = new QWidget(this);
     anchorContainer->setLayout(vLayoutAnchor);
     anchorContainer->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
-    switch(this->m_iCurrentAnchor){
-    case 1:
-        anchor1Button->setText("[1]");
-        break;
-    case 2:
-        anchor2Button->setText("[2]");
-        break;
-    case 3:
-        anchor3Button->setText("[3]");
-        break;
-    case 4:
-        anchor4Button->setText("[4]");
-        break;
-    case 5:
-        anchor5Button->setText("[5]");
-        break;
-    case 6:
-        anchor6Button->setText("[6]");
-        break;
-    case 7:
-        anchor7Button->setText("[7]");
-        break;
-    case 8:
-        anchor8Button->setText("[8]");
-        break;
-    default:
-        anchor0Button->setText("[0]");
-        break;
-    }
 
     // Create height and width widget
     QButtonGroup* radiobuttons = new QButtonGroup(this);
@@ -265,30 +211,12 @@ CSpriteInspector::CSpriteInspector(LM::CSpriteNode* a_pSprite, QWidget *parent):
     this->setAutoFillBackground(true);
     this->setPalette(pal);
 
-    this->m_pPath = path;
+//    this->m_pPath = path;
 
-    connect(path, SIGNAL(textChanged(QString)), this, SLOT(pathChanged(QString)));
-    connect(pathFileDialogButton, SIGNAL(clicked(bool)), this, SLOT(openPathFileDialog()));
+    connect(pathWidget, SIGNAL(pathChanged(QString)), this, SLOT(changePath(QString)));
+//    connect(pathFileDialogButton, SIGNAL(clicked(bool)), this, SLOT(openPathFileDialog()));
 
-    // Connect Anchor and stock it in object
-    connect(anchor0Button, SIGNAL(clicked(bool)), this, SLOT(setAnchor()));
-    connect(anchor1Button, SIGNAL(clicked(bool)), this, SLOT(setAnchor()));
-    connect(anchor2Button, SIGNAL(clicked(bool)), this, SLOT(setAnchor()));
-    connect(anchor3Button, SIGNAL(clicked(bool)), this, SLOT(setAnchor()));
-    connect(anchor4Button, SIGNAL(clicked(bool)), this, SLOT(setAnchor()));
-    connect(anchor5Button, SIGNAL(clicked(bool)), this, SLOT(setAnchor()));
-    connect(anchor6Button, SIGNAL(clicked(bool)), this, SLOT(setAnchor()));
-    connect(anchor7Button, SIGNAL(clicked(bool)), this, SLOT(setAnchor()));
-    connect(anchor8Button, SIGNAL(clicked(bool)), this, SLOT(setAnchor()));
-    this->m_vAnchorButtons.push_back(anchor0Button);
-    this->m_vAnchorButtons.push_back(anchor1Button);
-    this->m_vAnchorButtons.push_back(anchor2Button);
-    this->m_vAnchorButtons.push_back(anchor3Button);
-    this->m_vAnchorButtons.push_back(anchor4Button);
-    this->m_vAnchorButtons.push_back(anchor5Button);
-    this->m_vAnchorButtons.push_back(anchor6Button);
-    this->m_vAnchorButtons.push_back(anchor7Button);
-    this->m_vAnchorButtons.push_back(anchor8Button);
+    connect(anchorWidget, SIGNAL(anchorChanged(int)), this, SLOT(changeAnchor(int)));
 
     // Connect slider and text value
     connect(m_pHeightSlider, SIGNAL(valueChanged(int)), this, SLOT(heightSliderChange(int)));
@@ -308,60 +236,39 @@ CSpriteInspector::CSpriteInspector(LM::CSpriteNode* a_pSprite, QWidget *parent):
 
 // SIGNALS ***********************************************
 
-void CSpriteInspector::pathChanged(const QString& a_sPath)
+void CSpriteInspector::changePath(const QString& a_sPath)
 {
     // Keep this for latter animation
-    QPalette pal(palette());
-    pal.setColor(QPalette::Text, QColor(0,0,0,255));
-    this->m_pPath->setPalette(pal);
-    this->m_pPath->update();
+//    QPalette pal(palette());
+//    pal.setColor(QPalette::Text, QColor(0,0,0,255));
+//    this->m_pPath->setPalette(pal);
+//    this->m_pPath->update();
 
     // Test if file exist!
-    QFile myFile;
-    myFile.setFileName(a_sPath);
-    if(myFile.exists())
-    {
+//    QFile myFile;
+//    myFile.setFileName(a_sPath);
+//    if(myFile.exists())
+//    {
         //        QLabel* infoLabel = new QLabel("marche bien" + path);
         //        this->layout()->addWidget(infoLabel);
-        qDebug()<<"validate with path :"<<a_sPath;
-        this->m_pSprite->SetPath(a_sPath.toStdString());
-    }
-    else
-    {
+//        qDebug()<<"validate with path :"<<a_sPath;
+//        this->m_pSprite->SetPath(a_sPath.toStdString());
+//    }
+//    else
+//    {
         //        QLabel* infoLabel = new QLabel("marche pas" + path);
         //        this->layout()->addWidget(infoLabel);
-        qDebug()<<"File doesn't seem to exist : "<<a_sPath;
-        QPalette pal(palette());
-        pal.setColor(QPalette::Text, QColor(255,0,0,255));
-        this->m_pPath->setPalette(pal);
-        this->m_pPath->update();
-    }
+//        qDebug()<<"File doesn't seem to exist : "<<a_sPath;
+//        QPalette pal(palette());
+//        pal.setColor(QPalette::Text, QColor(255,0,0,255));
+//        this->m_pPath->setPalette(pal);
+//        this->m_pPath->update();
+//    }
+    this->m_pSprite->SetPath(a_sPath.toStdString());
 }
 
 void CSpriteInspector::validateChanges()
 {
-    //    // Test if file exist!
-    //    QFile myFile;
-    //    QString path = this->m_pPath->text();
-    //    myFile.setFileName(path);
-    //    if(myFile.exists())
-    //    {
-    //        //        QLabel* infoLabel = new QLabel("marche bien" + path);
-    //        //        this->layout()->addWidget(infoLabel);
-    //        qDebug()<<"validate with path :"<<path;
-    //        this->m_pSprite->SetPath(path.toStdString());
-    //        emit modifySprite(m_pSprite);
-    //    }
-    //    else
-    //    {
-    //        //        QLabel* infoLabel = new QLabel("marche pas" + path);
-    //        //        this->layout()->addWidget(infoLabel);
-    //        qDebug()<<"File doesn't seem to exist : "<<path;
-    //        QPalette pal(palette());
-    //        pal.setColor(QPalette::Text, QColor(255,0,0,255));
-    //        this->m_pPath->setPalette(pal);
-    //        this->m_pPath->update();
-    //    }
     m_sSavedPath = m_pSprite->GetPath();
     m_iSavedHeight = m_pSprite->GetHeight();
     m_iSavedWidth = m_pSprite->GetWidth();
@@ -375,68 +282,73 @@ void CSpriteInspector::discardChanges()
     emit closeInspector();
 }
 
-void CSpriteInspector::setAnchor()
+//void CSpriteInspector::setAnchor()
+//{
+//    QObject* obj = sender();
+//    QPushButton* anchorButton = dynamic_cast<QPushButton*>(obj);
+//    if(anchorButton){
+//        qDebug("Conversion en bouton faite");
+//        this->m_vAnchorButtons.at(this->m_iCurrentAnchor)->setText(QString::number(this->m_iCurrentAnchor));
+//        this->m_iCurrentAnchor = anchorButton->text().toInt();
+//        anchorButton->setText("["+ anchorButton->text() +"]");
+//        ON_CC_THREAD(LM::CSpriteNode::ChangeAnchor, this->m_pSprite, this->m_iCurrentAnchor);
+//    }
+//}
+
+void CSpriteInspector::changeAnchor(int a_iAnchorID)
 {
-    QObject* obj = sender();
-    QPushButton* anchorButton = dynamic_cast<QPushButton*>(obj);
-    if(anchorButton){
-        qDebug("Conversion en bouton faite");
-        this->m_vAnchorButtons.at(this->m_iCurrentAnchor)->setText(QString::number(this->m_iCurrentAnchor));
-        this->m_iCurrentAnchor = anchorButton->text().toInt();
-        anchorButton->setText("["+ anchorButton->text() +"]");
-        ON_CC_THREAD(LM::CSpriteNode::ChangeAnchor, this->m_pSprite, this->m_iCurrentAnchor);
-    }
+//    ON_CC_THREAD(LM::CSpriteNode::ChangeAnchor, this->m_pSprite, a_iAnchorID);
+    m_pSprite->ChangeAnchor(a_iAnchorID);
 }
 
+//void CSpriteInspector::openPathFileDialog()
+//{
+//    QFileDialog* fileDialog = new QFileDialog();
 
-void CSpriteInspector::openPathFileDialog()
-{
-    QFileDialog* fileDialog = new QFileDialog();
+//    //qDebug()<<currentDir.absolutePath();
+//    //qDebug()<<" Image path : "<<this->m_pPath->text();
+//    //    QDir currentDir = QDir::currentPath();
+//    QDir currentDir = QDir(CProjectManager::Instance()->QGetProjectPath());
 
-    //qDebug()<<currentDir.absolutePath();
-    //qDebug()<<" Image path : "<<this->m_pPath->text();
-    //    QDir currentDir = QDir::currentPath();
-    QDir currentDir = QDir(CProjectManager::Instance()->QGetProjectPath());
+//    std::vector<std::string> pathToImage = StringSplit(this->m_pPath->text().toStdString(), '/');
 
-    std::vector<std::string> pathToImage = StringSplit(this->m_pPath->text().toStdString(), '/');
+//    for (int i = 0; i < pathToImage.size() - 1; ++i)
+//    {
+//        currentDir.cd(pathToImage[i].c_str());
+//    }
+//    fileDialog->setDirectory(currentDir);
+//    fileDialog->selectFile(pathToImage[pathToImage.size() - 1].c_str());
 
-    for (int i = 0; i < pathToImage.size() - 1; ++i)
-    {
-        currentDir.cd(pathToImage[i].c_str());
-    }
-    fileDialog->setDirectory(currentDir);
-    fileDialog->selectFile(pathToImage[pathToImage.size() - 1].c_str());
+//    fileDialog->setNameFilter("Images (*.jpeg, *.jpg, *.png)");
 
-    fileDialog->setNameFilter("Images (*.jpeg, *.jpg, *.png)");
+//    connect(fileDialog, SIGNAL(directoryEntered(QString)), this, SLOT(newDirectoryEntered(QString)));
+//    connect(fileDialog, SIGNAL(fileSelected(QString)), this, SLOT(newPathSelected(QString)));
 
-    connect(fileDialog, SIGNAL(directoryEntered(QString)), this, SLOT(newDirectoryEntered(QString)));
-    connect(fileDialog, SIGNAL(fileSelected(QString)), this, SLOT(newPathSelected(QString)));
-
-    fileDialog->show();
-}
+//    fileDialog->show();
+//}
 
 
-void CSpriteInspector::newPathSelected(QString a_sPath)
-{
-    QDir currentDir = QDir::currentPath();
-    QString currentPath = currentDir.absolutePath();
-    a_sPath.remove(currentPath + "/");
-    this->m_pPath->setText(a_sPath);
-    qDebug()<<"etablish new path via file windonw -"<<a_sPath;
-}
+//void CSpriteInspector::newPathSelected(QString a_sPath)
+//{
+//    QDir currentDir = QDir::currentPath();
+//    QString currentPath = currentDir.absolutePath();
+//    a_sPath.remove(currentPath + "/");
+//    this->m_pPath->setText(a_sPath);
+//    qDebug()<<"etablish new path via file windonw -"<<a_sPath;
+//}
 
-void CSpriteInspector::newDirectoryEntered(QString a_sPath)
-{
-    QString sProjectPath = CProjectManager::Instance()->QGetProjectPath();
-    if (!a_sPath.contains(sProjectPath))
-    {
-        QFileDialog* fileDialog = dynamic_cast<QFileDialog*>(QObject::sender());
-        if (fileDialog != Q_NULLPTR)
-        {
-            fileDialog->setDirectory(sProjectPath);
-        }
-    }
-}
+//void CSpriteInspector::newDirectoryEntered(QString a_sPath)
+//{
+//    QString sProjectPath = CProjectManager::Instance()->QGetProjectPath();
+//    if (!a_sPath.contains(sProjectPath))
+//    {
+//        QFileDialog* fileDialog = dynamic_cast<QFileDialog*>(QObject::sender());
+//        if (fileDialog != Q_NULLPTR)
+//        {
+//            fileDialog->setDirectory(sProjectPath);
+//        }
+//    }
+//}
 
 void CSpriteInspector::heightSliderChange(int a_iValue)
 {
@@ -525,7 +437,8 @@ void CSpriteInspector::closeEvent (QCloseEvent *event)
     m_pSprite->SetPath(m_sSavedPath);
     m_pSprite->SetWidth(m_iSavedWidth);
     m_pSprite->SetHeight(m_iSavedHeight);
-    ON_CC_THREAD(LM::CSpriteNode::ChangeAnchor, m_pSprite, m_iSavedAnchor);
+//    ON_CC_THREAD(LM::CSpriteNode::ChangeAnchor, m_pSprite, m_iSavedAnchor);
+    m_pSprite->ChangeAnchor(m_iSavedAnchor);
     QWidget::closeEvent(event);
 }
 

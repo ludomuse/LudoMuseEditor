@@ -13,6 +13,12 @@
 #include <QTextEdit>
 #include <QHBoxLayout>
 #include <QVBoxLayout>
+#include <QSpinBox>
+
+#include "CAnchorWidget.h"
+#include "CLineEdit.h"
+#include "CPathWidget.h"
+#include "CColorButton.h"
 
 CLabelInspector::CLabelInspector(QWidget *parent):
     QWidget(parent)
@@ -28,7 +34,11 @@ CLabelInspector::CLabelInspector(LM::CLabelNode* a_pLabel, QWidget *parent):
 
     m_sSavedText(a_pLabel->GetText()),
     m_iSavedHeight(a_pLabel->GetHeight()),
-    m_iSavedWidth(a_pLabel->GetWidth())
+    m_iSavedWidth(a_pLabel->GetWidth()),
+    m_iSavedAnchor(a_pLabel->GetAnchor()),
+    m_sSavedFont(a_pLabel->GetFont()),
+    m_iSavedFontSize(a_pLabel->GetFontSize()),
+    m_sSavedColor(a_pLabel->GetColor())
 {
     this->setSizePolicy(QSizePolicy::Preferred,QSizePolicy::Expanding);
 
@@ -48,6 +58,7 @@ CLabelInspector::CLabelInspector(LM::CLabelNode* a_pLabel, QWidget *parent):
     idContainer->setMaximumHeight(100);
     idContainer->setStyleSheet("border-bottom : 1px solid rgb(150,150,150)");
 
+    // Champ de texte
     QHBoxLayout* hLayoutText = new QHBoxLayout();
     m_pTextEdit = new QTextEdit(this);
     m_pTextEdit->setText(QString(this->m_pLabel->GetText().c_str()));
@@ -66,6 +77,52 @@ CLabelInspector::CLabelInspector(LM::CLabelNode* a_pLabel, QWidget *parent):
     textContainer->setLayout(hLayoutText);
     textContainer->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
     textContainer->setStyleSheet("border-bottom : 1px solid rgb(150,150,150)");
+
+    // Choix de la police
+    QHBoxLayout* hLayoutPath= new QHBoxLayout();
+    QLabel* pathTitle = new QLabel("Police :");
+    pathTitle->setStyleSheet("QLabel{color : white;}");
+    CPathWidget* pathWidget = new CPathWidget(QString::fromStdString(m_sSavedFont), QString("(*.ttf)"), this);
+//    pathWidget->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Minimum);
+    hLayoutPath->addWidget(pathTitle);
+    hLayoutPath->addWidget(pathWidget);
+    QWidget* pathContainer = new QWidget();
+    pathContainer->setLayout(hLayoutPath);
+    pathContainer->setMaximumHeight(100);
+//    pathContainer->setStyleSheet("border-bottom : 1px solid grey");
+    pathContainer->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);
+
+    // Choix de la taille d'écriture
+    QHBoxLayout* hLayoutFontSize= new QHBoxLayout();
+    QLabel* fontSizeTitle = new QLabel("Taille :");
+    fontSizeTitle->setStyleSheet("QLabel{color : white;}");
+    QSpinBox* fontSizeWidget = new QSpinBox(this);
+    fontSizeWidget->setRange(6, 100);
+    fontSizeWidget->setValue(m_pLabel->GetFontSize());
+    QLabel* colorTitle = new QLabel("Couleur :");
+    colorTitle->setStyleSheet("QLabel{color : white;}");
+    CColorButton* colorButton = new CColorButton(QString::fromStdString(m_pLabel->GetColor()), this);
+    hLayoutFontSize->addWidget(fontSizeTitle);
+    hLayoutFontSize->addWidget(fontSizeWidget);
+    hLayoutFontSize->addWidget(colorTitle);
+    hLayoutFontSize->addWidget(colorButton);
+    QWidget* fontSizeContainer = new QWidget();
+    fontSizeContainer->setLayout(hLayoutFontSize);
+    fontSizeContainer->setMaximumHeight(100);
+    fontSizeContainer->setStyleSheet("border-bottom : 1px solid grey");
+    fontSizeContainer->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);
+
+    // Create anchor widget
+    QLabel* anchorTitle = new QLabel("Ancrage");
+    anchorTitle->setAlignment(Qt::AlignCenter);
+    anchorTitle->setStyleSheet("QLabel{color : white;}");
+    CAnchorWidget* anchorWidget = new CAnchorWidget(m_iSavedAnchor, this);
+    QVBoxLayout* vLayoutAnchor = new QVBoxLayout();
+    vLayoutAnchor->addWidget(anchorTitle);
+    vLayoutAnchor->addWidget(anchorWidget);
+    QWidget* anchorContainer = new QWidget(this);
+    anchorContainer->setLayout(vLayoutAnchor);
+    anchorContainer->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
 
     // Height and Width widget
     QVBoxLayout* vLayoutSize = new QVBoxLayout();
@@ -108,37 +165,6 @@ CLabelInspector::CLabelInspector(LM::CLabelNode* a_pLabel, QWidget *parent):
     vLayoutSize->addWidget(widthContainer);
     sizeContainer->setLayout(vLayoutSize);
     sizeContainer->setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Minimum);
-    //    QVBoxLayout* vLayoutSize = new QVBoxLayout();
-    //    QHBoxLayout* hLayoutHeight = new QHBoxLayout();
-    //    QHBoxLayout* hLayoutWidth = new QHBoxLayout();
-    //    QWidget* heightContainer = new QWidget();
-    //    QWidget* widthContainer = new QWidget();
-    //    QLabel* widthTitle = new QLabel("Largeur :");
-    //    widthTitle->setStyleSheet("QLabel{color : white;}");
-    //    QLabel* heightTitle = new QLabel("Hauteur :");
-    //    heightTitle->setStyleSheet("QLabel{color : white;}");
-    //    QSlider*  widthSlider = new QSlider(Qt::Horizontal);
-    //    QSlider*  heightSlider = new QSlider(Qt::Horizontal);
-    //    widthSlider->setTickInterval(1);
-    //    widthSlider->setMaximum(100);
-    //    widthSlider->setMinimum(0);
-    //    widthSlider->setSliderPosition(50);
-    //    heightSlider->setTickInterval(1);
-    //    heightSlider->setMaximum(100);
-    //    heightSlider->setMinimum(0);
-    //    heightSlider->setSliderPosition(50);
-    //    hLayoutWidth->addWidget(widthTitle);
-    //    hLayoutWidth->addWidget(widthSlider);
-    //    hLayoutHeight->addWidget(heightTitle);
-    //    hLayoutHeight->addWidget(heightSlider);
-    //    heightContainer->setLayout(hLayoutHeight);
-    //    widthContainer->setLayout(hLayoutWidth);
-    //    QWidget* sizeContainer = new QWidget();
-    //    vLayoutSize->addWidget(heightContainer);
-    //    vLayoutSize->addWidget(widthContainer);
-    //    sizeContainer->setLayout(vLayoutSize);
-    //    sizeContainer->setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Minimum);
-
 
     QHBoxLayout* hLayoutButton = new QHBoxLayout();
     QPushButton* okButton = new QPushButton("Ok");
@@ -157,6 +183,9 @@ CLabelInspector::CLabelInspector(LM::CLabelNode* a_pLabel, QWidget *parent):
     this->setPalette(pal);
     this->layout()->addWidget(idContainer);
     this->layout()->addWidget(textContainer);
+    this->layout()->addWidget(pathContainer);
+    this->layout()->addWidget(fontSizeContainer);
+    this->layout()->addWidget(anchorContainer);
     this->layout()->addWidget(sizeContainer);
     this->layout()->addWidget(buttonContainer);
 
@@ -164,6 +193,11 @@ CLabelInspector::CLabelInspector(LM::CLabelNode* a_pLabel, QWidget *parent):
     connect(m_pTextEdit, SIGNAL(textChanged()), this, SLOT(changeText()));
     connect(backButton, SIGNAL(clicked(bool)), this, SLOT(discardChanges()));
     connect(okButton, SIGNAL(clicked(bool)), this, SLOT(validateChanges()));
+
+    connect(anchorWidget, SIGNAL(anchorChanged(int)), this, SLOT(changeAnchor(int)));
+    connect(pathWidget, SIGNAL(pathChanged(QString)), this, SLOT(changePath(QString)));
+    connect(fontSizeWidget, SIGNAL(valueChanged(int)), this, SLOT(changeFontSize(int)));
+    connect(colorButton, SIGNAL(colorChanged(QString)), this, SLOT(changeColor(QString)));
 
     // Connect slider and text value
     connect(m_pHeightSlider, SIGNAL(valueChanged(int)), this, SLOT(heightSliderChange(int)));
@@ -178,6 +212,10 @@ void CLabelInspector::validateChanges()
     m_sSavedText = m_pLabel->GetText();
     m_iSavedHeight = m_pLabel->GetHeight();
     m_iSavedWidth = m_pLabel->GetWidth();
+    m_iSavedAnchor = m_pLabel->GetAnchor();
+    m_sSavedFont = m_pLabel->GetFont();
+    m_iSavedFontSize = m_pLabel->GetFontSize();
+    m_sSavedColor = m_pLabel->GetColor();
     emit modifyLabel(m_pLabel);
     emit closeInspector();
 }
@@ -190,7 +228,29 @@ void CLabelInspector::discardChanges()
 void CLabelInspector::changeText()
 {
     QString content = this->m_pTextEdit->toPlainText();
-    ON_CC_THREAD(LM::CLabelNode::SetText, this->m_pLabel, content.toStdString());
+    m_pLabel->SetText(content.toStdString());
+//    ON_CC_THREAD(LM::CLabelNode::SetText, this->m_pLabel, content.toStdString());
+}
+
+void CLabelInspector::changePath(const QString& a_sPath)
+{
+    m_pLabel->SetFont(a_sPath.toStdString());
+}
+
+void CLabelInspector::changeFontSize(int a_iSize)
+{
+    m_pLabel->SetFontSize(a_iSize);
+}
+
+void CLabelInspector::changeColor(const QString &a_sColor)
+{
+    m_pLabel->SetColor(a_sColor.toStdString());
+}
+
+void CLabelInspector::changeAnchor(int a_iAnchorID)
+{
+//    ON_CC_THREAD(LM::CLabelNode::ChangeAnchor, this->m_pLabel, a_iAnchorID);
+    m_pLabel->ChangeAnchor(a_iAnchorID);
 }
 
 void CLabelInspector::heightSliderChange(int a_iValue)
@@ -231,9 +291,15 @@ void CLabelInspector::widthTextChange(const QString& a_rText)
 
 void CLabelInspector::closeEvent (QCloseEvent *event)
 {
-    ON_CC_THREAD(LM::CLabelNode::SetText, this->m_pLabel, m_sSavedText);
+//    ON_CC_THREAD(LM::CLabelNode::SetText, this->m_pLabel, m_sSavedText);
+    m_pLabel->SetText(m_sSavedText);
     m_pLabel->SetWidth(m_iSavedWidth);
     m_pLabel->SetHeight(m_iSavedHeight);
+//    ON_CC_THREAD(LM::CLabelNode::ChangeAnchor, m_pLabel, m_iSavedAnchor);
+    m_pLabel->ChangeAnchor(m_iSavedAnchor);
 //    discardChanges();
+    m_pLabel->SetFont(m_sSavedFont);
+    m_pLabel->SetFontSize(m_iSavedFontSize);
+    m_pLabel->SetColor(m_sSavedColor);
     QWidget::closeEvent(event);
 }

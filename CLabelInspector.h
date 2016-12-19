@@ -22,6 +22,10 @@ signals:
 
 public slots:
     void changeText();
+    void changeAnchor(int a_iAnchorID);
+    void changePath(const QString& a_sPath);
+    void changeFontSize(int a_iSize);
+    void changeColor(const QString& a_sColor);
     void heightSliderChange(int a_iValue);
     void widthSliderChange(int a_iValue);
     void heightTextChange(const QString& a_rText);
@@ -40,6 +44,10 @@ private:
     std::string m_sSavedText;
     int m_iSavedHeight;
     int m_iSavedWidth;
+    int m_iSavedAnchor;
+    std::string m_sSavedFont;
+    int m_iSavedFontSize;
+    std::string m_sSavedColor;
 
 protected:
     void closeEvent(QCloseEvent *event);

@@ -30,18 +30,19 @@ signals:
 
 public slots:
 //    void closeInspectorSlot();
-    void pathChanged(const QString&);
+//    void pathChanged(const QString&);
 //    void validatePath();
-    void openPathFileDialog();
-    void newPathSelected(QString);
-    void newDirectoryEntered(QString);
+//    void openPathFileDialog();
+//    void newPathSelected(QString);
+//    void newDirectoryEntered(QString);
+    void changePath(const QString&);
     void validateChanges();
     void discardChanges();
 
 private:
     LM::CEntityNode* m_pNode;
 
-    QLineEdit* m_pPath;
+    QString m_pPath;
     QCheckBox* m_pPlaySoundCheckButton;
     QRadioButton* m_pInitiateRadioButton;
     QRadioButton* m_pValidateRadioButton;

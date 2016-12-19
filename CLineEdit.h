@@ -9,8 +9,9 @@
  */
 class CLineEdit : public QLineEdit
 {
+    Q_OBJECT
 public:
-    CLineEdit(QWidget* a_pParent);
+    CLineEdit(const QStringList& a_lExtensionList, QWidget* a_pParent);
 
 protected:
     void dropEvent(QDropEvent* a_pEvent) override;
@@ -18,6 +19,12 @@ protected:
 
 private:
     QStringList m_lExtensionList;
+
+//public slots:
+//    void setPath (QString a_sPath);
+
+//signals:
+//    void pathChanged (QString a_sPath);
 };
 
 #endif // CLINEEDIT_H

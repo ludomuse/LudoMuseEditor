@@ -211,6 +211,7 @@ CAddSceneWizard::CAddSceneWizard(int a_iActivePlayer, const std::vector<std::str
     {
         m_pPlayer1CheckBox->setChecked(true);
         m_pPlayer2CheckBox->setChecked(true);
+        m_pComboBoxID2->setEnabled(false);
     }
     playerWidget2->setLayout(hPlayerLayout2);
     QWidget* synchroWidget2 = new QWidget();

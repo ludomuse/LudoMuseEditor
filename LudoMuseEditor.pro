@@ -82,7 +82,10 @@ SOURCES += main.cpp\
     CocosQtPort/CCQApplication.cpp \
     CocosQtPort/CCQGLView.cpp \
     CocosQtPort/CCQGLWidget.cpp \
-    CArchiver.cpp
+    CArchiver.cpp \
+    CAnchorWidget.cpp \
+    CPathWidget.cpp \
+    CColorButton.cpp
 
 HEADERS  += CMainWindow.h \
     LudoMuse_src/Classes/Engine/Include/CCallback.h \
@@ -152,7 +155,10 @@ HEADERS  += CMainWindow.h \
     CocosQtPort/CCQApplication.h \
     CocosQtPort/CCQGLView.h \
     CocosQtPort/CCQGLWidget.h \
-    CArchiver.h
+    CArchiver.h \
+    CAnchorWidget.h \
+    CPathWidget.h \
+    CColorButton.h
 
 FORMS    += cmainwindow.ui \
     CLoaderWidget.ui \

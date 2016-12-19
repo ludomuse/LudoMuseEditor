@@ -34,6 +34,7 @@ public:
     QString GetCurrentSceneID();
     QString GetPlayerSceneID(int a_iPlayerID);
     int GetCurrentPlayer();
+    int GetCurrentScenePlayer();
     void SetCurrentPlayer(int a_iPlayerID);
 
 private slots:
@@ -51,7 +52,7 @@ private:
     CThumbnailsLoaderThread *m_pLoader;
 
     void ConnectThumbnail(CThumbnailWidget* a_pThumbnail);
-    QWidget* NewColumn();
+    QWidget* NewColumn(bool a_bIsGame = false);
     int FindThumbnailIndex(const QString& a_sStringID);
     int GetCurrentThumbnailIndex(int a_iPlayerID);
     void SetCurrentThumbnailIndex(int a_iPlayerID, int a_iIndex);

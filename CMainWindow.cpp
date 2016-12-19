@@ -194,6 +194,7 @@ void CMainWindow::loadExistingProject(const QString& a_sProjectFile)
     this->ProcessTree();
 
     InspectScene(m_pKernel->m_pCurrentScene);
+    m_pTimeline->SetCurrentPlayer(m_pKernel->GetActivePlayer());
     m_pTimeline->SelectThumbnail(QString::fromStdString(m_pKernel->m_pCurrentScene->GetSceneID()));
 
     m_pTimeline->UpdateTimeline();
@@ -251,6 +252,7 @@ void CMainWindow::clearSceneInspector()
 
 void CMainWindow::ShowCurrentScene()
 {
+    clearInspectorContainer();
     LM::SEvent dummyEvent(LM::SEvent::NONE, nullptr, m_pTimeline->GetCurrentSceneID().toStdString(), true, m_pTimeline->GetCurrentPlayer());
     ON_CC_THREAD(LM::CKernel::GotoScreenID, this->m_pKernel, dummyEvent, nullptr);
 }
@@ -411,7 +413,7 @@ void CMainWindow::launchAddSceneWizard()
 {
     CAddSceneWizard* pSceneWizard;
 
-    pSceneWizard = new CAddSceneWizard(m_pTimeline->GetCurrentPlayer(),
+    pSceneWizard = new CAddSceneWizard(m_pTimeline->GetCurrentScenePlayer(),
                                        m_pKernel->GetSceneIDPlayer(PLAYER_1),
                                        m_pKernel->GetSceneIDPlayer(PLAYER_2),
                                        this,

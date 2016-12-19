@@ -26,12 +26,13 @@ signals:
 
 public slots:
 //    void closeInspectorSlot();
-    void pathChanged(const QString&);
+    void changePath(const QString&);
+    void changeAnchor(int a_iAnchorID);
 //    void validatePath();
-    void setAnchor();
-    void openPathFileDialog();
-    void newPathSelected(QString);
-    void newDirectoryEntered(QString);
+//    void setAnchor();
+//    void openPathFileDialog();
+//    void newPathSelected(QString);
+//    void newDirectoryEntered(QString);
     void heightSliderChange(int a_iValue);
     void widthSliderChange(int a_iValue);
     void heightTextChange(const QString& a_rText);
@@ -45,10 +46,10 @@ public slots:
 private:
 
     LM::CSpriteNode* m_pSprite;
-    QLineEdit* m_pPath;
+//    QLineEdit* m_pPath;
     QLineEdit* m_pWidthValue;
     QLineEdit* m_pHeightValue;
-    int m_iCurrentAnchor;
+//    int m_iCurrentAnchor;
     std::vector<QPushButton*> m_vAnchorButtons;
     QSlider* m_pHeightSlider;
     QSlider* m_pWidthSlider;
