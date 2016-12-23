@@ -243,6 +243,8 @@ SOURCES +=     LudoMuse_src/Classes/Modules/Networking/linux/Source/CNetworkMana
 
 HEADERS +=     LudoMuse_src/Classes/Modules/Networking/linux/Include/CNetworkManager.h \
 
+QMAKE_RPATHDIR += ./ ./lib
+
 LIBS += -L$${LUDOMUSE_PATH}/linux-build/lib/ -lcocos2d \
         -L$${LUDOMUSE_PATH}/linux-build/cocos2d/cocos -lcocos2dInternal \
         -L$${LUDOMUSE_PATH}/cocos2d/external/linux-specific/fmod/prebuilt/64-bit -lfmod \
