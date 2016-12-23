@@ -116,16 +116,16 @@ CAddSceneWizard::CAddSceneWizard(int a_iActivePlayer, const std::vector<std::str
     hIdLayout->addWidget(idTitle);
     hIdLayout->addWidget(m_pNewID);
     idWidget->setLayout(hIdLayout);
-    QWidget* soundWidget = new QWidget();
-    QHBoxLayout* hSoundLayout = new QHBoxLayout();
-    QLabel* soundTitle = new QLabel("Fond sonore :");
-    m_pSoundPath = new QLineEdit();
-    m_pSoundPath->setPlaceholderText("Piste Audio");
-    hSoundLayout->addWidget(soundTitle);
-    hSoundLayout->addWidget(m_pSoundPath);
-    soundWidget->setLayout(hSoundLayout);
+//    QWidget* soundWidget = new QWidget();
+//    QHBoxLayout* hSoundLayout = new QHBoxLayout();
+//    QLabel* soundTitle = new QLabel("Fond sonore :");
+//    m_pSoundPath = new QLineEdit();
+//    m_pSoundPath->setPlaceholderText("Piste Audio");
+//    hSoundLayout->addWidget(soundTitle);
+//    hSoundLayout->addWidget(m_pSoundPath);
+//    soundWidget->setLayout(hSoundLayout);
     vLeftPartLayout->addWidget(idWidget);
-    vLeftPartLayout->addWidget(soundWidget);
+//    vLeftPartLayout->addWidget(soundWidget);
     leftPart->setLayout(vLeftPartLayout);
     hOptionLayout->addWidget(leftPart);
     hOptionLayout->addWidget(rightPart);
@@ -147,10 +147,6 @@ CAddSceneWizard::CAddSceneWizard(int a_iActivePlayer, const std::vector<std::str
     vPreviewOptionLayout->addWidget(m_pComboBoxWidget);
     vPreviewOptionLayout->addWidget(m_pOptionWidget);
     previewAndOptionWidget->setLayout(vPreviewOptionLayout);
-
-
-
-
 
     // Fill the second preview widget (exactly same as first one)
     m_pPreviewTitle2 = new QLabel("");
@@ -199,19 +195,19 @@ CAddSceneWizard::CAddSceneWizard(int a_iActivePlayer, const std::vector<std::str
     {
         m_pPlayer2CheckBox->setChecked(true);
         m_pPlayer1CheckBox->setChecked(false);
-        m_pComboBoxID->setEnabled(false);
+//        m_pComboBoxID->setEnabled(false);
     }
     else if(a_iActivePlayer == 0)
     {
         m_pPlayer1CheckBox->setChecked(true);
         m_pPlayer2CheckBox->setChecked(false);
-        m_pComboBoxID2->setEnabled(false);
+//        m_pComboBoxID2->setEnabled(false);
     }
     else
     {
         m_pPlayer1CheckBox->setChecked(true);
         m_pPlayer2CheckBox->setChecked(true);
-        m_pComboBoxID2->setEnabled(false);
+//        m_pComboBoxID2->setEnabled(false);
     }
     playerWidget2->setLayout(hPlayerLayout2);
     QWidget* synchroWidget2 = new QWidget();
@@ -238,16 +234,16 @@ CAddSceneWizard::CAddSceneWizard(int a_iActivePlayer, const std::vector<std::str
     hIdLayout2->addWidget(idTitle2);
     hIdLayout2->addWidget(m_pNewID2);
     idWidget2->setLayout(hIdLayout2);
-    QWidget* soundWidget2 = new QWidget();
-    QHBoxLayout* hSoundLayout2 = new QHBoxLayout();
-    QLabel* soundTitle2 = new QLabel("Fond sonore :");
-    m_pSoundPath2 = new QLineEdit();
-    m_pSoundPath2->setPlaceholderText("Piste Audio");
-    hSoundLayout2->addWidget(soundTitle2);
-    hSoundLayout2->addWidget(m_pSoundPath2);
-    soundWidget2->setLayout(hSoundLayout2);
+//    QWidget* soundWidget2 = new QWidget();
+//    QHBoxLayout* hSoundLayout2 = new QHBoxLayout();
+//    QLabel* soundTitle2 = new QLabel("Fond sonore :");
+//    m_pSoundPath2 = new QLineEdit();
+//    m_pSoundPath2->setPlaceholderText("Piste Audio");
+//    hSoundLayout2->addWidget(soundTitle2);
+//    hSoundLayout2->addWidget(m_pSoundPath2);
+//    soundWidget2->setLayout(hSoundLayout2);
     vLeftPartLayout2->addWidget(idWidget2);
-    vLeftPartLayout2->addWidget(soundWidget2);
+//    vLeftPartLayout2->addWidget(soundWidget2);
     leftPart2->setLayout(vLeftPartLayout2);
     hOptionLayout2->addWidget(leftPart2);
     hOptionLayout2->addWidget(rightPart2);
@@ -321,11 +317,22 @@ void CAddSceneWizard::clickOnValidate(bool)
     {
         if(m_pPlayer2CheckBox->isChecked())
         {
-            idReturn = 3; // P1 & P2
-            if(m_pNewID->text().isEmpty() || m_pNewID2->text().isEmpty())
+            if(this->m_pCurrentTemplateButton->GetTemplate()->IsGame()){
+                idReturn = 3;
+                if(m_pNewID->text().isEmpty() || m_pNewID2->text().isEmpty())
+                {
+                    this->OpenModalDialog("Rentrez un identifiant de scene pour les deux joueurs");
+                    return;
+                }
+            }
+            else
             {
-                this->OpenModalDialog("Rentrez un identifiant de scene pour les deux joueurs");
-                return;
+                idReturn = 2; // P1 & P2
+                if(m_pNewID->text().isEmpty()/* || m_pNewID2->text().isEmpty()*/)
+                {
+                    this->OpenModalDialog("Rentrez un identifiant de scene pour les deux joueurs");
+                    return;
+                }
             }
         }
         else
@@ -361,8 +368,11 @@ void CAddSceneWizard::clickOnValidate(bool)
         return;
     }
 
-    if(m_pPlayer2CheckBox->isChecked() && (FindExistingID(m_pNewID2->text().toStdString(), 0) ||
-                                           FindExistingID(m_pNewID2->text().toStdString(), 1)))
+    if(m_pPlayer2CheckBox->isChecked() &&
+            (!m_pPlayer1CheckBox->isChecked() ||
+             m_pCurrentTemplateButton->GetTemplate()->IsGame()) &&
+            (FindExistingID(m_pNewID2->text().toStdString(), 0) ||
+             FindExistingID(m_pNewID2->text().toStdString(), 1)))
     {
         this->OpenModalDialog("L'identifiant de scène doit être unique");
         return;
@@ -397,11 +407,11 @@ void CAddSceneWizard::clickOnValidate(bool)
             return;
         }
     }
-
     // Adding simple new scene
-    if(idReturn == 3)
+    if(idReturn == 2)
     {
-        emit addTwoScene(previousID, m_pNewID->text(), previousID2, m_pNewID2->text(), m_pCurrentTemplateButton->GetTemplate());
+//        emit addTwoScene(previousID, m_pNewID->text(), previousID2, m_pNewID2->text(), m_pCurrentTemplateButton->GetTemplate());
+        emit addSharedScene(previousID, previousID2, m_pNewID->text(), m_pCurrentTemplateButton->GetTemplate());
     }
     else if(idReturn == 1) // Add scene on player 2 timeline
     {
@@ -427,24 +437,32 @@ void CAddSceneWizard::changeActivePlayer()
             //this->FillComboBox(0, dummy);
             this->SetEnabledPlayerField(0, true);
             this->SetEnabledPlayerField(1, true);
+            m_pNewID2->setEnabled(false);
         }
         else
         {
             // Only P1 scene id available
             this->SetEnabledPlayerField(0, true);
-            this->SetEnabledPlayerField(1, false);       }
+            this->SetEnabledPlayerField(1, false);
+        }
+//        m_pNewID->setEnabled(true);
+//        m_pNewID2->setEnabled(false);
     }
     else if(m_pPlayer2CheckBox->isChecked())
     {
         // Only P2 scene available
         this->SetEnabledPlayerField(0, false);
         this->SetEnabledPlayerField(1, true);
+//        m_pNewID->setEnabled(false);
+//        m_pNewID2->setEnabled(true);
     }
     else
     {
         // Both uncheck
         this->SetEnabledPlayerField(0, false);
         this->SetEnabledPlayerField(1, false);
+//        m_pNewID->setEnabled(false);
+//        m_pNewID2->setEnabled(false);
     }
 }
 
@@ -495,12 +513,21 @@ void CAddSceneWizard::setCurrentTemplate(CTemplatePushButton* a_pTemplatePushBut
             m_pSynchroCheckBox->setEnabled(false);
             m_pSynchroCheckBox2->setEnabled(false);
         }
-        else // P2
+        else if (m_iActivePlayer == 1) // P2
         {
             m_pPlayer1CheckBox->setChecked(false);
             m_pPlayer2CheckBox->setChecked(true);
             this->SetEnabledPlayerField(0, false);
             this->SetEnabledPlayerField(1, true);
+            m_pSynchroCheckBox->setEnabled(false);
+            m_pSynchroCheckBox2->setEnabled(false);
+        }
+        else
+        {
+            m_pPlayer1CheckBox->setChecked(true);
+            m_pPlayer2CheckBox->setChecked(true);
+            this->SetEnabledPlayerField(0, true);
+            this->SetEnabledPlayerField(1, false);
             m_pSynchroCheckBox->setEnabled(false);
             m_pSynchroCheckBox2->setEnabled(false);
         }
@@ -596,7 +623,7 @@ void CAddSceneWizard::SetEnabledPlayerField(int a_iPlayerID, bool a_bEnabled)
         this->m_pPreviewTitle2->setEnabled(a_bEnabled);
         this->m_pComboBoxID2->setEnabled(a_bEnabled);
         this->m_pNewID2->setEnabled(a_bEnabled);
-        this->m_pSoundPath2->setEnabled(a_bEnabled);
+//        this->m_pSoundPath2->setEnabled(a_bEnabled);
         this->m_pDashCheckBox2->setEnabled(false);
         this->m_pSynchroCheckBox2->setEnabled(false);
         this->m_pPreviewWidget2->setEnabled(a_bEnabled);
@@ -608,7 +635,7 @@ void CAddSceneWizard::SetEnabledPlayerField(int a_iPlayerID, bool a_bEnabled)
         this->m_pPreviewTitle->setEnabled(a_bEnabled);
         this->m_pComboBoxID->setEnabled(a_bEnabled);
         this->m_pNewID->setEnabled(a_bEnabled);
-        this->m_pSoundPath->setEnabled(a_bEnabled);
+//        this->m_pSoundPath->setEnabled(a_bEnabled);
         this->m_pDashCheckBox->setEnabled(false);
         this->m_pSynchroCheckBox->setEnabled(false);
         this->m_pPreviewWidget->setEnabled(a_bEnabled);

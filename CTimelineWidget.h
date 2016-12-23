@@ -17,6 +17,7 @@ public:
     void UpdateTimeline();
     void PushScene(const QString& a_sSceneID, int a_iPlayerID, const QString &a_sSyncedScene = "");
     void InsertScene(const QString& a_sPrevSceneID, const QString& a_sSceneID, int a_iPlayerID, const QString &a_sSyncedScene = "");
+    void InsertSharedScene(const QString& a_sPrevSceneID1, const QString& a_sPrevSceneID2, const QString& a_sSceneID);
     void RemoveScene(const QString& a_sSceneID);
     //    void InsertScene(a_sSceneID, a_iPlayerID, a_sPrevSceneID);
     //    void RemoveScene(a_sSceneID);

@@ -36,8 +36,8 @@ private:
     QLabel* m_pPreviewTitle2;
     QLineEdit* m_pNewID;
     QLineEdit* m_pNewID2;
-    QLineEdit* m_pSoundPath;
-    QLineEdit* m_pSoundPath2;
+//    QLineEdit* m_pSoundPath;
+//    QLineEdit* m_pSoundPath2;
     QCheckBox* m_pPlayer1CheckBox;
     QCheckBox* m_pPlayer2CheckBox;
     QCheckBox* m_pDashCheckBox;
@@ -74,6 +74,8 @@ signals:
     void addTwoScene(const QString& a_sPreviousIDP1, const QString& a_sNewIDP1,
                      const QString& a_sPreviousIDP2, const QString& a_sNewIDP2,
                      CTemplate*  a_iTemplate);
+    void addSharedScene(const QString &a_sPreviousIDP1, const QString &a_sPreviousIDP2,
+                        const QString &a_sNewIDP, CTemplate* a_pTemplate);
     void addGameScene(const QString& a_sPreviousIDP1, const QString& a_sNewIDP1,
                      const QString& a_sPreviousIDP2, const QString& a_sNewIDP2,
                      CTemplate*  a_iTemplate, int a_iTemplateNumberP1, int a_iTemplateNumberP2);

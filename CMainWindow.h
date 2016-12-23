@@ -87,6 +87,8 @@ private slots:
     void launchEmulator();
     // slot for adding new template
     void addOneScene(const QString& a_sPreviousID, const QString& a_sNewID, int a_iPlayerID, CTemplate* a_pTemplate);
+    void addSharedScene(const QString& a_sPreviousIDP1, const QString& a_sPreviousIDP2,
+                        const QString& a_sNewID, CTemplate* a_pTemplate);
     void addTwoScene(const QString& a_sPreviousIDP1, const QString& a_sNewIDP1,
                      const QString& a_sPreviousIDP2, const QString& a_sNewIDP2,
                      CTemplate* a_pTemplate);
@@ -94,7 +96,8 @@ private slots:
                       const QString& a_sPreviousIDP2, const QString& a_sNewIDP2,
                       CTemplate* a_pTemplate, int a_iTemplateNumberP1, int a_iTemplateNumberP2);
     void deleteScene(QString a_sSceneID, bool a_bIsSync);
-    void addingSceneFinished(const QString a_sPrevSceneID, const QString a_sSceneID, int a_iPlayerID);
+    void addingSceneFinished(const QString& a_sPrevSceneID, const QString& a_sSceneID, int a_iPlayerID);
+    void addingSharedSceneFinished(const QString& a_sPrevSceneID1, const QString& a_sPrevSceneID2, const QString& a_sSceneID);
     void deletingSceneFinished(const QString a_sSceneID);
     // Saving slots
     void saveAs();

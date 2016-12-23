@@ -25,6 +25,7 @@ CPathWidget::CPathWidget(const QString& a_sFirstValue, const QString &a_sExtensi
 
     QPushButton* pathFileDialogButton = new QPushButton(this);
     pathFileDialogButton->setText("...");
+    pathFileDialogButton->setMaximumWidth(30);
     pathFileDialogButton->setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Preferred);
     pathLayout->addWidget(path);
     pathLayout->addWidget(pathFileDialogButton);

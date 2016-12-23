@@ -177,6 +177,8 @@ void CMainWindow::loadExistingProject(const QString& a_sProjectFile)
     //    connect(m_pKernel, SIGNAL(deletingSceneFinished()), this, SLOT(deletingSceneFinished()));
     connect(m_pKernel, SIGNAL(addingSceneFinished(const QString, const QString, int)),
             this, SLOT(addingSceneFinished(const QString, const QString, int)));
+    connect(m_pKernel, SIGNAL(addingSharedSceneFinished(QString,QString,QString)),
+            this, SLOT(addingSharedSceneFinished(QString,QString,QString)));
     connect(m_pKernel, SIGNAL(deletingSceneFinished(const QString)),
             this, SLOT(deletingSceneFinished(const QString)));
     connect(m_pKernel, SIGNAL(sendScene(LM::CSceneNode*, bool)),
@@ -301,15 +303,22 @@ void CMainWindow::addTwoScene(const QString &a_sPreviousIDP1, const QString &a_s
     //                           a_sPreviousIDP2.toStdString(), a_sNewIDP2.toStdString(), PLAYER_2, 0, "");
 }
 
+void CMainWindow::addSharedScene(const QString &a_sPreviousIDP1, const QString &a_sPreviousIDP2,
+                                 const QString &a_sNewIDP, CTemplate* a_pTemplate)
+{
+    ON_CC_THREAD(LM::CKernel::AddNewSharedScene, m_pKernel, a_pTemplate->GetPath().toStdString(),
+                 a_sPreviousIDP1.toStdString(), a_sPreviousIDP2.toStdString(), a_sNewIDP.toStdString(), 0, "");
+}
+
 void CMainWindow::addGameScene(const QString &a_sPreviousIDP1, const QString &a_sNewIDP1,
                                const QString &a_sPreviousIDP2, const QString &a_sNewIDP2,
                                CTemplate* a_pTemplate, int a_iTemplateNumberP1, int a_iTemplateNumberP2)
 {
+    ON_CC_THREAD(LM::CKernel::AddSyncID, m_pKernel, a_sNewIDP1.toStdString(), a_sNewIDP2.toStdString());
         ON_CC_THREAD(LM::CKernel::AddNewScene, m_pKernel, a_pTemplate->GetPath().toStdString(),
                      a_sPreviousIDP1.toStdString(), a_sNewIDP1.toStdString(), PLAYER_1, a_iTemplateNumberP1, a_sNewIDP2.toStdString());
         ON_CC_THREAD(LM::CKernel::AddNewScene, m_pKernel, a_pTemplate->GetPath().toStdString(),
                      a_sPreviousIDP2.toStdString(), a_sNewIDP2.toStdString(), PLAYER_2, a_iTemplateNumberP2, a_sNewIDP1.toStdString());
-        ON_CC_THREAD(LM::CKernel::AddSyncID, m_pKernel, a_sNewIDP1.toStdString(), a_sNewIDP2.toStdString());
 //    m_pKernel->AddNewScene(a_pTemplate->GetPath().toStdString(),
 //                           a_sPreviousIDP1.toStdString(), a_sNewIDP1.toStdString(), PLAYER_1, a_iTemplateNumberP1, a_sNewIDP2.toStdString());
 //    m_pKernel->AddNewScene(a_pTemplate->GetPath().toStdString(),
@@ -421,18 +430,31 @@ void CMainWindow::launchAddSceneWizard()
                                        m_pTimeline->GetPlayerSceneID(PLAYER_2));
 
     connect(pSceneWizard, SIGNAL(addOneScene(QString,QString,int,CTemplate*)), this, SLOT(addOneScene(QString,QString,int,CTemplate*)));
-    connect(pSceneWizard, SIGNAL(addTwoScene(QString,QString,QString,QString,CTemplate*)),
-            this, SLOT(addTwoScene(QString,QString,QString,QString,CTemplate*)));
+//    connect(pSceneWizard, SIGNAL(addTwoScene(QString,QString,QString,QString,CTemplate*)),
+//            this, SLOT(addTwoScene(QString,QString,QString,QString,CTemplate*)));
+    connect(pSceneWizard, SIGNAL(addSharedScene(QString, QString, QString, CTemplate*)),
+            this, SLOT(addSharedScene(QString,QString,QString,CTemplate*)));
     connect(pSceneWizard, SIGNAL(addGameScene(QString,QString,QString,QString,CTemplate*,int,int)),
             this, SLOT(addGameScene(QString,QString,QString,QString,CTemplate*,int,int)));
     pSceneWizard->setModal(true);
     pSceneWizard->show();
 }
 
-void CMainWindow::addingSceneFinished(const QString a_sPrevSceneID, const QString a_sSceneID, int a_iPlayerID)
+void CMainWindow::addingSceneFinished(const QString& a_sPrevSceneID, const QString& a_sSceneID, int a_iPlayerID)
 {
+    saveCapture();
+    qDebug() << "Scene : " << a_sSceneID << " - Synced : " << m_pKernel->GetSyncedScene(a_sSceneID);
     m_pTimeline->InsertScene(a_sPrevSceneID, a_sSceneID, a_iPlayerID, m_pKernel->GetSyncedScene(a_sSceneID));
     m_pTimeline->UpdateTimeline();
+    ShowCurrentScene();
+}
+
+void CMainWindow::addingSharedSceneFinished(const QString& a_sPrevSceneID1, const QString& a_sPrevSceneID2, const QString& a_sSceneID)
+{
+    saveCapture();
+    m_pTimeline->InsertSharedScene(a_sPrevSceneID1, a_sPrevSceneID2, a_sSceneID);
+    m_pTimeline->UpdateTimeline();
+    ShowCurrentScene();
 }
 
 void CMainWindow::deletingSceneFinished(const QString a_sSceneID)

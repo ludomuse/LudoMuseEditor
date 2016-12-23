@@ -116,47 +116,53 @@ bool CThumbnailWidget::IsSceneID(const QString& a_rSceneID, int a_iPlayerID)
 void CThumbnailWidget::Unselect()
 {
     this->layout()->setContentsMargins(5,5,5,5);
-    this->setLineWidth(0);
-
-    QPalette pal(palette());
-    pal.setColor(QPalette::Background, QColor(100,100,100));
-    pal.setColor(QPalette::Foreground, QColor(0, 85, 255));
+//    this->setLineWidth(0);
+//    QPalette pal(palette());
+//    pal.setColor(QPalette::Background, QColor(100,100,100));
+//    pal.setColor(QPalette::Foreground, QColor(0, 85, 255));
+//    this->setPalette(pal);
+    this->setStyleSheet("CThumbnailWidget {"
+                        "background-color: rgb(100,100,100);"
+                        "border: 0px solid rgb(0,85,255);}");
     this->setAutoFillBackground(true);
-    this->setPalette(pal);
+    qDebug() << "Unselect :";
+//    QGraphicsColorizeEffect *cEffect = new QGraphicsColorizeEffect;
+//    cEffect->setStrength(1);
+//    cEffect->setColor(Qt::black);
 
-    QGraphicsColorizeEffect *cEffect = new QGraphicsColorizeEffect;
-    cEffect->setStrength(1);
-    cEffect->setColor(Qt::black);
-
-    this->setGraphicsEffect(cEffect);
+//    this->setGraphicsEffect(cEffect);
 }
 
 void CThumbnailWidget::Select()
 {
     this->layout()->setContentsMargins(2,2,2,2);
-    this->setLineWidth(3);
-
-    QPalette pal(palette());
-    pal.setColor(QPalette::Background, QColor(250,250,250));
-    pal.setColor(QPalette::Foreground, QColor(0, 85, 255));
+//    this->setLineWidth(3);
+//    QPalette pal(palette());
+//    pal.setColor(QPalette::Background, QColor(250,250,250));
+//    pal.setColor(QPalette::Foreground, QColor(0, 85, 255));
+//    this->setPalette(pal);
+    this->setStyleSheet("CThumbnailWidget {"
+                        "background-color: rgb(250,250,250);"
+                        "border: 3px solid rgb(0,85,255);}");
     this->setAutoFillBackground(true);
-    this->setPalette(pal);
-
-    this->setGraphicsEffect(0);
+    qDebug() << "Select :";
+//    this->setGraphicsEffect(0);
 }
 
 void CThumbnailWidget::LastActive()
 {
     this->layout()->setContentsMargins(3,3,3,3);
-    this->setLineWidth(2);
-
-    QPalette pal(palette());
-    pal.setColor(QPalette::Background, QColor(175,175,175));
-    pal.setColor(QPalette::Foreground, QColor(0, 85, 255));
+//    this->setLineWidth(2);
+//    QPalette pal(palette());
+//    pal.setColor(QPalette::Background, QColor(175,175,175));
+//    pal.setColor(QPalette::Foreground, QColor(0, 85, 255));
+//    this->setPalette(pal);
+    this->setStyleSheet("CThumbnailWidget {"
+                        "background-color: rgb(175,175,175);"
+                        "border: 2px solid rgb(0,85,255);}");
     this->setAutoFillBackground(true);
-    this->setPalette(pal);
-
-    this->setGraphicsEffect(0);
+    qDebug() << "LastActive :";
+//    this->setGraphicsEffect(0);
 }
 
 void CThumbnailWidget::mouseReleaseEvent(QMouseEvent *event)
