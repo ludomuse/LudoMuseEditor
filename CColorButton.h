@@ -9,7 +9,7 @@ class CColorButton : public QPushButton
     Q_OBJECT
 public:
     CColorButton(QString a_iFirstColor, QWidget* a_pParent = Q_NULLPTR);
-    const QColor& ParseColor(const QString &a_sColor) const;
+    QColor ParseColor(const QString &a_sColor) const;
 
 private slots:
     void changeColor(const QColor& a_oColor);

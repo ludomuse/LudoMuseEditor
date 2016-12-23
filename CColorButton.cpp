@@ -37,7 +37,7 @@ void CColorButton::changeColor(const QColor &a_oColor)
     emit colorChanged(color);
 }
 
-const QColor& CColorButton::ParseColor(const QString &a_sColor) const
+QColor CColorButton::ParseColor(const QString &a_sColor) const
 {
     QStringList oRGBAValues = a_sColor.split(",");
     if (oRGBAValues.count() >= 4) // if color is not properly set, do nothing
