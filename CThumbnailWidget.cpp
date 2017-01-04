@@ -125,7 +125,6 @@ void CThumbnailWidget::Unselect()
                         "background-color: rgb(100,100,100);"
                         "border: 0px solid rgb(0,85,255);}");
     this->setAutoFillBackground(true);
-    qDebug() << "Unselect :";
 //    QGraphicsColorizeEffect *cEffect = new QGraphicsColorizeEffect;
 //    cEffect->setStrength(1);
 //    cEffect->setColor(Qt::black);
@@ -145,7 +144,6 @@ void CThumbnailWidget::Select()
                         "background-color: rgb(250,250,250);"
                         "border: 3px solid rgb(0,85,255);}");
     this->setAutoFillBackground(true);
-    qDebug() << "Select :";
 //    this->setGraphicsEffect(0);
 }
 
@@ -161,7 +159,6 @@ void CThumbnailWidget::LastActive()
                         "background-color: rgb(175,175,175);"
                         "border: 2px solid rgb(0,85,255);}");
     this->setAutoFillBackground(true);
-    qDebug() << "LastActive :";
 //    this->setGraphicsEffect(0);
 }
 

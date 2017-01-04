@@ -68,7 +68,6 @@ private:
 
     /// \Displays current scene
     void ShowCurrentScene();
-    int GetOtherPlayer(int a_iPlayerID);
 
 private slots:
     void loadExistingProject(const QString& a_sProjectPath);
@@ -105,7 +104,7 @@ private slots:
     void exportProject(const QString& a_rDestination);
     // Temporary slot
     void launchAddSceneWizard();
-    void on_fileBrowser_clicked(const QModelIndex &index);
+//    void on_fileBrowser_clicked(const QModelIndex &index);
     void loadCapture(QString a_sScreenName);
     void saveCapture();
     void nodeModified(LM::CEntityNode* a_pNode);
@@ -116,8 +115,8 @@ private slots:
 
 private:
     Ui::CMainWindow *ui;
-    QFileSystemModel* m_pDirModel;
-    QFileSystemModel* m_pFileModel;
+//    QFileSystemModel* m_pDirModel;
+//    QFileSystemModel* m_pFileModel;
     LM::CKernel* m_pKernel;
     QProcess m_oProcessServer;
     QProcess m_oProcessClient;

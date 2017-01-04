@@ -49,6 +49,7 @@
 #include "CProjectManager.h"
 #include "CThumbnailsLoaderThread.h"
 #include "CTimelineWidget.h"
+#include "CExplorerView.h"
 
 
 // Include cocos
@@ -151,19 +152,20 @@ void CMainWindow::loadExistingProject(const QString& a_sProjectFile)
     ui->inspectorContainer->layout()->setAlignment(Qt::AlignTop);
     QString projectPath = QFileInfo(a_sProjectFile).absolutePath();
 
-    m_pDirModel = new QFileSystemModel();
-    m_pDirModel->setFilter(QDir::NoDotAndDotDot | QDir::AllDirs);
-    m_pDirModel->setRootPath(projectPath);
-    ui->fileBrowser->setModel(m_pDirModel);
-    ui->fileBrowser->setRootIndex(m_pDirModel->index(projectPath));
-    ui->fileBrowser->setColumnHidden( 1, true );
-    ui->fileBrowser->setColumnHidden( 2, true );
-    ui->fileBrowser->setColumnHidden( 3, true );
-    m_pFileModel = new QFileSystemModel(this);
-    m_pFileModel->setFilter(QDir::NoDotAndDotDot | QDir::Files);
-    ui->fileListView->setModel(m_pFileModel);
-    ui->fileListView->setRootIndex(m_pFileModel->setRootPath(projectPath));
-    ui->fileListView->SetCurrentPath(projectPath);
+//    m_pDirModel = new QFileSystemModel();
+//    m_pDirModel->setFilter(QDir::NoDotAndDotDot | QDir::AllDirs);
+//    m_pDirModel->setRootPath(projectPath);
+//    ui->fileBrowser->setModel(m_pDirModel);
+//    ui->fileBrowser->setRootIndex(m_pDirModel->index(projectPath));
+//    ui->fileBrowser->setColumnHidden( 1, true );
+//    ui->fileBrowser->setColumnHidden( 2, true );
+//    ui->fileBrowser->setColumnHidden( 3, true );
+//    m_pFileModel = new QFileSystemModel(this);
+//    m_pFileModel->setFilter(QDir::NoDotAndDotDot | QDir::Files);
+//    ui->fileListView->setModel(m_pFileModel);
+//    ui->fileListView->setRootIndex(m_pFileModel->setRootPath(projectPath));
+//    ui->fileListView->SetCurrentPath(projectPath);
+    ui->explorer->SetProjectPath(projectPath);
 
     AppDelegate* app = (AppDelegate*)(cocos2d::CCQApplication::getInstance());
     app->setPath(m_sSaveName.toStdString());
@@ -201,6 +203,8 @@ void CMainWindow::loadExistingProject(const QString& a_sProjectFile)
 
     m_pTimeline->UpdateTimeline();
     m_pTimeline->LoadPreviews();
+
+//    CExplorerView *cev = new CExplorerView(projectPath);
 }
 
 void CMainWindow::receiveLabel(LM::CLabelNode* a_pLabel)
@@ -714,23 +718,12 @@ void CMainWindow::setInspectorName(const QString &a_rName)
     this->ui->toolBarInspector->layout()->addWidget(inspectorTitle);
 }
 
-void CMainWindow::on_fileBrowser_clicked(const QModelIndex &index)
-{
-    QString path = m_pDirModel->fileInfo(index).absoluteFilePath();
-    ui->fileListView->setRootIndex(m_pFileModel->setRootPath(path));
-    ui->fileListView->SetCurrentPath(path);
-}
-
-int CMainWindow::GetOtherPlayer(int a_iPlayerID)
-{
-    if (a_iPlayerID == PLAYER_2) {
-        return PLAYER_1;
-    }
-    else
-    {
-        return PLAYER_2;
-    }
-}
+//void CMainWindow::on_fileBrowser_clicked(const QModelIndex &index)
+//{
+//    QString path = m_pDirModel->fileInfo(index).absoluteFilePath();
+//    ui->fileListView->setRootIndex(m_pFileModel->setRootPath(path));
+//    ui->fileListView->SetCurrentPath(path);
+//}
 
 void CMainWindow::saveCapture()
 {

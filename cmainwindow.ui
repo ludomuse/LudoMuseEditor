@@ -94,115 +94,7 @@
          </widget>
         </item>
         <item>
-         <widget class="QScrollArea" name="scrollArea_3">
-          <property name="sizePolicy">
-           <sizepolicy hsizetype="Preferred" vsizetype="Expanding">
-            <horstretch>0</horstretch>
-            <verstretch>0</verstretch>
-           </sizepolicy>
-          </property>
-          <property name="horizontalScrollBarPolicy">
-           <enum>Qt::ScrollBarAlwaysOff</enum>
-          </property>
-          <property name="widgetResizable">
-           <bool>true</bool>
-          </property>
-          <widget class="QWidget" name="scrollAreaWidgetContents_3">
-           <property name="geometry">
-            <rect>
-             <x>0</x>
-             <y>0</y>
-             <width>369</width>
-             <height>733</height>
-            </rect>
-           </property>
-           <property name="sizePolicy">
-            <sizepolicy hsizetype="Preferred" vsizetype="Expanding">
-             <horstretch>0</horstretch>
-             <verstretch>0</verstretch>
-            </sizepolicy>
-           </property>
-           <layout class="QVBoxLayout" name="verticalLayout_4">
-            <property name="spacing">
-             <number>0</number>
-            </property>
-            <property name="leftMargin">
-             <number>0</number>
-            </property>
-            <property name="topMargin">
-             <number>0</number>
-            </property>
-            <property name="rightMargin">
-             <number>0</number>
-            </property>
-            <property name="bottomMargin">
-             <number>0</number>
-            </property>
-            <item>
-             <widget class="QTreeView" name="fileBrowser">
-              <property name="enabled">
-               <bool>true</bool>
-              </property>
-              <property name="sizePolicy">
-               <sizepolicy hsizetype="Preferred" vsizetype="MinimumExpanding">
-                <horstretch>0</horstretch>
-                <verstretch>0</verstretch>
-               </sizepolicy>
-              </property>
-              <property name="dragEnabled">
-               <bool>true</bool>
-              </property>
-              <property name="sortingEnabled">
-               <bool>true</bool>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <widget class="CFileListView" name="fileListView">
-              <property name="sizePolicy">
-               <sizepolicy hsizetype="Preferred" vsizetype="Expanding">
-                <horstretch>0</horstretch>
-                <verstretch>0</verstretch>
-               </sizepolicy>
-              </property>
-              <property name="showDropIndicator" stdset="0">
-               <bool>true</bool>
-              </property>
-              <property name="dragEnabled">
-               <bool>true</bool>
-              </property>
-              <property name="defaultDropAction">
-               <enum>Qt::CopyAction</enum>
-              </property>
-              <property name="textElideMode">
-               <enum>Qt::ElideNone</enum>
-              </property>
-              <property name="isWrapping" stdset="0">
-               <bool>true</bool>
-              </property>
-              <property name="layoutMode">
-               <enum>QListView::SinglePass</enum>
-              </property>
-              <property name="spacing">
-               <number>5</number>
-              </property>
-              <property name="viewMode">
-               <enum>QListView::IconMode</enum>
-              </property>
-              <property name="modelColumn">
-               <number>0</number>
-              </property>
-              <property name="uniformItemSizes">
-               <bool>true</bool>
-              </property>
-              <property name="wordWrap">
-               <bool>true</bool>
-              </property>
-             </widget>
-            </item>
-           </layout>
-          </widget>
-         </widget>
+         <widget class="CExplorerView" name="explorer"/>
         </item>
        </layout>
       </widget>
@@ -1785,7 +1677,7 @@
                <rect>
                 <x>0</x>
                 <y>0</y>
-                <width>1054</width>
+                <width>1058</width>
                 <height>218</height>
                </rect>
               </property>
@@ -1867,9 +1759,9 @@
  <layoutdefault spacing="6" margin="11"/>
  <customwidgets>
   <customwidget>
-   <class>CFileListView</class>
+   <class>CExplorerView</class>
    <extends>QListView</extends>
-   <header>CFileListView.h</header>
+   <header>CExplorerView.h</header>
   </customwidget>
  </customwidgets>
  <resources/>

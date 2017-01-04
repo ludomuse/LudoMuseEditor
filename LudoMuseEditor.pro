@@ -85,7 +85,8 @@ SOURCES += main.cpp\
     CArchiver.cpp \
     CAnchorWidget.cpp \
     CPathWidget.cpp \
-    CColorButton.cpp
+    CColorButton.cpp \
+    CExplorerView.cpp
 
 HEADERS  += CMainWindow.h \
     LudoMuse_src/Classes/Engine/Include/CCallback.h \
@@ -158,7 +159,8 @@ HEADERS  += CMainWindow.h \
     CArchiver.h \
     CAnchorWidget.h \
     CPathWidget.h \
-    CColorButton.h
+    CColorButton.h \
+    CExplorerView.h
 
 FORMS    += cmainwindow.ui \
     CLoaderWidget.ui \
