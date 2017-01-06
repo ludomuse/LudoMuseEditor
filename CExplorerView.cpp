@@ -180,6 +180,7 @@ void CExplorerView::dragIdle()
     qDebug() << "timer end";
     if (m_oHovered.isValid() && m_pFileModel->isDir(m_oHovered))
     {
+        setCurrentIndex(m_oHovered);
         SetCurrentDir(m_pFileModel->filePath(m_oHovered));
     }
 }
@@ -187,7 +188,10 @@ void CExplorerView::dragIdle()
 void CExplorerView::contextMenuEvent(QContextMenuEvent *event)
 {
     QModelIndex clicked = indexAt(event->pos());
-    setCurrentIndex(clicked);
+    if (!selectedIndexes().contains(clicked))
+    {
+        setCurrentIndex(clicked);
+    }
     QMenu menu(this);
     if (m_aOpen != nullptr && currentIndex().isValid())
         menu.addAction(m_aOpen);

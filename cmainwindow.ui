@@ -96,6 +96,9 @@
         <item>
          <widget class="CExplorerView" name="explorer"/>
         </item>
+        <item>
+         <widget class="CSettingsWidget" name="settings" native="true"/>
+        </item>
        </layout>
       </widget>
       <widget class="QWidget" name="midMainWidget" native="true">
@@ -1677,7 +1680,7 @@
                <rect>
                 <x>0</x>
                 <y>0</y>
-                <width>1058</width>
+                <width>1060</width>
                 <height>218</height>
                </rect>
               </property>
@@ -1762,6 +1765,12 @@
    <class>CExplorerView</class>
    <extends>QListView</extends>
    <header>CExplorerView.h</header>
+  </customwidget>
+  <customwidget>
+   <class>CSettingsWidget</class>
+   <extends>QWidget</extends>
+   <header>csettingswidget.h</header>
+   <container>1</container>
   </customwidget>
  </customwidgets>
  <resources/>

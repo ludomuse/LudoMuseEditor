@@ -317,7 +317,8 @@ void CTimelineWidget::RemoveScene(const QString& a_sSceneID)
     if (iIndex >= 0 && iIndex < m_pThumbnailList->length()) {
         DeactivateThumbnails();
         int iPlayerID = m_pThumbnailList->at(iIndex)->GetPlayerID();
-        if (iPlayerID == CMainWindow::PLAYER_1 || iPlayerID == CMainWindow::BOTH_PLAYER)
+//        if (iPlayerID == CMainWindow::PLAYER_1 || iPlayerID == CMainWindow::BOTH_PLAYER)
+        if (m_iCurrentIndex1 == iIndex)
         {
             int currentIndex = FindNextThumbnailIndex(m_iCurrentIndex1, CMainWindow::PLAYER_1);
             if (currentIndex < 0)
@@ -326,7 +327,8 @@ void CTimelineWidget::RemoveScene(const QString& a_sSceneID)
             }
             m_iCurrentIndex1 = currentIndex;
         }
-        if (iPlayerID == CMainWindow::PLAYER_2 || iPlayerID == CMainWindow::BOTH_PLAYER)
+//        if (iPlayerID == CMainWindow::PLAYER_2 || iPlayerID == CMainWindow::BOTH_PLAYER)
+        if (m_iCurrentIndex2 == iIndex)
         {
             int currentIndex = FindNextThumbnailIndex(m_iCurrentIndex2, CMainWindow::PLAYER_2);
             if (currentIndex < 0)
@@ -409,8 +411,8 @@ void CTimelineWidget::SelectNextThumbnail()
     DeactivateThumbnails();
     int iNextIndex1 = m_iCurrentIndex1;
     int iNextIndex2 = m_iCurrentIndex2;
-    switch (m_iActivePlayer)
-//    switch (GetCurrentScenePlayer())
+//    switch (m_iActivePlayer)
+    switch (GetCurrentScenePlayer())
     {
     case CMainWindow::PLAYER_1 :
         iNextIndex1 = FindNextThumbnailIndex(m_iCurrentIndex1, CMainWindow::PLAYER_1);
@@ -420,10 +422,10 @@ void CTimelineWidget::SelectNextThumbnail()
             {
                 iNextIndex2 = iNextIndex1;
             }
-            else if (GetCurrentScenePlayer() == CMainWindow::BOTH_PLAYER)
-            {
-                iNextIndex2 = -1;
-            }
+//            else if (GetCurrentScenePlayer() == CMainWindow::BOTH_PLAYER)
+//            {
+//                iNextIndex2 = -1;
+//            }
         }
         break;
     case CMainWindow::PLAYER_2 :
@@ -434,15 +436,16 @@ void CTimelineWidget::SelectNextThumbnail()
             {
                 iNextIndex1 = iNextIndex2;
             }
-            else if (GetCurrentScenePlayer() == CMainWindow::BOTH_PLAYER)
-            {
-                iNextIndex1 = -1;
-            }
+//            else if (GetCurrentScenePlayer() == CMainWindow::BOTH_PLAYER)
+//            {
+//                iNextIndex1 = -1;
+//            }
         }
         break;
-//    case CMainWindow::BOTH_PLAYER :
-//        iNextIndex1 = FindNextThumbnailIndex(m_iCurrentIndex1, CMainWindow::PLAYER_1);
-//        iNextIndex2 = FindNextThumbnailIndex(m_iCurrentIndex2, CMainWindow::PLAYER_2);
+    case CMainWindow::BOTH_PLAYER :
+        iNextIndex1 = FindNextThumbnailIndex(m_iCurrentIndex1, CMainWindow::PLAYER_1);
+        iNextIndex2 = FindNextThumbnailIndex(m_iCurrentIndex2, CMainWindow::PLAYER_2);
+        break;
     default:
         break;
     }
@@ -465,7 +468,9 @@ void CTimelineWidget::SelectPrevThumbnail()
     DeactivateThumbnails();
     int iPrevIndex1 = m_iCurrentIndex1;
     int iPrevIndex2 = m_iCurrentIndex2;
-    switch (m_iActivePlayer) {
+//    switch (m_iActivePlayer)
+    switch (GetCurrentScenePlayer())
+    {
     case CMainWindow::PLAYER_1 :
         iPrevIndex1 = FindPrevThumbnailIndex(m_iCurrentIndex1, CMainWindow::PLAYER_1);
         if (iPrevIndex1 >= 0)
@@ -474,10 +479,10 @@ void CTimelineWidget::SelectPrevThumbnail()
             {
                 iPrevIndex2 = iPrevIndex1;
             }
-            else if (GetCurrentScenePlayer() == CMainWindow::BOTH_PLAYER)
-            {
-                iPrevIndex2 = -1;
-            }
+//            else if (GetCurrentScenePlayer() == CMainWindow::BOTH_PLAYER)
+//            {
+//                iPrevIndex2 = -1;
+//            }
         }
         break;
     case CMainWindow::PLAYER_2 :
@@ -488,15 +493,16 @@ void CTimelineWidget::SelectPrevThumbnail()
             {
                 iPrevIndex1 = iPrevIndex2;
             }
-            else if (GetCurrentScenePlayer() == CMainWindow::BOTH_PLAYER)
-            {
-                iPrevIndex1 = -1;
-            }
+//            else if (GetCurrentScenePlayer() == CMainWindow::BOTH_PLAYER)
+//            {
+//                iPrevIndex1 = -1;
+//            }
         }
         break;
-//    case CMainWindow::BOTH_PLAYER :
-//        iPrevIndex1 = FindPrevThumbnailIndex(m_iCurrentIndex1, CMainWindow::PLAYER_1);
-//        iPrevIndex2 = FindPrevThumbnailIndex(m_iCurrentIndex2, CMainWindow::PLAYER_2);
+    case CMainWindow::BOTH_PLAYER :
+        iPrevIndex1 = FindPrevThumbnailIndex(m_iCurrentIndex1, CMainWindow::PLAYER_1);
+        iPrevIndex2 = FindPrevThumbnailIndex(m_iCurrentIndex2, CMainWindow::PLAYER_2);
+        break;
     default:
         break;
     }
