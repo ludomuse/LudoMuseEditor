@@ -50,6 +50,7 @@
 #include "CThumbnailsLoaderThread.h"
 #include "CTimelineWidget.h"
 #include "CExplorerView.h"
+#include "CMacroWidget.h"
 
 
 // Include cocos
@@ -204,6 +205,9 @@ void CMainWindow::loadExistingProject(const QString& a_sProjectFile)
     m_pTimeline->UpdateTimeline();
     m_pTimeline->LoadPreviews();
 
+//    ui->macros->Init();
+    ui->macros->Init();
+    connect(ui->macros, SIGNAL(macroModified()), this, SLOT(reloadScene()));
 //    CExplorerView *cev = new CExplorerView(projectPath);
 }
 
@@ -744,4 +748,9 @@ void CMainWindow::on_archiveButton_clicked()
     connect(fileDialog, SIGNAL(fileSelected(QString)), this, SLOT(exportProject(QString)));
 
     fileDialog->show();
+}
+
+void CMainWindow::reloadScene()
+{
+    m_pKernel->ReloadScreen();
 }

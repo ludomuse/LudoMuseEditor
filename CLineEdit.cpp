@@ -9,17 +9,19 @@
 #include <QRegExp>
 #include <QRegExpValidator>
 #include "CProjectManager.h"
+#include "ETypes.h"
 
 
-CLineEdit::CLineEdit(const QStringList& a_lExtensionList, QWidget* a_pParent):
+CLineEdit::CLineEdit(ETypes::Type a_eType, QWidget* a_pParent):
     QLineEdit(a_pParent)
 {
     this->setAcceptDrops(true);
     this->setReadOnly(true);
+    m_eType = a_eType;
     //    m_lExtensionList.push_back("jpg");
     //    m_lExtensionList.push_back("png");
     //    m_lExtensionList.push_back("bmp");
-    m_lExtensionList = a_lExtensionList;
+//    m_lExtensionList = a_lExtensionList;
     //    QString sExtRegExp;
     //    sExtRegExp = QString("^"+CProjectManager::Instance()->QGetProjectPath()+".*(" + a_lExtensionList.join("|") + ")$");
     //    qDebug() << sExtRegExp;
@@ -44,7 +46,8 @@ void CLineEdit::dropEvent(QDropEvent* a_pEvent)
             QFileInfo newFile(path);
             if(newFile.exists())
             {
-                if(this->m_lExtensionList.contains(newFile.suffix()))
+//                if(m_lExtensionList.contains(newFile.suffix()))
+                if (ETypes::TypeFromExtension(newFile.suffix()) == m_eType)
                 {
                     qDebug("accepted format");
                     // Checking if file is in project path
@@ -69,6 +72,21 @@ void CLineEdit::dropEvent(QDropEvent* a_pEvent)
             }
         }
 
+    }
+    else if (a_pEvent->mimeData()->hasFormat("text/plain"))
+    {
+        QString macro = a_pEvent->mimeData()->text();
+        if (macro.at(0) == '#')
+        {
+            QStringList list = macro.split(':');
+            QString type = list.takeLast();
+            if (ETypes::TypeFromString(type) == m_eType)
+            {
+                QString name = list.join("");
+                selectAll();
+                insert(name);
+            }
+        }
     }
     else
     {

@@ -28,6 +28,7 @@ protected:
     void dropEvent(QDropEvent* a_pEvent) override;
     void dragEnterEvent(QDragEnterEvent* a_pEvent) override;
     void dragMoveEvent(QDragMoveEvent* a_pEvent) override;
+    void dragLeaveEvent(QDragLeaveEvent* a_pEvent) override;
     void contextMenuEvent(QContextMenuEvent *event) override;
     void mouseDoubleClickEvent(QMouseEvent *event) override;
 

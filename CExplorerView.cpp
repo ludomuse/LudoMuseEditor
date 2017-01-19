@@ -110,6 +110,7 @@ void CExplorerView::SetCurrentDir(const QString& a_sPath)
     else {
         m_pFileModel->setFilter(QDir::NoDot | QDir::Files | QDir::Dirs);
     }
+    m_pFileModel->sort(0);
 }
 
 
@@ -173,6 +174,11 @@ void CExplorerView::dragMoveEvent(QDragMoveEvent *a_pEvent)
     {
         m_oTimer->stop();
     }
+}
+
+void CExplorerView::dragLeaveEvent(QDragLeaveEvent *a_pEvent)
+{
+    m_oTimer->stop();
 }
 
 void CExplorerView::dragIdle()

@@ -69,7 +69,7 @@ CSoundInspector::CSoundInspector(LM::CEntityNode* a_pNode, QWidget *parent):
 //    path->setAlignment(Qt::AlignLeft);
 //    path->setAttribute(Qt::WA_TranslucentBackground, false);
 
-        CPathWidget* pathWidget = new CPathWidget("", QString("(*.mp3, *.wav)"), this);
+        CPathWidget* pathWidget = new CPathWidget("", ETypes::Sound, this);
         hLayoutPath->addWidget(pathTitle);
         hLayoutPath->addWidget(pathWidget);
         QWidget* pathContainer = new QWidget();
@@ -241,9 +241,10 @@ void CSoundInspector::Initialize()
 
 bool CSoundInspector::PathIsValid()
 {
-    QFileInfo myFile;
-    myFile.setFile(m_pPath);
-    return myFile.exists()/* && (myFile.suffix() == "mp3" || myFile.suffix() == "wav")*/;
+//    QFileInfo myFile;
+//    myFile.setFile(m_pPath);
+//    return myFile.exists()/* && (myFile.suffix() == "mp3" || myFile.suffix() == "wav")*/;
+    return !m_pPath.isEmpty();
 }
 
 void CSoundInspector::changePath(const QString& a_sPath)

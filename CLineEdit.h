@@ -4,6 +4,7 @@
 #include <QLineEdit>
 #include <QDragEnterEvent>
 #include <QStringList>
+#include "ETypes.h"
 /*
  * Classe for drop handling in QLineEdit
  */
@@ -11,14 +12,15 @@ class CLineEdit : public QLineEdit
 {
     Q_OBJECT
 public:
-    CLineEdit(const QStringList& a_lExtensionList, QWidget* a_pParent);
+    CLineEdit(ETypes::Type a_eType, QWidget* a_pParent);
 
 protected:
     void dropEvent(QDropEvent* a_pEvent) override;
     void dragEnterEvent(QDragEnterEvent* a_pEvent) override;
 
 private:
-    QStringList m_lExtensionList;
+    ETypes::Type m_eType;
+//    QStringList m_lExtensionList;
 
 //public slots:
 //    void setPath (QString a_sPath);

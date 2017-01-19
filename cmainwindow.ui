@@ -14,7 +14,7 @@
    <string>CMainWindow</string>
   </property>
   <widget class="QWidget" name="centralWidget">
-   <layout class="QVBoxLayout" name="verticalLayout_7">
+   <layout class="QVBoxLayout" name="verticalLayout_4">
     <property name="leftMargin">
      <number>0</number>
     </property>
@@ -97,7 +97,21 @@
          <widget class="CExplorerView" name="explorer"/>
         </item>
         <item>
-         <widget class="CSettingsWidget" name="settings" native="true"/>
+         <widget class="QScrollArea" name="settings">
+          <property name="widgetResizable">
+           <bool>true</bool>
+          </property>
+          <widget class="CMacroWidget" name="macros">
+           <property name="geometry">
+            <rect>
+             <x>0</x>
+             <y>0</y>
+             <width>363</width>
+             <height>365</height>
+            </rect>
+           </property>
+          </widget>
+         </widget>
         </item>
        </layout>
       </widget>
@@ -1767,9 +1781,9 @@
    <header>CExplorerView.h</header>
   </customwidget>
   <customwidget>
-   <class>CSettingsWidget</class>
+   <class>CMacroWidget</class>
    <extends>QWidget</extends>
-   <header>csettingswidget.h</header>
+   <header>cmacrowidget.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>

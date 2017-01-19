@@ -9,15 +9,20 @@
 
 #include "CLineEdit.h"
 #include "CProjectManager.h"
+#include "ETypes.h"
 
-CPathWidget::CPathWidget(const QString& a_sFirstValue, const QString &a_sExtensions, QWidget* a_pParent):
-    QWidget(a_pParent)
+CPathWidget::CPathWidget(const QString &a_sFirstValue, ETypes::Type a_eType, QWidget* a_pParent):
+    QWidget(a_pParent),
+//    m_sExtensions(a_sExtensions)
+    m_sExtensions(ETypes::GetFilter(a_eType))
 {
     QHBoxLayout* pathLayout = new QHBoxLayout(this);
-    QString sExtensions = a_sExtensions;
-    sExtensions = sExtensions.remove(QRegExp("[().,*]"));
-    QStringList lExtensions = sExtensions.split(" ");
-    CLineEdit* path = new CLineEdit(lExtensions, this);
+//    QString sExtensions = a_sExtensions;
+//    sExtensions = sExtensions.remove(QRegExp("[().,*]"));
+//    QStringList lExtensions = sExtensions.split(" ");
+//    CLineEdit* path = new CLineEdit(lExtensions, this);
+    CLineEdit* path = new CLineEdit(a_eType, this);
+
     path->setPlaceholderText("id non définie");
     path->setText(QString(a_sFirstValue));
     path->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Preferred);

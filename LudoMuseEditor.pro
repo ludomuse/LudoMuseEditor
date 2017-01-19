@@ -51,7 +51,10 @@ SOURCES += main.cpp\
     LudoMuse_src/Classes/Engine/Source/CTransitionVisitor.cpp \
     LudoMuse_src/Classes/Engine/Source/CValidateSceneVisitor.cpp \
     LudoMuse_src/Classes/Engine/Source/CValidator.cpp \
+    LudoMuse_src/Classes/Engine/Source/CMacroManager.cpp \
     LudoMuse_src/Classes/Engine/Source/CVisitor.cpp \
+    LudoMuse_src/Classes/Engine/Source/CVideoNode.cpp \
+    LudoMuse_src/Classes/Engine/Source/CScratchNode.cpp \
     LudoMuse_src/Classes/Modules/Util/Source/CStats.cpp \
     LudoMuse_src/Classes/Modules/Util/Source/Util.cpp \
     LudoMuse_src/Classes/HelloWorldScene.cpp \
@@ -87,7 +90,9 @@ SOURCES += main.cpp\
     CPathWidget.cpp \
     CColorButton.cpp \
     CExplorerView.cpp \
-    CSettingsWidget.cpp
+    CSettingsWidget.cpp \
+    CMacroWidget.cpp \
+    ETypes.cpp
 
 HEADERS  += CMainWindow.h \
     LudoMuse_src/Classes/Engine/Include/CCallback.h \
@@ -123,6 +128,9 @@ HEADERS  += CMainWindow.h \
     LudoMuse_src/Classes/Engine/Include/CValidateSceneVisitor.h \
     LudoMuse_src/Classes/Engine/Include/CValidator.h \
     LudoMuse_src/Classes/Engine/Include/CVisitor.h \
+    LudoMuse_src/Classes/Engine/Include/CMacroManager.h \
+    LudoMuse_src/Classes/Engine/Include/CScratchNode.h \
+    LudoMuse_src/Classes/Engine/Include/CVideoNode.h \
     LudoMuse_src/Classes/Engine/Include/SUser.h \
     LudoMuse_src/Classes/Modules/Util/Include/CStats.h \
     LudoMuse_src/Classes/Modules/Util/Include/Desc.h \
@@ -162,7 +170,9 @@ HEADERS  += CMainWindow.h \
     CPathWidget.h \
     CColorButton.h \
     CExplorerView.h \
-    CSettingsWidget.h
+    CSettingsWidget.h \
+    CMacroWidget.h \
+    ETypes.h
 
 FORMS    += cmainwindow.ui \
     CLoaderWidget.ui \

@@ -82,7 +82,7 @@ CLabelInspector::CLabelInspector(LM::CLabelNode* a_pLabel, QWidget *parent):
     QHBoxLayout* hLayoutPath= new QHBoxLayout();
     QLabel* pathTitle = new QLabel("Police :");
     pathTitle->setStyleSheet("QLabel{color : white;}");
-    CPathWidget* pathWidget = new CPathWidget(QString::fromStdString(m_sSavedFont), QString("(*.ttf)"), this);
+    CPathWidget* pathWidget = new CPathWidget(QString::fromStdString(m_sSavedFont), ETypes::Font, this);
 //    pathWidget->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Minimum);
     hLayoutPath->addWidget(pathTitle);
     hLayoutPath->addWidget(pathWidget);

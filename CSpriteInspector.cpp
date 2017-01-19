@@ -30,6 +30,7 @@
 #include "CProjectManager.h"
 #include "CSoundInspector.h"
 #include "CAnchorWidget.h"
+#include "ETypes.h"
 
 CSpriteInspector::CSpriteInspector(QWidget *parent):
     QWidget(parent)
@@ -89,7 +90,7 @@ CSpriteInspector::CSpriteInspector(LM::CSpriteNode* a_pSprite, QWidget *parent):
 //    hLayoutPath->addWidget(pathFileDialogButton);
     QLabel* pathTitle = new QLabel("Chemin :");
     pathTitle->setStyleSheet("QLabel{color : white;}");
-    CPathWidget* pathWidget = new CPathWidget(QString::fromStdString(m_sSavedPath), QString("(*.jpeg, *.jpg, *.png)"), this);
+    CPathWidget* pathWidget = new CPathWidget(QString::fromStdString(m_sSavedPath), ETypes::Image, this);
 //    pathWidget->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Minimum);
     hLayoutPath->addWidget(pathTitle);
     hLayoutPath->addWidget(pathWidget);
