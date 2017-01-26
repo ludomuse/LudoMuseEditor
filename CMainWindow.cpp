@@ -355,7 +355,17 @@ void CMainWindow::launchEmulator()
     QString jsonPath = CProjectManager::Instance()->QGetProjectPath()+"temp.json";
     produceJson(jsonPath);
     //    QString cmd = execPath + " server " + CProjectManager::Instance()->QGetProjectJsonFile();
-    QString cmd = execPath + " server " + jsonPath;
+    //QString cmd = execPath + " server " + jsonPath;
+    m_oProcessServer.setProgram(execPath);
+    QStringList oArgsServer;
+    oArgsServer << "server" << jsonPath;
+    m_oProcessServer.setArguments(oArgsServer);
+
+    m_oProcessClient.setProgram(execPath);
+    QStringList oArgsClient;
+    oArgsClient << "client" << jsonPath;
+    m_oProcessClient.setArguments(oArgsClient);
+
 
     QString sLogServer = CProjectManager::Instance()->QGetAbsoluteWritablePath() + "/server.log";
     QString sLogClient = CProjectManager::Instance()->QGetAbsoluteWritablePath() + "/client.log";
@@ -365,11 +375,11 @@ void CMainWindow::launchEmulator()
     m_oProcessClient.setStandardOutputFile(sLogClient);
     m_oProcessClient.setStandardErrorFile(sLogClient);
 
-    m_oProcessServer.start(cmd);
+    m_oProcessServer.start();
     QThread::sleep(2);
     //    cmd = execPath + " client " + CProjectManager::Instance()->QGetProjectJsonFile();
-    cmd = execPath + " client " + jsonPath;
-    m_oProcessClient.start(cmd);
+//    cmd = execPath + " client " + jsonPath;
+    m_oProcessClient.start();
 }
 
 void CMainWindow::saveAs()

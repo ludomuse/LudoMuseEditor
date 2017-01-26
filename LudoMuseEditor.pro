@@ -90,7 +90,6 @@ SOURCES += main.cpp\
     CPathWidget.cpp \
     CColorButton.cpp \
     CExplorerView.cpp \
-    CSettingsWidget.cpp \
     CMacroWidget.cpp \
     ETypes.cpp
 
@@ -170,7 +169,6 @@ HEADERS  += CMainWindow.h \
     CPathWidget.h \
     CColorButton.h \
     CExplorerView.h \
-    CSettingsWidget.h \
     CMacroWidget.h \
     ETypes.h
 
