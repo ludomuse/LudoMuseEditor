@@ -35,7 +35,7 @@
 
 // Include custom classes
 #include "CMainWindow.h"
-#include "ui_cmainwindow.h"
+#include "ui_CMainWindow.h"
 #include "CEditorKernel.h"
 #include "CThreadCocos.h"
 #include "CThumbnailWidget.h"
