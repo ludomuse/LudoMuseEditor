@@ -107,7 +107,7 @@
              <x>0</x>
              <y>0</y>
              <width>363</width>
-             <height>365</height>
+             <height>363</height>
             </rect>
            </property>
           </widget>
@@ -1783,7 +1783,7 @@
   <customwidget>
    <class>CMacroWidget</class>
    <extends>QWidget</extends>
-   <header>cmacrowidget.h</header>
+   <header>CMacroWidget.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>

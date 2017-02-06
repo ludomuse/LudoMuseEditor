@@ -172,11 +172,12 @@ HEADERS  += CMainWindow.h \
     CMacroWidget.h \
     ETypes.h
 
-FORMS    += cmainwindow.ui \
+FORMS    += \
     CLoaderWidget.ui \
     CNewProjectWizard.ui \
     CLoadProjectWizard.ui \
-    CMenuNodeInspector.ui
+    CMenuNodeInspector.ui \
+    CMainWindow.ui
 
 INCLUDEPATH += "./LudoMuse_src" \
                 $${COCOS_PATH}/cocos \
