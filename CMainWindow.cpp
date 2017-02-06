@@ -80,6 +80,9 @@ CMainWindow::CMainWindow(QWidget *parent) :
 {
     ui->setupUi(this);
 
+    setWindowIcon(QIcon(CProjectManager::Instance()->QGetInstallPath().append("/resources/icon.png")));
+    setWindowTitle("LudoMuse Editor");
+
     // Init with loader widget
     ui->mmBotView->setVisible(false);
     ui->toolBarCocos->setVisible(false);
