@@ -192,6 +192,8 @@ INCLUDEPATH += "./LudoMuse_src" \
 
 win32 {
 
+RC_ICONS = ludomuse.ico
+
 SOURCES +=     LudoMuse_src/Classes/Modules/Networking/win/Source/CNetworkManager.cpp \
 
 
