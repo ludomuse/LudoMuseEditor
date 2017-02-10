@@ -107,7 +107,7 @@
              <x>0</x>
              <y>0</y>
              <width>363</width>
-             <height>363</height>
+             <height>365</height>
             </rect>
            </property>
           </widget>
@@ -1201,6 +1201,29 @@
                </spacer>
               </item>
               <item>
+               <widget class="Line" name="line_3">
+                <property name="orientation">
+                 <enum>Qt::Vertical</enum>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QPushButton" name="dashboardButton">
+                <property name="autoFillBackground">
+                 <bool>false</bool>
+                </property>
+                <property name="styleSheet">
+                 <string notr="true">#dashboardButton {color: rgb(255, 255, 255);	background-color: rgb(50, 50, 50);}</string>
+                </property>
+                <property name="text">
+                 <string>Dashboard</string>
+                </property>
+                <property name="flat">
+                 <bool>true</bool>
+                </property>
+               </widget>
+              </item>
+              <item>
                <widget class="Line" name="line_4">
                 <property name="lineWidth">
                  <number>1</number>
@@ -1268,6 +1291,26 @@
                 <property name="styleSheet">
                  <string notr="true"/>
                 </property>
+                <property name="orientation">
+                 <enum>Qt::Vertical</enum>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QPushButton" name="waitingScreenButton">
+                <property name="styleSheet">
+                 <string notr="true">#waitingScreenButton {color: rgb(255, 255, 255);	background-color: rgb(50, 50, 50);}</string>
+                </property>
+                <property name="text">
+                 <string>Ecran d'attente</string>
+                </property>
+                <property name="flat">
+                 <bool>true</bool>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="Line" name="line_7">
                 <property name="orientation">
                  <enum>Qt::Vertical</enum>
                 </property>

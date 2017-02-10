@@ -82,6 +82,8 @@ private slots:
     void clearSceneInspector();
     void goToNextScene();
     void goToPreviousScene();
+    void goToDashBoard();
+    void goToWaitingScreen();
     void changeScene();
     void launchEmulator();
     // slot for adding new template

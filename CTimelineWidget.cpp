@@ -406,6 +406,11 @@ void CTimelineWidget::SelectThumbnail(const QString& a_sSceneID) {
     }
 }
 
+void CTimelineWidget::UnselectThumbnails()
+{
+    DeactivateThumbnails();
+}
+
 void CTimelineWidget::SelectNextThumbnail()
 {
     DeactivateThumbnails();
@@ -449,12 +454,12 @@ void CTimelineWidget::SelectNextThumbnail()
     default:
         break;
     }
-    if (iNextIndex2 >= 0 || m_iActivePlayer != CMainWindow::PLAYER_2)
+    if (iNextIndex2 >= 0/* || m_iActivePlayer != CMainWindow::PLAYER_2*/)
     {
         m_iCurrentIndex2 = iNextIndex2;
 //        m_iActivePlayer = m_pThumbnailList->at(iNextIndex2)->GetPlayerID();
     }
-    if (iNextIndex1 >= 0 || m_iActivePlayer != CMainWindow::PLAYER_1)
+    if (iNextIndex1 >= 0/* || m_iActivePlayer != CMainWindow::PLAYER_1*/)
     {
         m_iCurrentIndex1 = iNextIndex1;
 //        m_iActivePlayer = m_pThumbnailList->at(iNextIndex1)->GetPlayerID();
@@ -506,12 +511,12 @@ void CTimelineWidget::SelectPrevThumbnail()
     default:
         break;
     }
-    if (iPrevIndex2 >= 0 || m_iActivePlayer != CMainWindow::PLAYER_2)
+    if (iPrevIndex2 >= 0/* || m_iActivePlayer != CMainWindow::PLAYER_2*/)
     {
         m_iCurrentIndex2 = iPrevIndex2;
 //        m_iActivePlayer = m_pThumbnailList->at(iPrevIndex2)->GetPlayerID();
     }
-    if (iPrevIndex1 >= 0 || m_iActivePlayer != CMainWindow::PLAYER_1)
+    if (iPrevIndex1 >= 0/* || m_iActivePlayer != CMainWindow::PLAYER_1*/)
     {
         m_iCurrentIndex1 = iPrevIndex1;
 //        m_iActivePlayer = m_pThumbnailList->at(iPrevIndex1)->GetPlayerID();
@@ -599,7 +604,7 @@ void CTimelineWidget::LoadPreviews()
 void CTimelineWidget::LoadPreview(const QString& a_sSceneID)
 {
     int iIndex = FindThumbnailIndex(a_sSceneID);
-    if (iIndex != -1) {
+    if (iIndex >= 0) {
         m_pLoader->RemoveThumbnail(m_pThumbnailList->at(iIndex));
         m_pLoader->AddThumbnail(m_pThumbnailList->at(iIndex));
     }

@@ -23,6 +23,7 @@ public:
     //    void RemoveScene(a_sSceneID);
     void SelectThumbnail(CThumbnailWidget* a_pThumbnail);
     void SelectThumbnail(const QString& a_sSceneID);
+    void UnselectThumbnails();
     void SelectNextThumbnail();
     void SelectPrevThumbnail();
     void DeactivateThumbnails();

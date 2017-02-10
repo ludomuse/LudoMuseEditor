@@ -19,6 +19,15 @@
 						"normal": "res_templ/ui/nav-5.png",
 						"selected": "res_templ/ui/nav-5-active.png",
 						"action": "next",
+						"listeners": [
+              {
+                "type": "Validate",
+                "params": {
+                  "callback": "Show",
+                  "arg": true
+                }
+              }
+            ],
 						"children": [
 							{
 								"type": "Text",
@@ -27,32 +36,6 @@
 									"source": "res_templ/fonts/Open_Sans/OpenSans-Regular.ttf",
 									"fontSize": 20,
 									"textAlign": "right",
-									"width": 80,
-									"height": 100,
-									"anchor": 0,
-									"color": ""
-								}
-							}
-						]
-					}
-				},
-				{
-					"type": "Nav",
-					"params": {
-						"width": 0,
-						"height": 13,
-						"anchor": 7,
-						"normal": "res_templ/ui/nav-7.png",
-						"selected": "res_templ/ui/nav-7-active.png",
-						"action": "prev",
-						"children": [
-							{
-								"type": "Text",
-								"params": {
-									"content": "PRÉCÉDENT",
-									"source": "res_templ/fonts/Open_Sans/OpenSans-Regular.ttf",
-									"fontSize": 20,
-									"textAlign": "left",
 									"width": 80,
 									"height": 100,
 									"anchor": 0,
@@ -73,7 +56,16 @@
 						"width": 0,
 						"height": 73,
 						"x": 0,
-						"y": 0
+						"y": 0,
+						"listeners": [
+              {
+							  "type": "Display",
+						  	"params": {
+				          "callback": "ValidateScene",
+                  "arg": true
+								}
+							}
+						]
 					}
 				}
 			],
@@ -116,6 +108,15 @@
 						"normal": "res_templ/ui/nav-5.png",
 						"selected": "res_templ/ui/nav-5-active.png",
 						"action": "next",
+						"listeners": [
+              {
+                "type": "Validate",
+                "params": {
+                  "callback": "Show",
+                  "arg": true
+                }
+              }
+            ],
 						"children": [
 							{
 								"type": "Text",
@@ -128,32 +129,6 @@
 										"height": 100,
 										"anchor": 0,
 										"color": ""
-								}
-							}
-						]
-					}
-				},
-				{
-					"type": "Nav",
-					"params": {
-						"width": 0,
-						"height": 13,
-						"anchor": 7,
-						"normal": "res_templ/ui/nav-7.png",
-						"selected": "res_templ/ui/nav-7-active.png",
-						"action": "prev",
-						"children": [
-							{
-								"type": "Text",
-								"params": {
-									"content": "PRÉCÉDENT",
-									"source": "res_templ/fonts/Open_Sans/OpenSans-Regular.ttf",
-									"fontSize": 20,
-									"textAlign": "left",
-									"width": 80,
-									"height": 100,
-									"anchor": 0,
-									"color": ""
 								}
 							}
 						]

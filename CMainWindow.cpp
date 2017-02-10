@@ -112,6 +112,9 @@ CMainWindow::CMainWindow(QWidget *parent) :
     // Connect Tool bar
     connect(ui->prevScreenButton, SIGNAL(clicked(bool)), this, SLOT(goToPreviousScene()));
     connect(ui->nextScreenButton, SIGNAL(clicked(bool)), this, SLOT(goToNextScene()));
+    connect(ui->dashboardButton, SIGNAL(clicked(bool)), this, SLOT(goToDashBoard()));
+    connect(ui->waitingScreenButton, SIGNAL(clicked(bool)), this, SLOT(goToWaitingScreen()));
+
     connect(ui->emulateButton, SIGNAL(clicked(bool)), this, SLOT(launchEmulator()));
     connect(ui->JsonGo, SIGNAL(clicked(bool)), this, SLOT(saveAs()));
     connect(ui->save, SIGNAL(clicked(bool)), this, SLOT(save()));
@@ -290,6 +293,19 @@ void CMainWindow::goToPreviousScene()
     ShowCurrentScene();
 }
 
+void CMainWindow::goToDashBoard()
+{
+    clearInspectorContainer();
+    m_pTimeline->UnselectThumbnails();
+    ON_CC_THREAD(LM::CKernel::GotoDashboard, this->m_pKernel);
+}
+
+void CMainWindow::goToWaitingScreen()
+{
+    clearInspectorContainer();
+    m_pTimeline->UnselectThumbnails();
+    ON_CC_THREAD(LM::CKernel::GotoWaitingScene, this->m_pKernel);
+}
 
 void CMainWindow::addOneScene(const QString &a_sPreviousID, const QString &a_sNewID, int a_iPlayerID, CTemplate* a_pTemplate)
 {
