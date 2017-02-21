@@ -32,6 +32,7 @@ CLabelInspector::CLabelInspector(LM::CLabelNode* a_pLabel, QWidget *parent):
     m_pLabel(a_pLabel),
     m_pTextEdit(Q_NULLPTR),
 
+    m_sSavedID(a_pLabel->GetID()),
     m_sSavedText(a_pLabel->GetText()),
     m_iSavedHeight(a_pLabel->GetHeight()),
     m_iSavedWidth(a_pLabel->GetWidth()),
@@ -194,6 +195,7 @@ CLabelInspector::CLabelInspector(LM::CLabelNode* a_pLabel, QWidget *parent):
     connect(backButton, SIGNAL(clicked(bool)), this, SLOT(discardChanges()));
     connect(okButton, SIGNAL(clicked(bool)), this, SLOT(validateChanges()));
 
+    connect(id, SIGNAL(textChanged(QString)), this, SLOT(changeID(QString)));
     connect(anchorWidget, SIGNAL(anchorChanged(int)), this, SLOT(changeAnchor(int)));
     connect(pathWidget, SIGNAL(pathChanged(QString)), this, SLOT(changePath(QString)));
     connect(fontSizeWidget, SIGNAL(valueChanged(int)), this, SLOT(changeFontSize(int)));
@@ -207,8 +209,14 @@ CLabelInspector::CLabelInspector(LM::CLabelNode* a_pLabel, QWidget *parent):
 
 }
 
+void CLabelInspector::changeID(const QString &a_sID)
+{
+    this->m_pLabel->SetID(a_sID.toStdString());
+}
+
 void CLabelInspector::validateChanges()
 {
+    m_sSavedID = m_pLabel->GetID();
     m_sSavedText = m_pLabel->GetText();
     m_iSavedHeight = m_pLabel->GetHeight();
     m_iSavedWidth = m_pLabel->GetWidth();
@@ -292,6 +300,7 @@ void CLabelInspector::widthTextChange(const QString& a_rText)
 void CLabelInspector::closeEvent (QCloseEvent *event)
 {
 //    ON_CC_THREAD(LM::CLabelNode::SetText, this->m_pLabel, m_sSavedText);
+    m_pLabel->SetID(m_sSavedID);
     m_pLabel->SetText(m_sSavedText);
     m_pLabel->SetWidth(m_iSavedWidth);
     m_pLabel->SetHeight(m_iSavedHeight);

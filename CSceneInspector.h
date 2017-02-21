@@ -23,6 +23,7 @@ public slots:
     void switchP2(bool a_bState);
     void clickOnDelete();
     void clickOnAdd();
+    void changeRewardID(const QString& a_sRewardID);
 
 private:
     LM::CSceneNode* m_pScene;

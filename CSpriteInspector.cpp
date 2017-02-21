@@ -43,7 +43,7 @@ CSpriteInspector::CSpriteInspector(LM::CSpriteNode* a_pSprite, QWidget *parent):
     QWidget(parent),
     m_pSprite(a_pSprite),
 //    m_pPath(Q_NULLPTR),
-
+    m_sSavedID(a_pSprite->GetID()),
     m_sSavedPath(a_pSprite->GetPath()),
     m_iSavedHeight(a_pSprite->GetHeight()),
     m_iSavedWidth(a_pSprite->GetWidth()),
@@ -57,7 +57,7 @@ CSpriteInspector::CSpriteInspector(LM::CSpriteNode* a_pSprite, QWidget *parent):
     QHBoxLayout* hLayoutId= new QHBoxLayout();
     QLineEdit* id = new QLineEdit(this);
     id->setPlaceholderText("id non définie");
-    id->setText(QString(this->m_pSprite->GetID().c_str()));
+    id->setText(QString::fromStdString(m_sSavedID));
     id->setAlignment(Qt::AlignLeft);
     QLabel* idTitle = new QLabel("ID :");
     idTitle->setStyleSheet("QLabel{color : white;}");
@@ -213,6 +213,7 @@ CSpriteInspector::CSpriteInspector(LM::CSpriteNode* a_pSprite, QWidget *parent):
     this->setPalette(pal);
 
 //    this->m_pPath = path;
+    connect(id, SIGNAL(textChanged(QString)), this, SLOT(changeID(QString)));
 
     connect(pathWidget, SIGNAL(pathChanged(QString)), this, SLOT(changePath(QString)));
 //    connect(pathFileDialogButton, SIGNAL(clicked(bool)), this, SLOT(openPathFileDialog()));
@@ -236,6 +237,11 @@ CSpriteInspector::CSpriteInspector(LM::CSpriteNode* a_pSprite, QWidget *parent):
 }
 
 // SIGNALS ***********************************************
+
+void CSpriteInspector::changeID(const QString &a_sID)
+{
+    this->m_pSprite->SetID(a_sID.toStdString());
+}
 
 void CSpriteInspector::changePath(const QString& a_sPath)
 {
@@ -270,6 +276,7 @@ void CSpriteInspector::changePath(const QString& a_sPath)
 
 void CSpriteInspector::validateChanges()
 {
+    m_sSavedID = m_pSprite->GetID();
     m_sSavedPath = m_pSprite->GetPath();
     m_iSavedHeight = m_pSprite->GetHeight();
     m_iSavedWidth = m_pSprite->GetWidth();
@@ -435,6 +442,7 @@ void CSpriteInspector::checkWidth(bool a_rState)
 
 void CSpriteInspector::closeEvent (QCloseEvent *event)
 {
+    m_pSprite->SetID(m_sSavedID);
     m_pSprite->SetPath(m_sSavedPath);
     m_pSprite->SetWidth(m_iSavedWidth);
     m_pSprite->SetHeight(m_iSavedHeight);

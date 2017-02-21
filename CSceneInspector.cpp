@@ -4,6 +4,7 @@
 #include <QHBoxLayout>
 #include <QLabel>
 #include <QPushButton>
+#include <QLineEdit>
 
 #include <QDebug>
 
@@ -15,29 +16,32 @@ CSceneInspector::CSceneInspector(LM::CSceneNode* a_pScene, int a_iPlayerID, QWid
     QWidget* buttonColWidget = new QWidget(this);
 
     QWidget* firstRow = new QWidget(this);
-    firstRow->setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Minimum);
+    firstRow->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Minimum);
     firstRow->setMinimumHeight(50);
     QWidget* secondRow = new QWidget(this);
-    secondRow->setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Maximum);
+    secondRow->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Minimum);
     secondRow->setMinimumHeight(50);
 
     QHBoxLayout* hFirstRowLayout = new QHBoxLayout(this);
     QHBoxLayout* hSecondRowLayout = new QHBoxLayout(this);
+
+    firstRow->setLayout(hFirstRowLayout);
+    secondRow->setLayout(hSecondRowLayout);
 
     // Fill firstRow with id and player id
     QString sID = "id : ";
     sID.append(m_pScene->GetSceneID().c_str());
     QLabel* id = new QLabel(sID);
     id->setStyleSheet("QLabel{ color : white;}");
-    hFirstRowLayout->addWidget(id);
+    hFirstRowLayout->addWidget(id, Qt::AlignLeft);
     QWidget* playerCheckBox = new QWidget(this);
     QHBoxLayout* hPlayerLayout = new QHBoxLayout(this);
     QCheckBox* player1CheckBox = new QCheckBox("Joueur 1");
     player1CheckBox->setStyleSheet("QCheckBox{ color : white;}");
     QCheckBox* player2CheckBox = new QCheckBox("Joueur 2");
     player2CheckBox->setStyleSheet("QCheckBox{ color : white;}");
-    hPlayerLayout->addWidget(player1CheckBox);
-    hPlayerLayout->addWidget(player2CheckBox);
+    hPlayerLayout->addWidget(player1CheckBox, Qt::AlignRight);
+    hPlayerLayout->addWidget(player2CheckBox, Qt::AlignRight);
     // initialise check box
     if(a_iPlayerID == 1)
     {
@@ -56,7 +60,7 @@ CSceneInspector::CSceneInspector(LM::CSceneNode* a_pScene, int a_iPlayerID, QWid
     }
 
     playerCheckBox->setLayout(hPlayerLayout);
-    hFirstRowLayout->addWidget(playerCheckBox);
+    hFirstRowLayout->addWidget(playerCheckBox, Qt::AlignLeft);
 
     // Fill second row with synchro and dash
     QCheckBox* isDashCB = new QCheckBox("déclenche le dashboard", this);
@@ -68,13 +72,27 @@ CSceneInspector::CSceneInspector(LM::CSceneNode* a_pScene, int a_iPlayerID, QWid
     }
     hSecondRowLayout->addWidget(isDashCB);
 
-    firstRow->setLayout(hFirstRowLayout);
-    secondRow->setLayout(hSecondRowLayout);
+    QCheckBox* enableReward = new QCheckBox("active une récompense", this);
+    enableReward->setStyleSheet("QCheckBox{color : white}");
 
+    if(m_pScene->GetRewardID() != "")
+    {
+        enableReward->setChecked(true);
+    }
+
+    QLineEdit* rewardID = new QLineEdit(QString::fromStdString(m_pScene->GetRewardID()), this);
+    rewardID->setPlaceholderText(tr("ID récompense"));
+    rewardID->setVisible(enableReward->isChecked());
+
+    hSecondRowLayout->addWidget(isDashCB, Qt::AlignLeft);
+    hSecondRowLayout->addWidget(enableReward, Qt::AlignLeft);
+    hSecondRowLayout->addWidget(rewardID, Qt::AlignLeft);
+    connect(enableReward, SIGNAL(toggled(bool)), rewardID, SLOT(setVisible(bool)));
+    connect(enableReward, SIGNAL(toggled(bool)), rewardID, SLOT(clear()));
 
     QVBoxLayout* vOptionLayout = new QVBoxLayout(this);
-    vOptionLayout->addWidget(firstRow);
-    vOptionLayout->addWidget(secondRow);
+    vOptionLayout->addWidget(firstRow, Qt::AlignLeft);
+    vOptionLayout->addWidget(secondRow, Qt::AlignLeft);
     optionColWidget->setLayout(vOptionLayout);
 
     // Create button layout
@@ -109,12 +127,14 @@ CSceneInspector::CSceneInspector(LM::CSceneNode* a_pScene, int a_iPlayerID, QWid
     vButtonLayout->addWidget(deleteSceneButtonWidget);
     vButtonLayout->addWidget(addSceneButtonWidget);
     buttonColWidget->setLayout(vButtonLayout);
-    buttonColWidget->setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Minimum);
+    buttonColWidget->setSizePolicy(QSizePolicy::Maximum, QSizePolicy::Minimum);
     buttonColWidget->setMaximumWidth(150);
     QHBoxLayout* hSceneInspectorLayout = new QHBoxLayout(this);
-    hSceneInspectorLayout->addWidget(optionColWidget);
-    hSceneInspectorLayout->addWidget(buttonColWidget);
+    hSceneInspectorLayout->addWidget(optionColWidget, Qt::AlignLeft);
+    hSceneInspectorLayout->addWidget(buttonColWidget, Qt::AlignRight);
     this->setLayout(hSceneInspectorLayout);
+
+
 
     // Connect all checkbox
     connect(isDashCB, SIGNAL(clicked(bool)), this, SLOT(switchDash(bool)));
@@ -128,6 +148,8 @@ CSceneInspector::CSceneInspector(LM::CSceneNode* a_pScene, int a_iPlayerID, QWid
     player2CheckBox->setEnabled(false);
     connect(player1CheckBox, SIGNAL(clicked(bool)), this, SLOT(switchP1(bool)));
     connect(player2CheckBox, SIGNAL(clicked(bool)), this, SLOT(switchP2(bool)));
+
+    connect(rewardID, SIGNAL(textChanged(QString)), this, SLOT(changeRewardID(QString)));
 }
 
 
@@ -135,6 +157,11 @@ CSceneInspector::CSceneInspector(LM::CSceneNode* a_pScene, int a_iPlayerID, QWid
 void CSceneInspector::switchDash(bool a_bState)
 {
     this->m_pScene->m_bDashboardTrigger = a_bState;
+}
+
+void CSceneInspector::changeRewardID(const QString &a_sRewardID)
+{
+    this->m_pScene->SetRewardID(a_sRewardID.toStdString());
 }
 
 void CSceneInspector::switchP1(bool a_bState)

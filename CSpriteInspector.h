@@ -26,6 +26,7 @@ signals:
 
 public slots:
 //    void closeInspectorSlot();
+    void changeID(const QString&);
     void changePath(const QString&);
     void changeAnchor(int a_iAnchorID);
 //    void validatePath();
@@ -56,6 +57,7 @@ private:
     QRadioButton* m_pWidthRadioButton;
     QRadioButton* m_pHeightRadioButton;
 
+    std::string m_sSavedID;
     std::string m_sSavedPath;
     int m_iSavedWidth;
     int m_iSavedHeight;

@@ -21,6 +21,7 @@ signals:
     void modifyLabel(LM::CEntityNode* a_pLabel);
 
 public slots:
+    void changeID(const QString&);
     void changeText();
     void changeAnchor(int a_iAnchorID);
     void changePath(const QString& a_sPath);
@@ -41,6 +42,7 @@ private:
     QLineEdit* m_pWidthValue;
     QLineEdit* m_pHeightValue;
 
+    std::string m_sSavedID;
     std::string m_sSavedText;
     int m_iSavedHeight;
     int m_iSavedWidth;
