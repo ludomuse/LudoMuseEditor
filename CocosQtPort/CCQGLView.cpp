@@ -1,4 +1,4 @@
-#include "CCQGLWidget.h"
+﻿#include "CCQGLWidget.h"
 #include "CCQGLView.h"
 
 #include <QDesktopWidget>
@@ -147,7 +147,7 @@ void CCQGLView::resize()
     if (_window != nullptr)
     {
         float ratio = (float)(_window->baseSize().width()) / (float)(_window->baseSize().height());
-        setFrameSize(_window->size().height() * ratio, _window->size().height());
+        setFrameSize(_window->size().height() * ratio * _window->devicePixelRatio(), _window->size().height() * _window->devicePixelRatio());
         //        float height = std::fmin((float)_window->size().height(), (float)_window->size().width() / ratio);
         //        setFrameSize(height * ratio, height);
     }

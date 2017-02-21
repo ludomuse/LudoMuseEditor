@@ -1,4 +1,4 @@
-#include "CCQGLWidget.h"
+﻿#include "CCQGLWidget.h"
 #include "CCQGLView.h"
 
 NS_CC_BEGIN
@@ -119,9 +119,9 @@ void CCQGLWidget::resizeEvent(QResizeEvent *event)
         }
         if (parentWidget())
         {
-            setGeometry((parentWidget()->size().width()-m_iOldWidth)/2,
-                        (parentWidget()->size().height()-m_iOldHeight)/2,
-                        m_iOldWidth, m_iOldHeight);
+            setGeometry((parentWidget()->size().width() - m_iOldWidth) * parentWidget()->devicePixelRatio() /2,
+                        (parentWidget()->size().height() - m_iOldHeight) * parentWidget()->devicePixelRatio() /2,
+                        m_iOldWidth * parentWidget()->devicePixelRatio() , m_iOldHeight * parentWidget()->devicePixelRatio() );
         }
         else
         {
