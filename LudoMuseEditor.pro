@@ -91,7 +91,10 @@ SOURCES += main.cpp\
     CColorButton.cpp \
     CExplorerView.cpp \
     CMacroWidget.cpp \
-    ETypes.cpp
+    ETypes.cpp \
+    LudoMuse_src/Classes/Engine/Source/CFindTeamNodeIDVisitor.cpp \
+    LudoMuse_src/Classes/Engine/Source/CFindTeamNodeVisitor.cpp \
+    LudoMuse_src/Classes/Engine/Source/CTeamNode.cpp
 
 HEADERS  += CMainWindow.h \
     LudoMuse_src/Classes/Engine/Include/CCallback.h \
@@ -170,7 +173,10 @@ HEADERS  += CMainWindow.h \
     CColorButton.h \
     CExplorerView.h \
     CMacroWidget.h \
-    ETypes.h
+    ETypes.h \
+    LudoMuse_src/Classes/Engine/Include/CFindTeamNodeIDVisitor.h \
+    LudoMuse_src/Classes/Engine/Include/CFindTeamNodeVisitor.h \
+    LudoMuse_src/Classes/Engine/Include/CTeamNode.h
 
 FORMS    += \
     CLoaderWidget.ui \
