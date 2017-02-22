@@ -21,7 +21,7 @@
 							{
 								"type": "Text",
 								"params": {
-									"content": "JOUER",
+									"content": "SUIVANT",
 									"source": "res_templ/fonts/Open_Sans/OpenSans-Bold.ttf",
 									"fontSize": 20,
 									"textAlign": "right",
