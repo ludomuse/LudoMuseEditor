@@ -24,6 +24,8 @@ public slots:
     void clickOnDelete();
     void clickOnAdd();
     void changeRewardID(const QString& a_sRewardID);
+    void changeInitSound(const QString& a_sInitSound);
+    void changeValidSound(const QString& a_sValidSound);
 
 private:
     LM::CSceneNode* m_pScene;

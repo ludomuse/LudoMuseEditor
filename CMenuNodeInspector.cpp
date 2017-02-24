@@ -57,20 +57,22 @@ CMenuNodeInspector::~CMenuNodeInspector()
 
 void CMenuNodeInspector::validateChanges()
 {
-    m_sSavedText = m_pMenuNode->GetText();
-    if(m_pMenuNode->GetAction() == "next")
-    {
-        m_bSavedNav = true;
-    }
-    else
-    {
-        m_bSavedNav = false;
-    }
+//    m_sSavedText = m_pMenuNode->GetText();
+//    if(m_pMenuNode->GetAction() == "next")
+//    {
+//        m_bSavedNav = true;
+//    }
+//    else
+//    {
+//        m_bSavedNav = false;
+//    }
     emit closeInspector();
 }
 
 void CMenuNodeInspector::discardChanges()
 {
+    ON_CC_THREAD(LM::CMenuNode::SetText, m_pMenuNode, m_sSavedText);
+    m_pMenuNode->SetNavAction(m_bSavedNav);
     emit closeInspector();
 }
 
@@ -97,8 +99,8 @@ void CMenuNodeInspector::textChanged(QString a_sText)
 
 void CMenuNodeInspector::closeEvent (QCloseEvent *event)
 {
-    ON_CC_THREAD(LM::CMenuNode::SetText, m_pMenuNode, m_sSavedText);
-    m_pMenuNode->SetNavAction(m_bSavedNav);
+//    ON_CC_THREAD(LM::CMenuNode::SetText, m_pMenuNode, m_sSavedText);
+//    m_pMenuNode->SetNavAction(m_bSavedNav);
 //    discardChanges();
     QWidget::closeEvent(event);
 }

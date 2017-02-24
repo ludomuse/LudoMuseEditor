@@ -69,9 +69,11 @@ CSoundInspector::CSoundInspector(LM::CEntityNode* a_pNode, QWidget *parent):
 //    path->setAlignment(Qt::AlignLeft);
 //    path->setAttribute(Qt::WA_TranslucentBackground, false);
 
-        CPathWidget* pathWidget = new CPathWidget("", ETypes::Sound, this);
+//        CPathWidget* pathEdit = new CPathWidget("", ETypes::Sound, this);
+        CLineEdit* pathEdit = new CLineEdit(ETypes::Sound, this);
+
         hLayoutPath->addWidget(pathTitle);
-        hLayoutPath->addWidget(pathWidget);
+        hLayoutPath->addWidget(pathEdit);
         QWidget* pathContainer = new QWidget();
         pathContainer->setLayout(hLayoutPath);
         pathContainer->setMaximumHeight(100);
@@ -135,7 +137,7 @@ CSoundInspector::CSoundInspector(LM::CEntityNode* a_pNode, QWidget *parent):
 
     QHBoxLayout* hLayoutButton = new QHBoxLayout();
     QPushButton* okButton = new QPushButton("Ok");
-    QPushButton* backButton = new QPushButton("Retour");
+    QPushButton* backButton = new QPushButton("Annuler");
     hLayoutButton->addWidget(backButton);
     hLayoutButton->addWidget(okButton);
     QWidget* buttonContainer = new QWidget();
@@ -162,9 +164,10 @@ CSoundInspector::CSoundInspector(LM::CEntityNode* a_pNode, QWidget *parent):
     //    this->layout()->addWidget(buttonContainer);
 
     Initialize();
-    pathWidget->SetPath(m_pPath);
+    pathEdit->setText(m_pPath);
     // Connect path file dialog
-    connect(pathWidget, SIGNAL(pathChanged(QString)), this, SLOT(changePath(QString)));
+//    connect(lineEdit, SIGNAL(pathChanged(QString)), this, SLOT(changePath(QString)));
+    connect(pathEdit, SIGNAL(textChanged(QString)), this, SLOT(changePath(QString)));
 //    connect(pathFileDialogButton, SIGNAL(clicked(bool)), this, SLOT(openPathFileDialog()));
 
     connect(okButton, SIGNAL(clicked(bool)), this, SLOT(validateChanges()));

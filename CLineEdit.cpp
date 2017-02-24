@@ -17,6 +17,7 @@ CLineEdit::CLineEdit(ETypes::Type a_eType, QWidget* a_pParent):
 {
     this->setAcceptDrops(true);
     this->setReadOnly(true);
+    this->setPlaceholderText("Faites glisser une ressource");
     m_eType = a_eType;
     //    m_lExtensionList.push_back("jpg");
     //    m_lExtensionList.push_back("png");

@@ -656,19 +656,19 @@
                  </property>
                  <property name="minimumSize">
                   <size>
-                   <width>0</width>
+                   <width>200</width>
                    <height>0</height>
                   </size>
                  </property>
                  <property name="maximumSize">
                   <size>
-                   <width>240</width>
+                   <width>300</width>
                    <height>16777215</height>
                   </size>
                  </property>
                  <property name="baseSize">
                   <size>
-                   <width>150</width>
+                   <width>300</width>
                    <height>300</height>
                   </size>
                  </property>
@@ -772,7 +772,7 @@
               <item>
                <widget class="QWidget" name="sceneInspectorContainer" native="true">
                 <property name="sizePolicy">
-                 <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+                 <sizepolicy hsizetype="Expanding" vsizetype="Minimum">
                   <horstretch>0</horstretch>
                   <verstretch>0</verstretch>
                  </sizepolicy>
@@ -780,13 +780,13 @@
                 <property name="minimumSize">
                  <size>
                   <width>0</width>
-                  <height>100</height>
+                  <height>120</height>
                  </size>
                 </property>
                 <property name="maximumSize">
                  <size>
                   <width>16777215</width>
-                  <height>100</height>
+                  <height>120</height>
                  </size>
                 </property>
                 <property name="styleSheet">

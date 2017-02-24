@@ -90,10 +90,12 @@ CSpriteInspector::CSpriteInspector(LM::CSpriteNode* a_pSprite, QWidget *parent):
 //    hLayoutPath->addWidget(pathFileDialogButton);
     QLabel* pathTitle = new QLabel("Chemin :");
     pathTitle->setStyleSheet("QLabel{color : white;}");
-    CPathWidget* pathWidget = new CPathWidget(QString::fromStdString(m_sSavedPath), ETypes::Image, this);
+//    CPathWidget* pathEdit = new CPathWidget(QString::fromStdString(m_sSavedPath), ETypes::Image, this);
+    CLineEdit* pathEdit = new CLineEdit(ETypes::Image, this);
+    pathEdit->setText(QString::fromStdString(m_sSavedPath));
 //    pathWidget->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Minimum);
     hLayoutPath->addWidget(pathTitle);
-    hLayoutPath->addWidget(pathWidget);
+    hLayoutPath->addWidget(pathEdit);
     QWidget* pathContainer = new QWidget();
     pathContainer->setLayout(hLayoutPath);
     pathContainer->setMaximumHeight(100);
@@ -186,7 +188,7 @@ CSpriteInspector::CSpriteInspector(LM::CSpriteNode* a_pSprite, QWidget *parent):
 
     QHBoxLayout* hLayoutButton = new QHBoxLayout();
     QPushButton* okButton = new QPushButton("Ok");
-    QPushButton* backButton = new QPushButton("Retour");
+    QPushButton* backButton = new QPushButton("Annuler");
     hLayoutButton->addWidget(backButton);
     hLayoutButton->addWidget(okButton);
     QVBoxLayout* vLayoutButton = new QVBoxLayout();
@@ -215,7 +217,9 @@ CSpriteInspector::CSpriteInspector(LM::CSpriteNode* a_pSprite, QWidget *parent):
 //    this->m_pPath = path;
     connect(id, SIGNAL(textChanged(QString)), this, SLOT(changeID(QString)));
 
-    connect(pathWidget, SIGNAL(pathChanged(QString)), this, SLOT(changePath(QString)));
+//    connect(pathEdit, SIGNAL(pathChanged(QString)), this, SLOT(changePath(QString)));
+    connect(pathEdit, SIGNAL(textChanged(QString)), this, SLOT(changePath(QString)));
+
 //    connect(pathFileDialogButton, SIGNAL(clicked(bool)), this, SLOT(openPathFileDialog()));
 
     connect(anchorWidget, SIGNAL(anchorChanged(int)), this, SLOT(changeAnchor(int)));
@@ -276,17 +280,22 @@ void CSpriteInspector::changePath(const QString& a_sPath)
 
 void CSpriteInspector::validateChanges()
 {
-    m_sSavedID = m_pSprite->GetID();
-    m_sSavedPath = m_pSprite->GetPath();
-    m_iSavedHeight = m_pSprite->GetHeight();
-    m_iSavedWidth = m_pSprite->GetWidth();
-    m_iSavedAnchor = m_pSprite->GetAnchor();
-    emit modifySprite(m_pSprite);
+//    m_sSavedID = m_pSprite->GetID();
+//    m_sSavedPath = m_pSprite->GetPath();
+//    m_iSavedHeight = m_pSprite->GetHeight();
+//    m_iSavedWidth = m_pSprite->GetWidth();
+//    m_iSavedAnchor = m_pSprite->GetAnchor();
+//    emit modifySprite(m_pSprite);
     emit closeInspector();
 }
 
 void CSpriteInspector::discardChanges()
 {
+    m_pSprite->SetID(m_sSavedID);
+    m_pSprite->SetPath(m_sSavedPath);
+    m_pSprite->SetWidth(m_iSavedWidth);
+    m_pSprite->SetHeight(m_iSavedHeight);
+    m_pSprite->ChangeAnchor(m_iSavedAnchor);
     emit closeInspector();
 }
 
@@ -442,12 +451,13 @@ void CSpriteInspector::checkWidth(bool a_rState)
 
 void CSpriteInspector::closeEvent (QCloseEvent *event)
 {
-    m_pSprite->SetID(m_sSavedID);
-    m_pSprite->SetPath(m_sSavedPath);
-    m_pSprite->SetWidth(m_iSavedWidth);
-    m_pSprite->SetHeight(m_iSavedHeight);
-//    ON_CC_THREAD(LM::CSpriteNode::ChangeAnchor, m_pSprite, m_iSavedAnchor);
-    m_pSprite->ChangeAnchor(m_iSavedAnchor);
+    emit modifySprite(m_pSprite);
+//    m_pSprite->SetID(m_sSavedID);
+//    m_pSprite->SetPath(m_sSavedPath);
+//    m_pSprite->SetWidth(m_iSavedWidth);
+//    m_pSprite->SetHeight(m_iSavedHeight);
+////    ON_CC_THREAD(LM::CSpriteNode::ChangeAnchor, m_pSprite, m_iSavedAnchor);
+//    m_pSprite->ChangeAnchor(m_iSavedAnchor);
     QWidget::closeEvent(event);
 }
 

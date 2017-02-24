@@ -19,9 +19,9 @@ private:
     QString m_sExtensions;
 
 private slots:
-    void openPathFileDialog();
-    void newPathSelected(QString a_sPath);
-    void newDirectoryEntered(QString a_sPath);
+//    void openPathFileDialog();
+//    void newPathSelected(QString a_sPath);
+//    void newDirectoryEntered(QString a_sPath);
 
 signals:
     void pathChanged(QString a_sNewPath);

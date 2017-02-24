@@ -274,3 +274,23 @@ void CProjectManager::UpdateLastProject(const QString &a_sNewProject)
         }
     }
 }
+
+std::string CProjectManager::GetRelativePathForFile(std::string &a_sSource)
+{
+    std::string projectPath = CProjectManager::Instance()->GetProjectPath();
+    int index = a_sSource.find(projectPath);
+    if(index != std::string::npos)
+    {
+        a_sSource.erase(index, projectPath.length());
+    }
+    else
+    {
+        std::string templatePath = CProjectManager::Instance()->GetInstallPath() + "/templates/";
+        int index2 = a_sSource.find(templatePath);
+        if(index2 != std::string::npos)
+        {
+            a_sSource.erase(index2, templatePath.length());
+        }
+    }
+    return a_sSource;
+}

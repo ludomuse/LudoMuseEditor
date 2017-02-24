@@ -83,10 +83,12 @@ CLabelInspector::CLabelInspector(LM::CLabelNode* a_pLabel, QWidget *parent):
     QHBoxLayout* hLayoutPath= new QHBoxLayout();
     QLabel* pathTitle = new QLabel("Police :");
     pathTitle->setStyleSheet("QLabel{color : white;}");
-    CPathWidget* pathWidget = new CPathWidget(QString::fromStdString(m_sSavedFont), ETypes::Font, this);
+//    CPathWidget* pathEdit = new CPathWidget(QString::fromStdString(m_sSavedFont), ETypes::Font, this);
+    CLineEdit* pathEdit = new CLineEdit(ETypes::Font, this);
+    pathEdit->setText(QString::fromStdString(m_sSavedFont));
 //    pathWidget->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Minimum);
     hLayoutPath->addWidget(pathTitle);
-    hLayoutPath->addWidget(pathWidget);
+    hLayoutPath->addWidget(pathEdit);
     QWidget* pathContainer = new QWidget();
     pathContainer->setLayout(hLayoutPath);
     pathContainer->setMaximumHeight(100);
@@ -169,7 +171,7 @@ CLabelInspector::CLabelInspector(LM::CLabelNode* a_pLabel, QWidget *parent):
 
     QHBoxLayout* hLayoutButton = new QHBoxLayout();
     QPushButton* okButton = new QPushButton("Ok");
-    QPushButton* backButton = new QPushButton("Retour");
+    QPushButton* backButton = new QPushButton("Annuler");
     hLayoutButton->addWidget(backButton);
     hLayoutButton->addWidget(okButton);
     QWidget* buttonContainer = new QWidget();
@@ -197,7 +199,8 @@ CLabelInspector::CLabelInspector(LM::CLabelNode* a_pLabel, QWidget *parent):
 
     connect(id, SIGNAL(textChanged(QString)), this, SLOT(changeID(QString)));
     connect(anchorWidget, SIGNAL(anchorChanged(int)), this, SLOT(changeAnchor(int)));
-    connect(pathWidget, SIGNAL(pathChanged(QString)), this, SLOT(changePath(QString)));
+//    connect(pathWidget, SIGNAL(pathChanged(QString)), this, SLOT(changePath(QString)));
+    connect(pathEdit, SIGNAL(textChanged(QString)), this, SLOT(changePath(QString)));
     connect(fontSizeWidget, SIGNAL(valueChanged(int)), this, SLOT(changeFontSize(int)));
     connect(colorButton, SIGNAL(colorChanged(QString)), this, SLOT(changeColor(QString)));
 
@@ -216,20 +219,28 @@ void CLabelInspector::changeID(const QString &a_sID)
 
 void CLabelInspector::validateChanges()
 {
-    m_sSavedID = m_pLabel->GetID();
-    m_sSavedText = m_pLabel->GetText();
-    m_iSavedHeight = m_pLabel->GetHeight();
-    m_iSavedWidth = m_pLabel->GetWidth();
-    m_iSavedAnchor = m_pLabel->GetAnchor();
-    m_sSavedFont = m_pLabel->GetFont();
-    m_iSavedFontSize = m_pLabel->GetFontSize();
-    m_sSavedColor = m_pLabel->GetColor();
-    emit modifyLabel(m_pLabel);
+//    m_sSavedID = m_pLabel->GetID();
+//    m_sSavedText = m_pLabel->GetText();
+//    m_iSavedHeight = m_pLabel->GetHeight();
+//    m_iSavedWidth = m_pLabel->GetWidth();
+//    m_iSavedAnchor = m_pLabel->GetAnchor();
+//    m_sSavedFont = m_pLabel->GetFont();
+//    m_iSavedFontSize = m_pLabel->GetFontSize();
+//    m_sSavedColor = m_pLabel->GetColor();
+//    emit modifyLabel(m_pLabel);
     emit closeInspector();
 }
 
 void CLabelInspector::discardChanges()
 {
+    m_pLabel->SetID(m_sSavedID);
+    m_pLabel->SetText(m_sSavedText);
+    m_pLabel->SetWidth(m_iSavedWidth);
+    m_pLabel->SetHeight(m_iSavedHeight);
+    m_pLabel->ChangeAnchor(m_iSavedAnchor);
+    m_pLabel->SetFont(m_sSavedFont);
+    m_pLabel->SetFontSize(m_iSavedFontSize);
+    m_pLabel->SetColor(m_sSavedColor);
     emit closeInspector();
 }
 
@@ -299,16 +310,17 @@ void CLabelInspector::widthTextChange(const QString& a_rText)
 
 void CLabelInspector::closeEvent (QCloseEvent *event)
 {
-//    ON_CC_THREAD(LM::CLabelNode::SetText, this->m_pLabel, m_sSavedText);
-    m_pLabel->SetID(m_sSavedID);
-    m_pLabel->SetText(m_sSavedText);
-    m_pLabel->SetWidth(m_iSavedWidth);
-    m_pLabel->SetHeight(m_iSavedHeight);
-//    ON_CC_THREAD(LM::CLabelNode::ChangeAnchor, m_pLabel, m_iSavedAnchor);
-    m_pLabel->ChangeAnchor(m_iSavedAnchor);
-//    discardChanges();
-    m_pLabel->SetFont(m_sSavedFont);
-    m_pLabel->SetFontSize(m_iSavedFontSize);
-    m_pLabel->SetColor(m_sSavedColor);
+    emit modifyLabel(m_pLabel);
+////    ON_CC_THREAD(LM::CLabelNode::SetText, this->m_pLabel, m_sSavedText);
+//    m_pLabel->SetID(m_sSavedID);
+//    m_pLabel->SetText(m_sSavedText);
+//    m_pLabel->SetWidth(m_iSavedWidth);
+//    m_pLabel->SetHeight(m_iSavedHeight);
+////    ON_CC_THREAD(LM::CLabelNode::ChangeAnchor, m_pLabel, m_iSavedAnchor);
+//    m_pLabel->ChangeAnchor(m_iSavedAnchor);
+////    discardChanges();
+//    m_pLabel->SetFont(m_sSavedFont);
+//    m_pLabel->SetFontSize(m_iSavedFontSize);
+//    m_pLabel->SetColor(m_sSavedColor);
     QWidget::closeEvent(event);
 }
