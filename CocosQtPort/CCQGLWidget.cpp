@@ -14,6 +14,12 @@ CCQGLWidget::CCQGLWidget(int width, int height, QWidget *parent)
     resize(width, height);
     m_iOldHeight = height;
     m_iOldWidth = width;
+
+    QGLFormat format;
+    format.setVersion(2,0);
+    format.setDoubleBuffer(true);
+    setFormat(format);
+
 }
 
 CCQGLWidget::~CCQGLWidget()
