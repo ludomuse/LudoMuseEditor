@@ -189,8 +189,16 @@ void CSoundInspector::Initialize()
     if (pCallback)
     {
         m_pPlaySoundCheckButton->toggle();
-        m_pPath = QString(CProjectManager::Instance()->QGetProjectPath()+
+        QString sValue = QString::fromStdString(pCallback->second.getArg().m_sStringValue);
+        if (sValue.at(0) != '#')
+        {
+            m_pPath = QString(CProjectManager::Instance()->QGetProjectPath()+
                          QString::fromStdString(pCallback->second.getArg().m_sStringValue));
+        }
+        else
+        {
+            m_pPath = sValue;
+        }
         if(pCallback->first == "Init")
         {
             m_pInitiateRadioButton->setChecked(true);

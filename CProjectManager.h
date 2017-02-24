@@ -48,7 +48,7 @@ public:
     const std::vector<std::string>& GetPreviousProjectPaths();
     /// \brief update last_project propertie of config.json
     void UpdateLastProject(const QString& a_sNewProject);
-    std::string GetRelativePathForFile(std::string &a_sSource);
+    std::string GetRelativePathForFile(std::string a_sSource);
 };
 
 #endif // CPROJECTMANAGER_H

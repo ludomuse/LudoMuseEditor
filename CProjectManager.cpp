@@ -275,7 +275,7 @@ void CProjectManager::UpdateLastProject(const QString &a_sNewProject)
     }
 }
 
-std::string CProjectManager::GetRelativePathForFile(std::string &a_sSource)
+std::string CProjectManager::GetRelativePathForFile(std::string a_sSource)
 {
     std::string projectPath = CProjectManager::Instance()->GetProjectPath();
     int index = a_sSource.find(projectPath);
