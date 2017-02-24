@@ -58,7 +58,7 @@
                     {
                         "type": "Image",
                         "params": {
-                            "source": "cache/background2.png",
+                            "source": "#default-background",
                             "anchor": 0,
                             "width": 100,
                             "height": 100,
@@ -91,7 +91,7 @@
                                             {
                                                 "type": "Image",
                                                 "params": {
-                                                    "source": "cache/Quest_Cern.png",
+                                                    "source": "cache/quest-background.png",
                                                     "anchor": 0,
                                                     "width": 90,
                                                     "height": 90,
@@ -100,21 +100,9 @@
                                                     "children": [
                                                         {
                                                             "type": "Image",
-                                                            "id": "Tigresse_cache",
+                                                            "id": "Recompense6",
                                                             "params": {
-                                                                "source": "cache/Tigresse_cache.png",
-                                                                "anchor": 0,
-                                                                "width": 0,
-                                                                "height": 95,
-                                                                "x": 0,
-                                                                "y": 0
-                                                            }
-                                                        },
-                                                        {
-                                                            "type": "Image",
-                                                            "id": "Tigresse",
-                                                            "params": {
-                                                                "source": "cache/Statuette2.png",
+                                                                "source": "cache/quest.png",
                                                                 "anchor": 0,
                                                                 "width": 0,
                                                                 "height": 95,
@@ -122,9 +110,9 @@
                                                                 "y": 0,
                                                                 "listeners": [
                                                                     {
-                                                                        "type": "Show",
+                                                                        "type": "Unlock",
                                                                         "params": {
-                                                                            "callback": "Show",
+                                                                            "callback": "Colorize",
                                                                             "arg": true
                                                                         }
                                                                     }
@@ -137,7 +125,7 @@
                                             {
                                                 "type": "Image",
                                                 "params": {
-                                                    "source": "cache/Quest_Cern.png",
+                                                    "source": "cache/quest-background.png",
                                                     "anchor": 0,
                                                     "width": 90,
                                                     "height": 90,
@@ -146,21 +134,9 @@
                                                     "children": [
                                                         {
                                                             "type": "Image",
-                                                            "id": "Pot1_cache",
+                                                            "id": "Recompense7",
                                                             "params": {
-                                                                "source": "cache/Pot1_cache.png",
-                                                                "anchor": 0,
-                                                                "width": 0,
-                                                                "height": 95,
-                                                                "x": 0,
-                                                                "y": 0
-                                                            }
-                                                        },
-                                                        {
-                                                            "type": "Image",
-                                                            "id": "Pot1",
-                                                            "params": {
-                                                                "source": "cache/Pot1.png",
+                                                                "source": "cache/quest.png",
                                                                 "anchor": 0,
                                                                 "width": 0,
                                                                 "height": 95,
@@ -168,9 +144,9 @@
                                                                 "y": 0,
                                                                 "listeners": [
                                                                     {
-                                                                        "type": "Show",
+                                                                        "type": "Unlock",
                                                                         "params": {
-                                                                            "callback": "Show",
+                                                                            "callback": "Colorize",
                                                                             "arg": true
                                                                         }
                                                                     }
@@ -183,7 +159,7 @@
                                             {
                                                 "type": "Image",
                                                 "params": {
-                                                    "source": "cache/Quest_Cern.png",
+                                                    "source": "cache/quest-background.png",
                                                     "anchor": 0,
                                                     "width": 90,
                                                     "height": 0,
@@ -192,21 +168,9 @@
                                                     "children": [
                                                         {
                                                             "type": "Image",
-                                                            "id": "Tour_cache",
+                                                            "id": "Recompense8",
                                                             "params": {
-                                                                "source": "cache/Tour_cache.png",
-                                                                "anchor": 0,
-                                                                "width": 0,
-                                                                "height": 95,
-                                                                "x": 0,
-                                                                "y": 0
-                                                            }
-                                                        },
-                                                        {
-                                                            "type": "Image",
-                                                            "id": "Tour",
-                                                            "params": {
-                                                                "source": "cache/Statuette3.png",
+                                                                "source": "cache/quest.png",
                                                                 "anchor": 0,
                                                                 "width": 0,
                                                                 "height": 95,
@@ -214,9 +178,9 @@
                                                                 "y": 0,
                                                                 "listeners": [
                                                                     {
-                                                                        "type": "Show",
+                                                                        "type": "Unlock",
                                                                         "params": {
-                                                                            "callback": "Show",
+                                                                            "callback": "Colorize",
                                                                             "arg": true
                                                                         }
                                                                     }
@@ -229,7 +193,7 @@
                                             {
                                                 "type": "Image",
                                                 "params": {
-                                                    "source": "cache/Quest_Cern.png",
+                                                    "source": "cache/quest-background.png",
                                                     "anchor": 0,
                                                     "width": 90,
                                                     "height": 90,
@@ -238,21 +202,9 @@
                                                     "children": [
                                                         {
                                                             "type": "Image",
-                                                            "id": "Demon_cache",
+                                                            "id": "Recompense9",
                                                             "params": {
-                                                                "source": "cache/demon1_cache.png",
-                                                                "anchor": 0,
-                                                                "width": 0,
-                                                                "height": 95,
-                                                                "x": 0,
-                                                                "y": 0
-                                                            }
-                                                        },
-                                                        {
-                                                            "type": "Image",
-                                                            "id": "Demon",
-                                                            "params": {
-                                                                "source": "cache/demon1.png",
+                                                                "source": "cache/quest.png",
                                                                 "anchor": 0,
                                                                 "width": 0,
                                                                 "height": 95,
@@ -260,9 +212,9 @@
                                                                 "y": 0,
                                                                 "listeners": [
                                                                     {
-                                                                        "type": "Show",
+                                                                        "type": "Unlock",
                                                                         "params": {
-                                                                            "callback": "Show",
+                                                                            "callback": "Colorize",
                                                                             "arg": true
                                                                         }
                                                                     }
@@ -275,7 +227,7 @@
                                             {
                                                 "type": "Image",
                                                 "params": {
-                                                    "source": "cache/Quest_Cern.png",
+                                                    "source": "cache/quest-background.png",
                                                     "anchor": 0,
                                                     "width": 90,
                                                     "height": 90,
@@ -284,21 +236,9 @@
                                                     "children": [
                                                         {
                                                             "type": "Image",
-                                                            "id": "Bouddha_cache",
+                                                            "id": "Recompense10",
                                                             "params": {
-                                                                "source": "cache/Bouddha_cache.png",
-                                                                "anchor": 0,
-                                                                "width": 0,
-                                                                "height": 95,
-                                                                "x": 0,
-                                                                "y": 0
-                                                            }
-                                                        },
-                                                        {
-                                                            "type": "Image",
-                                                            "id": "Bouddha",
-                                                            "params": {
-                                                                "source": "cache/Bouddha.png",
+                                                                "source": "cache/quest.png",
                                                                 "anchor": 0,
                                                                 "width": 0,
                                                                 "height": 95,
@@ -306,9 +246,9 @@
                                                                 "y": 0,
                                                                 "listeners": [
                                                                     {
-                                                                        "type": "Show",
+                                                                        "type": "Unlock",
                                                                         "params": {
-                                                                            "callback": "Show",
+                                                                            "callback": "Colorize",
                                                                             "arg": true
                                                                         }
                                                                     }
@@ -335,7 +275,7 @@
                                             {
                                                 "type": "Image",
                                                 "params": {
-                                                    "source": "cache/Quest_Cern.png",
+                                                    "source": "cache/quest-background.png",
                                                     "anchor": 0,
                                                     "width": 90,
                                                     "height": 90,
@@ -344,21 +284,9 @@
                                                     "children": [
                                                         {
                                                             "type": "Image",
-                                                            "id": "Amulette_cache",
+                                                            "id": "Recompense1",
                                                             "params": {
-                                                                "source": "cache/AmuletteTigre_cache.png",
-                                                                "anchor": 0,
-                                                                "width": 0,
-                                                                "height": 95,
-                                                                "x": 0,
-                                                                "y": 0
-                                                            }
-                                                        },
-                                                        {
-                                                            "type": "Image",
-                                                            "id": "Amulette",
-                                                            "params": {
-                                                                "source": "cache/AmuletteTigre.png",
+                                                                "source": "cache/quest.png",
                                                                 "anchor": 0,
                                                                 "width": 0,
                                                                 "height": 95,
@@ -366,9 +294,9 @@
                                                                 "y": 0,
                                                                 "listeners": [
                                                                     {
-                                                                        "type": "Show",
+                                                                        "type": "Unlock",
                                                                         "params": {
-                                                                            "callback": "Show",
+                                                                            "callback": "Colorize",
                                                                             "arg": true
                                                                         }
                                                                     }
@@ -381,7 +309,7 @@
                                             {
                                                 "type": "Image",
                                                 "params": {
-                                                    "source": "cache/Quest_Cern.png",
+                                                    "source": "cache/quest-background.png",
                                                     "anchor": 0,
                                                     "width": 90,
                                                     "height": 90,
@@ -390,21 +318,9 @@
                                                     "children": [
                                                         {
                                                             "type": "Image",
-                                                            "id": "Masque_cache",
+                                                            "id": "Recompense2",
                                                             "params": {
-                                                                "source": "cache/Masque1_cache.png",
-                                                                "anchor": 0,
-                                                                "width": 0,
-                                                                "height": 95,
-                                                                "x": 0,
-                                                                "y": 0
-                                                            }
-                                                        },
-                                                        {
-                                                            "type": "Image",
-                                                            "id": "Masque",
-                                                            "params": {
-                                                                "source": "cache/Masque1.png",
+                                                                "source": "cache/quest.png",
                                                                 "anchor": 0,
                                                                 "width": 0,
                                                                 "height": 95,
@@ -412,9 +328,9 @@
                                                                 "y": 0,
                                                                 "listeners": [
                                                                     {
-                                                                        "type": "Show",
+                                                                        "type": "Unlock",
                                                                         "params": {
-                                                                            "callback": "Show",
+                                                                            "callback": "Colorize",
                                                                             "arg": true
                                                                         }
                                                                     }
@@ -427,7 +343,7 @@
                                             {
                                                 "type": "Image",
                                                 "params": {
-                                                    "source": "cache/Quest_Cern.png",
+                                                    "source": "cache/quest-background.png",
                                                     "anchor": 0,
                                                     "width": 90,
                                                     "height": 90,
@@ -436,21 +352,9 @@
                                                     "children": [
                                                         {
                                                             "type": "Image",
-                                                            "id": "YinYang_cache",
+                                                            "id": "Recompense3",
                                                             "params": {
-                                                                "source": "cache/yin_et_yang_cache.png",
-                                                                "anchor": 0,
-                                                                "width": 0,
-                                                                "height": 95,
-                                                                "x": 0,
-                                                                "y": 0
-                                                            }
-                                                        },
-                                                        {
-                                                            "type": "Image",
-                                                            "id": "YinYang",
-                                                            "params": {
-                                                                "source": "cache/yin_et_yang.png",
+                                                                "source": "cache/quest.png",
                                                                 "anchor": 0,
                                                                 "width": 0,
                                                                 "height": 95,
@@ -458,9 +362,9 @@
                                                                 "y": 0,
                                                                 "listeners": [
                                                                     {
-                                                                        "type": "Show",
+                                                                        "type": "Unlock",
                                                                         "params": {
-                                                                            "callback": "Show",
+                                                                            "callback": "Colorize",
                                                                             "arg": true
                                                                         }
                                                                     }
@@ -473,7 +377,7 @@
                                             {
                                                 "type": "Image",
                                                 "params": {
-                                                    "source": "cache/Quest_Cern.png",
+                                                    "source": "cache/quest-background.png",
                                                     "anchor": 0,
                                                     "width": 90,
                                                     "height": 90,
@@ -482,21 +386,9 @@
                                                     "children": [
                                                         {
                                                             "type": "Image",
-                                                            "id": "Miroir_cache",
+                                                            "id": "Recompense4",
                                                             "params": {
-                                                                "source": "cache/miroir1_cache.png",
-                                                                "anchor": 0,
-                                                                "width": 0,
-                                                                "height": 95,
-                                                                "x": 0,
-                                                                "y": 0
-                                                            }
-                                                        },
-                                                        {
-                                                            "type": "Image",
-                                                            "id": "Miroir",
-                                                            "params": {
-                                                                "source": "cache/miroir1.png",
+                                                                "source": "cache/quest.png",
                                                                 "anchor": 0,
                                                                 "width": 0,
                                                                 "height": 95,
@@ -504,9 +396,9 @@
                                                                 "y": 0,
                                                                 "listeners": [
                                                                     {
-                                                                        "type": "Show",
+                                                                        "type": "Unlock",
                                                                         "params": {
-                                                                            "callback": "Show",
+                                                                            "callback": "Colorize",
                                                                             "arg": true
                                                                         }
                                                                     }
@@ -519,7 +411,7 @@
                                             {
                                                 "type": "Image",
                                                 "params": {
-                                                    "source": "cache/Quest_Cern.png",
+                                                    "source": "cache/quest-background.png",
                                                     "anchor": 0,
                                                     "width": 90,
                                                     "height": 90,
@@ -528,21 +420,9 @@
                                                     "children": [
                                                         {
                                                             "type": "Image",
-                                                            "id": "Lotus_cache",
+                                                            "id": "Recompense5",
                                                             "params": {
-                                                                "source": "cache/lotus1_cache.png",
-                                                                "anchor": 0,
-                                                                "width": 0,
-                                                                "height": 95,
-                                                                "x": 0,
-                                                                "y": 0
-                                                            }
-                                                        },
-                                                        {
-                                                            "type": "Image",
-                                                            "id": "Lotus",
-                                                            "params": {
-                                                                "source": "cache/lotus1.png",
+                                                                "source": "cache/quest.png",
                                                                 "anchor": 0,
                                                                 "width": 0,
                                                                 "height": 95,
@@ -550,9 +430,9 @@
                                                                 "y": 0,
                                                                 "listeners": [
                                                                     {
-                                                                        "type": "Show",
+                                                                        "type": "Unlock",
                                                                         "params": {
-                                                                            "callback": "Show",
+                                                                            "callback": "Colorize",
                                                                             "arg": true
                                                                         }
                                                                     }
@@ -567,22 +447,22 @@
                                 }
                             ]
                         }
-                    }
-                ],
-                "information": [
+                    },
                     {
-                        "type": "Info",
+                        "type": "Image",
                         "params": {
                             "source": "ui/info-6.png",
                             "anchor": 6,
                             "width": 0,
                             "height": 13,
+                            "x": 0,
+                            "y": 0,
                             "children": [
                                 {
                                     "type": "Text",
                                     "id": "CollectionText",
                                     "params": {
-                                        "content": "Relevez tous les défis pour \r\nagrandir votre collection",
+                                        "content": "Votre Collection",
                                         "source": "fonts/Open_Sans/OpenSans-Regular.ttf",
                                         "fontSize": 20,
                                         "textAlign": "center",
@@ -604,7 +484,8 @@
                             ]
                         }
                     }
-                ]
+                ],
+                "information": []
             },
             {
                 "scene": "WaitingScene",
