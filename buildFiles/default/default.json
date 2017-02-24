@@ -100,190 +100,6 @@
                                                     "children": [
                                                         {
                                                             "type": "Image",
-                                                            "id": "Recompense1",
-                                                            "params": {
-                                                                "source": "cache/quest.png",
-                                                                "anchor": 0,
-                                                                "width": 0,
-                                                                "height": 95,
-                                                                "x": 0,
-                                                                "y": 0,
-                                                                "listeners": [
-                                                                    {
-                                                                        "type": "Unlock",
-                                                                        "params": {
-                                                                            "callback": "Colorize",
-                                                                            "arg": true
-                                                                        }
-                                                                    }
-                                                                ]
-                                                            }
-                                                        }
-                                                    ]
-                                                }
-                                            },
-                                            {
-                                                "type": "Image",
-                                                "params": {
-                                                    "source": "cache/quest-background.png",
-                                                    "anchor": 0,
-                                                    "width": 90,
-                                                    "height": 90,
-                                                    "x": 0,
-                                                    "y": 0,
-                                                    "children": [
-                                                        {
-                                                            "type": "Image",
-                                                            "id": "Recompense2",
-                                                            "params": {
-                                                                "source": "cache/quest.png",
-                                                                "anchor": 0,
-                                                                "width": 0,
-                                                                "height": 95,
-                                                                "x": 0,
-                                                                "y": 0,
-                                                                "listeners": [
-                                                                    {
-                                                                        "type": "Unlock",
-                                                                        "params": {
-                                                                            "callback": "Colorize",
-                                                                            "arg": true
-                                                                        }
-                                                                    }
-                                                                ]
-                                                            }
-                                                        }
-                                                    ]
-                                                }
-                                            },
-                                            {
-                                                "type": "Image",
-                                                "params": {
-                                                    "source": "cache/quest-background.png",
-                                                    "anchor": 0,
-                                                    "width": 90,
-                                                    "height": 0,
-                                                    "x": 0,
-                                                    "y": 0,
-                                                    "children": [
-                                                        {
-                                                            "type": "Image",
-                                                            "id": "Recompense3",
-                                                            "params": {
-                                                                "source": "cache/quest.png",
-                                                                "anchor": 0,
-                                                                "width": 0,
-                                                                "height": 95,
-                                                                "x": 0,
-                                                                "y": 0,
-                                                                "listeners": [
-                                                                    {
-                                                                        "type": "Unlock",
-                                                                        "params": {
-                                                                            "callback": "Colorize",
-                                                                            "arg": true
-                                                                        }
-                                                                    }
-                                                                ]
-                                                            }
-                                                        }
-                                                    ]
-                                                }
-                                            },
-                                            {
-                                                "type": "Image",
-                                                "params": {
-                                                    "source": "cache/quest-background.png",
-                                                    "anchor": 0,
-                                                    "width": 90,
-                                                    "height": 90,
-                                                    "x": 0,
-                                                    "y": 0,
-                                                    "children": [
-                                                        {
-                                                            "type": "Image",
-                                                            "id": "Recompense4",
-                                                            "params": {
-                                                                "source": "cache/quest.png",
-                                                                "anchor": 0,
-                                                                "width": 0,
-                                                                "height": 95,
-                                                                "x": 0,
-                                                                "y": 0,
-                                                                "listeners": [
-                                                                    {
-                                                                        "type": "Unlock",
-                                                                        "params": {
-                                                                            "callback": "Colorize",
-                                                                            "arg": true
-                                                                        }
-                                                                    }
-                                                                ]
-                                                            }
-                                                        }
-                                                    ]
-                                                }
-                                            },
-                                            {
-                                                "type": "Image",
-                                                "params": {
-                                                    "source": "cache/quest-background.png",
-                                                    "anchor": 0,
-                                                    "width": 90,
-                                                    "height": 90,
-                                                    "x": 0,
-                                                    "y": 0,
-                                                    "children": [
-                                                        {
-                                                            "type": "Image",
-                                                            "id": "Recompense5",
-                                                            "params": {
-                                                                "source": "cache/quest.png",
-                                                                "anchor": 0,
-                                                                "width": 0,
-                                                                "height": 95,
-                                                                "x": 0,
-                                                                "y": 0,
-                                                                "listeners": [
-                                                                    {
-                                                                        "type": "Unlock",
-                                                                        "params": {
-                                                                            "callback": "Colorize",
-                                                                            "arg": true
-                                                                        }
-                                                                    }
-                                                                ]
-                                                            }
-                                                        }
-                                                    ]
-                                                }
-                                            }
-                                        ]
-                                    }
-                                },
-                                {
-                                    "type": "Grid",
-                                    "params": {
-                                        "cols": 5,
-                                        "rows": 1,
-                                        "anchor": 2,
-                                        "width": 100,
-                                        "height": 100,
-                                        "x": 0,
-                                        "y": 0,
-                                        "children": [
-                                            {
-                                                "type": "Image",
-                                                "params": {
-                                                    "source": "cache/quest-background.png",
-                                                    "anchor": 0,
-                                                    "width": 90,
-                                                    "height": 90,
-                                                    "x": 0,
-                                                    "y": 0,
-                                                    "children": [
-                                                        {
-                                                            "type": "Image",
                                                             "id": "Recompense6",
                                                             "params": {
                                                                 "source": "cache/quest.png",
@@ -346,7 +162,7 @@
                                                     "source": "cache/quest-background.png",
                                                     "anchor": 0,
                                                     "width": 90,
-                                                    "height": 90,
+                                                    "height": 0,
                                                     "x": 0,
                                                     "y": 0,
                                                     "children": [
@@ -421,6 +237,190 @@
                                                         {
                                                             "type": "Image",
                                                             "id": "Recompense10",
+                                                            "params": {
+                                                                "source": "cache/quest.png",
+                                                                "anchor": 0,
+                                                                "width": 0,
+                                                                "height": 95,
+                                                                "x": 0,
+                                                                "y": 0,
+                                                                "listeners": [
+                                                                    {
+                                                                        "type": "Unlock",
+                                                                        "params": {
+                                                                            "callback": "Colorize",
+                                                                            "arg": true
+                                                                        }
+                                                                    }
+                                                                ]
+                                                            }
+                                                        }
+                                                    ]
+                                                }
+                                            }
+                                        ]
+                                    }
+                                },
+                                {
+                                    "type": "Grid",
+                                    "params": {
+                                        "cols": 5,
+                                        "rows": 1,
+                                        "anchor": 2,
+                                        "width": 100,
+                                        "height": 100,
+                                        "x": 0,
+                                        "y": 0,
+                                        "children": [
+                                            {
+                                                "type": "Image",
+                                                "params": {
+                                                    "source": "cache/quest-background.png",
+                                                    "anchor": 0,
+                                                    "width": 90,
+                                                    "height": 90,
+                                                    "x": 0,
+                                                    "y": 0,
+                                                    "children": [
+                                                        {
+                                                            "type": "Image",
+                                                            "id": "Recompense1",
+                                                            "params": {
+                                                                "source": "cache/quest.png",
+                                                                "anchor": 0,
+                                                                "width": 0,
+                                                                "height": 95,
+                                                                "x": 0,
+                                                                "y": 0,
+                                                                "listeners": [
+                                                                    {
+                                                                        "type": "Unlock",
+                                                                        "params": {
+                                                                            "callback": "Colorize",
+                                                                            "arg": true
+                                                                        }
+                                                                    }
+                                                                ]
+                                                            }
+                                                        }
+                                                    ]
+                                                }
+                                            },
+                                            {
+                                                "type": "Image",
+                                                "params": {
+                                                    "source": "cache/quest-background.png",
+                                                    "anchor": 0,
+                                                    "width": 90,
+                                                    "height": 90,
+                                                    "x": 0,
+                                                    "y": 0,
+                                                    "children": [
+                                                        {
+                                                            "type": "Image",
+                                                            "id": "Recompense2",
+                                                            "params": {
+                                                                "source": "cache/quest.png",
+                                                                "anchor": 0,
+                                                                "width": 0,
+                                                                "height": 95,
+                                                                "x": 0,
+                                                                "y": 0,
+                                                                "listeners": [
+                                                                    {
+                                                                        "type": "Unlock",
+                                                                        "params": {
+                                                                            "callback": "Colorize",
+                                                                            "arg": true
+                                                                        }
+                                                                    }
+                                                                ]
+                                                            }
+                                                        }
+                                                    ]
+                                                }
+                                            },
+                                            {
+                                                "type": "Image",
+                                                "params": {
+                                                    "source": "cache/quest-background.png",
+                                                    "anchor": 0,
+                                                    "width": 90,
+                                                    "height": 90,
+                                                    "x": 0,
+                                                    "y": 0,
+                                                    "children": [
+                                                        {
+                                                            "type": "Image",
+                                                            "id": "Recompense3",
+                                                            "params": {
+                                                                "source": "cache/quest.png",
+                                                                "anchor": 0,
+                                                                "width": 0,
+                                                                "height": 95,
+                                                                "x": 0,
+                                                                "y": 0,
+                                                                "listeners": [
+                                                                    {
+                                                                        "type": "Unlock",
+                                                                        "params": {
+                                                                            "callback": "Colorize",
+                                                                            "arg": true
+                                                                        }
+                                                                    }
+                                                                ]
+                                                            }
+                                                        }
+                                                    ]
+                                                }
+                                            },
+                                            {
+                                                "type": "Image",
+                                                "params": {
+                                                    "source": "cache/quest-background.png",
+                                                    "anchor": 0,
+                                                    "width": 90,
+                                                    "height": 90,
+                                                    "x": 0,
+                                                    "y": 0,
+                                                    "children": [
+                                                        {
+                                                            "type": "Image",
+                                                            "id": "Recompense4",
+                                                            "params": {
+                                                                "source": "cache/quest.png",
+                                                                "anchor": 0,
+                                                                "width": 0,
+                                                                "height": 95,
+                                                                "x": 0,
+                                                                "y": 0,
+                                                                "listeners": [
+                                                                    {
+                                                                        "type": "Unlock",
+                                                                        "params": {
+                                                                            "callback": "Colorize",
+                                                                            "arg": true
+                                                                        }
+                                                                    }
+                                                                ]
+                                                            }
+                                                        }
+                                                    ]
+                                                }
+                                            },
+                                            {
+                                                "type": "Image",
+                                                "params": {
+                                                    "source": "cache/quest-background.png",
+                                                    "anchor": 0,
+                                                    "width": 90,
+                                                    "height": 90,
+                                                    "x": 0,
+                                                    "y": 0,
+                                                    "children": [
+                                                        {
+                                                            "type": "Image",
+                                                            "id": "Recompense5",
                                                             "params": {
                                                                 "source": "cache/quest.png",
                                                                 "anchor": 0,
