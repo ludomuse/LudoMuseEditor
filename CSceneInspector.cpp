@@ -1,4 +1,4 @@
-#include "CSceneInspector.h"
+﻿#include "CSceneInspector.h"
 
 #include <QVBoxLayout>
 #include <QHBoxLayout>
@@ -180,7 +180,7 @@ CSceneInspector::CSceneInspector(LM::CSceneNode* a_pScene, int a_iPlayerID, QWid
     QWidget* dashWidget = new QWidget(this);
     dashWidget->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Maximum);
     QGridLayout* gDashLayout = new QGridLayout(dashWidget);
-    QCheckBox* isDashCB = new QCheckBox("Déclencher le dashboard", dashWidget);
+    QCheckBox* isDashCB = new QCheckBox("Déclencher l'écran de récompenses", dashWidget);
     isDashCB->setStyleSheet("QCheckBox{color : white}");
     isDashCB->setSizePolicy(QSizePolicy::Maximum, QSizePolicy::Minimum);
     QCheckBox* enableReward = new QCheckBox("Débloquer une récompense", dashWidget);
@@ -216,7 +216,7 @@ CSceneInspector::CSceneInspector(LM::CSceneNode* a_pScene, int a_iPlayerID, QWid
                                "QPushButton:checked{ border : 2px solid white; padding : 5px; color : white;}");
     soundButton->setFlat(true);
     soundButton->setCheckable(true);
-    QPushButton* dashButton = new QPushButton("Intéragir avec le dashboard", buttonColWidget);
+    QPushButton* dashButton = new QPushButton("Intéragir avec les récompenses", buttonColWidget);
     dashButton->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Maximum);
     dashButton->setStyleSheet("QPushButton{ border : 1px solid white; padding : 6px; color : white;}"
                               "QPushButton:checked{ border : 2px solid white; padding : 5px; color : white;}");
