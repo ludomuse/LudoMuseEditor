@@ -107,7 +107,7 @@
              <x>0</x>
              <y>0</y>
              <width>363</width>
-             <height>365</height>
+             <height>363</height>
             </rect>
            </property>
           </widget>
@@ -621,7 +621,7 @@
                 <x>0</x>
                 <y>0</y>
                 <width>260</width>
-                <height>551</height>
+                <height>548</height>
                </rect>
               </property>
               <property name="autoFillBackground">
@@ -1216,7 +1216,7 @@
                  <string notr="true">#dashboardButton {color: rgb(255, 255, 255);	background-color: rgb(50, 50, 50);}</string>
                 </property>
                 <property name="text">
-                 <string>Dashboard</string>
+                 <string>Écran de récompenses</string>
                 </property>
                 <property name="flat">
                  <bool>true</bool>
@@ -1302,7 +1302,7 @@
                  <string notr="true">#waitingScreenButton {color: rgb(255, 255, 255);	background-color: rgb(50, 50, 50);}</string>
                 </property>
                 <property name="text">
-                 <string>Ecran d'attente</string>
+                 <string>Écran d'attente</string>
                 </property>
                 <property name="flat">
                  <bool>true</bool>
