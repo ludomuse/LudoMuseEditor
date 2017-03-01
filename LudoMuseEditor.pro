@@ -92,6 +92,7 @@ SOURCES += main.cpp\
     CExplorerView.cpp \
     CMacroWidget.cpp \
     ETypes.cpp \
+    CFindFilenameVisitor.cpp \
     LudoMuse_src/Classes/Engine/Source/CFindTeamNodeIDVisitor.cpp \
     LudoMuse_src/Classes/Engine/Source/CFindTeamNodeVisitor.cpp \
     LudoMuse_src/Classes/Engine/Source/CTeamNode.cpp
@@ -174,6 +175,7 @@ HEADERS  += CMainWindow.h \
     CExplorerView.h \
     CMacroWidget.h \
     ETypes.h \
+    CFindFilenameVisitor.h \
     LudoMuse_src/Classes/Engine/Include/CFindTeamNodeIDVisitor.h \
     LudoMuse_src/Classes/Engine/Include/CFindTeamNodeVisitor.h \
     LudoMuse_src/Classes/Engine/Include/CTeamNode.h

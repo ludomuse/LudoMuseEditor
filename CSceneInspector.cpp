@@ -129,7 +129,7 @@ CSceneInspector::CSceneInspector(LM::CSceneNode* a_pScene, int a_iPlayerID, QWid
 //    vOptionLayout->addWidget(secondRow, Qt::AlignLeft);
 //    optionColWidget->setLayout(vOptionLayout);
 
-    QString sID = "Scène : ";
+    QString sID = "Scène :\n";
     sID.append(m_pScene->GetSceneID().c_str());
     QLabel* id = new QLabel(sID, this);
     id->setStyleSheet("QLabel{ color : white; padding : 6px;}");

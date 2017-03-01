@@ -9,6 +9,7 @@
 #include <QLabel>
 #include <QPoint>
 #include "CLineEdit.h"
+#include "Classes/Engine/Include/CKernel.h"
 #include "ETypes.h"
 
 class CMacroWidget : public QWidget
@@ -18,6 +19,7 @@ class CMacroWidget : public QWidget
 public:
     CMacroWidget(QWidget* a_pParent = Q_NULLPTR);
     void Init();
+    void SetKernel(LM::CKernel* a_pKernel);
 
 private:
     QGridLayout* m_pImageLayout;
@@ -27,6 +29,7 @@ private:
     QComboBox* m_pMacroType;
 
     QGridLayout* GetLayout(ETypes::Type a_eType);
+    LM::CKernel* m_pKernel;
 
     void AddRow(ETypes::Type a_eType, const QString &a_sMacro);
 
@@ -35,6 +38,7 @@ public slots:
 
 signals:
     void macroModified();
+    void deleteClicked();
 };
 
 class CDefineEdit : public CLineEdit
@@ -43,11 +47,19 @@ class CDefineEdit : public CLineEdit
 public :
     CDefineEdit(const QString &a_sMacro, ETypes::Type a_eType, QWidget* a_pParent);
     QString GetMacro();
+    void SetKernel(LM::CKernel* a_pKernel);
+
 private:
     QString m_sMacro;
+    LM::CKernel* m_pKernel;
+
 public slots:
     void removeDefine();
     void setDefine(const QString& a_sDef);
+    void deleteIfUnused();
+
+signals:
+    void deleteConfirmed();
 };
 
 class CMacroLabel : public QLabel
@@ -61,6 +73,24 @@ private:
 
     ETypes::Type m_sType;
     QPoint m_pStartDragPos;
+
+    LM::CKernel* m_pKernel;
 };
+
+//class CMacroLine : QObject
+//{
+//    Q_OBJECT
+
+//public:
+//    CMacroLine(CMacroLabel* a_pLabel, CDefineEdit* a_pDefine, QToolButton* a_pDelete, QObject* parent);
+
+//private:
+//    CMacroLabel* m_pLabel;
+//    CDefineEdit* m_pDefine;
+//    QToolButton* m_pDelete;
+
+//private slots:
+//    void deleteIfUnused();
+//};
 
 #endif //CMACROWIDGET_H

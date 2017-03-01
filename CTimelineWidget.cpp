@@ -20,6 +20,7 @@ CTimelineWidget::CTimelineWidget(QWidget *parent):
     pHBLayout->setSpacing(6);
     pHBLayout->setContentsMargins(3, 3, 3, 3);
     setLayout(pHBLayout);
+    setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
 }
 
 void CTimelineWidget::UpdateTimeline()
@@ -202,7 +203,7 @@ bool CTimelineWidget::AddThumbnail(CThumbnailWidget *a_pThumbnail, QWidget* a_pC
 
 void CTimelineWidget::PushScene(const QString &a_sSceneID, int a_iPlayerID, const QString &a_sSyncedSceneID)
 {
-    CThumbnailWidget* pNewThumbnail = new CThumbnailWidget(a_sSceneID, a_iPlayerID, a_sSyncedSceneID);
+    CThumbnailWidget* pNewThumbnail = new CThumbnailWidget(a_sSceneID, a_iPlayerID, a_sSyncedSceneID, this);
     ConnectThumbnail(pNewThumbnail);
     m_pThumbnailList->append(pNewThumbnail);
 }
@@ -218,7 +219,7 @@ void CTimelineWidget::InsertScene(const QString& a_sPrevSceneID, const QString& 
         int iPrevIndex = FindThumbnailIndex(a_sPrevSceneID);
         if (iPrevIndex >= -1) {
             DeactivateThumbnails();
-            CThumbnailWidget* pNewThumbnail = new CThumbnailWidget(a_sSceneID, a_iPlayerID, a_sSyncedSceneID);
+            CThumbnailWidget* pNewThumbnail = new CThumbnailWidget(a_sSceneID, a_iPlayerID, a_sSyncedSceneID, this);
             ConnectThumbnail(pNewThumbnail);
             m_pThumbnailList->insert(iPrevIndex+1, pNewThumbnail);
             if (m_iCurrentIndex1 > iPrevIndex)
@@ -243,7 +244,7 @@ void CTimelineWidget::InsertSharedScene(const QString &a_sPrevSceneID1, const QS
     if (iPrevIndex1 < -1 || iPrevIndex2 < -1) {
         return;
     }
-    CThumbnailWidget* pNewThumbnail = new CThumbnailWidget(a_sSceneID, 2);
+    CThumbnailWidget* pNewThumbnail = new CThumbnailWidget(a_sSceneID, 2, "", this);
     ConnectThumbnail(pNewThumbnail);
     if (iPrevIndex1 == iPrevIndex2) {
         m_pThumbnailList->insert(iPrevIndex1+1, pNewThumbnail);

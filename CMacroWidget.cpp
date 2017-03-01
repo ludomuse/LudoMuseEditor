@@ -13,12 +13,19 @@
 #include <QMimeData>
 #include <QApplication>
 #include <QPainter>
+#include <CFindFilenameVisitor.h>
+#include <QMessageBox>
 #include "LudoMuse_src/Classes/Engine/Include/CMacroManager.h"
 
 CMacroWidget::CMacroWidget(QWidget *a_pParent):
     QWidget(a_pParent)
 {
 
+}
+
+void CMacroWidget::SetKernel(LM::CKernel* a_pKernel)
+{
+    m_pKernel = a_pKernel;
 }
 
 void CMacroWidget::AddRow(ETypes::Type a_eType, const QString &a_sMacro/*, const QString &a_sDefine*/)
@@ -31,8 +38,7 @@ void CMacroWidget::AddRow(ETypes::Type a_eType, const QString &a_sMacro/*, const
     int iRow = pGridLayout->rowCount();
     CMacroLabel* pMacro = new CMacroLabel(a_sMacro, a_eType, this);
     CDefineEdit* pDefine = new CDefineEdit(a_sMacro, a_eType, this);
-    pDefine->setPlaceholderText(tr("Chemin du fichier"));
-
+//    pDefine->setPlaceholderText(tr("Chemin du fichier"));
     QToolButton* pDel = new QToolButton(this);
     pDel->setText("-");
     pMacro->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Maximum);
@@ -43,10 +49,14 @@ void CMacroWidget::AddRow(ETypes::Type a_eType, const QString &a_sMacro/*, const
     pGridLayout->addWidget(pDefine, iRow, 1);
     pGridLayout->addWidget(pDel, iRow, Qt::AlignRight);
 
-    connect(pDel, SIGNAL(pressed()), pMacro, SLOT(deleteLater()));
-    connect(pDel, SIGNAL(pressed()), pDefine, SLOT(deleteLater()));
-    connect(pDel, SIGNAL(pressed()), pDel, SLOT(deleteLater()));
-    connect(pDel, SIGNAL(pressed()), pDefine, SLOT(removeDefine()));
+    pDefine->SetKernel(m_pKernel);
+
+    connect(pDel, SIGNAL(pressed()), pDefine, SLOT(deleteIfUnused()));
+    connect(pDel, SIGNAL(pressed()), this, SIGNAL(deleteClicked()));
+    connect(pDefine, SIGNAL(deleteConfirmed()), pDefine, SLOT(deleteLater()));
+    connect(pDefine, SIGNAL(deleteConfirmed()), pMacro, SLOT(deleteLater()));
+    connect(pDefine, SIGNAL(deleteConfirmed()), pDel, SLOT(deleteLater()));
+    connect(pDefine, SIGNAL(deleteConfirmed()), pDefine, SLOT(removeDefine()));
     connect(pDefine, SIGNAL(textEdited(QString)), pDefine, SLOT(setDefine(QString)));
     connect(pDefine, SIGNAL(selectionChanged()), this, SIGNAL(macroModified()));
 }
@@ -147,8 +157,6 @@ void CMacroWidget::addRow()
     AddRow(ETypes::TypeFromString(sType), sName);
 }
 
-
-
 CDefineEdit::CDefineEdit(const QString& a_sMacro, ETypes::Type a_eType, QWidget *a_pParent):
     CLineEdit(a_eType, a_pParent),
     m_sMacro(a_sMacro)
@@ -161,6 +169,11 @@ CDefineEdit::CDefineEdit(const QString& a_sMacro, ETypes::Type a_eType, QWidget 
     {
         LM::CMacroManager::Instance()->AddDefinition(m_sMacro.toStdString(), "");
     }
+}
+
+void CDefineEdit::SetKernel(LM::CKernel *a_pKernel)
+{
+    m_pKernel = a_pKernel;
 }
 
 QString CDefineEdit::GetMacro()
@@ -176,6 +189,29 @@ void CDefineEdit::removeDefine()
 void CDefineEdit::setDefine(const QString& a_sDef)
 {
     LM::CMacroManager::Instance()->AddDefinition(m_sMacro.toStdString(), a_sDef.toStdString());
+}
+
+void CDefineEdit::deleteIfUnused()
+{
+    qDebug() << "delete if unused";
+    CFindFilenameVisitor* oVisitor = new CFindFilenameVisitor(m_sMacro);
+    oVisitor->Traverse(m_pKernel->m_pBehaviorTree);
+    QStringList* vScenes = oVisitor->GetScenesID();
+    if (vScenes->empty())
+    {
+        emit deleteConfirmed();
+    }
+    else
+    {
+        QMessageBox msgBox;
+        QString sScenes = QString(vScenes->join('\n'));
+        msgBox.setText(tr("Suppression impossible. La macro est utilisée dans les scènes suivantes :\n")
+                       + sScenes);
+        msgBox.setStandardButtons(QMessageBox::Ok);
+        msgBox.setDefaultButton(QMessageBox::Ok);
+        msgBox.setIcon(QMessageBox::Warning);
+        int ret = msgBox.exec();
+    }
 }
 
 CMacroLabel::CMacroLabel(const QString &a_sText, ETypes::Type a_sType, QWidget *a_pParent):
@@ -206,10 +242,6 @@ void CMacroLabel::mouseMoveEvent(QMouseEvent *event)
     QMimeData *mimeData = new QMimeData;
     mimeData->setText(this->text()+":"+ETypes::TypeToString(m_sType));
     drag->setMimeData(mimeData);
-//    QPixmap image = grab();
-//    QBitmap alpha = QBitmap(image.size());
-//    alpha.fill(QColor(100,100,100,100));
-//    image.setMask(alpha);
     QPixmap pixmap = grab();
     QPixmap temp(pixmap.size());
     temp.fill(Qt::transparent);
@@ -224,3 +256,17 @@ void CMacroLabel::mouseMoveEvent(QMouseEvent *event)
     drag->setPixmap(pixmap);
     Qt::DropAction dropAction = drag->exec(Qt::CopyAction | Qt::MoveAction);
 }
+
+//CMacroLine::CMacroLine(CMacroLabel *a_pLabel, CDefineEdit *a_pDefine, QToolButton *a_pDelete, QObject *parent):
+//    QObject(),
+//    m_pLabel(a_pLabel),
+//    m_pDefine(a_pDefine),
+//    m_pDelete(a_pDelete)
+//{
+//    connect(m_pDelete, SIGNAL(clicked(bool)), this, SLOT(deleteIfUnused()));
+//}
+
+//void CMacroLine::deleteIfUnused()
+//{
+
+//}

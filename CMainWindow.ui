@@ -1717,6 +1717,9 @@
            </property>
            <item>
             <widget class="QScrollArea" name="scrollArea_2">
+             <property name="enabled">
+              <bool>true</bool>
+             </property>
              <property name="sizePolicy">
               <sizepolicy hsizetype="Expanding" vsizetype="Minimum">
                <horstretch>0</horstretch>
@@ -1742,7 +1745,7 @@
                </rect>
               </property>
               <property name="sizePolicy">
-               <sizepolicy hsizetype="Expanding" vsizetype="Minimum">
+               <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
                 <horstretch>0</horstretch>
                 <verstretch>0</verstretch>
                </sizepolicy>
@@ -1772,7 +1775,7 @@
                <item alignment="Qt::AlignVCenter">
                 <widget class="QWidget" name="timelineContainer" native="true">
                  <property name="sizePolicy">
-                  <sizepolicy hsizetype="Maximum" vsizetype="Maximum">
+                  <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
                    <horstretch>0</horstretch>
                    <verstretch>0</verstretch>
                   </sizepolicy>
@@ -1780,7 +1783,7 @@
                  <property name="minimumSize">
                   <size>
                    <width>0</width>
-                   <height>100</height>
+                   <height>0</height>
                   </size>
                  </property>
                  <layout class="QHBoxLayout" name="trameContainerCommonLayout">

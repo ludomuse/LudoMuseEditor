@@ -7,8 +7,10 @@
 #include <QFileInfo>
 #include <QDir>
 #include <QRegExp>
+#include <QMessageBox>
 #include <QRegExpValidator>
 #include "CProjectManager.h"
+#include "Classes/Engine/Include/CMacroManager.h"
 #include "ETypes.h"
 
 
@@ -84,8 +86,20 @@ void CLineEdit::dropEvent(QDropEvent* a_pEvent)
             if (ETypes::TypeFromString(type) == m_eType)
             {
                 QString name = list.join("");
-                selectAll();
-                insert(name);
+                if (LM::CMacroManager::Instance()->GetDefinition(name.toStdString()).empty())
+                {
+                    QMessageBox msgBox;
+                    msgBox.setText(tr("Ajout impossible : la macro ne contient pas de définition."));
+                    msgBox.setStandardButtons(QMessageBox::Ok);
+                    msgBox.setDefaultButton(QMessageBox::Ok);
+                    msgBox.setIcon(QMessageBox::Warning);
+                    int ret = msgBox.exec();
+                }
+                else
+                {
+                    selectAll();
+                    insert(name);
+                }
             }
         }
     }

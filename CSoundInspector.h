@@ -9,6 +9,7 @@
 #include <QSlider>
 #include <QCheckBox>
 #include <QRadioButton>
+#include <CLineEdit.h>
 
 #include "Classes/Engine/Include/CSpriteNode.h"
 
@@ -35,19 +36,16 @@ public slots:
 //    void openPathFileDialog();
 //    void newPathSelected(QString);
 //    void newDirectoryEntered(QString);
-    void changePath(const QString&);
+    bool applyPath(const QString& a_sPath);
     void validateChanges();
     void discardChanges();
 
 private:
     LM::CEntityNode* m_pNode;
 
-    QString m_pPath;
+    QString m_sSavedPath;
+    CLineEdit* m_pPathField;
     QCheckBox* m_pPlaySoundCheckButton;
-    QRadioButton* m_pInitiateRadioButton;
-    QRadioButton* m_pValidateRadioButton;
-    QRadioButton* m_pInteractRadioButton;
-    QRadioButton* m_pDisplaceRadioButton;
 
 protected:
     virtual void closeEvent(QCloseEvent *event) override;
