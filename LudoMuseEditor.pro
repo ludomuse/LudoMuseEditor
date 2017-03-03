@@ -12,7 +12,7 @@ TARGET = LudoMuseEditor
 TEMPLATE = app
 
 CONFIG += c++14
-QMAKE_CXXFLAGS += -std=c++14 -fpermissive
+QMAKE_CXXFLAGS += -std=c++14
 
 # LUDOMUSE_PATH = "C:\WORKSPACE\LudoMuse"
 LUDOMUSE_PATH = "../LudoMuse/"
