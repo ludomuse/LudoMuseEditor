@@ -18,7 +18,7 @@ QStringList GetExtensionsList(Type a_eType)
         lExtensions << "mp3" << "wav";
         break;
     case Font:
-        lExtensions << "ttf";
+        lExtensions << "ttf" << "otf";
         break;
     default:
         break;
@@ -58,7 +58,7 @@ Type TypeFromExtension(const QString& a_sExtension)
     {
         return Sound;
     }
-    else if (sExtension == "ttf")
+    else if (sExtension == "ttf" || sExtension == "otf")
     {
         return Font;
     }
@@ -92,7 +92,7 @@ QString GetFilter(Type a_eType)
     case Sound:
         return "(*.mp3, *.wav)";
     case Font:
-        return "(*.ttf)";
+        return "(*.ttf, *.otf)";
     default:
         return "";
     }
