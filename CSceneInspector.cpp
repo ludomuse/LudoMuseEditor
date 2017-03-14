@@ -1,4 +1,4 @@
-﻿#include "CSceneInspector.h"
+#include "CSceneInspector.h"
 
 #include <QVBoxLayout>
 #include <QHBoxLayout>

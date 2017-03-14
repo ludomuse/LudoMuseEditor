@@ -20,7 +20,7 @@ CTimelineWidget::CTimelineWidget(QWidget *parent):
     pHBLayout->setSpacing(6);
     pHBLayout->setContentsMargins(3, 3, 3, 3);
     setLayout(pHBLayout);
-    setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
+    setSizePolicy(QSizePolicy::Maximum, QSizePolicy::Expanding);
 }
 
 void CTimelineWidget::UpdateTimeline()
