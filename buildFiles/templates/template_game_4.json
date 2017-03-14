@@ -33,7 +33,7 @@
 								"type": "Text",
 								"params": {
 									"content": "SUIVANT",
-									"source": "res_templ/fonts/Open_Sans/OpenSans-Regular.ttf",
+									"source": "#default-font",
 									"fontSize": 20,
 									"textAlign": "right",
 									"width": 80,
@@ -82,7 +82,7 @@
 								"type": "Text",
 								"params": {
 									"content": "Texte d'information",
-									"source": "res_templ/fonts/Open_Sans/OpenSans-Regular.ttf",
+									"source": "#default-font",
 									"fontSize": 20,
 									"textAlign": "center",
 									"width": 60,
@@ -122,7 +122,7 @@
 								"type": "Text",
 								"params": {
 										"content": "SUIVANT",
-										"source": "res_templ/fonts/Open_Sans/OpenSans-Regular.ttf",
+										"source": "#default-font",
 										"fontSize": 20,
 										"textAlign": "right",
 										"width": 80,
@@ -149,7 +149,7 @@
 								"type": "Text",
 								"params": {
 									"content": "Pose la tablette et patiente le temps que la photo soit prise et te soit envoyée.",
-									"source": "res_templ/fonts/Open_Sans/OpenSans-Regular.ttf",
+									"source": "#default-font",
 									"fontSize": 22,
 									"textAlign": "center",
 									"width": 50,
@@ -188,7 +188,7 @@
 								"type": "Text",
 								"params": {
 									"content": "Texte d'information",
-									"source": "res_templ/fonts/Open_Sans/OpenSans-Regular.ttf",
+									"source": "#default-font",
 									"fontSize": 20,
 									"textAlign": "center",
 									"width": 60,

@@ -22,7 +22,7 @@
                 "type": "Text",
                 "params": {
                   "content": "ENTREZ",
-                  "source": "res_templ/fonts/Open_Sans/OpenSans-Bold.ttf",
+                  "source": "#default-font",
                   "fontSize": 20,
                   "textAlign": "right",
                   "width": 80,
@@ -89,7 +89,7 @@
                       "id": "text1",
                       "params": {
                         "content": "Texte 1",
-                        "source": "res_templ/fonts/Open_Sans/OpenSans-Regular.ttf",
+                        "source": "#default-font",
                         "fontSize": 24,
                         "textAlign": "center",
                         "anchor": 0,
@@ -128,7 +128,7 @@
                       "id": "text2",
                       "params": {
                         "content": "Texte 2",
-                        "source": "res_templ/fonts/Open_Sans/OpenSans-Regular.ttf",
+                        "source": "#default-font",
                         "fontSize": 24,
                         "textAlign": "center",
                         "anchor": 0,
@@ -167,7 +167,7 @@
                       "id": "text3",
                       "params": {
                         "content": "Texte 3",
-                        "source": "res_templ/fonts/Open_Sans/OpenSans-Regular.ttf",
+                        "source": "#default-font",
                         "fontSize": 24,
                         "textAlign": "center",
                         "anchor": 0,
@@ -206,7 +206,7 @@
                       "id": "text4",
                       "params": {
                         "content": "Texte 4",
-                        "source": "res_templ/fonts/Open_Sans/OpenSans-Regular.ttf",
+                        "source": "#default-font",
                         "fontSize": 24,
                         "textAlign": "center",
                         "anchor": 0,
@@ -535,7 +535,7 @@
                 "type": "Text",
                 "params": {
                   "content": "ENTREZ",
-                  "source": "res_templ/fonts/Open_Sans/OpenSans-Bold.ttf",
+                  "source": "#default-font",
                   "fontSize": 20,
                   "textAlign": "right",
                   "width": 80,
@@ -616,7 +616,7 @@
                       "id": "text1",
                       "params": {
                         "content": "Texte 1",
-                        "source": "res_templ/fonts/Open_Sans/OpenSans-Regular.ttf",
+                        "source": "#default-font",
                         "fontSize": 24,
                         "textAlign": "center",
                         "anchor": 0,
@@ -661,7 +661,7 @@
                       "id": "text2",
                       "params": {
                         "content": "Texte 2",
-                        "source": "res_templ/fonts/Open_Sans/OpenSans-Regular.ttf",
+                        "source": "#default-font",
                         "fontSize": 24,
                         "textAlign": "center",
                         "anchor": 0,
@@ -706,7 +706,7 @@
                       "id": "text3",
                       "params": {
                         "content": "Texte 3",
-                        "source": "res_templ/fonts/Open_Sans/OpenSans-Regular.ttf",
+                        "source": "#default-font",
                         "fontSize": 24,
                         "textAlign": "center",
                         "anchor": 0,
@@ -751,7 +751,7 @@
                       "id": "text4",
                       "params": {
                         "content": "Texte 4",
-                        "source": "res_templ/fonts/Open_Sans/OpenSans-Regular.ttf",
+                        "source": "#default-font",
                         "fontSize": 24,
                         "textAlign": "center",
                         "anchor": 0,

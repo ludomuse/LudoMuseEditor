@@ -31,7 +31,7 @@
 								"type": "Text",
 								"params": {
 									"content": "SUIVANT",
-									"source": "res_templ/fonts/Open_Sans/OpenSans-Bold.ttf",
+									"source": "#default-font",
 									"fontSize": 20,
 									"textAlign": "right",
 									"width": 80,
@@ -145,7 +145,7 @@
 											"id": "infoPeer",
 											"params": {
 												"content": "Appuie en m�me temps que ton partenaire pour former le symbole",
-												"source": "res_templ/fonts/Open_Sans/OpenSans-Regular.ttf",
+												"source": "#default-font",
 												"fontSize": 20,
 												"textAlign": "center",
 												"width": 80,
@@ -211,7 +211,7 @@
 								"type": "Text",
 								"params": {
 									"content": "SUIVANT",
-									"source": "res_templ/fonts/Open_Sans/OpenSans-Bold.ttf",
+									"source": "#default-font",
 									"fontSize": 20,
 									"textAlign": "right",
 									"width": 80,
@@ -325,7 +325,7 @@
 											"id": "infoPeer",
 											"params": {
 												"content": "Appuie en même temps que ton partenaire pour former le symbole",
-												"source": "res_templ/fonts/Open_Sans/OpenSans-Regular.ttf",
+												"source": "#default-font",
 												"fontSize": 20,
 												"textAlign": "center",
 												"width": 80,

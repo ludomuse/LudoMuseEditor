@@ -22,7 +22,7 @@
               "type": "Text",
               "params": {
                 "content": "SUIVANT",
-                "source": "res_templ/fonts/Open_Sans/OpenSans-Bold.ttf",
+                "source": "#default-font",
                 "fontSize": 20,
                 "textAlign": "right",
                 "width": 80,
@@ -56,7 +56,7 @@
               "type": "Text",
               "params": {
                 "content": "PRÉCÉDENT",
-                "source": "res_templ/fonts/Open_Sans/OpenSans-Bold.ttf",
+                "source": "#default-font",
                 "fontSize": 20,
                 "textAlign": "left",
                 "width": 80,
@@ -78,7 +78,7 @@
       {
         "type": "Image",
         "params": {
-          "source": "res_templ/cache/background.png",
+          "source": "#default-background",
           "anchor": 0,
           "width": 0,
           "height": 100,
@@ -100,7 +100,7 @@
               "type": "Text",
               "params": {
                 "content": "Texte de description",
-                "source": "res_templ/fonts/Open_Sans/OpenSans-Regular.ttf",
+                "source": "#default-font",
                 "fontSize": 20,
                 "textAlign": "center",
                 "width": 100,
