@@ -334,30 +334,54 @@
           "height": 13,
           "children": [
             {
-              "type": "Text",
-              "id": "InfoText",
+              "type": "Group",
               "params": {
-                "content": "Info",
-                "source": "#default-font",
-                "fontSize": 20,
-                "textAlign": "center",
+                "anchor": 0,
                 "width": 60,
                 "height": 100,
-                "anchor": 0,
-                "color": "0,0,0,255",
-                "listeners": [
+                "x": 0,
+                "y": 0,
+                "children": [
                   {
-                    "type": "DropBad",
+                    "type": "Animation",
                     "params": {
-                      "callback": "SetText",
-                      "arg": "Mal Placé"
+                      "animation": "ui/animations/move.plist",
+                      "sheet": "ui/animations/move.png",
+                      "anchor": 8,
+                      "width": 0,
+                      "height": 80,
+                      "x": 0,
+                      "y": 0
                     }
                   },
                   {
-                    "type": "DropGood",
+                    "type": "Text",
+                    "id": "InfoText",
                     "params": {
-                      "callback": "SetText",
-                      "arg": "Bien placé"
+                      "content": "Glisse et dépose les éléments dans la zone de partage",
+                      "source": "#default-font",
+                      "fontSize": 20,
+                      "textAlign": "center",
+                      "width": 80,
+                      "height": 100,
+                      "anchor": 0,
+                      "color": "0,0,0,255",
+                      "listeners": [
+                        {
+                          "type": "DropBad",
+                          "params": {
+                            "callback": "SetText",
+                            "arg": "Mal Placé"
+                          }
+                        },
+                        {
+                          "type": "DropGood",
+                          "params": {
+                            "callback": "SetText",
+                            "arg": "Bien placé"
+                          }
+                        }
+                      ]
                     }
                   }
                 ]
@@ -967,9 +991,10 @@
                   "y": 0,
                   "children": [
                     {
-                      "type": "Image",
+                      "type": "Animation",
                       "params": {
-                        "source": "res_templ/ui/Assets/PNG/picto_doigt.png",
+                        "animation": "ui/animations/move.plist",
+                        "sheet": "ui/animations/move.png",
                         "anchor": 8,
                         "width": 0,
                         "height": 80,
@@ -981,7 +1006,7 @@
                       "type": "Text",
                       "id": "InfoText",
                       "params": {
-                        "content": "Infos",
+                        "content": "Associe les éléments reçus",
                         "source": "#default-font",
                         "fontSize": 20,
                         "textAlign": "center",

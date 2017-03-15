@@ -836,9 +836,10 @@
                                         "y": 0,
                                         "children": [
                                             {
-                                                "type": "Image",
+                                                "type": "Animation",
                                                 "params": {
-                                                    "source": "ui/picto_doigt.png",
+                                                    "animation": "ui/animations/touch.plist",
+                                                    "sheet": "ui/animations/touch.png",
                                                     "anchor": 8,
                                                     "width": 0,
                                                     "height": 80,
@@ -1252,9 +1253,10 @@
                                         "y": 0,
                                         "children": [
                                             {
-                                                "type": "Image",
+                                                "type": "Animation",
                                                 "params": {
-                                                    "source": "ui/Assets/PNG/picto_doigt.png",
+                                                    "animation": "ui/animations/touch.plist",
+                                                    "sheet": "ui/animations/touch.png",
                                                     "anchor": 8,
                                                     "width": 0,
                                                     "height": 80,
@@ -1334,7 +1336,7 @@
                                     "type": "Text",
                                     "params": {
                                         "content": "SUIVANT",
-                                        "source": "res_templ/fonts/Open_Sans/OpenSans-Bold.ttf",
+                                        "source": "#default-font",
                                         "fontSize": 20,
                                         "textAlign": "right",
                                         "width": 80,
@@ -1431,9 +1433,10 @@
                                         "y": 0,
                                         "children": [
                                             {
-                                                "type": "Image",
+                                                "type": "Animation",
                                                 "params": {
-                                                    "source": "res_templ/ui/Assets/PNG/picto_doigt.png",
+                                                    "animation": "ui/animations/touch.plist",
+                                                    "sheet": "ui/animations/touch.png",
                                                     "anchor": 8,
                                                     "width": 0,
                                                     "height": 80,
@@ -1446,7 +1449,7 @@
                                                 "id": "infoPeer",
                                                 "params": {
                                                     "content": "Appuie en même temps que ton partenaire pour former le symbole",
-                                                    "source": "res_templ/fonts/Open_Sans/OpenSans-Regular.ttf",
+                                                    "source": "#default-font",
                                                     "fontSize": 20,
                                                     "textAlign": "center",
                                                     "width": 80,
@@ -1521,7 +1524,7 @@
                                     "type": "Text",
                                     "params": {
                                         "content": "SUIVANT",
-                                        "source": "res_templ/fonts/Open_Sans/OpenSans-Bold.ttf",
+                                        "source": "#default-font",
                                         "fontSize": 20,
                                         "textAlign": "right",
                                         "width": 80,
@@ -1628,9 +1631,10 @@
                                         "y": 0,
                                         "children": [
                                             {
-                                                "type": "Image",
+                                                "type": "Animation",
                                                 "params": {
-                                                    "source": "res_templ/ui/Assets/PNG/picto_doigt.png",
+                                                    "animation": "ui/animations/touch.plist",
+                                                    "sheet": "ui/animations/touch.png",
                                                     "anchor": 8,
                                                     "width": 0,
                                                     "height": 80,
@@ -1643,7 +1647,7 @@
                                                 "id": "infoPeer",
                                                 "params": {
                                                     "content": "Appuie en même temps que ton partenaire pour former le symbole",
-                                                    "source": "res_templ/fonts/Open_Sans/OpenSans-Regular.ttf",
+                                                    "source": "#default-font",
                                                     "fontSize": 20,
                                                     "textAlign": "center",
                                                     "width": 80,
