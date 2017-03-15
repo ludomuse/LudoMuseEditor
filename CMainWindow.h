@@ -19,6 +19,7 @@
 #include <Classes/Engine/Include/CLabelNode.h>
 #include <Classes/Engine/Include/CSpriteNode.h>
 #include <Classes/Engine/Include/CMenuNode.h>
+#include <Classes/Engine/Include/CTeamNode.h>
 
 
 
@@ -52,6 +53,10 @@ private:
     /// \param CSprite the sprite which is actually under inspection/ modification
     void InspectSprite(LM::CSpriteNode* a_pSprite);
 
+    /// \brief allow TeamNode inspection in the widget named : inspectorContainer
+    /// \param a_pTeamNode the TeamNode which is actually under inspection/ modification
+    void InspectTeamNode(LM::CTeamNode* a_pTeamNode);
+
     /// \brief update and allow scene inspection
     void InspectScene(LM::CSceneNode* a_pScene);
 
@@ -74,6 +79,7 @@ private slots:
 
     void receiveLabel(LM::CLabelNode*);
     void receiveSprite(LM::CSpriteNode*);
+    void receiveTeamNode(LM::CTeamNode*);
     void receiveMenu(LM::CMenuNode*);
     /// \brief isNav store the fact that the scene is send after pression on
     /// prev or next button. Thus we can know if we need to update thumbnails or not!

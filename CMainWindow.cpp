@@ -41,6 +41,7 @@
 #include "CThumbnailWidget.h"
 #include "CLabelInspector.h"
 #include "CSpriteInspector.h"
+#include "CTeamNodeInspector"
 #include "CSoundInspector.h"
 #include "CSceneInspector.h"
 #include "CMenuNodeInspector.h"
@@ -182,6 +183,7 @@ void CMainWindow::loadExistingProject(const QString& a_sProjectFile)
     LM::CEditorFindEntityTouchVisitor* dummyVisitor= this->m_pKernel->GetEditorVisitor();
     connect(dummyVisitor, SIGNAL(labelClicked(LM::CLabelNode*)), this, SLOT(receiveLabel(LM::CLabelNode*)));
     connect(dummyVisitor, SIGNAL(spriteClicked(LM::CSpriteNode*)), this, SLOT(receiveSprite(LM::CSpriteNode*)));
+    connect(dummyVisitor, SIGNAL(teamNodeClicked(LM::CTeamNode*)), this, SLOT(receiveTeamNode(LM::CTeamNode*)));
     //    connect(m_pKernel, SIGNAL(addingSceneFinished(std::string, int)), this, SLOT(addingSceneFinished(std::string, int)));
     //    connect(m_pKernel, SIGNAL(deletingSceneFinished()), this, SLOT(deletingSceneFinished()));
     connect(m_pKernel, SIGNAL(addingSceneFinished(const QString, const QString, int)),
@@ -226,6 +228,11 @@ void CMainWindow::receiveLabel(LM::CLabelNode* a_pLabel)
 void CMainWindow::receiveSprite(LM::CSpriteNode* a_pSprite)
 {
     this->InspectSprite(a_pSprite);
+}
+
+void CMainWindow::receiveTeamNode(LM::CTeamNode* a_pTeamNode)
+{
+    this->InspectTeamNode(a_pTeamNode);
 }
 
 void CMainWindow::receiveMenu(LM::CMenuNode* a_pMenuNode)
@@ -593,6 +600,33 @@ void CMainWindow::InspectSprite(LM::CSpriteNode* a_pSprite)
 
     connect(soundInspector, SIGNAL(modifySound(LM::CEntityNode*,QString,QString)), this, SLOT(nodeSoundModified(LM::CEntityNode*,QString,QString)));
     connect(soundInspector, SIGNAL(removeSound(LM::CEntityNode*)), this, SLOT(nodeSoundRemoved(LM::CEntityNode*)));
+}
+
+void CMainWindow::InspectTeamNode(LM::CTeamNode* a_pTeamNode)
+{
+    clearInspectorContainer();
+    // Clear inspector tool bar
+    this->setInspectorName("Éditeur de jeu en équipe");
+
+    // Clear inspector loayout from older inspection
+    QLayoutItem *child;
+    QLayout* inspectorContainerLayout = this->ui->inspectorContainer->layout();
+    //    if(inspectorContainerLayout != Q_NULLPTR)
+    //    {
+    //        while ((child = inspectorContainerLayout->takeAt(0)) != 0) {
+    //            delete child->widget();
+    //            delete child;
+    //        }
+
+    //    }
+    CTeamNodeInspector* inspector = new CTeamNodeInspector(a_pSprite, this->ui->inspectorContainer);
+    inspector->setAttribute( Qt::WA_DeleteOnClose );
+
+    inspectorContainerLayout->addWidget(inspector);
+
+    connect(inspector, SIGNAL(closeInspector()), this, SLOT(clearInspectorContainer()));
+    connect(inspector, SIGNAL(modifyTeamNode(LM::CEntityNode*)), this, SLOT(nodeModified(LM::CEntityNode*)));
+
 }
 
 void CMainWindow::nodeModified(LM::CEntityNode* a_pNode)
