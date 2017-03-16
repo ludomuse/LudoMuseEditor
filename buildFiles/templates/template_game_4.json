@@ -16,8 +16,8 @@
 						"width": 0,
 						"height": 13,
 						"anchor": 5,
-						"normal": "res_templ/ui/nav-5.png",
-						"selected": "res_templ/ui/nav-5-active.png",
+						"normal": "ui/nav-5.png",
+						"selected": "ui/nav-5-active.png",
 						"action": "next",
 						"listeners": [
               {
@@ -51,7 +51,7 @@
 					"type": "Camera",
 					"id": "camera-p1",
 					"params": {
-						"source": "res_templ/cache/cadre.png",
+						"source": "cache/cadre.png",
 						"anchor": 0,
 						"width": 0,
 						"height": 73,
@@ -73,7 +73,7 @@
 				{
 					"type": "Info",
 					"params": {
-						"source": "res_templ/ui/info-6.png",
+						"source": "ui/info-6.png",
 						"anchor": 6,
 						"width": 0,
 						"height": 13,
@@ -105,8 +105,8 @@
 						"width": 0,
 						"height": 13,
 						"anchor": 5,
-						"normal": "res_templ/ui/nav-5.png",
-						"selected": "res_templ/ui/nav-5-active.png",
+						"normal": "ui/nav-5.png",
+						"selected": "ui/nav-5-active.png",
 						"action": "next",
 						"listeners": [
               {
@@ -165,7 +165,7 @@
 					"type": "Camera",
 					"id": "camera-p2",
 					"params": {
-						"source": "res_templ/cache/cadre.png",
+						"source": "cache/cadre.png",
 						"isReceiver": true,
 						"anchor": 0,
 						"width": 0,
@@ -179,7 +179,7 @@
 				{
 					"type": "Info",
 					"params": {
-						"source": "res_templ/ui/info-6.png",
+						"source": "ui/info-6.png",
 						"anchor": 6,
 						"width": 0,
 						"height": 13,

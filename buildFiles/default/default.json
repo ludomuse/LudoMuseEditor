@@ -41,7 +41,7 @@
                                     "type": "Text",
                                     "params": {
                                         "content": "Suivant",
-                                        "source": "fonts/Open_Sans/OpenSans-Regular.ttf",
+                                        "source": "#default-font",
                                         "fontSize": 24,
                                         "textAlign": "center",
                                         "width": 100,
@@ -463,7 +463,7 @@
                                     "id": "CollectionText",
                                     "params": {
                                         "content": "Votre Collection",
-                                        "source": "fonts/Open_Sans/OpenSans-Regular.ttf",
+                                        "source": "#default-font",
                                         "fontSize": 20,
                                         "textAlign": "center",
                                         "width": 80,
@@ -522,7 +522,7 @@
                                     "type": "Text",
                                     "params": {
                                         "content": "ENTREZ",
-                                        "source": "fonts/Open_Sans/OpenSans-Bold.ttf",
+                                        "source": "#default-font",
                                         "fontSize": 20,
                                         "textAlign": "right",
                                         "width": 80,
@@ -576,7 +576,7 @@
                                     "type": "Text",
                                     "params": {
                                         "content": "PRÊT!",
-                                        "source": "fonts/Open_Sans/OpenSans-Regular.ttf",
+                                        "source": "#default-font",
                                         "fontSize": 24,
                                         "textAlign": "center",
                                         "width": 100,
@@ -602,7 +602,7 @@
                                     "type": "Text",
                                     "params": {
                                         "content": "PRÉCÉDENT",
-                                        "source": "fonts/Open_Sans/OpenSans-Regular.ttf",
+                                        "source": "#default-font",
                                         "fontSize": 24,
                                         "textAlign": "center",
                                         "width": 100,
@@ -852,7 +852,7 @@
                                                 "id": "infoPeer",
                                                 "params": {
                                                     "content": "Choisis ton partenaire!",
-                                                    "source": "fonts/Open_Sans/OpenSans-Regular.ttf",
+                                                    "source": "#default-font",
                                                     "fontSize": 20,
                                                     "textAlign": "center",
                                                     "width": 80,
@@ -902,7 +902,7 @@
                                     "type": "Text",
                                     "params": {
                                         "content": "Avec qui veux-tu jouer ?",
-                                        "source": "fonts/Open_Sans/OpenSans-Regular.ttf",
+                                        "source": "#default-font",
                                         "fontSize": 20,
                                         "textAlign": "center",
                                         "width": 80,
@@ -942,7 +942,7 @@
                                     "type": "Text",
                                     "params": {
                                         "content": "SUIVANT",
-                                        "source": "fonts/Open_Sans/OpenSans-Regular.ttf",
+                                        "source": "#default-font",
                                         "fontSize": 24,
                                         "textAlign": "center",
                                         "width": 100,
@@ -968,7 +968,7 @@
                                     "type": "Text",
                                     "params": {
                                         "content": "PRÉCÉDENT",
-                                        "source": "fonts/Open_Sans/OpenSans-Regular.ttf",
+                                        "source": "#default-font",
                                         "fontSize": 24,
                                         "textAlign": "center",
                                         "width": 100,
@@ -1319,8 +1319,8 @@
                             "width": 0,
                             "height": 13,
                             "anchor": 5,
-                            "normal": "res_templ/ui/nav-5.png",
-                            "selected": "res_templ/ui/nav-5-active.png",
+                            "normal": "ui/nav-5.png",
+                            "selected": "ui/nav-5-active.png",
                             "action": "next",
                             "listeners": [
                                 {
@@ -1364,7 +1364,7 @@
                     {
                         "type": "Image",
                         "params": {
-                            "source": "res_templ/cache/ready1.png",
+                            "source": "cache/ready1.png",
                             "anchor": 0,
                             "width": 0,
                             "height": 50,
@@ -1391,7 +1391,7 @@
                     {
                         "type": "Image",
                         "params": {
-                            "source": "res_templ/cache/ready2.png",
+                            "source": "cache/ready2.png",
                             "anchor": 0,
                             "width": 0,
                             "height": 50,
@@ -1418,7 +1418,7 @@
                     {
                         "type": "Info",
                         "params": {
-                            "source": "res_templ/ui/info-6.png",
+                            "source": "ui/info-6.png",
                             "anchor": 6,
                             "width": 0,
                             "height": 13,
@@ -1500,8 +1500,8 @@
                             "width": 0,
                             "height": 13,
                             "anchor": 5,
-                            "normal": "res_templ/ui/nav-5.png",
-                            "selected": "res_templ/ui/nav-5-active.png",
+                            "normal": "ui/nav-5.png",
+                            "selected": "ui/nav-5-active.png",
                             "action": "next",
                             "listeners": [
                                 {
@@ -1562,7 +1562,7 @@
                     {
                         "type": "Image",
                         "params": {
-                            "source": "res_templ/cache/ready2.png",
+                            "source": "cache/ready2.png",
                             "anchor": 0,
                             "width": 0,
                             "height": 50,
@@ -1589,7 +1589,7 @@
                     {
                         "type": "Image",
                         "params": {
-                            "source": "res_templ/cache/ready1.png",
+                            "source": "cache/ready1.png",
                             "anchor": 0,
                             "width": 0,
                             "height": 50,
@@ -1616,7 +1616,7 @@
                     {
                         "type": "Info",
                         "params": {
-                            "source": "res_templ/ui/info-6.png",
+                            "source": "ui/info-6.png",
                             "anchor": 6,
                             "width": 0,
                             "height": 13,

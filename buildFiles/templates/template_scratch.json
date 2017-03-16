@@ -14,8 +14,8 @@
 						"width": 0,
 						"height": 13,
 						"anchor": 5,
-						"normal": "res_templ/ui/nav-5.png",
-						"selected": "res_templ/ui/nav-5-active.png",
+						"normal": "ui/nav-5.png",
+						"selected": "ui/nav-5-active.png",
 						"action": "next",
 						"children": [
 							{
@@ -50,7 +50,7 @@
 				{
 					"type": "Scratch",
 					"params": {
-						"source": "res_templ/cache/scratch.png",
+						"source": "cache/scratch.png",
 						"anchor": 0,
 						"width": 0,
 						"height": 70,
@@ -63,7 +63,7 @@
 				{
 					"type": "Image",
 					"params": {
-						"source": "res_templ/ui/info-2.png",
+						"source": "ui/info-2.png",
 						"anchor": 2,
 						"width": 0,
 						"height": 13,
@@ -89,7 +89,7 @@
 				{
 					"type": "Image",
 					"params": {
-						"source": "res_templ/ui/info-6.png",
+						"source": "ui/info-6.png",
 						"anchor": 6,
 						"width": 0,
 						"height": 13,
@@ -124,8 +124,8 @@
 						"width": 0,
 						"height": 13,
 						"anchor": 5,
-						"normal": "res_templ/ui/nav-5.png",
-						"selected": "res_templ/ui/nav-5-active.png",
+						"normal": "ui/nav-5.png",
+						"selected": "ui/nav-5-active.png",
 						"action": "next",
 						"children": [
 							{
@@ -160,7 +160,7 @@
 				{
 					"type": "Image",
 					"params": {
-						"source": "res_templ/ui/cache-noir-70.png",
+						"source": "ui/cache-noir-70.png",
 						"anchor": 0,
 						"width": 50,
 						"height": 66,
@@ -188,7 +188,7 @@
 				{
 					"type": "Info",
 					"params": {
-						"source": "res_templ/ui/info-2.png",
+						"source": "ui/info-2.png",
 						"anchor": 2,
 						"width": 0,
 						"height": 13,
@@ -214,7 +214,7 @@
 				{
 					"type": "Info",
 					"params": {
-						"source": "res_templ/ui/info-6.png",
+						"source": "ui/info-6.png",
 						"anchor": 6,
 						"width": 0,
 						"height": 13,

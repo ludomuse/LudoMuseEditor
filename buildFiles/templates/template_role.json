@@ -13,8 +13,8 @@
             "width": 0,
             "height": 13,
             "anchor": 5,
-            "normal": "res_templ/ui/nav-5.png",
-            "selected": "res_templ/ui/nav-5-active.png",
+            "normal": "ui/nav-5.png",
+            "selected": "ui/nav-5-active.png",
             "action": "next",
             "listeners": [
               {
@@ -48,8 +48,8 @@
             "width": 0,
             "height": 13,
             "anchor": 7,
-            "normal": "res_templ/ui/nav-7.png",
-            "selected": "res_templ/ui/nav-7-active.png",
+            "normal": "ui/nav-7.png",
+            "selected": "ui/nav-7-active.png",
             "action": "prev",
             "children": [
               {
@@ -73,7 +73,7 @@
         {
           "type": "Image",
           "params": {
-            "source": "res_templ/cache/background_dark.png",
+            "source": "cache/background_dark.png",
             "anchor": 0,
             "width": 0,
             "height": 100,
@@ -119,7 +119,7 @@
                       "type": "Touch",
                       "params": {
                         "callback": "PlaySound",
-                        "arg": "res_templ/ui/audio/buttonClicked.mp3"
+                        "arg": "ui/audio/buttonClicked.mp3"
                       }
                     },
                     {
@@ -141,7 +141,7 @@
                     {
                       "type": "Image",
                       "params": {
-                        "source": "res_templ/cache/collectionneur.png",
+                        "source": "cache/collectionneur.png",
                         "anchor": 2,
                         "width": 0,
                         "height": 85,
@@ -175,7 +175,7 @@
                             "type": "Image",
                             "id": "bigCheck",
                             "params": {
-                              "source": "res_templ/ui/Assets/PNG/Assets-11.png",
+                              "source": "ui/Assets/PNG/Assets-11.png",
                               "anchor": 0,
                               "width": 0,
                               "height": 80,
@@ -232,7 +232,7 @@
                       "type": "Touch",
                       "params": {
                         "callback": "PlaySound",
-                        "arg": "res_templ/ui/audio/buttonClicked.mp3"
+                        "arg": "ui/audio/buttonClicked.mp3"
                       }
                     },
                     {
@@ -254,7 +254,7 @@
                     {
                       "type": "Image",
                       "params": {
-                        "source": "res_templ/cache/explorateur.png",
+                        "source": "cache/explorateur.png",
                         "anchor": 2,
                         "width": 0,
                         "height": 85,
@@ -288,7 +288,7 @@
                             "type": "Image",
                             "id": "littleCheck",
                             "params": {
-                              "source": "res_templ/ui/Assets/PNG/Assets-11.png",
+                              "source": "ui/Assets/PNG/Assets-11.png",
                               "anchor": 0,
                               "width": 0,
                               "height": 80,
@@ -326,7 +326,7 @@
         {
           "type": "Info",
           "params": {
-            "source": "res_templ/ui/info-6.png",
+            "source": "ui/info-6.png",
             "anchor": 6,
             "width": 0,
             "height": 13,
@@ -341,9 +341,10 @@
                   "y": 0,
                   "children": [
                     {
-                      "type": "Image",
+                      "type": "Animation",
                       "params": {
-                        "source": "res_templ/ui/Assets/PNG/picto_doigt.png",
+                        "animation": "ui/animations/touch.plist",
+                        "sheet": "ui/animations/touch.png",
                         "anchor": 8,
                         "width": 0,
                         "height": 80,
@@ -373,7 +374,7 @@
         {
           "type": "Info",
           "params": {
-            "source": "res_templ/ui/info-2.png",
+            "source": "ui/info-2.png",
             "anchor": 2,
             "width": 0,
             "height": 13,

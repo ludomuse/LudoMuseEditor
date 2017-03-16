@@ -22,8 +22,8 @@
                         "width": 0,
                         "height": 13,
                         "anchor": 5,
-                        "normal": "res_templ/ui/nav-5.png",
-                        "selected": "res_templ/ui/nav-5-active.png",
+                        "normal": "ui/nav-5.png",
+                        "selected": "ui/nav-5-active.png",
                         "action": "next",
                         "children": [
                             {
@@ -82,7 +82,7 @@
                             {
                                 "type": "Image",
                                 "params": {
-                                    "source": "res_templ/ui/info-2.png",
+                                    "source": "ui/info-2.png",
                                     "height": 13,
                                     "anchor": 2,
                                     "children": [
@@ -122,7 +122,7 @@
                             {
                                 "type": "Image",
                                 "params": {
-                                    "source": "res_templ/ui/info-6.png",
+                                    "source": "ui/info-6.png",
                                     "height": 13,
                                     "anchor": 6,
                                     "children": [
@@ -154,7 +154,7 @@
                                         {
                                             "type": "Image",
                                             "params": {
-                                                "source": "res_templ/ui/cache-noir-70.png",
+                                                "source": "ui/cache-noir-70.png",
                                                 "height": 50,
                                                 "anchor": 0,
                                                 "children": [
@@ -186,7 +186,7 @@
                                         {
                                             "type": "Image",
                                             "params": {
-                                                "source": "res_templ/ui/cache-noir-70.png",
+                                                "source": "ui/cache-noir-70.png",
                                                 "height": 50,
                                                 "anchor": 0,
                                                 "children": [
@@ -218,7 +218,7 @@
                                         {
                                             "type": "Image",
                                             "params": {
-                                                "source": "res_templ/ui/cache-noir-70.png",
+                                                "source": "ui/cache-noir-70.png",
                                                 "height": 50,
                                                 "anchor": 0,
                                                 "children": [
@@ -250,7 +250,7 @@
                                         {
                                             "type": "Image",
                                             "params": {
-                                                "source": "res_templ/ui/cache-noir-70.png",
+                                                "source": "ui/cache-noir-70.png",
                                                 "height": 50,
                                                 "anchor": 0,
                                                 "children": [
