@@ -41,7 +41,7 @@
 #include "CThumbnailWidget.h"
 #include "CLabelInspector.h"
 #include "CSpriteInspector.h"
-#include "CTeamNodeInspector"
+#include "CTeamNodeInspector.h"
 #include "CSoundInspector.h"
 #include "CSceneInspector.h"
 #include "CMenuNodeInspector.h"
@@ -619,7 +619,7 @@ void CMainWindow::InspectTeamNode(LM::CTeamNode* a_pTeamNode)
     //        }
 
     //    }
-    CTeamNodeInspector* inspector = new CTeamNodeInspector(a_pSprite, this->ui->inspectorContainer);
+    CTeamNodeInspector* inspector = new CTeamNodeInspector(a_pTeamNode, this->ui->inspectorContainer);
     inspector->setAttribute( Qt::WA_DeleteOnClose );
 
     inspectorContainerLayout->addWidget(inspector);

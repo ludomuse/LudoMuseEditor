@@ -64,6 +64,7 @@ SOURCES += main.cpp\
     LudoMuse_src/Classes/Engine/Source/CEditorFindEntityTouchVisitor.cpp \
     CLabelInspector.cpp \
     CSpriteInspector.cpp \
+    CTeamNodeInspector.cpp \
     CSoundInspector.cpp \
     CAddSceneWizard.cpp \
     CFileListView.cpp \
@@ -149,6 +150,7 @@ HEADERS  += CMainWindow.h \
     CLabelInspector.h \
     CSpriteInspector.h \
     CSoundInspector.h \
+    CTeamNodeInspector.h \
     CAddSceneWizard.h \
     CFileListView.h \
     CLineEdit.h \

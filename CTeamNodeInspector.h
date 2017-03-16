@@ -23,11 +23,16 @@ signals:
 public slots:
     void validateChanges();
     void discardChanges();
+    void changeTask(QString a_oNewTask);
+    void changeAction(QString a_oNewAction);
 
 private:
 
     LM::CTeamNode* m_pTeamNode;
     LM::TTasksArray m_oSavedTasks;
+
+    std::vector<QLineEdit*> m_oTasks;
+    std::vector<QLineEdit*> m_oActions;
 
 protected:
     virtual void closeEvent(QCloseEvent *event) override;

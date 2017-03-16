@@ -65,7 +65,7 @@
                     "type": "TeamNode",
                     "params": {
                         "anchor": 0,
-                        "width": 100,
+                        "width": 80,
                         "height": 100,
                         "tasks": [
                             ["Tâche 1", "Action 1"],
