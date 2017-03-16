@@ -82,7 +82,7 @@ CMainWindow::CMainWindow(QWidget *parent) :
     ui->setupUi(this);
 
     setWindowIcon(QIcon(CProjectManager::Instance()->QGetInstallPath().append("/resources/icon.png")));
-    setWindowTitle("LudoMuse Editor");
+    setWindowTitle("LudoMuseEditor");
 
     // Init with loader widget
     ui->mmBotView->setVisible(false);
@@ -159,6 +159,8 @@ void CMainWindow::loadExistingProject(const QString& a_sProjectFile)
     //    ui->toolBarCocos->setStyleSheet("#toolBarCocos{border-bottom: 1px solid black;border-right : 2px solid rgba(255,255,255,255);}");
     ui->inspectorContainer->layout()->setAlignment(Qt::AlignTop);
     QString projectPath = QFileInfo(a_sProjectFile).absolutePath();
+
+    setWindowTitle(QString("LudoMuseEditor -- ") + a_sProjectFile);
 
 //    m_pDirModel = new QFileSystemModel();
 //    m_pDirModel->setFilter(QDir::NoDotAndDotDot | QDir::AllDirs);
