@@ -33,17 +33,14 @@ private:
     QString m_sPreviousID1;
     QString m_sPreviousID2;
     QLabel* m_pPreviewTitle;
-    QLabel* m_pPreviewTitle2;
+    QLabel* m_pDescriptionLabel;
     QLineEdit* m_pNewID;
     QLineEdit* m_pNewID2;
 //    QLineEdit* m_pSoundPath;
 //    QLineEdit* m_pSoundPath2;
     QCheckBox* m_pPlayer1CheckBox;
     QCheckBox* m_pPlayer2CheckBox;
-    QCheckBox* m_pDashCheckBox;
-    QCheckBox* m_pDashCheckBox2;
-    QCheckBox* m_pSynchroCheckBox;
-    QCheckBox* m_pSynchroCheckBox2;
+
     QComboBox* m_pComboBoxID;
     QComboBox* m_pComboBoxID2;
     CTemplatePushButton* m_pCurrentTemplateButton;

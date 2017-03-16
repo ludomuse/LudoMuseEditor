@@ -38,6 +38,7 @@ CAddSceneWizard::CAddSceneWizard(int a_iActivePlayer, const std::vector<std::str
     templateScrollArea->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
     templateScrollArea->setStyleSheet("QLabel{ border : 1px solid white}");
     templateScrollArea->setMinimumWidth(300);
+    templateScrollArea->setMaximumWidth(300);
     QVBoxLayout* vTemplateScrollAreaLayout = new QVBoxLayout();
     templateScrollArea->setLayout(vTemplateScrollAreaLayout);
     QVBoxLayout* vTemplateLayout = new QVBoxLayout();
@@ -46,10 +47,14 @@ CAddSceneWizard::CAddSceneWizard(int a_iActivePlayer, const std::vector<std::str
 
     m_pTemplatesWidget = this->CreateTemplatesWidget();
     templateScrollArea->setWidget(m_pTemplatesWidget);
+    templateScrollArea->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Preferred);
 
     // Create preview title
     m_pPreviewTitle = new QLabel("");
     m_pPreviewTitle->setAlignment(Qt::AlignCenter);
+
+    m_pDescriptionLabel = new QLabel("");
+    m_pDescriptionLabel->setAlignment(Qt::AlignCenter);
 
     // Create preview widget
     QWidget* previewAndOptionWidget = new QWidget();
@@ -84,28 +89,14 @@ CAddSceneWizard::CAddSceneWizard(int a_iActivePlayer, const std::vector<std::str
     // Create otpion widget
     m_pOptionWidget = new QWidget();
     QHBoxLayout* hOptionLayout = new QHBoxLayout();
-    QWidget* rightPart = new QWidget();
-    QVBoxLayout* vRightPartLayout = new QVBoxLayout();
     QWidget* playerWidget = new QWidget();
     QHBoxLayout* hPlayerLayout = new QHBoxLayout();
     m_pPlayer1CheckBox = new QCheckBox("Joueur 1");
     hPlayerLayout->addWidget(m_pPlayer1CheckBox);
     hPlayerLayout->setAlignment(Qt::AlignCenter | Qt::AlignHCenter);
     playerWidget->setLayout(hPlayerLayout);
-    QWidget* synchroWidget = new QWidget();
-    QHBoxLayout* hSynchroLayout = new QHBoxLayout();
-    m_pSynchroCheckBox = new QCheckBox("Synchronisée");
-    hSynchroLayout->addWidget(m_pSynchroCheckBox);
-    synchroWidget->setLayout(hSynchroLayout);
-    QWidget* dashWidget = new QWidget();
-    QHBoxLayout* hDashLayout = new QHBoxLayout();
-    m_pDashCheckBox = new QCheckBox("Déclenche le dashboard");
-    hDashLayout->addWidget(m_pDashCheckBox);
-    dashWidget->setLayout(hDashLayout);
-    //    vRightPartLayout->addWidget(playerWidget);
-    vRightPartLayout->addWidget(synchroWidget);
-    vRightPartLayout->addWidget(dashWidget);
-    rightPart->setLayout(vRightPartLayout);
+
+
     QWidget* leftPart = new QWidget();
     QVBoxLayout* vLeftPartLayout = new QVBoxLayout();
     QWidget* idWidget = new QWidget();
@@ -128,7 +119,6 @@ CAddSceneWizard::CAddSceneWizard(int a_iActivePlayer, const std::vector<std::str
 //    vLeftPartLayout->addWidget(soundWidget);
     leftPart->setLayout(vLeftPartLayout);
     hOptionLayout->addWidget(leftPart);
-    hOptionLayout->addWidget(rightPart);
     m_pOptionWidget->setLayout(hOptionLayout);
 
     // Create button widget
@@ -141,16 +131,12 @@ CAddSceneWizard::CAddSceneWizard(int a_iActivePlayer, const std::vector<std::str
     buttonsWidget->setLayout(hButtonsLayout);
 
     // Fill Preview and option widget
-    vPreviewOptionLayout->addWidget(m_pPreviewTitle);
     vPreviewOptionLayout->addWidget(playerWidget);
     vPreviewOptionLayout->addWidget(m_pPreviewWidget);
     vPreviewOptionLayout->addWidget(m_pComboBoxWidget);
     vPreviewOptionLayout->addWidget(m_pOptionWidget);
     previewAndOptionWidget->setLayout(vPreviewOptionLayout);
 
-    // Fill the second preview widget (exactly same as first one)
-    m_pPreviewTitle2 = new QLabel("");
-    m_pPreviewTitle2->setAlignment(Qt::AlignCenter);
 
     // Create preview widget
     QWidget* previewAndOptionWidget2 = new QWidget();
@@ -183,8 +169,7 @@ CAddSceneWizard::CAddSceneWizard(int a_iActivePlayer, const std::vector<std::str
     // Create otpion widget
     m_pOptionWidget2 = new QWidget();
     QHBoxLayout* hOptionLayout2 = new QHBoxLayout();
-    QWidget* rightPart2 = new QWidget();
-    QVBoxLayout* vRightPartLayout2 = new QVBoxLayout();
+
     QWidget* playerWidget2 = new QWidget();
     QHBoxLayout* hPlayerLayout2 = new QHBoxLayout();
     m_pPlayer2CheckBox = new QCheckBox("Joueur 2");
@@ -210,20 +195,9 @@ CAddSceneWizard::CAddSceneWizard(int a_iActivePlayer, const std::vector<std::str
 //        m_pComboBoxID2->setEnabled(false);
     }
     playerWidget2->setLayout(hPlayerLayout2);
-    QWidget* synchroWidget2 = new QWidget();
-    QHBoxLayout* hSynchroLayout2 = new QHBoxLayout();
-    m_pSynchroCheckBox2 = new QCheckBox("Synchronisée");
-    hSynchroLayout2->addWidget(m_pSynchroCheckBox2);
-    synchroWidget2->setLayout(hSynchroLayout2);
-    QWidget* dashWidget2 = new QWidget();
-    QHBoxLayout* hDashLayout2 = new QHBoxLayout();
-    m_pDashCheckBox2 = new QCheckBox("Déclenche le dashboard");
-    hDashLayout2->addWidget(m_pDashCheckBox2);
-    dashWidget2->setLayout(hDashLayout2);
-    //    vRightPartLayout2->addWidget(playerWidget2);
-    vRightPartLayout2->addWidget(synchroWidget2);
-    vRightPartLayout2->addWidget(dashWidget2);
-    rightPart2->setLayout(vRightPartLayout2);
+
+
+
     QWidget* leftPart2 = new QWidget();
     QVBoxLayout* vLeftPartLayout2 = new QVBoxLayout();
     QWidget* idWidget2 = new QWidget();
@@ -234,21 +208,13 @@ CAddSceneWizard::CAddSceneWizard(int a_iActivePlayer, const std::vector<std::str
     hIdLayout2->addWidget(idTitle2);
     hIdLayout2->addWidget(m_pNewID2);
     idWidget2->setLayout(hIdLayout2);
-//    QWidget* soundWidget2 = new QWidget();
-//    QHBoxLayout* hSoundLayout2 = new QHBoxLayout();
-//    QLabel* soundTitle2 = new QLabel("Fond sonore :");
-//    m_pSoundPath2 = new QLineEdit();
-//    m_pSoundPath2->setPlaceholderText("Piste Audio");
-//    hSoundLayout2->addWidget(soundTitle2);
-//    hSoundLayout2->addWidget(m_pSoundPath2);
-//    soundWidget2->setLayout(hSoundLayout2);
+
+
     vLeftPartLayout2->addWidget(idWidget2);
 //    vLeftPartLayout2->addWidget(soundWidget2);
     leftPart2->setLayout(vLeftPartLayout2);
     hOptionLayout2->addWidget(leftPart2);
-    hOptionLayout2->addWidget(rightPart2);
     m_pOptionWidget2->setLayout(hOptionLayout2);
-    vPreviewOptionLayout2->addWidget(m_pPreviewTitle2);
     vPreviewOptionLayout2->addWidget(playerWidget2);
     vPreviewOptionLayout2->addWidget(m_pPreviewWidget2);
     vPreviewOptionLayout2->addWidget(m_pComboBoxWidget2);
@@ -270,10 +236,14 @@ CAddSceneWizard::CAddSceneWizard(int a_iActivePlayer, const std::vector<std::str
     QWidget* previewsWidget = new QWidget();
     previewsWidget->setLayout(hPreviewsLayout);
     QVBoxLayout* vWizardLayout = new QVBoxLayout();
+    vWizardLayout->addWidget(m_pPreviewTitle);
+    vWizardLayout->addWidget(m_pDescriptionLabel);
     vWizardLayout->addWidget(previewsWidget);
     vWizardLayout->addWidget(buttonsWidget);
     QWidget* mainWidget = new QWidget();
     mainWidget->setLayout(vWizardLayout);
+    mainWidget->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Preferred);
+    mainWidget->adjustSize();
 
     hWizardLayout->addWidget(templateScrollArea);
     hWizardLayout->addWidget(mainWidget);
@@ -477,41 +447,33 @@ void CAddSceneWizard::setCurrentTemplate(CTemplatePushButton* a_pTemplatePushBut
     // TODO
     if(m_pCurrentTemplateButton != Q_NULLPTR)
     {
-        this->m_pCurrentTemplateButton->Unfocus();
+        m_pCurrentTemplateButton->Unfocus();
     }
-    this->m_pCurrentTemplateButton = a_pTemplatePushButton;
+    m_pCurrentTemplateButton = a_pTemplatePushButton;
     CTemplate* pTemplate = a_pTemplatePushButton->GetTemplate();
-    this->m_pPreviewTitle->setText(pTemplate->GetName());
-    this->m_pPreviewTitle2->setText(pTemplate->GetName());
+    m_pPreviewTitle->setText(pTemplate->GetName());
+    m_pDescriptionLabel->setText(pTemplate->GetDescription());
+
     if(pTemplate->IsGame())
     {
         m_pSwapButton->setEnabled(true);
-        m_pSynchroCheckBox->setChecked(true);
-        m_pSynchroCheckBox2->setChecked(true);
         m_pPlayer1CheckBox->setChecked(true);
         m_pPlayer2CheckBox->setChecked(true);
         this->SetEnabledPlayerField(0, true);
         this->SetEnabledPlayerField(1, true);
-        m_pSynchroCheckBox->setEnabled(false);
-        m_pSynchroCheckBox2->setEnabled(false);
         m_pPlayer1CheckBox->setEnabled(false);
         m_pPlayer2CheckBox->setEnabled(false);
     }
     else
     {
         m_pSwapButton->setEnabled(false);
-        m_pSynchroCheckBox->setChecked(false);
-        m_pSynchroCheckBox2->setChecked(false);
-        m_pSynchroCheckBox->setEnabled(false);
-        m_pSynchroCheckBox2->setEnabled(false);
+
         if(m_iActivePlayer == 0) // P1
         {
             m_pPlayer1CheckBox->setChecked(true);
             m_pPlayer2CheckBox->setChecked(false);
             this->SetEnabledPlayerField(0, true);
             this->SetEnabledPlayerField(1, false);
-            m_pSynchroCheckBox->setEnabled(false);
-            m_pSynchroCheckBox2->setEnabled(false);
         }
         else if (m_iActivePlayer == 1) // P2
         {
@@ -519,8 +481,7 @@ void CAddSceneWizard::setCurrentTemplate(CTemplatePushButton* a_pTemplatePushBut
             m_pPlayer2CheckBox->setChecked(true);
             this->SetEnabledPlayerField(0, false);
             this->SetEnabledPlayerField(1, true);
-            m_pSynchroCheckBox->setEnabled(false);
-            m_pSynchroCheckBox2->setEnabled(false);
+
         }
         else
         {
@@ -528,8 +489,7 @@ void CAddSceneWizard::setCurrentTemplate(CTemplatePushButton* a_pTemplatePushBut
             m_pPlayer2CheckBox->setChecked(true);
             this->SetEnabledPlayerField(0, true);
             this->SetEnabledPlayerField(1, false);
-            m_pSynchroCheckBox->setEnabled(false);
-            m_pSynchroCheckBox2->setEnabled(false);
+
         }
         m_pPlayer1CheckBox->setEnabled(true);
         m_pPlayer2CheckBox->setEnabled(true);
@@ -620,24 +580,20 @@ void CAddSceneWizard::SetEnabledPlayerField(int a_iPlayerID, bool a_bEnabled)
 {
     if(a_iPlayerID == 1)
     {
-        this->m_pPreviewTitle2->setEnabled(a_bEnabled);
         this->m_pComboBoxID2->setEnabled(a_bEnabled);
         this->m_pNewID2->setEnabled(a_bEnabled);
 //        this->m_pSoundPath2->setEnabled(a_bEnabled);
-        this->m_pDashCheckBox2->setEnabled(false);
-        this->m_pSynchroCheckBox2->setEnabled(false);
+
         this->m_pPreviewWidget2->setEnabled(a_bEnabled);
         this->m_pComboBoxWidget2->setEnabled(a_bEnabled);
         this->m_pOptionWidget2->setEnabled(a_bEnabled);
     }
     else
     {
-        this->m_pPreviewTitle->setEnabled(a_bEnabled);
         this->m_pComboBoxID->setEnabled(a_bEnabled);
         this->m_pNewID->setEnabled(a_bEnabled);
 //        this->m_pSoundPath->setEnabled(a_bEnabled);
-        this->m_pDashCheckBox->setEnabled(false);
-        this->m_pSynchroCheckBox->setEnabled(false);
+
         this->m_pPreviewWidget->setEnabled(a_bEnabled);
         this->m_pComboBoxWidget->setEnabled(a_bEnabled);
         this->m_pOptionWidget->setEnabled(a_bEnabled);
