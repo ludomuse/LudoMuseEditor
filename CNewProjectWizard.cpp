@@ -96,17 +96,7 @@ void CNewProjectWizard::clickOnValidate()
     dir.mkdir("cache");
     dir.mkdir("ui");
     dir.mkdir("fonts");
-    dir.mkdir("res_templ");
-    dir.cd("res_templ");
-    dir.mkdir("cache");
-    dir.mkdir("fonts");
-    dir.mkdir("ui");
-    CopyFolder(CProjectManager::Instance()->QGetInstallPath() + "/templates/res_templ/cache",
-               projectPath + "/res_templ/cache");
-    CopyFolder(CProjectManager::Instance()->QGetInstallPath() + "/templates/res_templ/fonts",
-               projectPath + "/res_templ/fonts");
-    CopyFolder(CProjectManager::Instance()->QGetInstallPath() + "/templates/res_templ/ui",
-               projectPath + "/res_templ/ui");
+
 
     QFile::copy(CProjectManager::Instance()->QGetInstallPath() + "/default/default.json",     projectPath + "/" + projectName + ".json");
     // Copy file from /cache to /cache
