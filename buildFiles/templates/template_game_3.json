@@ -1,10 +1,10 @@
 {
-  "name": "Jeu télécommande 2x2",
+  "name": "Interaction télécommande",
   "pictures": [
     "res/game_3.png",
     "res/game_3_2.png"
   ],
-  "description": "Interaction d'affichage d'une image choisie sur une tablette",
+  "description": "L'un des deux joueurs possède 4 images différentes sur sa tablette.\nLorsqu'il clique sur l'une d'elle, elle s'affiche en grand chez l'autre joueur",
   "game": true,
   "templates": [
     {

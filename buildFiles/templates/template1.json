@@ -1,7 +1,7 @@
 {
   "name": "Ecran d'acceuil",
   "pictures": ["res/template_1.png"],
-  "description": "Modèle d'écran d'introduction",
+  "description": "Modèle d'écran d'introduction, pour accueillir le joueur dans le jeu",
   "game": false,
   "templates": [{
     "navigation": [

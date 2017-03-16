@@ -1,7 +1,7 @@
 {
-  "name": "Ecran de consigne",
+  "name": "Ecran de narration avec cache",
   "pictures": ["res/template_4.png"],
-  "description": "Modèle d'écran de consigne",
+  "description": "Modèle d'écran de narration avec cache de texte",
   "game": false,
   "templates": [
     {

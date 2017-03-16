@@ -2,7 +2,7 @@
   "name": "Ecran de jeu à question",
   "pictures": ["res/template_game_1_1.png",
     "res/template_game_1_2.png"],
-  "description": "Modèle d'écran de jeu à question",
+  "description": "Une question est posée à chaque joueur.\nChacun doit y répondre sur sa tablette en touchant l'une des 4 réponses possibles",
   "game": true,
   "templates": [
     {

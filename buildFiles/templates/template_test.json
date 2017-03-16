@@ -2,7 +2,7 @@
   "name": "Ecran de test",
   "pictures": ["",
     ""],
-  "description": "Modèle d'écran d'interaction pour tester l'appairage",
+  "description": "Les joueurs testent l'appairage en restant tous les deux appuyés sur le bouton pendant 3s",
   "game": true,
   "templates": [
     {

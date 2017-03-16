@@ -1,7 +1,7 @@
 {
-  "name": "Ecran de présntation",
+  "name": "Ecran de présentation/narration",
   "pictures": ["res/template_2.png"],
-  "description": "Modèle d'écran de présentation (d'une image par exemple)",
+  "description": "Modèle d'écran de présentation (une image occupe tout l'écran",
   "game": false,
   "templates": [{
     "navigation": [

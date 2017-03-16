@@ -1,10 +1,10 @@
 {
-  "name": "Jeu cliquer-glisser 2x2",
+  "name": "Interaction glisser-déposer",
   "pictures": [
     "res/game_1.png",
     "res/game_1_2.png"
   ],
-  "description": "Interaction de cliquer glisser entre deux tablettes avec 4 objets",
+  "description": "Le joueur 1 possède 4 images qu'il doit envoyer à son partenaire par glisser-déposer via la zone de partage.\nLe joueur 2 associe les images reçues aux images qu'il y a sur son écran par cliquer-déposer",
   "game": true,
   "templates": [
     {

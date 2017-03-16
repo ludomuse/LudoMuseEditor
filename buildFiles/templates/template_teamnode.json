@@ -1,8 +1,8 @@
 {
-    "name": "Ecran d'intéraction accompli les tâches en équipe",
+    "name": "Accompli les tâches en équipe",
     "pictures": ["",
     ""],
-    "description": "Une tâche apparaît sur l'écran de chaque joueur, la solution de chaque tâches est aléatoirement distribuée entre les tablettes",
+    "description": "Des tâches apparaissent successivement sur les écrans de chaque joueur.\nChaque joueur possède 4 actions résolvant 4 tâches différentes.\nSélectionner une action résout la tâche correspondante si elle est en cours chez l'un ou l'autre des joueurs et active la tâche suivante.",
     "templates": [
         {
             "sync": true,

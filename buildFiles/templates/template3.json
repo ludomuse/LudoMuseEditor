@@ -1,7 +1,7 @@
 {
-  "name": "Ecran de narration",
+  "name": "Ecran de narration avec texte en bas",
   "pictures": ["res/template_3.png"],
-  "description": "Modèle d'écran de narration",
+  "description": "Modèle d'écran de narration avec le texte situé en bas de l'écran",
   "game": false,
   "templates": [{
     "navigation": [

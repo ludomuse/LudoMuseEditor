@@ -1,10 +1,10 @@
 {
-  "name": "Jeu caméra",
+  "name": "Interaction Photo avec calque",
   "pictures": [
     "res/game_4.png",
     "res/game_4_2.png"
   ],
-  "description": "Interaction de photographie",
+  "description": "L'un des deux joueurs mime ce qui est représenté par le calque.\nLe second le prend en photo",
   "game": true,
   "templates": [
     {

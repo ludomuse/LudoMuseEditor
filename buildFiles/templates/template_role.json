@@ -1,7 +1,7 @@
 {
   "name": "Ecran de choix de rôle",
   "pictures": ["res/template_role.png"],
-  "description": "Modèle d'écran de choix de rôle",
+  "description": "Chaque joueur choisit un des deux rôles disponibles.\nIls doivent être différents",
   "game": false,
   "templates": [
 

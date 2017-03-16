@@ -1,7 +1,7 @@
 {
   "name": "Ecran de récompense",
   "pictures": ["res/template_5.png"],
-  "description": "Modèle d'écran de récompense",
+  "description": "Modèle d'écran pour dévérouiller les récompenses de l'écran de récompenses.",
   "game": false,
   "templates": [
     {
