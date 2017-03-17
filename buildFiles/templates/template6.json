@@ -1,6 +1,6 @@
 {
   "name": "Ecran de narration sans cache",
-  "pictures": ["res/template_4.png"],
+  "pictures": ["res/template_6.png"],
   "description": "Modèle d'écran de narration sans cache de texte.",
   "game": false,
   "templates": [
