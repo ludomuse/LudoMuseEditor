@@ -87,27 +87,48 @@
 					}
 				},
 				{
-					"type": "Image",
+					"type": "Info",
 					"params": {
 						"source": "ui/info-6.png",
 						"anchor": 6,
 						"width": 0,
 						"height": 13,
-						"x": 0,
-						"y": 0,
 						"children": [
-							{
-								"type": "Text",
-								"id": "InfoText",
-								"params": {
-									"content": "",
-									"source": "#default-font",
-									"fontSize": 20,
-									"textAlign": "center",
-									"width": 60,
-									"height": 100,
-									"anchor": 0,
-									"color": "0,0,0,255"
+                            {
+                                "type": "Group",
+                                "params": {
+                                    "anchor": 0,
+                                    "width": 60,
+                                    "height": 100,
+                                    "x": 0,
+                                    "y": 0,
+                                    "children": [
+										{
+											"type": "Animation",
+											"params": {
+												"animation": "ui/animations/gratter.plist",
+												"sheet": "ui/animations/gratter.png",
+                                                "anchor": 8,
+                                                "width": 0,
+                                                "height": 80,
+                                                "x": 0,
+                                                "y": 0
+                                            }
+										},
+										{
+											"type": "Text",
+											"params": {
+												"content": "Gratte ton écran pour découvrir l'élément caché",
+												"source": "#default-font",
+												"fontSize": 20,
+												"textAlign": "center",
+												"width": 80,
+												"height": 100,
+												"anchor": 0,
+												"color": "0,0,0,255"									
+											}
+										}
+									]
 								}
 							}
 						]
@@ -131,7 +152,7 @@
 							{
 								"type": "Text",
 								"params": {
-									"content": "JOUER",
+									"content": "SUIVANT",
 									"source": "#default-font",
 									"fontSize": 20,
 									"textAlign": "right",
@@ -218,21 +239,42 @@
 						"anchor": 6,
 						"width": 0,
 						"height": 13,
-						"x": 0,
-						"y": 0,
 						"children": [
-							{
-								"type": "Text",
-								"id": "InfoText",
-								"params": {
-									"content": "",
-									"source": "#default-font",
-									"fontSize": 20,
-									"textAlign": "center",
-									"width": 60,
-									"height": 100,
-									"anchor": 0,
-									"color": "0,0,0,255"
+                            {
+                                "type": "Group",
+                                "params": {
+                                    "anchor": 0,
+                                    "width": 60,
+                                    "height": 100,
+                                    "x": 0,
+                                    "y": 0,
+                                    "children": [
+										{
+											"type": "Animation",
+											"params": {
+												"animation": "ui/animations/listen.plist",
+												"sheet": "ui/animations/listen.png",
+                                                "anchor": 8,
+                                                "width": 0,
+                                                "height": 80,
+                                                "x": 0,
+                                                "y": 0
+                                            }
+										},
+										{
+											"type": "Text",
+											"params": {
+												"content": "Ecoute ce que te dis ton partenaire",
+												"source": "#default-font",
+												"fontSize": 20,
+												"textAlign": "center",
+												"width": 80,
+												"height": 100,
+												"anchor": 0,
+												"color": "0,0,0,255"									
+											}
+										}
+									]
 								}
 							}
 						]

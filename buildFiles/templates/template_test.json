@@ -145,7 +145,7 @@
 											"type": "Text",
 											"id": "infoPeer",
 											"params": {
-												"content": "Appuie en m�me temps que ton partenaire pour former le symbole",
+												"content": "Appuie en même temps que ton partenaire pour former le symbole",
 												"source": "#default-font",
 												"fontSize": 20,
 												"textAlign": "center",

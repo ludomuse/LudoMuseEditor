@@ -46,8 +46,8 @@
         "params": {
           "source": "#default-background",
           "anchor": 0,
-          "width": 0,
-          "height": 100,
+          "width": 100,
+          "height": 0,
           "x": 0,
           "y": 0
         }
@@ -66,19 +66,19 @@
       {
         "type": "Group",
         "params": {
-          "anchor": 2,
+          "anchor": 6,
+          "source": "ui/cache-blanc-70.png",
           "width": 100,
-          "height": 87,
+          "height": 35,
           "x": 0,
           "y": 0,
           "children": [
             {
               "type": "Group",
               "params": {
-                "source": "ui/cache-blanc-70.png",
-                "anchor": 6,
+                "anchor": 2,
                 "width": 100,
-                "height": 35,
+                "height": 60,
                 "x": 0,
                 "y": 0,
                 "children": [
