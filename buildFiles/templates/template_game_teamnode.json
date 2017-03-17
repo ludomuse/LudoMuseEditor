@@ -1,7 +1,6 @@
 {
     "name": "Accompli les tâches en équipe",
-    "pictures": ["",
-    ""],
+    "pictures": ["res/template_game_teamnode.png"],
     "description": "Des tâches apparaissent successivement sur les écrans de chaque joueur.\nChaque joueur possède 4 actions résolvant 4 tâches différentes.\nSélectionner une action résout la tâche correspondante si elle est en cours chez l'un ou l'autre des joueurs et active la tâche suivante.\nNe peut être ajouté qu'une seule fois par scénario",
     "templates": [
         {

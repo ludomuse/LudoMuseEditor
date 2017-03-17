@@ -1,7 +1,7 @@
 {
   "name": "Ecran de test",
-  "pictures": ["",
-    ""],
+  "pictures": ["res/template_game_test.png",
+    "res/template_game_test2.png"],
   "description": "Les joueurs testent l'appairage en restant tous les deux appuyés sur le bouton pendant 3s",
   "game": true,
   "templates": [
