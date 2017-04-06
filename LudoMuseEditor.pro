@@ -14,7 +14,11 @@ TEMPLATE = app
 CONFIG += c++14
 QMAKE_CXXFLAGS += -std=c++14
 
-# LUDOMUSE_PATH = "C:\WORKSPACE\LudoMuse"
+QUAZIP_INCLUDEPATH = C:\WORKSPACE\lib\quazip-0.7.3\quazip-0.7.3\quazip\
+QUAZIP_LIBPATH = C:\WORKSPACE\lib\quazip-0.7.3\build\Release
+
+ZLIB_INCLUDEPATH = C:\WORKSPACE\lib\zlib1211\zlib-1.2.11
+
 LUDOMUSE_PATH = "../LudoMuse/"
 COCOS_PATH = $${LUDOMUSE_PATH}/cocos2d
 JAVA_PATH = $$JAVA_HOME
@@ -195,11 +199,12 @@ INCLUDEPATH += "./LudoMuse_src" \
                 $${COCOS_PATH}/cocos \
                 $${COCOS_PATH}/cocos/audio/include \
                 $${COCOS_PATH}/external/json \
+                $${QUAZIP_INCLUDEPATH} \
+                $${ZLIB_INCLUDEPATH}
 
 
 
-
-#LIBS += -lbz2
+LIBS += -LC:\WORKSPACE\lib\quazip-0.7.3\build\Release -lquazip_static -lquazip5
 
 
 win32 {

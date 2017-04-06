@@ -4,7 +4,8 @@
 #include <QDebug>
 #include <QFileDialog>
 #include <QProgressDialog>
-
+#include <quazip.h>
+#include <quazipfile.h>
 
 CArchiver::CArchiver(QWidget *parent) : m_pParent(parent),
     m_pProcess(new QProcess(parent)),
@@ -24,10 +25,10 @@ void CArchiver::CompressFolder(const std::string &a_rFolder, const std::string& 
     std::string folderName = compressedFolder.dirName().toStdString();
     compressedFolder.cdUp();
 
-    connect(m_pProcess, SIGNAL(finished(int, QProcess::ExitStatus)), this, SLOT(ArchiveCompleted(int, QProcess::ExitStatus)));
-    connect(m_pProcess, SIGNAL(readyReadStandardOutput()), this, SLOT(ProcessReadyRead()));
+//    connect(m_pProcess, SIGNAL(finished(int, QProcess::ExitStatus)), this, SLOT(ArchiveCompleted(int, QProcess::ExitStatus)));
+//    connect(m_pProcess, SIGNAL(readyReadStandardOutput()), this, SLOT(ProcessReadyRead()));
 
-    m_pProcess->setProcessChannelMode(QProcess::MergedChannels);
+//    m_pProcess->setProcessChannelMode(QProcess::MergedChannels);
 
     m_pDialog = new QProgressDialog(m_pParent);
     m_pDialog->setLabelText("Création de l'archive ...");
@@ -38,10 +39,18 @@ void CArchiver::CompressFolder(const std::string &a_rFolder, const std::string& 
     m_pDialog->setRange(0, nbItemsInArchive);
     m_pDialog->show();
 
-    m_pProcess->start((std::string("tar -cvjf ") +
-                  a_rDestination + "/" + folderName + ".lm -C " +
-                  compressedFolder.absolutePath().toStdString() + " " + folderName).c_str());
+//    m_pProcess->start((std::string("tar -cvjf ") +
+//                  a_rDestination + "/" + folderName + ".lm -C " +
+//                  compressedFolder.absolutePath().toStdString() + " " + folderName).c_str());
 
+
+    QuaZip zip(QString::fromStdString(a_rDestination + "/" + folderName + ".lm"));
+    zip.open(QuaZip::mdCreate);
+    WriteFolderToZip(zip, compressedFolder, QString::fromStdString(folderName));
+    zip.close();
+
+    m_pDialog->deleteLater();
+    m_pDialog = nullptr;
 }
 
 
@@ -55,7 +64,7 @@ void CArchiver::ExtractArchive(const std::string &a_rArchive)
 
 
 
-int CArchiver::CountItemsInArchive(QDir a_rFolder)
+int CArchiver::CountItemsInArchive(QDir& a_rFolder)
 {
     int nbItem = 0;
     a_rFolder.setFilter(QDir::Files|QDir::Dirs);
@@ -72,6 +81,39 @@ int CArchiver::CountItemsInArchive(QDir a_rFolder)
         }
     }
     return nbItem;
+}
+
+
+void CArchiver::WriteFolderToZip(QuaZip& a_rZipfile, QDir& a_rParentFolder, const QString& a_rFolderName)
+{
+    QDir folderToAdd(a_rParentFolder);
+    folderToAdd.cd(a_rFolderName);
+    folderToAdd.setFilter(QDir::Files);
+    QStringList subfiles = folderToAdd.entryList();
+    for (QString file : subfiles)
+    {
+        QuaZipFile fileInZip(&a_rZipfile);
+        fileInZip.open(QIODevice::WriteOnly, QuaZipNewInfo(a_rFolderName + "/" + file));
+        // TODO write to zip
+        QDataStream ds(&fileInZip);
+
+        QFile fileToAdd(a_rParentFolder.absoluteFilePath(a_rFolderName + "/" + file));
+        ds << fileToAdd.readAll();
+
+        fileInZip.close();
+
+        m_pDialog->setValue(m_pDialog->value() + 1);
+    }
+
+    folderToAdd.setFilter(QDir::Dirs);
+    QStringList subfolders = folderToAdd.entryList();
+    for (QString subfolder : subfolders)
+    {
+        if (subfolder != "." && subfolder != "..")
+        {
+            WriteFolderToZip(a_rZipfile, a_rParentFolder, a_rFolderName + "/" + subfolder);
+        }
+    }
 }
 
 
