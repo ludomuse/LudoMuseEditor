@@ -203,9 +203,13 @@ INCLUDEPATH += "./LudoMuse_src" \
                 $${ZLIB_INCLUDEPATH}
 
 
-
+CONFIG(release){
 LIBS += -LC:\WORKSPACE\lib\quazip-0.7.3\build\Release -lquazip_static -lquazip5
+}
 
+CONFIG(debug){
+LIBS += -LC:\WORKSPACE\lib\quazip-0.7.3\build\Debug -lquazip_staticd -lquazip5d
+}
 
 win32 {
 

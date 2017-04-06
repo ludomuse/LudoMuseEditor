@@ -120,7 +120,7 @@ CMainWindow::CMainWindow(QWidget *parent) :
     connect(ui->JsonGo, SIGNAL(clicked(bool)), this, SLOT(saveAs()));
     connect(ui->save, SIGNAL(clicked(bool)), this, SLOT(save()));
     //connect(ui->lmwTestButton, SIGNAL(clicked(bool)), this, SLOT(launchAddSceneWizard()));
-    connect(ui->archiveButton, SIGNAL(clicked(bool)), this, SLOT(exportProject));
+    //connect(ui->archiveButton, SIGNAL(clicked(bool)), this, SLOT(exportProject));
 
     // Connect kernel signal
     connect(CEditorKernel::Instance(), SIGNAL(sendMenuNodeSignal(LM::CMenuNode*)), this, SLOT(receiveMenu(LM::CMenuNode*)));
@@ -808,11 +808,9 @@ void CMainWindow::loadCapture(QString a_sSceneID)
 
 void CMainWindow::on_archiveButton_clicked()
 {
-    QFileDialog* fileDialog = new QFileDialog();
-    fileDialog->setDirectory(QDir::home());
-    connect(fileDialog, SIGNAL(fileSelected(QString)), this, SLOT(exportProject(QString)));
+    QString dir = QFileDialog::getExistingDirectory(this, tr("Choisir l'emplacement de l'archive"), QDir::home().absolutePath(), QFileDialog::ShowDirsOnly);
 
-    fileDialog->show();
+    exportProject(dir);
 }
 
 void CMainWindow::reloadScene()

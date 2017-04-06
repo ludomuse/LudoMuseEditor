@@ -67,8 +67,8 @@ void CArchiver::ExtractArchive(const std::string &a_rArchive)
 int CArchiver::CountItemsInArchive(QDir& a_rFolder)
 {
     int nbItem = 0;
-    a_rFolder.setFilter(QDir::Files|QDir::Dirs);
-    nbItem += a_rFolder.count() - 2; // -2 because of . and .. directories
+    a_rFolder.setFilter(QDir::Files);
+    nbItem += a_rFolder.count(); // - 2; // -2 because of . and .. directories
     a_rFolder.setFilter(QDir::Dirs);
     QStringList subfolders = a_rFolder.entryList();
     for (QString subfolder : subfolders)
@@ -93,14 +93,19 @@ void CArchiver::WriteFolderToZip(QuaZip& a_rZipfile, QDir& a_rParentFolder, cons
     for (QString file : subfiles)
     {
         QuaZipFile fileInZip(&a_rZipfile);
-        fileInZip.open(QIODevice::WriteOnly, QuaZipNewInfo(a_rFolderName + "/" + file));
-        // TODO write to zip
+        fileInZip.open(QuaZipFile::WriteOnly, QuaZipNewInfo(a_rFolderName + "/" + file));
+
         QDataStream ds(&fileInZip);
 
         QFile fileToAdd(a_rParentFolder.absoluteFilePath(a_rFolderName + "/" + file));
-        ds << fileToAdd.readAll();
+        fileToAdd.open(QIODevice::ReadOnly);
+        QByteArray dataToWrite = fileToAdd.readAll();
+        ds.writeRawData(dataToWrite.data(), dataToWrite.size());
+
+        qDebug() << "writing file " << a_rFolderName + "/" + file << " to archive";
 
         fileInZip.close();
+        fileToAdd.close();
 
         m_pDialog->setValue(m_pDialog->value() + 1);
     }
