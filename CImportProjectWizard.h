@@ -24,6 +24,7 @@ private:
 public slots:
     void clickOnValidate();
     void clickOnPathExplorer();
+    void clickOnArchiveExplorer();
     void folderSelected(const QString& a_sPath);
 
 signals:

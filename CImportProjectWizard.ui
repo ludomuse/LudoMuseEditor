@@ -107,7 +107,10 @@ color : white;
          <item>
           <layout class="QHBoxLayout" name="archivePathLayout">
            <item>
-            <widget class="QLineEdit" name="projectNameLineEdit">
+            <widget class="QLineEdit" name="archivePathLineEdit">
+             <property name="readOnly">
+              <bool>true</bool>
+             </property>
              <property name="placeholderText">
               <string>Chemin de l'archive</string>
              </property>
@@ -280,7 +283,7 @@ color : rgb(255, 170, 0);
 }</string>
            </property>
            <property name="text">
-            <string>Créer</string>
+            <string>Importer</string>
            </property>
            <property name="flat">
             <bool>true</bool>

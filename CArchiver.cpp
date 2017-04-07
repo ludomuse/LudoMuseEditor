@@ -29,10 +29,10 @@ void CArchiver::CompressFolder(const std::string &a_rFolder, const std::string& 
     if (m_pDialog == nullptr)
     {
         m_pDialog = new QProgressDialog(m_pParent);
-        m_pDialog->setLabelText("Création de l'archive ...");
         m_pDialog->setWindowModality(Qt::WindowModal);
         m_pDialog->setCancelButton(nullptr);
     }
+    m_pDialog->setLabelText("Création de l'archive ...");
 
     m_pDialog->setValue(0);
     m_pDialog->setRange(0, nbItemsInArchive);
@@ -64,13 +64,28 @@ void CArchiver::ExtractArchive(const QString& a_rArchivePath, const QString& a_r
     zip.open(QuaZip::mdUnzip);
     QuaZipFile fileInZip(&zip);
 
+    int nbItemsInArchive = zip.getEntriesCount();
+
+    if (m_pDialog == nullptr)
+    {
+        m_pDialog = new QProgressDialog(m_pParent);
+        m_pDialog->setWindowModality(Qt::WindowModal);
+        m_pDialog->setCancelButton(nullptr);
+    }
+    m_pDialog->setLabelText("Import de l'archive ...");
+
+    m_pDialog->setValue(0);
+    m_pDialog->setRange(0, nbItemsInArchive);
+    m_pDialog->show();
+
     for (bool f = zip.goToFirstFile(); f; f = zip.goToNextFile())
     {
         fileInZip.open(QIODevice::ReadOnly);
 
-        QFileInfo fileToExtractInfo(a_rDestination + "/" + fileInZip.getFileName());
+        QFileInfo fileToExtractInfo(a_rDestination + "/" + zip.getCurrentFileName());
         QDir targetFolder(a_rArchivePath);
-        targetFolder.mkpath(fileToExtractInfo.absoluteFilePath());
+
+        targetFolder.mkpath(fileToExtractInfo.absolutePath());
 
         QFile fileToExtract(fileToExtractInfo.absoluteFilePath());
         fileToExtract.open(QIODevice::WriteOnly);
@@ -81,6 +96,8 @@ void CArchiver::ExtractArchive(const QString& a_rArchivePath, const QString& a_r
 
         fileInZip.close();
         fileToExtract.close();
+
+        m_pDialog->setValue(m_pDialog->value() + 1);
     }
 
     zip.close();

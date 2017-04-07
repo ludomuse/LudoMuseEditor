@@ -9,6 +9,7 @@
 #include <QPropertyAnimation>
 
 #include <CProjectManager.h>
+#include <CArchiver.h>
 
 #include <UtilsQt.h>
 
@@ -19,6 +20,7 @@ CImportProjectWizard::CImportProjectWizard(QWidget *parent) :
     ui->setupUi(this);
     connect(ui->acceptButton, SIGNAL(clicked(bool)), this, SLOT(clickOnValidate()));
     connect(ui->pathExplorerButton, SIGNAL(clicked(bool)), this, SLOT(clickOnPathExplorer()));
+    connect(ui->archiveExplorerButton, SIGNAL(clicked(bool)), this, SLOT(clickOnArchiveExplorer()));
     this->AnimatedOpening();
 }
 
@@ -53,9 +55,9 @@ bool CImportProjectWizard::CheckMandatoryFields()
         text += "   Le chemin du projet \r\n";
         numberMissingFields++;
     }
-    if(ui->projectNameLineEdit->text().isEmpty())
+    if(ui->archivePathLineEdit->text().isEmpty())
     {
-        text += "   Le nom du projet \r\n";
+        text += "   Le chemin de l'archive \r\n";
         numberMissingFields++;
     }
     if(numberMissingFields > 0)
@@ -88,37 +90,29 @@ void CImportProjectWizard::clickOnValidate()
     }
 
     // Create all directories
-    QDir dir(ui->pathLineEdit->text());
-    QString projectName = ui->projectNameLineEdit->text();
-    QString projectPath = ui->pathLineEdit->text() + "/" + projectName;
-    dir.mkdir(projectName);
-    dir.cd(projectName);
-    dir.mkdir("cache");
-    dir.mkdir("ui");
-    dir.mkdir("fonts");
+    QString archivePath = ui->archivePathLineEdit->text();
+    QString projectPath = ui->pathLineEdit->text();
+
+    CArchiver archiver(this);
+    archiver.ExtractArchive(archivePath, projectPath);
 
 
-    QFile::copy(CProjectManager::Instance()->QGetInstallPath() + "/default/default.json",     projectPath + "/" + projectName + ".json");
-    // Copy file from /cache to /cache
-
-
-    CopyFolder(CProjectManager::Instance()->QGetInstallPath() + "/default/cache", projectPath + "/cache/");
-    CopyFolder(CProjectManager::Instance()->QGetInstallPath() + "/default/ui", projectPath + "/ui/");
-    CopyFolder(CProjectManager::Instance()->QGetInstallPath() + "/default/fonts", projectPath + "/fonts/");
-    emit createNewProject(projectPath + "/" + projectName + ".json");
+    //emit importProjectFile
 }
 
 void CImportProjectWizard::clickOnPathExplorer()
 {
-    QFileDialog* fileDialog = new QFileDialog();
-    fileDialog->setDirectory(QDir::home());
-    fileDialog->setFileMode(QFileDialog::Directory);
-    fileDialog->setOption(QFileDialog::DontUseNativeDialog);
-    fileDialog->setFilter(QDir::NoDotAndDotDot | QDir::AllDirs);
-    connect(fileDialog, SIGNAL(fileSelected(QString)), this, SLOT(folderSelected(QString)));
-
-    fileDialog->show();
+    QString projectPath = QFileDialog::getExistingDirectory(this, "Sélectionner le chemin vers lequel importer le scénario", QDir::homePath(), QFileDialog::ShowDirsOnly);
+    ui->pathLineEdit->setText(projectPath);
 }
+
+void CImportProjectWizard::clickOnArchiveExplorer()
+{
+    QString archiveFilePath = QFileDialog::getOpenFileName(this, "Sélectionnez l'archive LudoMuse", QDir::homePath(), "*.lm");
+    ui->archivePathLineEdit->setText(archiveFilePath);
+}
+
+
 
 void CImportProjectWizard::folderSelected(const QString& a_sPath)
 {
