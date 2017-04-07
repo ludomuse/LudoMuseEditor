@@ -101,7 +101,8 @@ SOURCES += main.cpp\
     LudoMuse_src/Classes/Engine/Source/CFindTeamNodeIDVisitor.cpp \
     LudoMuse_src/Classes/Engine/Source/CFindTeamNodeVisitor.cpp \
     LudoMuse_src/Classes/Engine/Source/CTeamNode.cpp \
-    LudoMuse_src/Classes/Engine/Source/CAnimationNode.cpp
+    LudoMuse_src/Classes/Engine/Source/CAnimationNode.cpp \
+    CImportProjectWizard.cpp
 
 HEADERS  += CMainWindow.h \
     LudoMuse_src/Classes/Engine/Include/CCallback.h \
@@ -186,14 +187,16 @@ HEADERS  += CMainWindow.h \
     LudoMuse_src/Classes/Engine/Include/CFindTeamNodeIDVisitor.h \
     LudoMuse_src/Classes/Engine/Include/CFindTeamNodeVisitor.h \
     LudoMuse_src/Classes/Engine/Include/CTeamNode.h \
-    LudoMuse_src/Classes/Engine/Include/CAnimationNode.h
+    LudoMuse_src/Classes/Engine/Include/CAnimationNode.h \
+    CImportProjectWizard.h
 
 FORMS    += \
     CLoaderWidget.ui \
     CNewProjectWizard.ui \
     CLoadProjectWizard.ui \
     CMenuNodeInspector.ui \
-    CMainWindow.ui
+    CMainWindow.ui \
+    CImportProjectWizard.ui
 
 INCLUDEPATH += "./LudoMuse_src" \
                 $${COCOS_PATH}/cocos \
