@@ -16,10 +16,6 @@ CArchiver::CArchiver(QWidget *parent) : m_pParent(parent),
 void CArchiver::CompressFolder(const std::string &a_rFolder, const std::string& a_rDestination)
 {
 
-    // TODO : add error handling
-    if (m_pDialog != nullptr)
-        return;
-
     QDir compressedFolder(a_rFolder.c_str());
     int nbItemsInArchive = CountItemsInArchive(compressedFolder);
     std::string folderName = compressedFolder.dirName().toStdString();
@@ -30,10 +26,13 @@ void CArchiver::CompressFolder(const std::string &a_rFolder, const std::string& 
 
 //    m_pProcess->setProcessChannelMode(QProcess::MergedChannels);
 
-    m_pDialog = new QProgressDialog(m_pParent);
-    m_pDialog->setLabelText("Création de l'archive ...");
-    m_pDialog->setWindowModality(Qt::WindowModal);
-    m_pDialog->setCancelButton(nullptr);
+    if (m_pDialog == nullptr)
+    {
+        m_pDialog = new QProgressDialog(m_pParent);
+        m_pDialog->setLabelText("Création de l'archive ...");
+        m_pDialog->setWindowModality(Qt::WindowModal);
+        m_pDialog->setCancelButton(nullptr);
+    }
 
     m_pDialog->setValue(0);
     m_pDialog->setRange(0, nbItemsInArchive);
@@ -49,8 +48,11 @@ void CArchiver::CompressFolder(const std::string &a_rFolder, const std::string& 
     WriteFolderToZip(zip, compressedFolder, QString::fromStdString(folderName));
     zip.close();
 
-    m_pDialog->deleteLater();
-    m_pDialog = nullptr;
+    //    m_pDialog->deleteLater();
+    //    m_pDialog = nullptr;
+
+    // WARNING memory leak on purpose otherwise the app crashes
+    //delete zip;
 }
 
 
