@@ -56,10 +56,34 @@ void CArchiver::CompressFolder(const std::string &a_rFolder, const std::string& 
 }
 
 
-void CArchiver::ExtractArchive(const std::string &a_rArchive)
+void CArchiver::ExtractArchive(const QString& a_rArchivePath, const QString& a_rDestination)
 {
     // tar xjf a_rfolder.lm
-    system(std::string(std::string("tar xjf ") + a_rArchive + ".lm").c_str());
+    // system(std::string(std::string("tar xjf ") + a_rArchive + ".lm").c_str());
+    QuaZip zip(a_rArchivePath);
+    zip.open(QuaZip::mdUnzip);
+    QuaZipFile fileInZip(&zip);
+
+    for (bool f = zip.goToFirstFile(); f; f = zip.goToNextFile())
+    {
+        fileInZip.open(QIODevice::ReadOnly);
+
+        QFileInfo fileToExtractInfo(a_rDestination + "/" + fileInZip.getFileName());
+        QDir targetFolder(a_rArchivePath);
+        targetFolder.mkpath(fileToExtractInfo.absoluteFilePath());
+
+        QFile fileToExtract(fileToExtractInfo.absoluteFilePath());
+        fileToExtract.open(QIODevice::WriteOnly);
+
+        QDataStream ds(&fileToExtract);
+        QByteArray fileBytes = fileInZip.readAll();
+        ds.writeRawData(fileBytes.data(), fileBytes.size());
+
+        fileInZip.close();
+        fileToExtract.close();
+    }
+
+    zip.close();
 }
 
 

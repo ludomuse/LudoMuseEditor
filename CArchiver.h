@@ -21,7 +21,7 @@ public:
     CArchiver(QWidget* parent);
     void CompressFolder(const std::string& a_rFolder, const std::string& a_rDestination);
 
-    void ExtractArchive(const std::string& a_rArchive);
+    void ExtractArchive(const QString& a_rArchivePath, const QString& a_rDestination);
 
 private:
     int CountItemsInArchive(QDir& a_rFolder);
