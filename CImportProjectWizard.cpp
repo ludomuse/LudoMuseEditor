@@ -102,19 +102,21 @@ void CImportProjectWizard::clickOnValidate()
 
 void CImportProjectWizard::clickOnPathExplorer()
 {
-    QString projectPath = QFileDialog::getExistingDirectory(this, "Sélectionner le chemin vers lequel importer le scénario", QDir::homePath(), QFileDialog::ShowDirsOnly);
-    ui->pathLineEdit->setText(projectPath);
+    QString dialogPath = ui->pathLineEdit->text() == "" ? QDir::homePath() : ui->pathLineEdit->text();
+    QString projectPath = QFileDialog::getExistingDirectory(this, "Sélectionner le chemin vers lequel importer le scénario", dialogPath, QFileDialog::ShowDirsOnly);
+    if (projectPath != "")
+    {
+        ui->pathLineEdit->setText(projectPath);
+    }
 }
 
 void CImportProjectWizard::clickOnArchiveExplorer()
 {
-    QString archiveFilePath = QFileDialog::getOpenFileName(this, "Sélectionnez l'archive LudoMuse", QDir::homePath(), "*.lm");
-    ui->archivePathLineEdit->setText(archiveFilePath);
+    QString dialogPath = ui->archivePathLineEdit->text() == "" ? QDir::homePath() : ui->archivePathLineEdit->text();
+    QString archiveFilePath = QFileDialog::getOpenFileName(this, "Sélectionnez l'archive LudoMuse", dialogPath, "*.lm");
+    if (archiveFilePath != "")
+    {
+        ui->archivePathLineEdit->setText(archiveFilePath);
+    }
 }
 
-
-
-void CImportProjectWizard::folderSelected(const QString& a_sPath)
-{
-    ui->pathLineEdit->setText(a_sPath);
-}

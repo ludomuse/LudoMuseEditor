@@ -105,7 +105,7 @@ CMainWindow::CMainWindow(QWidget *parent) :
 
     // Icon creation
     ui->emulateButton->setIcon(QIcon(CProjectManager::Instance()->QGetInstallPath().append("/resources/play_arrow.png")));
-    ui->archiveButton->setIcon(QIcon(CProjectManager::Instance()->QGetInstallPath().append("/resources/add_playlist_w.png")));
+    ui->archiveButton->setIcon(QIcon(CProjectManager::Instance()->QGetInstallPath().append("/resources/ic_action_export.png")));
 
     // Create Template Manager
     this->m_pTemplatesManager = CTemplateManager::Instance();

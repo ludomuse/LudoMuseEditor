@@ -110,17 +110,11 @@ void CNewProjectWizard::clickOnValidate()
 
 void CNewProjectWizard::clickOnPathExplorer()
 {
-    QFileDialog* fileDialog = new QFileDialog();
-    fileDialog->setDirectory(QDir::home());
-    fileDialog->setFileMode(QFileDialog::Directory);
-    fileDialog->setOption(QFileDialog::DontUseNativeDialog);
-    fileDialog->setFilter(QDir::NoDotAndDotDot | QDir::AllDirs);
-    connect(fileDialog, SIGNAL(fileSelected(QString)), this, SLOT(folderSelected(QString)));
-
-    fileDialog->show();
+    QString dialogPath = ui->pathLineEdit->text() == "" ? QDir::homePath() : ui->pathLineEdit->text();
+    QString projectPath = QFileDialog::getExistingDirectory(this, "Sélectionner le chemin vers lequel créer le scénario", dialogPath, QFileDialog::ShowDirsOnly);
+    if (projectPath != "")
+    {
+        ui->pathLineEdit->setText(projectPath);
+    }
 }
 
-void CNewProjectWizard::folderSelected(const QString& a_sPath)
-{
-    ui->pathLineEdit->setText(a_sPath);
-}
