@@ -217,7 +217,9 @@ void CMainWindow::loadExistingProject(const QString& a_sProjectFile)
 
 //    ui->macros->Init();
     ui->macros->Init();
+    ui->macros->SetKernel(m_pKernel);
     connect(ui->macros, SIGNAL(macroModified()), this, SLOT(reloadScene()));
+    connect(ui->macros, SIGNAL(deleteClicked()), this, SLOT(clearInspectorContainer()));
 //    CExplorerView *cev = new CExplorerView(projectPath);
 }
 
