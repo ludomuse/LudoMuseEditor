@@ -1,5 +1,5 @@
-#include "CNewProjectWizard.h"
-#include "ui_CNewProjectWizard.h"
+#include "CImportProjectWizard.h"
+#include "ui_CImportProjectWizard.h"
 
 #include <QDebug>
 #include <QFileDialog>
@@ -9,30 +9,32 @@
 #include <QPropertyAnimation>
 
 #include <CProjectManager.h>
+#include <CArchiver.h>
 
 #include <UtilsQt.h>
 
-CNewProjectWizard::CNewProjectWizard(QWidget *parent) :
+CImportProjectWizard::CImportProjectWizard(QWidget *parent) :
     QWidget(parent),
-    ui(new Ui::CNewProjectWizard)
+    ui(new Ui::CImportProjectWizard)
 {
     ui->setupUi(this);
     connect(ui->acceptButton, SIGNAL(clicked(bool)), this, SLOT(clickOnValidate()));
     connect(ui->pathExplorerButton, SIGNAL(clicked(bool)), this, SLOT(clickOnPathExplorer()));
+    connect(ui->archiveExplorerButton, SIGNAL(clicked(bool)), this, SLOT(clickOnArchiveExplorer()));
     this->AnimatedOpening();
 }
 
-CNewProjectWizard::~CNewProjectWizard()
+CImportProjectWizard::~CImportProjectWizard()
 {
     delete ui;
 }
 
-void CNewProjectWizard::ClearError()
+void CImportProjectWizard::ClearError()
 {
     ui->errorLabel->setText("");
 }
 
-void CNewProjectWizard::AnimatedOpening()
+void CImportProjectWizard::AnimatedOpening()
 {
     this->setMaximumWidth(0);
     this->setVisible(true);
@@ -44,7 +46,7 @@ void CNewProjectWizard::AnimatedOpening()
     animation->start();
 }
 
-bool CNewProjectWizard::CheckMandatoryFields()
+bool CImportProjectWizard::CheckMandatoryFields()
 {
     QString text = "";
     int numberMissingFields = 0;
@@ -53,9 +55,9 @@ bool CNewProjectWizard::CheckMandatoryFields()
         text += "   Le chemin du projet \r\n";
         numberMissingFields++;
     }
-    if(ui->projectNameLineEdit->text().isEmpty())
+    if(ui->archivePathLineEdit->text().isEmpty())
     {
-        text += "   Le nom du projet \r\n";
+        text += "   Le chemin de l'archive \r\n";
         numberMissingFields++;
     }
     if(numberMissingFields > 0)
@@ -79,7 +81,7 @@ bool CNewProjectWizard::CheckMandatoryFields()
 
 
 
-void CNewProjectWizard::clickOnValidate()
+void CImportProjectWizard::clickOnValidate()
 {
     // Test mandatory fields
     if(!this->CheckMandatoryFields())
@@ -88,33 +90,33 @@ void CNewProjectWizard::clickOnValidate()
     }
 
     // Create all directories
-    QDir dir(ui->pathLineEdit->text());
-    QString projectName = ui->projectNameLineEdit->text();
-    QString projectPath = ui->pathLineEdit->text() + "/" + projectName;
-    dir.mkdir(projectName);
-    dir.cd(projectName);
-    dir.mkdir("cache");
-    dir.mkdir("ui");
-    dir.mkdir("fonts");
+    QString archivePath = ui->archivePathLineEdit->text();
+    QString projectPath = ui->pathLineEdit->text();
+
+    CArchiver archiver(this);
+    archiver.ExtractArchive(archivePath, projectPath);
 
 
-    QFile::copy(CProjectManager::Instance()->QGetInstallPath() + "/default/default.json",     projectPath + "/" + projectName + ".json");
-    // Copy file from /cache to /cache
-
-
-    CopyFolder(CProjectManager::Instance()->QGetInstallPath() + "/default/cache", projectPath + "/cache/");
-    CopyFolder(CProjectManager::Instance()->QGetInstallPath() + "/default/ui", projectPath + "/ui/");
-    CopyFolder(CProjectManager::Instance()->QGetInstallPath() + "/default/fonts", projectPath + "/fonts/");
-    emit createNewProject(projectPath + "/" + projectName + ".json");
+    //emit importProjectFile
 }
 
-void CNewProjectWizard::clickOnPathExplorer()
+void CImportProjectWizard::clickOnPathExplorer()
 {
     QString dialogPath = ui->pathLineEdit->text() == "" ? QDir::homePath() : ui->pathLineEdit->text();
-    QString projectPath = QFileDialog::getExistingDirectory(this, "Sélectionner le chemin vers lequel créer le scénario", dialogPath, QFileDialog::ShowDirsOnly);
+    QString projectPath = QFileDialog::getExistingDirectory(this, "Sélectionner le chemin vers lequel importer le scénario", dialogPath, QFileDialog::ShowDirsOnly);
     if (projectPath != "")
     {
         ui->pathLineEdit->setText(projectPath);
+    }
+}
+
+void CImportProjectWizard::clickOnArchiveExplorer()
+{
+    QString dialogPath = ui->archivePathLineEdit->text() == "" ? QDir::homePath() : ui->archivePathLineEdit->text();
+    QString archiveFilePath = QFileDialog::getOpenFileName(this, "Sélectionnez l'archive LudoMuse", dialogPath, "*.lm");
+    if (archiveFilePath != "")
+    {
+        ui->archivePathLineEdit->setText(archiveFilePath);
     }
 }
 

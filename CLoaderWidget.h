@@ -7,6 +7,7 @@
 
 #include "CNewProjectWizard.h"
 #include "CLoadProjectWizard.h"
+#include "CImportProjectWizard.h"
 
 namespace Ui {
 class CLoaderWidget;
@@ -23,17 +24,21 @@ public:
 private:
     void SetNewSelect(bool a_bActive);
     void SetLoadSelect(bool a_bActive);
+    void SetImportSelect(bool a_bActive);
     void ClearWizardContainer();
     Ui::CLoaderWidget *ui;
     bool m_bNewProjectWizard;
     bool m_bLoadExistingProject;
+    bool m_bImportProject;
     CNewProjectWizard* m_pNewProjectWizard;
     CLoadProjectWizard* m_pLoadProjectWizard;
+    CImportProjectWizard* m_pImportProjectWizard;
 
 public slots:
     void clickLoadProject();
     void clickNewProject();
     void clickCloseEditor();
+    void clickImportProject();
     void projectSelected(QString);
     void createNewProject(QString);
 

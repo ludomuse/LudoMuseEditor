@@ -79,18 +79,14 @@ void CLoadProjectWizard::clickOnValidate()
 
 void CLoadProjectWizard::clickOnPathExplorer()
 {
-    QFileDialog* fileDialog = new QFileDialog();
-    fileDialog->setDirectory(QDir::home());
-    fileDialog->setNameFilter("*.json");
-    connect(fileDialog, SIGNAL(fileSelected(QString)), this, SLOT(folderSelected(QString)));
-
-    fileDialog->show();
+    QString dialogPath = ui->pathLineEdit->text() == "" ? QDir::homePath() : ui->pathLineEdit->text();
+    QString scenarioFilePath = QFileDialog::getOpenFileName(this, "Sélectionnez le scénario à ouvrir", dialogPath, "*.json");
+    if (scenarioFilePath != "")
+    {
+        ui->pathLineEdit->setText(scenarioFilePath);
+    }
 }
 
-void CLoadProjectWizard::folderSelected(const QString& a_sPath)
-{
-    ui->pathLineEdit->setText(a_sPath);
-}
 
 void CLoadProjectWizard::clickOnPrevProject(const QString &a_sProjectFile)
 {

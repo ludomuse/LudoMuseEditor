@@ -14,7 +14,11 @@ TEMPLATE = app
 CONFIG += c++14
 QMAKE_CXXFLAGS += -std=c++14
 
-# LUDOMUSE_PATH = "C:\WORKSPACE\LudoMuse"
+QUAZIP_INCLUDEPATH = C:\WORKSPACE\lib\quazip-0.7.3\quazip-0.7.3\quazip\
+QUAZIP_LIBPATH = C:\WORKSPACE\lib\quazip-0.7.3\build\Release
+
+ZLIB_INCLUDEPATH = C:\WORKSPACE\lib\zlib1211\zlib-1.2.11
+
 LUDOMUSE_PATH = "../LudoMuse/"
 COCOS_PATH = $${LUDOMUSE_PATH}/cocos2d
 JAVA_PATH = $$JAVA_HOME
@@ -97,7 +101,8 @@ SOURCES += main.cpp\
     LudoMuse_src/Classes/Engine/Source/CFindTeamNodeIDVisitor.cpp \
     LudoMuse_src/Classes/Engine/Source/CFindTeamNodeVisitor.cpp \
     LudoMuse_src/Classes/Engine/Source/CTeamNode.cpp \
-    LudoMuse_src/Classes/Engine/Source/CAnimationNode.cpp
+    LudoMuse_src/Classes/Engine/Source/CAnimationNode.cpp \
+    CImportProjectWizard.cpp
 
 HEADERS  += CMainWindow.h \
     LudoMuse_src/Classes/Engine/Include/CCallback.h \
@@ -182,25 +187,32 @@ HEADERS  += CMainWindow.h \
     LudoMuse_src/Classes/Engine/Include/CFindTeamNodeIDVisitor.h \
     LudoMuse_src/Classes/Engine/Include/CFindTeamNodeVisitor.h \
     LudoMuse_src/Classes/Engine/Include/CTeamNode.h \
-    LudoMuse_src/Classes/Engine/Include/CAnimationNode.h
+    LudoMuse_src/Classes/Engine/Include/CAnimationNode.h \
+    CImportProjectWizard.h
 
 FORMS    += \
     CLoaderWidget.ui \
     CNewProjectWizard.ui \
     CLoadProjectWizard.ui \
     CMenuNodeInspector.ui \
-    CMainWindow.ui
+    CMainWindow.ui \
+    CImportProjectWizard.ui
 
 INCLUDEPATH += "./LudoMuse_src" \
                 $${COCOS_PATH}/cocos \
                 $${COCOS_PATH}/cocos/audio/include \
                 $${COCOS_PATH}/external/json \
+                $${QUAZIP_INCLUDEPATH} \
+                $${ZLIB_INCLUDEPATH}
 
 
+CONFIG(release){
+LIBS += -LC:\WORKSPACE\lib\quazip-0.7.3\build\Release -lquazip_static -lquazip5
+}
 
-
-#LIBS += -lbz2
-
+CONFIG(debug){
+LIBS += -LC:\WORKSPACE\lib\quazip-0.7.3\build\Debug -lquazip_staticd -lquazip5d
+}
 
 win32 {
 

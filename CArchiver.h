@@ -6,6 +6,7 @@
 #include <QProcess>
 #include <QProgressDialog>
 #include <QDir>
+#include <quazip.h>
 
 class CArchiver : public QObject
 {
@@ -20,10 +21,11 @@ public:
     CArchiver(QWidget* parent);
     void CompressFolder(const std::string& a_rFolder, const std::string& a_rDestination);
 
-    void ExtractArchive(const std::string& a_rArchive);
+    void ExtractArchive(const QString& a_rArchivePath, const QString& a_rDestination);
 
 private:
-    int CountItemsInArchive(QDir a_rFolder);
+    int CountItemsInArchive(QDir& a_rFolder);
+    void WriteFolderToZip(QuaZip& a_rZipfile, QDir& a_rParentFolder, const QString& a_rFolderName);
 
 public slots:
     void ArchiveCompleted(int a_iExitCode, QProcess::ExitStatus a_oExitStatus);

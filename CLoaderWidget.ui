@@ -104,7 +104,7 @@ border : 1px dashed rgb(175,175,175);
            <property name="minimumSize">
             <size>
              <width>0</width>
-             <height>75</height>
+             <height>56</height>
             </size>
            </property>
            <property name="styleSheet">
@@ -122,7 +122,7 @@ font-size : 22px;
            </property>
            <property name="icon">
             <iconset>
-             <normaloff>resources/ic_create_new_folder_white_48dp_2x.png</normaloff>resources/ic_create_new_folder_white_48dp_2x.png</iconset>
+             <normaloff>buildFiles/resources/ic_create_new_folder_white_48dp_2x.png</normaloff>buildFiles/resources/ic_create_new_folder_white_48dp_2x.png</iconset>
            </property>
            <property name="iconSize">
             <size>
@@ -169,7 +169,7 @@ border : 1px dashed rgb(175,175,175);
            <property name="minimumSize">
             <size>
              <width>0</width>
-             <height>75</height>
+             <height>56</height>
             </size>
            </property>
            <property name="styleSheet">
@@ -187,7 +187,72 @@ font-size : 22px;
            </property>
            <property name="icon">
             <iconset>
-             <normaloff>resources/ic_open_in_browser_white_48dp_2x.png</normaloff>resources/ic_open_in_browser_white_48dp_2x.png</iconset>
+             <normaloff>buildFiles/resources/ic_open_in_browser_white_48dp_2x.png</normaloff>buildFiles/resources/ic_open_in_browser_white_48dp_2x.png</iconset>
+           </property>
+           <property name="iconSize">
+            <size>
+             <width>25</width>
+             <height>25</height>
+            </size>
+           </property>
+           <property name="flat">
+            <bool>true</bool>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </widget>
+      </item>
+      <item>
+       <widget class="QWidget" name="importProject" native="true">
+        <property name="styleSheet">
+         <string notr="true">#importProject{
+border : 1px dashed rgb(175,175,175);
+}</string>
+        </property>
+        <layout class="QVBoxLayout" name="verticalLayout_2">
+         <property name="leftMargin">
+          <number>0</number>
+         </property>
+         <property name="topMargin">
+          <number>0</number>
+         </property>
+         <property name="rightMargin">
+          <number>0</number>
+         </property>
+         <property name="bottomMargin">
+          <number>0</number>
+         </property>
+         <item>
+          <widget class="QPushButton" name="importButton">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+           <property name="minimumSize">
+            <size>
+             <width>0</width>
+             <height>56</height>
+            </size>
+           </property>
+           <property name="styleSheet">
+            <string notr="true">#importButton{
+color : white;
+font-size : 22px;
+}
+#importButton:hover{
+color : rgb(255, 170, 0);
+font-size : 22px;
+}</string>
+           </property>
+           <property name="text">
+            <string>Importer un scénario</string>
+           </property>
+           <property name="icon">
+            <iconset>
+             <normaloff>buildFiles/resources/ic_action_import.png</normaloff>buildFiles/resources/ic_action_import.png</iconset>
            </property>
            <property name="iconSize">
             <size>
@@ -237,7 +302,7 @@ border : 1px dashed rgb(175,175,175);
            <property name="minimumSize">
             <size>
              <width>0</width>
-             <height>75</height>
+             <height>56</height>
             </size>
            </property>
            <property name="styleSheet">
@@ -255,7 +320,7 @@ font-size : 22px;
            </property>
            <property name="icon">
             <iconset>
-             <normaloff>resources/ic_close_white_48dp_2x.png</normaloff>resources/ic_close_white_48dp_2x.png</iconset>
+             <normaloff>buildFiles/resources/ic_close_white_48dp_2x.png</normaloff>buildFiles/resources/ic_close_white_48dp_2x.png</iconset>
            </property>
            <property name="iconSize">
             <size>
@@ -272,6 +337,7 @@ font-size : 22px;
        </widget>
       </item>
      </layout>
+     <zorder>importProject</zorder>
      <zorder>loadProject</zorder>
      <zorder>exit</zorder>
      <zorder>newProject</zorder>
