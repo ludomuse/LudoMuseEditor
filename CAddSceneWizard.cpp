@@ -14,6 +14,7 @@
 #include <QComboBox>
 #include <QDebug>
 #include <QMessageBox>
+#include <QToolBox>
 
 CAddSceneWizard::CAddSceneWizard(int a_iActivePlayer, const std::vector<std::string>& a_rSceneIDP1,
                                  const std::vector<std::string>& a_rSceneIDP2,QWidget* a_pParent,
@@ -48,6 +49,13 @@ CAddSceneWizard::CAddSceneWizard(int a_iActivePlayer, const std::vector<std::str
     m_pTemplatesWidget = this->CreateTemplatesWidget();
     templateScrollArea->setWidget(m_pTemplatesWidget);
     templateScrollArea->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Preferred);
+
+    QToolBox* toolBox = new QToolBox();
+    toolBox->setStyleSheet("QLabel{ border : 1px solid white}");
+    toolBox->setMinimumWidth(280);
+    toolBox->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Minimum);
+    toolBox->addItem(m_pTemplatesWidget, "templates");
+
 
     // Create preview title
     m_pPreviewTitle = new QLabel("");
@@ -243,9 +251,10 @@ CAddSceneWizard::CAddSceneWizard(int a_iActivePlayer, const std::vector<std::str
     QWidget* mainWidget = new QWidget();
     mainWidget->setLayout(vWizardLayout);
     mainWidget->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Preferred);
+    mainWidget->setMinimumWidth(800);
     mainWidget->adjustSize();
 
-    hWizardLayout->addWidget(templateScrollArea);
+    hWizardLayout->addWidget(toolBox);
     hWizardLayout->addWidget(mainWidget);
     this->setLayout(hWizardLayout);
 
@@ -682,7 +691,8 @@ QWidget* CAddSceneWizard::CreateTemplatesWidget()
     vTemplatesLayout->setContentsMargins(5, 5, 5, 5);
     QWidget* returnWidget = new QWidget();
     returnWidget->setLayout(vTemplatesLayout);
-    returnWidget->setMinimumWidth(420);
+    returnWidget->setMinimumWidth(260);
+    returnWidget->setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Minimum);
     return returnWidget;
 }
 
