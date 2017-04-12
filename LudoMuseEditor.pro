@@ -14,11 +14,6 @@ TEMPLATE = app
 CONFIG += c++14
 QMAKE_CXXFLAGS += -std=c++14
 
-QUAZIP_INCLUDEPATH = C:\WORKSPACE\lib\quazip-0.7.3\quazip-0.7.3\quazip\
-QUAZIP_LIBPATH = C:\WORKSPACE\lib\quazip-0.7.3\build\Release
-
-ZLIB_INCLUDEPATH = C:\WORKSPACE\lib\zlib1211\zlib-1.2.11
-
 LUDOMUSE_PATH = "../LudoMuse/"
 COCOS_PATH = $${LUDOMUSE_PATH}/cocos2d
 JAVA_PATH = $$JAVA_HOME
@@ -208,6 +203,14 @@ INCLUDEPATH += "./LudoMuse_src" \
                 $${ZLIB_INCLUDEPATH}
 
 
+
+win32 {
+
+QUAZIP_INCLUDEPATH = C:\WORKSPACE\lib\quazip-0.7.3\quazip
+QUAZIP_LIBPATH = C:\WORKSPACE\lib\quazip-0.7.3\build\Release
+
+ZLIB_INCLUDEPATH = C:\WORKSPACE\lib\zlib1211\zlib-1.2.11
+
 CONFIG(release){
 LIBS += -LC:\WORKSPACE\lib\quazip-0.7.3\build\Release -lquazip_static -lquazip5
 }
@@ -215,8 +218,6 @@ LIBS += -LC:\WORKSPACE\lib\quazip-0.7.3\build\Release -lquazip_static -lquazip5
 CONFIG(debug){
 LIBS += -LC:\WORKSPACE\lib\quazip-0.7.3\build\Debug -lquazip_staticd -lquazip5d
 }
-
-win32 {
 
 RC_ICONS = ludomuse.ico
 
@@ -278,6 +279,7 @@ LIBS += -LD:/IHMTEK/LudoMuseEditorCocos/LudoMuseEditor/lib/lib -lfreetype \
 linux {
 
 INCLUDEPATH +=  /usr/include/GLFW
+INCLUDEPATH += /usr/include/quazip5
 INCLUDEPATH += /home/babouchot/lib/glew-2.0.0/include
 
 SOURCES +=     LudoMuse_src/Classes/Modules/Networking/linux/Source/CNetworkManager.cpp \
@@ -293,7 +295,8 @@ LIBS += -L$${LUDOMUSE_PATH}/linux-build/lib/ -lcocos2d \
         -L$${LUDOMUSE_PATH}/cocos2d/external/chipmunk/prebuilt/linux/64-bit -lchipmunk \
         -L$${LUDOMUSE_PATH}/cocos2d/external/jpeg/prebuilt/linux/64-bit/ -ljpeg \
         -lpng \
-        -lX11 -lglfw -lgobject-2.0 -lglib-2.0 -lfreetype -lGLEW -ltinyxml2 -lbullet -lrecast -lflatbuffers -lxxhash -lunzip -lgtk-3 -lfontconfig -lz -ltiff -lEGL
+        -lX11 -lglfw -lgobject-2.0 -lglib-2.0 -lfreetype -lGLEW -ltinyxml2 -lbullet -lrecast -lflatbuffers -lxxhash -lunzip -lgtk-3 -lfontconfig -lz -ltiff -lEGL \
+        -lquazip5
 }
 
 #macosx
