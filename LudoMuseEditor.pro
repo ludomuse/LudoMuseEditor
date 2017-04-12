@@ -102,7 +102,8 @@ SOURCES += main.cpp\
     LudoMuse_src/Classes/Engine/Source/CFindTeamNodeVisitor.cpp \
     LudoMuse_src/Classes/Engine/Source/CTeamNode.cpp \
     LudoMuse_src/Classes/Engine/Source/CAnimationNode.cpp \
-    CImportProjectWizard.cpp
+    CImportProjectWizard.cpp \
+    CDashboardInspector.cpp
 
 HEADERS  += CMainWindow.h \
     LudoMuse_src/Classes/Engine/Include/CCallback.h \
@@ -188,7 +189,8 @@ HEADERS  += CMainWindow.h \
     LudoMuse_src/Classes/Engine/Include/CFindTeamNodeVisitor.h \
     LudoMuse_src/Classes/Engine/Include/CTeamNode.h \
     LudoMuse_src/Classes/Engine/Include/CAnimationNode.h \
-    CImportProjectWizard.h
+    CImportProjectWizard.h \
+    CDashboardInspector.h
 
 FORMS    += \
     CLoaderWidget.ui \

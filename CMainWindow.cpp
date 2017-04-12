@@ -44,6 +44,7 @@
 #include "CTeamNodeInspector.h"
 #include "CSoundInspector.h"
 #include "CSceneInspector.h"
+#include "CDashboardInspector.h"
 #include "CMenuNodeInspector.h"
 #include "CAddSceneWizard.h"
 #include "CLoaderWidget.h"
@@ -740,6 +741,12 @@ void CMainWindow::InspectScene(LM::CSceneNode* a_pScene)
     else
     {
         qDebug("Scene id is nowhere to be found, not in p1 neither in P2");
+        if (sceneId == "Dashboard")
+        {
+            CDashboardInspector* dashboardInspector = new CDashboardInspector(a_pScene, ui->sceneInspectorContainer);
+            dashboardInspector->setAttribute(Qt::WA_DeleteOnClose);
+            ui->sceneInspectorContainer->layout()->addWidget(dashboardInspector);
+        }
     }
 }
 
