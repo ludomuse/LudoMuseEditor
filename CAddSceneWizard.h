@@ -29,7 +29,7 @@ private:
     void UpdatePreview();
     void UnfocusTemplates();
     bool FindExistingID(const std::string& a_rSceneID, int a_iPlayerID);
-    QWidget* CreateTemplatesWidget();
+    QWidget* CreateTemplatesWidget(const QString& templatesSubfolder);
     QString m_sPreviousID1;
     QString m_sPreviousID2;
     QLabel* m_pPreviewTitle;
@@ -53,7 +53,8 @@ private:
     QWidget* m_pPreviewWidget2;
     QWidget* m_pComboBoxWidget2;
     QWidget* m_pOptionWidget2;
-    QWidget* m_pTemplatesWidget;
+    QWidget* m_pGamesTemplatesWidget;
+    QWidget* m_pInfoTemplatesWidget;
     int m_iActivePlayer;
     const std::vector<std::string> m_rSceneIDP1;
     const std::vector<std::string> m_rSceneIDP2;

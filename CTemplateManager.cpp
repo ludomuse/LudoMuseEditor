@@ -14,13 +14,18 @@
 CTemplateManager::CTemplateManager()
 {
     this->m_sTemplateFolder = CProjectManager::Instance()->QGetInstallPath() + "/templates/";
-    QDirIterator it(m_sTemplateFolder, QStringList() << "*.json", QDir::Files, QDirIterator::Subdirectories);
-    while (it.hasNext())
+    QDirIterator itSubdir(m_sTemplateFolder, QStringList() << "*");
+    m_vTemplatesMap.insert(itSubdir.fileName(), QVector<CTemplate*>());
+    while (itSubdir.hasNext())
     {
-        CTemplate* temp = this->BuildTemplateFromFile(it.next());
-        if(temp != Q_NULLPTR)
+        QDirIterator itJson(itSubdir.next(), QStringList() << "*.json", QDir::Files, QDirIterator::Subdirectories);
+        while (itJson.hasNext())
         {
-            this->m_vTemplates.push_back(temp);
+            CTemplate* temp = this->BuildTemplateFromFile(itJson.next());
+            if(temp != Q_NULLPTR)
+            {
+                this->m_vTemplatesMap[itSubdir.fileName()].push_back(temp);
+            }
         }
     }
 }
@@ -46,9 +51,9 @@ CTemplateManager* CTemplateManager::Instance()
     return &instance;
 }
 
-const QVector<CTemplate*>& CTemplateManager::GetTemplates()
+const QVector<CTemplate*>& CTemplateManager::GetTemplates(const QString& a_sTemplatesSubfolder)
 {
-    return m_vTemplates;
+    return m_vTemplatesMap[a_sTemplatesSubfolder];
 }
 
 

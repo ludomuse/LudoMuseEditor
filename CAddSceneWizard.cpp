@@ -33,7 +33,7 @@ CAddSceneWizard::CAddSceneWizard(int a_iActivePlayer, const std::vector<std::str
     QHBoxLayout* hWizardLayout = new QHBoxLayout();
 
     // Create scroll Area and his content
-    m_pTemplatesWidget = new QWidget();
+    m_pGamesTemplatesWidget = new QWidget();
     QScrollArea* templateScrollArea = new QScrollArea();
     templateScrollArea->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     templateScrollArea->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
@@ -43,18 +43,23 @@ CAddSceneWizard::CAddSceneWizard(int a_iActivePlayer, const std::vector<std::str
     QVBoxLayout* vTemplateScrollAreaLayout = new QVBoxLayout();
     templateScrollArea->setLayout(vTemplateScrollAreaLayout);
     QVBoxLayout* vTemplateLayout = new QVBoxLayout();
-    m_pTemplatesWidget->setLayout(vTemplateLayout);
-    m_pTemplatesWidget->setMinimumWidth(350);
+    m_pGamesTemplatesWidget->setLayout(vTemplateLayout);
+    m_pGamesTemplatesWidget->setMinimumWidth(350);
 
-    m_pTemplatesWidget = this->CreateTemplatesWidget();
-    templateScrollArea->setWidget(m_pTemplatesWidget);
+    m_pInfoTemplatesWidget = new QWidget(m_pGamesTemplatesWidget);
+
+    m_pGamesTemplatesWidget = this->CreateTemplatesWidget("games");
+    m_pInfoTemplatesWidget = CreateTemplatesWidget("info");
+
+    templateScrollArea->setWidget(m_pGamesTemplatesWidget);
     templateScrollArea->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Preferred);
 
     QToolBox* toolBox = new QToolBox();
-    toolBox->setStyleSheet("QLabel{ border : 1px solid white}");
+    //toolBox->setStyleSheet("QToolBox::tab{ background-color : rgb(60,60,60)}} QToolBox::tab::title { color : white}");
     toolBox->setMinimumWidth(280);
     toolBox->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Minimum);
-    toolBox->addItem(m_pTemplatesWidget, "templates");
+    toolBox->addItem(m_pInfoTemplatesWidget, "Ecrans d'information");
+    toolBox->addItem(m_pGamesTemplatesWidget, "Ecrans de jeu");
 
 
     // Create preview title
@@ -660,7 +665,7 @@ void CAddSceneWizard::UpdatePreview()
 
 void CAddSceneWizard::UnfocusTemplates()
 {
-    QLayout* templatesLayout = m_pTemplatesWidget->layout();
+    QLayout* templatesLayout = m_pGamesTemplatesWidget->layout();
     for (int i = 0; i < templatesLayout->count(); i++)
     {
         QWidget* widget = templatesLayout->itemAt(i)->widget();
@@ -675,10 +680,10 @@ void CAddSceneWizard::UnfocusTemplates()
     }
 }
 
-QWidget* CAddSceneWizard::CreateTemplatesWidget()
+QWidget* CAddSceneWizard::CreateTemplatesWidget(const QString& templatesSubfolder)
 {
     QVBoxLayout* vTemplatesLayout = new QVBoxLayout();
-    for(CTemplate* currentTemplate : CTemplateManager::Instance()->GetTemplates())
+    for(CTemplate* currentTemplate : CTemplateManager::Instance()->GetTemplates(templatesSubfolder))
     {
         qDebug()<<"Création d'un nouveau push button";
         CTemplatePushButton* temp = new CTemplatePushButton(currentTemplate);

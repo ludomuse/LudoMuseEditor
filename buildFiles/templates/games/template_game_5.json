@@ -1,7 +1,9 @@
 {
   "name": "Invente un dialogue",
-  "pictures": ["res/game_5.png",
-    "res/game_5_2.png"],
+  "pictures": [
+    "res/game_5.png",
+    "res/game_5_2.png"
+  ],
   "description": "Les deux joueurs inventent un dialogue en associant les images avec les bulles\nL'un des deux joueurs envoie les bulles de texte à l'autre qui les associent aux images",
   "game": true,
   "templates": [

@@ -1,7 +1,9 @@
 {
   "name": "Interaction portrait parlant",
-  "pictures": ["res/template_game_portrait.png",
-    "res/template_game_portrait2.png"],
+  "pictures": [
+    "res/template_game_portrait.png",
+    "res/template_game_portrait2.png"
+  ],
   "description": "Clique sur le portrait affiché pour l'écouter parler",
   "game": true,
   "templates": [

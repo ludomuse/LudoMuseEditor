@@ -2,6 +2,7 @@
 #define CTEMPLATEMANAGER_H
 
 #include <QVector>
+#include <QMap>
 
 #include "CTemplate.h"
 
@@ -20,12 +21,13 @@ private:
     /// \brief build CTemplate object from file path
     CTemplate* BuildTemplateFromFile(const QString& a_sPath);
     // Attributs
-    QVector<CTemplate*> m_vTemplates;
+    //QVector<CTemplate*> m_vTemplates;
+    QMap<QString, QVector<CTemplate*>> m_vTemplatesMap;
     QString m_sTemplateFolder;
 
 public:
     ~CTemplateManager();
-    const QVector<CTemplate*>& GetTemplates();
+    const QVector<CTemplate*>& GetTemplates(const QString& a_sTemplatesSubfolder);
 };
 
 #endif // CTEMPLATEMANAGER_H

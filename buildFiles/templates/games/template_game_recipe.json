@@ -1,7 +1,9 @@
 {
   "name": "Interaction associe les bons éléments",
-  "pictures": ["res/template_game_recipe.png",
-    "res/template_game_recipe2.png"],
+  "pictures": [
+    "res/template_game_recipe.png",
+    "res/template_game_recipe2.png"
+  ],
   "description": "Un joueur possède 4 éléments différents sur sa tablette.\nIl doit envoyer les 2 bons éléments à son partenaire via la zone de partgage\npour qu'il puisse les associer dans la zone de d'association au centre de son écran",
   "game": true,
   "templates": [

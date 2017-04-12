@@ -1,7 +1,9 @@
 {
   "name": "Ecran d'intéraction gratter pour découvrir",
-  "pictures": ["res/template_game_scratch.png",
-    "res/template_game_scratch2.png"],
+  "pictures": [
+    "res/template_game_scratch.png",
+    "res/template_game_scratch2.png"
+  ],
   "description": "Un joueur gratte l'écran pour faire apparaître une image d'une oeuvre\nIl la décrit ensuite à son partenaire pour que celui-ci la retrouve dans le musée.",
   "game": true,
   "templates": [

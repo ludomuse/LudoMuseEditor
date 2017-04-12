@@ -1,7 +1,9 @@
 {
   "name": "Interaction recompose l'objet fragmenté",
-  "pictures": ["res/template_game_article.png",
-    "res/template_game_article2.png"],
+  "pictures": [
+    "res/template_game_article.png",
+    "res/template_game_article2.png"
+  ],
   "description": "chaque joueur possède sur sa tablette une moitié de l'objet fragmenté.\nLes 2 joueurs doivent rapprocher leurs tablettes l'une de l'autre pour reconstituer l'objet",
   "game": true,
   "templates": [
