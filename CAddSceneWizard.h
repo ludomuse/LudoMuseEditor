@@ -55,6 +55,7 @@ private:
     QWidget* m_pOptionWidget2;
     QWidget* m_pGamesTemplatesWidget;
     QWidget* m_pInfoTemplatesWidget;
+    QWidget* m_pInitTemplatesWidget;
     int m_iActivePlayer;
     const std::vector<std::string> m_rSceneIDP1;
     const std::vector<std::string> m_rSceneIDP2;

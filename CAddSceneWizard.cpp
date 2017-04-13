@@ -33,7 +33,6 @@ CAddSceneWizard::CAddSceneWizard(int a_iActivePlayer, const std::vector<std::str
     QHBoxLayout* hWizardLayout = new QHBoxLayout();
 
     // Create scroll Area and his content
-    m_pGamesTemplatesWidget = new QWidget();
     QScrollArea* templateScrollArea = new QScrollArea();
     templateScrollArea->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     templateScrollArea->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
@@ -42,14 +41,11 @@ CAddSceneWizard::CAddSceneWizard(int a_iActivePlayer, const std::vector<std::str
     templateScrollArea->setMaximumWidth(300);
     QVBoxLayout* vTemplateScrollAreaLayout = new QVBoxLayout();
     templateScrollArea->setLayout(vTemplateScrollAreaLayout);
-    QVBoxLayout* vTemplateLayout = new QVBoxLayout();
-    m_pGamesTemplatesWidget->setLayout(vTemplateLayout);
-    m_pGamesTemplatesWidget->setMinimumWidth(350);
 
-    m_pInfoTemplatesWidget = new QWidget(m_pGamesTemplatesWidget);
 
-    m_pGamesTemplatesWidget = this->CreateTemplatesWidget("games");
+    m_pGamesTemplatesWidget = CreateTemplatesWidget("games");
     m_pInfoTemplatesWidget = CreateTemplatesWidget("info");
+    m_pInitTemplatesWidget = CreateTemplatesWidget("init");
 
     templateScrollArea->setWidget(m_pGamesTemplatesWidget);
     templateScrollArea->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Preferred);
@@ -58,7 +54,8 @@ CAddSceneWizard::CAddSceneWizard(int a_iActivePlayer, const std::vector<std::str
     //toolBox->setStyleSheet("QToolBox::tab{ background-color : rgb(60,60,60)}} QToolBox::tab::title { color : white}");
     toolBox->setMinimumWidth(280);
     toolBox->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Minimum);
-    toolBox->addItem(m_pInfoTemplatesWidget, "Ecrans d'information");
+    toolBox->addItem(m_pInitTemplatesWidget, "Ecrans d'initialisation");
+    toolBox->addItem(m_pInfoTemplatesWidget, "Ecrans d'information et de narration");
     toolBox->addItem(m_pGamesTemplatesWidget, "Ecrans de jeu");
 
 
