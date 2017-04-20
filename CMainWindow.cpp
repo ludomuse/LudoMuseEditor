@@ -1,4 +1,4 @@
-#ifdef _WIN32
+﻿#ifdef _WIN32
 #include <WinSock2.h>
 #endif
 
@@ -217,8 +217,8 @@ void CMainWindow::loadExistingProject(const QString& a_sProjectFile)
     m_pTimeline->LoadPreviews();
 
 //    ui->macros->Init();
-    ui->macros->Init();
     ui->macros->SetKernel(m_pKernel);
+    ui->macros->Init();
     connect(ui->macros, SIGNAL(macroModified()), this, SLOT(reloadScene()));
     connect(ui->macros, SIGNAL(deleteClicked()), this, SLOT(clearInspectorContainer()));
 //    CExplorerView *cev = new CExplorerView(projectPath);
