@@ -16,6 +16,7 @@
 #include <QString>
 #include <QDebug>
 #include <QFileDialog>
+#include <QMessageBox>
 
 //#include <GL/glew.h>
 #include <vector>
@@ -180,6 +181,23 @@ void CMainWindow::loadExistingProject(const QString& a_sProjectFile)
 
     AppDelegate* app = (AppDelegate*)(cocos2d::CCQApplication::getInstance());
     app->setPath(m_sSaveName.toStdString());
+
+    QFileInfo tempFile(projectPath + "/" + CProjectManager::Instance()->QGetProjectName() + ".tmp");
+    if (tempFile.exists())
+    {
+        int i = QMessageBox::question(this, "Oups",
+                              "Il semble que LudoMuseEditor n'a pas été correctement fermé à la dernière édition de ce scénario. Voulez vous le restaurer ? \n Si vous choisissez non, les modifications seront définitvement perdues.",
+                              QMessageBox::No, QMessageBox::Yes);
+        if (i == QMessageBox::Yes)
+        {
+            app->setPath(tempFile.absoluteFilePath().toStdString());
+        }
+        else
+        {
+            QFile removeTempFile(tempFile.absoluteFilePath());
+            removeTempFile.remove();
+        }
+    }
     app->setParentWidget(ui->glViewContainer);
     cocos2d::CCQApplication::getInstance()->run();
     m_pKernel = app->getKernel();
@@ -383,7 +401,7 @@ void CMainWindow::deleteScene(QString a_sSceneID, bool a_bIsSync)
 void CMainWindow::launchEmulator()
 {
     QString execPath = CProjectManager::Instance()->QGetInstallPath() + "/LudoMuse.exe";
-    QString jsonPath = CProjectManager::Instance()->QGetProjectPath()+"temp.json";
+    QString jsonPath = CProjectManager::Instance()->QGetProjectPath() + CProjectManager::Instance()->QGetProjectName() + ".tmp";
     produceJson(jsonPath);
     //    QString cmd = execPath + " server " + CProjectManager::Instance()->QGetProjectJsonFile();
     //QString cmd = execPath + " server " + jsonPath;
@@ -434,13 +452,21 @@ void CMainWindow::saveAs()
         }
         this->m_sSaveName = filePath;
         this->ui->save->setEnabled(true);
-        this->produceJson(filePath);
+        save();
+
+        CProjectManager::Instance()->SetProjectFile(filePath);
     }
 }
 
 void CMainWindow::save()
 {
     this->produceJson(this->m_sSaveName);
+    QFile tempFile(CProjectManager::Instance()->QGetProjectPath() + "/" +
+                   CProjectManager::Instance()->QGetProjectName() + ".tmp");
+    if (tempFile.exists())
+    {
+        tempFile.remove();
+    }
 }
 
 void CMainWindow::exportProject(const QString& a_rDestination)
@@ -825,4 +851,28 @@ void CMainWindow::on_archiveButton_clicked()
 void CMainWindow::reloadScene()
 {
     m_pKernel->ReloadScreen();
+}
+
+
+void CMainWindow::closeEvent(QCloseEvent *a_oEvent)
+{
+    QFile tempFile(CProjectManager::Instance()->QGetProjectPath() + "/" +
+                   CProjectManager::Instance()->QGetProjectName() + ".tmp");
+
+    if (tempFile.exists())
+    {
+        int answer = QMessageBox::question( this, tr("Modifications en cours"),
+                                            tr("Vous avez des modifications non sauvegardées,\nêtes vous sûr de vouloir quitter ?\n(les modifications seront perdues)"),
+                                            QMessageBox::Cancel,
+                                            QMessageBox::Yes);
+
+        if (answer == QMessageBox::Cancel)
+        {
+            a_oEvent->ignore();
+            return;
+        }
+    }
+
+    tempFile.remove();
+    a_oEvent->accept();
 }

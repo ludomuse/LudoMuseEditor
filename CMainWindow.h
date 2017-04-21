@@ -1,4 +1,4 @@
-#ifndef CMAINWINDOW_H
+﻿#ifndef CMAINWINDOW_H
 #define CMAINWINDOW_H
 
 //#include <GL/glew.h>
@@ -120,6 +120,7 @@ private slots:
     void nodeSoundRemoved(LM::CEntityNode* a_pNode);
     void reloadScene();
     void on_archiveButton_clicked();
+    void closeEvent(QCloseEvent* a_oEvent);
 
 private:
     Ui::CMainWindow *ui;
