@@ -679,6 +679,8 @@ void CMainWindow::nodeModified(LM::CEntityNode* a_pNode)
             }
         }
     }
+    produceJson(CProjectManager::Instance()->QGetProjectPath() + "/" +
+                CProjectManager::Instance()->QGetProjectName() + ".tmp");
 }
 
 void CMainWindow::nodeSoundModified(LM::CEntityNode* a_pNode, const QString& a_sEvent, const QString& a_sArgument)
