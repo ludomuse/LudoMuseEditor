@@ -185,9 +185,9 @@ void CMainWindow::loadExistingProject(const QString& a_sProjectFile)
     QFileInfo tempFile(projectPath + "/" + CProjectManager::Instance()->QGetProjectName() + ".tmp");
     if (tempFile.exists())
     {
-        int i = QMessageBox::question(this, "Oups",
-                              "Il semble que LudoMuseEditor n'a pas été correctement fermé à la dernière édition de ce scénario. Voulez vous le restaurer ? \n Si vous choisissez non, les modifications seront définitvement perdues.",
-                              QMessageBox::No, QMessageBox::Yes);
+        int i = QMessageBox::critical(this, tr("Oups !"),
+                                      tr("Il semble que LudoMuseEditor n'a pas été correctement fermé à la dernière édition de ce scénario. Voulez vous le restaurer ?\nSi vous choisissez non, les modifications seront définitvement perdues."),
+                                      QMessageBox::No | QMessageBox::Escape, QMessageBox::Yes | QMessageBox::Default);
         if (i == QMessageBox::Yes)
         {
             app->setPath(tempFile.absoluteFilePath().toStdString());
@@ -863,10 +863,9 @@ void CMainWindow::closeEvent(QCloseEvent *a_oEvent)
 
     if (tempFile.exists())
     {
-        int answer = QMessageBox::question( this, tr("Modifications en cours"),
+        int answer = QMessageBox::warning( this, tr("Modifications en cours"),
                                             tr("Vous avez des modifications non sauvegardées,\nêtes vous sûr de vouloir quitter ?\n(les modifications seront perdues)"),
-                                            QMessageBox::Cancel,
-                                            QMessageBox::Yes);
+                                            QMessageBox::Cancel | QMessageBox::Escape | QMessageBox::Default, QMessageBox::Yes);
 
         if (answer == QMessageBox::Cancel)
         {
