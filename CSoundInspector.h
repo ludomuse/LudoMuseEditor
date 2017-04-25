@@ -44,8 +44,10 @@ private:
     LM::CEntityNode* m_pNode;
 
     QString m_sSavedPath;
+    bool m_bSaveIsDistant;
     CLineEdit* m_pPathField;
     QCheckBox* m_pPlaySoundCheckButton;
+    QCheckBox* m_pDistantCheckButton;
 
 protected:
     virtual void closeEvent(QCloseEvent *event) override;
