@@ -5,4 +5,4 @@ before_build:
   - git submodule update --init --recursive
 build_script:
   - qmake LudoMuseEditor.pro
-  - C:\MinGW\bin\mingw32-make
+  - vcvarsall.bat %PLATFORM%
