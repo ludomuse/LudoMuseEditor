@@ -1,6 +1,7 @@
 install:
   - set QTDIR=C:\Qt\5.8\msvc2015
   - set PATH=%PATH%;%QTDIR%\bin;
+  - git submodule update --init --recursive
 build_script:
   - qmake LudoMuseEditor.pro
-  - nmake
+  - C:\MinGW32\bin\mingw32-make
