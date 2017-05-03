@@ -66,6 +66,8 @@ private slots:
     void setCurrentTemplate(CTemplatePushButton* a_pTemplate);
     void changeActivePlayer(); // Update previous id comboBox
     void swapScreens();
+
+
 signals:
     // Signal emit when only one player box checked
     void addOneScene(const QString& a_sPreviousID, const QString& a_sNewID, int a_iPlayerID, CTemplate* a_pTemplate);

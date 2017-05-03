@@ -6,6 +6,7 @@
   ],
   "description": "Reconstitue la photo trouée du joueur 1 à partir des pièces manquantes du joueur 2\nATTENTION la photo doit faire 860x616px et elle doit être découpée selon le schéma suivant :\n5 colonnes par 4 lignes",
   "game": true,
+  "wizard": "PhotoPuzzle",
   "templates": [
             {
                 "sync": true,

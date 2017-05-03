@@ -3,11 +3,14 @@
 #include <QFile>
 
 CTemplate::CTemplate(QString a_sPath, QString a_sPicturePath,
-                     bool a_bIsGame, QString a_sName, QString a_sDescription, QString a_sPicture2Path) :
+                     bool a_bIsGame, QString a_sName,
+                     QString a_sDescription, QString a_sPicture2Path,
+                     QString a_sWizard) :
     m_sPath(a_sPath),
     m_bIsGame(a_bIsGame),
     m_sName(a_sName),
-    m_sDescription(a_sDescription)
+    m_sDescription(a_sDescription),
+    m_sWizard(a_sWizard)
 {
     QFile pictureFile(a_sPicturePath);
     if(!pictureFile.exists())
@@ -71,4 +74,9 @@ const QPixmap& CTemplate::GetImage()
 const QPixmap& CTemplate::GetImage2()
 {
     return this->m_imPicture2;
+}
+
+const QString& CTemplate::GetWizard()
+{
+    return m_sWizard;
 }
