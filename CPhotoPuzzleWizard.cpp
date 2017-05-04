@@ -13,6 +13,7 @@ CPhotoPuzzleWizard::CPhotoPuzzleWizard(QWidget* parent):
 {
     ui->setupUi(this);
     setModal(true);
+    setAcceptDrops(true);
     setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
 
     connect(ui->okButton, SIGNAL(clicked(bool)), this, SLOT(clickOnValidate(bool)));
@@ -113,7 +114,7 @@ void CPhotoPuzzleWizard::mousePressEvent(QMouseEvent *event)
     if (event->button() == Qt::LeftButton)
     {
 
-        QLabel* label = dynamic_cast<QLabel*>(this->childAt(event->pos()));
+        QLabel* label = dynamic_cast<QLabel*>(childAt(event->pos()));
         if (label && label->text() != "_")
         {
             QDrag* drag = new QDrag(this);
@@ -123,6 +124,24 @@ void CPhotoPuzzleWizard::mousePressEvent(QMouseEvent *event)
 
             Qt::DropAction dropAction = drag->exec();
         }
+    }
+}
+
+
+void CPhotoPuzzleWizard::dragEnterEvent(QDragEnterEvent *event)
+{
+    if (event->mimeData()->hasFormat("text/plain"))
+        event->acceptProposedAction();
+}
+
+void CPhotoPuzzleWizard::dropEvent(QDropEvent *event)
+{
+    QComboBox* combo = dynamic_cast<QComboBox*>(childAt(event->pos()));
+    if (combo)
+    {
+        combo->setCurrentIndex(event->mimeData()->text().toInt() - 1);
+
+        event->acceptProposedAction();
     }
 }
 

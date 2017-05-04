@@ -31,6 +31,8 @@ private:
 public:
     CPhotoPuzzleWizard(QWidget* parent = 0);
     void mousePressEvent(QMouseEvent* event) override;
+    void dragEnterEvent(QDragEnterEvent* event) override;
+    void dropEvent(QDropEvent* event) override;
 
 
 public slots:
