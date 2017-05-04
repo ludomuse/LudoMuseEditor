@@ -8,7 +8,18 @@
 #include <QMimeData>
 
 
-CPhotoPuzzleWizard::CPhotoPuzzleWizard(QWidget* parent):
+#include "LudoMuse_src/Classes/Engine/Include/CSceneNode.h"
+#include "LudoMuse_src/Classes/Engine/Include/CSpriteNode.h"
+#include "LudoMuse_src/Classes/Engine/Include/CGridNode.h"
+#include "LudoMuse_src/Classes/Engine/Include/CAnimationNode.h"
+#include "LudoMuse_src/Classes/Engine/Include/CLabelNode.h"
+#include "LudoMuse_src/Classes/Engine/Include/CMenuNode.h"
+
+
+CPhotoPuzzleWizard::CPhotoPuzzleWizard(const SNewGameInfo& a_rNewGame, LM::CKernel* a_pKernel, QWidget* parent):
+    m_oNewGameInfo(a_rNewGame),
+    m_pKernel(a_pKernel),
+    QDialog(parent),
     ui(new Ui_Dialog)
 {
     ui->setupUi(this);
@@ -122,7 +133,7 @@ void CPhotoPuzzleWizard::mousePressEvent(QMouseEvent *event)
             mimeData->setText(label->text());
             drag->setMimeData(mimeData);
 
-            Qt::DropAction dropAction = drag->exec();
+            drag->exec();
         }
     }
 }
@@ -155,6 +166,111 @@ void CPhotoPuzzleWizard::clickOnCancel(bool)
 void CPhotoPuzzleWizard::clickOnValidate(bool)
 {
     qDebug()<< "Wizard ok";
+
+    LM::CSceneNode* toFillPlayerScene;
+    LM::CSceneNode* piecesPlayerScene;
+    // generate scenes.
+    if (!m_oNewGameInfo.isSwaped)
+    {
+        toFillPlayerScene = new LM::CSceneNode(m_oNewGameInfo.newID1.toStdString());
+        piecesPlayerScene = new LM::CSceneNode(m_oNewGameInfo.newID2.toStdString());
+    }
+    else
+    {
+        toFillPlayerScene = new LM::CSceneNode(m_oNewGameInfo.newID2.toStdString());
+        piecesPlayerScene = new LM::CSceneNode(m_oNewGameInfo.newID1.toStdString());
+    }
+
+
+
+
+    // fill scene1 with entities
+    toFillPlayerScene->SetSynced(true);
+    // backgournd image
+    LM::CSpriteNode* backgroundImage = new LM::CSpriteNode("cache/background_dark.png",
+                                                           LM::CENTER,
+                                                           100);
+    piecesPlayerScene->AddChildNode(backgroundImage);
+
+    // drop area
+    LM::CSpriteNode* dropArea = new LM::CSpriteNode("cache/shared_zone.png",
+                                                    LM::LEFT, 25);
+    std::string dropArea1ID = "dropArea1";
+    dropArea->SetID(dropArea1ID);
+
+    LM::CEventCallback dropOnArea("Drop", m_pKernel, nullptr);
+    dropArea->AddListener("Drop", dropOnArea);
+    LM::CEventCallback dropEnableBack("DropEnableBack",
+                                      m_pKernel,
+                                      &LM::CKernel::EnableEvent,
+                                      LM::SEvent(LM::SEvent::STRING, dropArea, dropArea1ID + ":Drop"));
+    dropArea->AddListener("DropEnableBack", dropEnableBack);
+
+    piecesPlayerScene->AddChildNode(dropArea);
+
+
+    LM::CGridNode* piecesGrid = new LM::CGridNode(ui->PiecesRowsSpinner->value(),
+                                                  ui->PiecesColSpinner->value(),
+                                                  LM::EAnchor::RIGHT,
+                                                  0, 80, 0, 0);
+    piecesPlayerScene->AddChildNode(piecesGrid);
+
+
+
+    // add information items to scene1
+    LM::CSpriteNode* infoBottom = new LM::CSpriteNode("ui/info-6.png",
+                                                      LM::EAnchor::BOTTOM,
+                                                      0, 13);
+    piecesPlayerScene->AddChildNode(infoBottom);
+
+
+    LM::CGroupNode* infoBottomGroup = new LM::CGroupNode(LM::EAnchor::CENTER, 60, 100);
+    infoBottom->AddChildNode(infoBottomGroup);
+
+    LM::CAnimationNode* bottomMoveAnimation = new LM::CAnimationNode("ui/animations/move.plist",
+                                                                     "ui/animations/move.png",
+                                                                     LM::EAnchor::LEFT,
+                                                                     0, 80);
+    infoBottomGroup->AddChildNode(bottomMoveAnimation);
+
+    LM::CLabelNode* infoBottomText = new LM::CLabelNode("Envoie les détails de la photo à ton partenaire",
+                                                        "#default-font", 21, "center", "0,0,0,255",
+                                                        LM::EAnchor::CENTER, 95);
+    infoBottomGroup->AddChildNode(infoBottomText);
+
+
+
+    LM::CSpriteNode* infoTop = new LM::CSpriteNode("ui/info-2.png",
+                                                      LM::EAnchor::TOP,
+                                                      0, 13);
+    piecesPlayerScene->AddChildNode(infoTop);
+
+    LM::CLabelNode* infoTopText = new LM::CLabelNode("Instructions Scénario",
+                                                     "#default-font", 20, "center", "0,0,0,255",
+                                                     LM::EAnchor::CENTER, 80, 100);
+    infoTop->AddChildNode(infoTopText);
+
+
+    LM::CMenuNode* navRight1 = new LM::CMenuNode("ui/nav-5.png",
+                                                 "ui/nav-5-active.png",
+                                                 LM::CCallback<LM::CKernel, cocos2d::Ref*>("Nav",
+                                                                                           m_pKernel,
+                                                                                           &LM::CKernel::NavNext),
+                                                 LM::EAnchor::BOTTOM_RIGHT,
+                                                 0, 13);
+
+    piecesPlayerScene->AddChildNode(navRight1);
+
+    LM::CEventCallback showNav("Show", m_pKernel, &LM::CKernel::SetNodeVisible,
+                               LM::SEvent(LM::SEvent::BOOLEAN, navRight1, "Validate", true));
+    navRight1->AddListener("Validate", showNav);
+
+    LM::CLabelNode* navLabel = new LM::CLabelNode("Suivant",
+                                                  "#default-font",
+                                                  24, "center", "",
+                                                  LM::EAnchor::CENTER, 100, 100);
+
+    // fill scene2 with entities
 
 
 }

@@ -2,6 +2,14 @@
 #define CWIZARDFACTORY_H
 
 #include <QDialog>
+#include "SNewGame.h"
+
+
+namespace LM
+{
+class CKernel;
+}
+
 
 class CWizardFactory
 {
@@ -13,8 +21,9 @@ private:
 
 public:
     static CWizardFactory* Instance();
-    QDialog* create(const std::string& a_sWizardName, QWidget* parent);
+    QDialog* create(const std::string& a_sWizardName, QWidget* parent, const SNewGameInfo& a_rNewGame, LM::CKernel* a_pKernel);
 
 };
+
 
 #endif // CWIZARDFACTORY_H

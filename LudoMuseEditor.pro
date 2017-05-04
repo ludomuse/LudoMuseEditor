@@ -194,7 +194,8 @@ HEADERS  += CMainWindow.h \
     CImportProjectWizard.h \
     CDashboardInspector.h \
     CPhotoPuzzleWizard.h \
-    CWizardFactory.h
+    CWizardFactory.h \
+    SNewGame.h
 
 FORMS    += \
     CLoaderWidget.ui \

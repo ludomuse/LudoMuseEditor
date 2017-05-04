@@ -11,6 +11,12 @@
 #include "CTemplate.h"
 #include "CTemplatePushButton.h"
 
+
+namespace LM
+{
+class CKernel;
+}
+
 class CAddSceneWizard : public QDialog
 {
     Q_OBJECT
@@ -20,7 +26,8 @@ public:
                     const std::vector<std::string>& a_rSceneIDP2,
                     QWidget* a_pParent = Q_NULLPTR,
                     QString a_sPreviousID1 = Q_NULLPTR,
-                    QString a_sPreviousID2 = Q_NULLPTR);
+                    QString a_sPreviousID2 = Q_NULLPTR,
+                    LM::CKernel* a_pKernel = nullptr);
 
 private:
     void FillComboBox(int a_iPlayerID, const QString& activeSceneID);
@@ -59,6 +66,8 @@ private:
     int m_iActivePlayer;
     const std::vector<std::string> m_rSceneIDP1;
     const std::vector<std::string> m_rSceneIDP2;
+
+    LM::CKernel* m_pKernel;
 
 private slots:
     void clickOnBack(bool);

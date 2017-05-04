@@ -2,6 +2,7 @@
 #define CPHOTOPUZZLEWIZARD_H
 
 #include "ui_cphotopuzzlewizard.h"
+#include "SNewGame.h"
 
 #include <QDialog>
 #include <QSpinBox>
@@ -9,12 +10,20 @@
 #include <QComboBox>
 
 
+namespace LM
+{
+class CKernel;
+}
+
 class CPhotoPuzzleWizard : public QDialog
 {
     Q_OBJECT
 
 private:
     Ui_Dialog* ui;
+
+    SNewGameInfo m_oNewGameInfo;
+    LM::CKernel* m_pKernel;
 
     QSpinBox* m_pToFillGridRows;
     QSpinBox* m_pToFillGridColums;
@@ -29,7 +38,7 @@ private:
 
 
 public:
-    CPhotoPuzzleWizard(QWidget* parent = 0);
+    CPhotoPuzzleWizard(const SNewGameInfo& a_rNewGame, LM::CKernel* a_pKernel, QWidget* parent = 0);
     void mousePressEvent(QMouseEvent* event) override;
     void dragEnterEvent(QDragEnterEvent* event) override;
     void dropEvent(QDropEvent* event) override;

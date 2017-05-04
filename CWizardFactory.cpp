@@ -26,11 +26,11 @@ CWizardFactory* CWizardFactory::Instance()
     return &instance;
 }
 
-QDialog* CWizardFactory::create(const std::string &a_sWizardName, QWidget* parent)
+QDialog* CWizardFactory::create(const std::string &a_sWizardName, QWidget* parent, const SNewGameInfo& a_rNewGame, LM::CKernel* a_pKernel)
 {
     if (a_sWizardName == "PhotoPuzzle")
     {
-        return new CPhotoPuzzleWizard(parent);
+        return new CPhotoPuzzleWizard(a_rNewGame, a_pKernel, parent);
     }
     else
     {

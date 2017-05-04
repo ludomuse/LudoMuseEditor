@@ -502,7 +502,8 @@ void CMainWindow::launchAddSceneWizard()
                                        m_pKernel->GetSceneIDPlayer(PLAYER_2),
                                        this,
                                        m_pTimeline->GetPlayerSceneID(PLAYER_1),
-                                       m_pTimeline->GetPlayerSceneID(PLAYER_2));
+                                       m_pTimeline->GetPlayerSceneID(PLAYER_2),
+                                       m_pKernel);
 
     connect(pSceneWizard, SIGNAL(addOneScene(QString,QString,int,CTemplate*)), this, SLOT(addOneScene(QString,QString,int,CTemplate*)));
 //    connect(pSceneWizard, SIGNAL(addTwoScene(QString,QString,QString,QString,CTemplate*)),
