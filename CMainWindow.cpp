@@ -676,7 +676,11 @@ void CMainWindow::nodeModified(LM::CEntityNode* a_pNode)
                     (pSyncedScene->FindChildByID(sSyncedID, true));
             if (pSyncedNode)
             {
+                int originalWidth = pSyncedNode->GetWidth();
+                int originalHeight = pSyncedNode->GetHeight();
                 pSyncedNode->Copy(pBaseNode);
+                pSyncedNode->SetWidth(originalWidth, false);
+                pSyncedNode->SetHeight(originalHeight, false);
             }
         }
     }
