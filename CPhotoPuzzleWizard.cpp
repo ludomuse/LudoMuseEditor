@@ -6,6 +6,7 @@
 #include <QDrag>
 #include <QMouseEvent>
 #include <QMimeData>
+#include <QMessageBox>
 
 
 #include "LudoMuse_src/Classes/Engine/Include/CSceneNode.h"
@@ -14,6 +15,7 @@
 #include "LudoMuse_src/Classes/Engine/Include/CAnimationNode.h"
 #include "LudoMuse_src/Classes/Engine/Include/CLabelNode.h"
 #include "LudoMuse_src/Classes/Engine/Include/CMenuNode.h"
+#include "LudoMuse_src/Classes/Engine/Include/CValidator.h"
 
 
 CPhotoPuzzleWizard::CPhotoPuzzleWizard(const SNewGameInfo& a_rNewGame, LM::CKernel* a_pKernel, QWidget* parent):
@@ -165,27 +167,53 @@ void CPhotoPuzzleWizard::clickOnCancel(bool)
 
 void CPhotoPuzzleWizard::clickOnValidate(bool)
 {
+
+    std::vector<int> values;
+    for (int row = ui->PiecesRowsSpinner->value(); row > 0; --row)
+    {
+        for (int col = 0; col < ui->PiecesColSpinner->value(); ++col)
+        {
+            values.push_back(m_vPiecesGridItems[row][col]->currentIndex() - 1);
+        }
+    }
+    for (int i = 0; i < values.size(); ++i)
+    {
+        for (int j = 0; j < values.size(); ++j)
+        {
+            if (i != j && values[i] == values[j])
+            {
+                // two identical values
+                QMessageBox::critical(this, "Erreur !",
+                                      "Impossible de créer le jeu vous avez plusieurs pièces référençant le même élement manquant");
+            }
+        }
+    }
+
+
+
     qDebug()<< "Wizard ok";
 
-    LM::CSceneNode* toFillPlayerScene;
-    LM::CSceneNode* piecesPlayerScene;
-    // generate scenes.
+    std::string toFillSceneID;
+    std::string piecesSceneID;
+
     if (!m_oNewGameInfo.isSwaped)
     {
-        toFillPlayerScene = new LM::CSceneNode(m_oNewGameInfo.newID1.toStdString());
-        piecesPlayerScene = new LM::CSceneNode(m_oNewGameInfo.newID2.toStdString());
+        toFillSceneID = m_oNewGameInfo.newID1.toStdString();
+        piecesSceneID = m_oNewGameInfo.newID2.toStdString();
     }
     else
     {
-        toFillPlayerScene = new LM::CSceneNode(m_oNewGameInfo.newID2.toStdString());
-        piecesPlayerScene = new LM::CSceneNode(m_oNewGameInfo.newID1.toStdString());
+        toFillSceneID = m_oNewGameInfo.newID2.toStdString();
+        piecesSceneID = m_oNewGameInfo.newID1.toStdString();
     }
+    LM::CSceneNode* toFillPlayerScene = new LM::CSceneNode(toFillSceneID);
+    LM::CSceneNode* piecesPlayerScene = new LM::CSceneNode(piecesSceneID);
 
 
 
 
     // fill scene1 with entities
-    toFillPlayerScene->SetSynced(true);
+    piecesPlayerScene->SetSynced(true);
     // backgournd image
     LM::CSpriteNode* backgroundImage = new LM::CSpriteNode("cache/background_dark.png",
                                                            LM::CENTER,
@@ -214,6 +242,7 @@ void CPhotoPuzzleWizard::clickOnValidate(bool)
                                                   LM::EAnchor::RIGHT,
                                                   0, 80, 0, 0);
     piecesPlayerScene->AddChildNode(piecesGrid);
+    // fill this grid in the dynamic filling loop at the end
 
 
 
@@ -269,8 +298,200 @@ void CPhotoPuzzleWizard::clickOnValidate(bool)
                                                   "#default-font",
                                                   24, "center", "",
                                                   LM::EAnchor::CENTER, 100, 100);
+    navRight1->AddChildNode(navLabel);
+
+
 
     // fill scene2 with entities
+    toFillPlayerScene->SetSynced(true);
+    LM::CValidator* validator = new LM::CValidator(m_pKernel);
+    for (int value : values)
+    {
+        validator->AddID(std::to_string(value));
+    }
+
+    toFillPlayerScene->AddChildNode(validator);
+
+    LM::CSpriteNode* backgroundToFill = new LM::CSpriteNode("cache/background_dark.png",
+                                              LM::EAnchor::CENTER, 100, 100);
+    toFillPlayerScene->AddChildNode(backgroundToFill);
+
+    LM::CSpriteNode* photoPuzzle = new LM::CSpriteNode("cache/PhotoPuzzle.png",
+                                                   LM::EAnchor::LEFT, 0, 80);
+    toFillPlayerScene->AddChildNode(photoPuzzle);
+
+    LM::CGridNode* toFillGrid = new LM::CGridNode(ui->ToFillRowsSpinner->value(),
+                                             ui->ToFillColSpinner->value(),
+                                             LM::EAnchor::CENTER,
+                                             100, 100, 0, 0);
+    toFillPlayerScene->AddChildNode(toFillGrid);
+    // fill this grid in the dynamic filling loop at the end
 
 
+    LM::CSpriteNode* dropAreaToFill = new LM::CSpriteNode("cache/shared_zone.png",
+                                                          LM::EAnchor::RIGHT,
+                                                          25, 100);
+    toFillPlayerScene->AddChildNode(dropAreaToFill);
+    // fill this area in the dynamic filling loop at the end
+
+
+    LM::CSpriteNode* infoBottomToFill = new LM::CSpriteNode("ui/info-6.png",
+                                                            LM::EAnchor::BOTTOM,
+                                                            0, 13);
+    toFillPlayerScene->AddChildNode(infoBottomToFill);
+
+    LM::CGroupNode* infoBottomToFillGroup = new LM::CGroupNode(LM::EAnchor::CENTER,
+                                                               60, 100);
+    infoBottomToFill->AddChildNode(infoBottomToFillGroup);
+
+    LM::CAnimationNode* animationToFill = new LM::CAnimationNode("ui/animations/move.plist",
+                                                                 "ui/animations/move.png",
+                                                                 LM::EAnchor::LEFT,
+                                                                 0, 80);
+    infoBottomToFillGroup->AddChildNode(animationToFill);
+
+    LM::CLabelNode* infoBottomToFillText = new LM::CLabelNode("Recompose la photo à partir des détails envoyés.",
+                                                              "#default-font",
+                                                              21, "center", "0,0,0,255",
+                                                              LM::EAnchor::RIGHT, 95);
+    infoBottomToFillGroup->AddChildNode(infoBottomToFillText);
+
+    LM::CSpriteNode* infoTopToFill = new LM::CSpriteNode("ui/info-2.png",
+                                                   LM::EAnchor::TOP,
+                                                   0, 13);
+    toFillPlayerScene->AddChildNode(infoTopToFill);
+
+    LM::CLabelNode* infoTopToFillText = new LM::CLabelNode("Instructions scénario",
+                                                           "#default-font",
+                                                           20, "center", "0,0,0,255",
+                                                           LM::EAnchor::CENTER,
+                                                           80, 100);
+    infoTopToFill->AddChildNode(infoTopToFillText);
+
+
+    LM::CMenuNode* navRight2 = new LM::CMenuNode("ui/nav-5.png",
+                                                 "ui/nav-5-active.png",
+                                                 LM::CCallback<LM::CKernel, cocos2d::Ref*>("Nav",
+                                                                                           m_pKernel,
+                                                                                           &LM::CKernel::NavNext),
+                                                 LM::EAnchor::BOTTOM_RIGHT,
+                                                 0, 13);
+
+    piecesPlayerScene->AddChildNode(navRight2);
+
+    LM::CEventCallback showNav2("Show", m_pKernel, &LM::CKernel::SetNodeVisible,
+                               LM::SEvent(LM::SEvent::BOOLEAN, navRight2, "Validate", true));
+    navRight2->AddListener("Validate", showNav2);
+
+    LM::CLabelNode* navLabel2 = new LM::CLabelNode("Suivant",
+                                                  "#default-font",
+                                                  24, "center", "",
+                                                  LM::EAnchor::CENTER, 100, 100);
+    navRight2->AddChildNode(navLabel2);
+
+
+
+    // link grid elements to each other and populate them
+    for (int toFillRow = ui->ToFillRowsSpinner->value(); toFillRow > 0; --toFillRow)
+    {
+        for (int toFillCol = 0; toFillCol < ui->ToFillColSpinner->value(); ++toFillCol)
+        {
+            LM::CGroupNode* toFillCell = new LM::CGroupNode(LM::EAnchor::CENTER,
+                                                            100, 100);
+
+            LM::CEventCallback sendOndropOnCell("SendMessage", m_pKernel, &LM::CKernel::SendNetworkMessage,
+                                          LM::SEvent(LM::SEvent::STRING, toFillCell,
+                                                     piecesSceneID + ":DropEnableBack:" + dropArea1ID));
+            toFillCell->AddListener("Drop", sendOndropOnCell);
+
+            LM::CEventCallback anchorOnDropOnCell("AnchorEntity", m_pKernel, &LM::CKernel::AnchorEntityCallback,
+                                                  LM::SEvent(LM::SEvent::STRING, toFillCell,
+                                                             m_vToFillGridItems[toFillRow][toFillCol]->text().toStdString()));
+            toFillCell->AddListener("Drop", anchorOnDropOnCell);
+
+            toFillGrid->AddChildNode(toFillCell);
+        }
+    }
+
+    for (int value : values)
+    {
+
+        // pieces in pieces grid
+        LM::CSpriteNode* piece = new LM::CSpriteNode("cache/puzzle.png",
+                                                     LM::EAnchor::CENTER,
+                                                     0, 80);
+
+        LM::CEventCallback fadeOnDroped("Fade", m_pKernel, &LM::CKernel::FadeEntity,
+                                      LM::SEvent(LM::SEvent::NONE, piece));
+        piece->AddListener("Droped", fadeOnDroped);
+
+        LM::CEventCallback disableAreaOnDroped("DisableEvent", m_pKernel,
+                                               &LM::CKernel::DisableEvent,
+                                               LM::SEvent(LM::SEvent::STRING, piece, dropArea1ID + ":drop"));
+        piece->AddListener("Droped", disableAreaOnDroped);
+
+        LM::CEventCallback sendMessageOnDroped("SendMessage", m_pKernel,
+                                               &LM::CKernel::SendNetworkMessage,
+                                               LM::SEvent(LM::SEvent::STRING, piece, toFillSceneID + std::string(":Show:") + std::to_string(value)));
+        piece->AddListener("Droped", sendMessageOnDroped);
+
+        LM::CEventCallback dummy("Move", m_pKernel, nullptr);
+        piece->AddListener("Move", dummy);
+
+        LM::CEventCallback showBackOnReturn("ShowBack", m_pKernel,
+                                            &LM::CKernel::SetNodeVisible,
+                                            LM::SEvent(LM::SEvent::BOOLEAN, piece, "ShowBack", true));
+        piece->AddListener("ReturnElement", showBackOnReturn);
+
+        piece->SetID(std::to_string(value));
+        piecesGrid->AddChildNode(piece);
+
+
+        // pieces in sending area
+        LM::CSpriteNode* fill = new LM::CSpriteNode("cache/puzzle.png",
+                                                    LM::EAnchor::CENTER,
+                                                    40, 100);
+        LM::CEventCallback validateOnAnchored("Validate", m_pKernel,
+                                              &LM::CKernel::Validate,
+                                              LM::SEvent(LM::SEvent::STRING, fill, std::to_string(value)));
+        fill->AddListener("Anchored", validateOnAnchored);
+
+        LM::CEventCallback fadeOnAnchoredFailed("Fade", m_pKernel,
+                                                &LM::CKernel::FadeEntity,
+                                                LM::SEvent(LM::SEvent::NONE, fill));
+        fill->AddListener("AnchoredFailed", fadeOnAnchoredFailed);
+
+
+        LM::CEventCallback sendMessageOnFailed("SendMessage", m_pKernel,
+                                               &LM::CKernel::SendNetworkMessage,
+                                               LM::SEvent(LM::SEvent::STRING, fill, piecesSceneID + std::string(":ReturnElement:") + std::to_string(value)));
+        fill->AddListener("AnchoredFailed", sendMessageOnFailed);
+
+        LM::CEventCallback localMessageOnFailed("LocalMessage", m_pKernel,
+                                                &LM::CKernel::LocalMessage,
+                                                LM::SEvent(LM::SEvent::STRING, fill, toFillSceneID + std::string(":Beep:") + std::to_string(value)));
+        fill->AddListener("AnchoredFailed", localMessageOnFailed);
+
+        LM::CEventCallback dummy2("Move", m_pKernel, nullptr);
+        fill->AddListener("Move", dummy2);
+
+        LM::CEventCallback show("Show", m_pKernel,
+                                &LM::CKernel::SetNodeVisible,
+                                LM::SEvent(LM::SEvent::BOOLEAN, fill, "Show", true));
+        fill->AddListener("Show", show);
+
+        LM::CEventCallback beep("PlaySound", m_pKernel,
+                                &LM::CKernel::PlaySoundCallback,
+                                LM::SEvent(LM::SEvent::STRING, fill, "ui/audio/beep.wav"));
+        fill->AddListener("Beep", beep);
+
+        fill->SetID(std::to_string(value));
+        dropAreaToFill->AddChildNode(fill);
+    }
+
+    m_pKernel->AddSyncID(m_oNewGameInfo.newID1.toStdString(), m_oNewGameInfo.newID2.toStdString());
+    if (!m_oNewGameInfo.isSwaped)
+    {
+//        m_pKernel->AddNewScene();
+    }
 }
