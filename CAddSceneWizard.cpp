@@ -393,6 +393,8 @@ void CAddSceneWizard::clickOnValidate(bool)
             if (pDialog)
             {
                 pDialog->show();
+                close();
+                return;
             }
             else
             {

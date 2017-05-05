@@ -9,6 +9,8 @@
 #include <QMessageBox>
 
 
+#include "CMainWindow.h"
+#include "CProjectManager.h"
 #include "LudoMuse_src/Classes/Engine/Include/CSceneNode.h"
 #include "LudoMuse_src/Classes/Engine/Include/CSpriteNode.h"
 #include "LudoMuse_src/Classes/Engine/Include/CGridNode.h"
@@ -169,11 +171,11 @@ void CPhotoPuzzleWizard::clickOnValidate(bool)
 {
 
     std::vector<int> values;
-    for (int row = ui->PiecesRowsSpinner->value(); row > 0; --row)
+    for (int row = ui->PiecesRowsSpinner->value() - 1; row >= 0; --row)
     {
         for (int col = 0; col < ui->PiecesColSpinner->value(); ++col)
         {
-            values.push_back(m_vPiecesGridItems[row][col]->currentIndex() - 1);
+            values.push_back(m_vPiecesGridItems[row][col]->currentIndex() + 1);
         }
     }
     for (int i = 0; i < values.size(); ++i)
@@ -185,17 +187,25 @@ void CPhotoPuzzleWizard::clickOnValidate(bool)
                 // two identical values
                 QMessageBox::critical(this, "Erreur !",
                                       "Impossible de créer le jeu vous avez plusieurs pièces référençant le même élement manquant");
+                return;
             }
         }
     }
 
 
+    ON_CC_THREAD(CPhotoPuzzleWizard::GenerateScenes, this, values);
+}
 
-    qDebug()<< "Wizard ok";
+void CPhotoPuzzleWizard::GenerateScenes(const std::vector<int>& values)
+    {
+
 
     std::string toFillSceneID;
     std::string piecesSceneID;
 
+
+
+    LM::CSceneNode *sceneP1, *sceneP2;
     if (!m_oNewGameInfo.isSwaped)
     {
         toFillSceneID = m_oNewGameInfo.newID1.toStdString();
@@ -206,22 +216,34 @@ void CPhotoPuzzleWizard::clickOnValidate(bool)
         toFillSceneID = m_oNewGameInfo.newID2.toStdString();
         piecesSceneID = m_oNewGameInfo.newID1.toStdString();
     }
+
     LM::CSceneNode* toFillPlayerScene = new LM::CSceneNode(toFillSceneID);
     LM::CSceneNode* piecesPlayerScene = new LM::CSceneNode(piecesSceneID);
 
+    if (!m_oNewGameInfo.isSwaped)
+    {
+        sceneP1 = toFillPlayerScene;
+        sceneP2 = piecesPlayerScene;
+    }
+    else
+    {
+        sceneP1 = piecesPlayerScene;
+        sceneP2 = toFillPlayerScene;
+    }
 
 
+    std::string basePath = CProjectManager::Instance()->GetProjectPath();
 
     // fill scene1 with entities
     piecesPlayerScene->SetSynced(true);
     // backgournd image
-    LM::CSpriteNode* backgroundImage = new LM::CSpriteNode("cache/background_dark.png",
+    LM::CSpriteNode* backgroundImage = new LM::CSpriteNode(basePath + "cache/background_dark.png",
                                                            LM::CENTER,
                                                            100);
     piecesPlayerScene->AddChildNode(backgroundImage);
 
     // drop area
-    LM::CSpriteNode* dropArea = new LM::CSpriteNode("cache/shared_zone.png",
+    LM::CSpriteNode* dropArea = new LM::CSpriteNode(basePath + "cache/shared_zone.png",
                                                     LM::LEFT, 25);
     std::string dropArea1ID = "dropArea1";
     dropArea->SetID(dropArea1ID);
@@ -240,14 +262,14 @@ void CPhotoPuzzleWizard::clickOnValidate(bool)
     LM::CGridNode* piecesGrid = new LM::CGridNode(ui->PiecesRowsSpinner->value(),
                                                   ui->PiecesColSpinner->value(),
                                                   LM::EAnchor::RIGHT,
-                                                  0, 80, 0, 0);
+                                                  50, 50, 0, 0);
     piecesPlayerScene->AddChildNode(piecesGrid);
     // fill this grid in the dynamic filling loop at the end
 
 
 
     // add information items to scene1
-    LM::CSpriteNode* infoBottom = new LM::CSpriteNode("ui/info-6.png",
+    LM::CSpriteNode* infoBottom = new LM::CSpriteNode(basePath + "ui/info-6.png",
                                                       LM::EAnchor::BOTTOM,
                                                       0, 13);
     piecesPlayerScene->AddChildNode(infoBottom);
@@ -256,8 +278,8 @@ void CPhotoPuzzleWizard::clickOnValidate(bool)
     LM::CGroupNode* infoBottomGroup = new LM::CGroupNode(LM::EAnchor::CENTER, 60, 100);
     infoBottom->AddChildNode(infoBottomGroup);
 
-    LM::CAnimationNode* bottomMoveAnimation = new LM::CAnimationNode("ui/animations/move.plist",
-                                                                     "ui/animations/move.png",
+    LM::CAnimationNode* bottomMoveAnimation = new LM::CAnimationNode(basePath + "ui/animations/move.png",
+                                                                     basePath + "ui/animations/move.plist",
                                                                      LM::EAnchor::LEFT,
                                                                      0, 80);
     infoBottomGroup->AddChildNode(bottomMoveAnimation);
@@ -269,7 +291,7 @@ void CPhotoPuzzleWizard::clickOnValidate(bool)
 
 
 
-    LM::CSpriteNode* infoTop = new LM::CSpriteNode("ui/info-2.png",
+    LM::CSpriteNode* infoTop = new LM::CSpriteNode(basePath + "ui/info-2.png",
                                                       LM::EAnchor::TOP,
                                                       0, 13);
     piecesPlayerScene->AddChildNode(infoTop);
@@ -280,13 +302,13 @@ void CPhotoPuzzleWizard::clickOnValidate(bool)
     infoTop->AddChildNode(infoTopText);
 
 
-    LM::CMenuNode* navRight1 = new LM::CMenuNode("ui/nav-5.png",
-                                                 "ui/nav-5-active.png",
+    LM::CMenuNode* navRight1 = new LM::CMenuNode(basePath + "ui/nav-5.png",
+                                                 basePath + "ui/nav-5-active.png",
                                                  LM::CCallback<LM::CKernel, cocos2d::Ref*>("Nav",
                                                                                            m_pKernel,
                                                                                            &LM::CKernel::NavNext),
                                                  LM::EAnchor::BOTTOM_RIGHT,
-                                                 0, 13);
+                                                 0, 13, 0, 0, "next");
 
     piecesPlayerScene->AddChildNode(navRight1);
 
@@ -312,30 +334,30 @@ void CPhotoPuzzleWizard::clickOnValidate(bool)
 
     toFillPlayerScene->AddChildNode(validator);
 
-    LM::CSpriteNode* backgroundToFill = new LM::CSpriteNode("cache/background_dark.png",
-                                              LM::EAnchor::CENTER, 100, 100);
+    LM::CSpriteNode* backgroundToFill = new LM::CSpriteNode(basePath + "cache/background_dark.png",
+                                                            LM::EAnchor::CENTER, 100, 100);
     toFillPlayerScene->AddChildNode(backgroundToFill);
 
-    LM::CSpriteNode* photoPuzzle = new LM::CSpriteNode("cache/PhotoPuzzle.png",
-                                                   LM::EAnchor::LEFT, 0, 80);
+    LM::CSpriteNode* photoPuzzle = new LM::CSpriteNode(basePath + "cache/background.png",
+                                                       LM::EAnchor::LEFT, 70);
     toFillPlayerScene->AddChildNode(photoPuzzle);
 
     LM::CGridNode* toFillGrid = new LM::CGridNode(ui->ToFillRowsSpinner->value(),
-                                             ui->ToFillColSpinner->value(),
-                                             LM::EAnchor::CENTER,
-                                             100, 100, 0, 0);
-    toFillPlayerScene->AddChildNode(toFillGrid);
+                                                  ui->ToFillColSpinner->value(),
+                                                  LM::EAnchor::CENTER,
+                                                  100, 100, 0, 0);
+    photoPuzzle->AddChildNode(toFillGrid);
     // fill this grid in the dynamic filling loop at the end
 
 
-    LM::CSpriteNode* dropAreaToFill = new LM::CSpriteNode("cache/shared_zone.png",
+    LM::CSpriteNode* dropAreaToFill = new LM::CSpriteNode(basePath + "cache/shared_zone.png",
                                                           LM::EAnchor::RIGHT,
                                                           25, 100);
     toFillPlayerScene->AddChildNode(dropAreaToFill);
     // fill this area in the dynamic filling loop at the end
 
 
-    LM::CSpriteNode* infoBottomToFill = new LM::CSpriteNode("ui/info-6.png",
+    LM::CSpriteNode* infoBottomToFill = new LM::CSpriteNode(basePath + "ui/info-6.png",
                                                             LM::EAnchor::BOTTOM,
                                                             0, 13);
     toFillPlayerScene->AddChildNode(infoBottomToFill);
@@ -344,8 +366,8 @@ void CPhotoPuzzleWizard::clickOnValidate(bool)
                                                                60, 100);
     infoBottomToFill->AddChildNode(infoBottomToFillGroup);
 
-    LM::CAnimationNode* animationToFill = new LM::CAnimationNode("ui/animations/move.plist",
-                                                                 "ui/animations/move.png",
+    LM::CAnimationNode* animationToFill = new LM::CAnimationNode(basePath + "ui/animations/move.png",
+                                                                 basePath + "ui/animations/move.plist",
                                                                  LM::EAnchor::LEFT,
                                                                  0, 80);
     infoBottomToFillGroup->AddChildNode(animationToFill);
@@ -356,7 +378,7 @@ void CPhotoPuzzleWizard::clickOnValidate(bool)
                                                               LM::EAnchor::RIGHT, 95);
     infoBottomToFillGroup->AddChildNode(infoBottomToFillText);
 
-    LM::CSpriteNode* infoTopToFill = new LM::CSpriteNode("ui/info-2.png",
+    LM::CSpriteNode* infoTopToFill = new LM::CSpriteNode(basePath + "ui/info-2.png",
                                                    LM::EAnchor::TOP,
                                                    0, 13);
     toFillPlayerScene->AddChildNode(infoTopToFill);
@@ -369,15 +391,15 @@ void CPhotoPuzzleWizard::clickOnValidate(bool)
     infoTopToFill->AddChildNode(infoTopToFillText);
 
 
-    LM::CMenuNode* navRight2 = new LM::CMenuNode("ui/nav-5.png",
-                                                 "ui/nav-5-active.png",
+    LM::CMenuNode* navRight2 = new LM::CMenuNode(basePath + "ui/nav-5.png",
+                                                 basePath + "ui/nav-5-active.png",
                                                  LM::CCallback<LM::CKernel, cocos2d::Ref*>("Nav",
                                                                                            m_pKernel,
                                                                                            &LM::CKernel::NavNext),
                                                  LM::EAnchor::BOTTOM_RIGHT,
-                                                 0, 13);
+                                                 0, 13, 0, 0, "next");
 
-    piecesPlayerScene->AddChildNode(navRight2);
+    toFillPlayerScene->AddChildNode(navRight2);
 
     LM::CEventCallback showNav2("Show", m_pKernel, &LM::CKernel::SetNodeVisible,
                                LM::SEvent(LM::SEvent::BOOLEAN, navRight2, "Validate", true));
@@ -392,7 +414,7 @@ void CPhotoPuzzleWizard::clickOnValidate(bool)
 
 
     // link grid elements to each other and populate them
-    for (int toFillRow = ui->ToFillRowsSpinner->value(); toFillRow > 0; --toFillRow)
+    for (int toFillRow = ui->ToFillRowsSpinner->value() - 1; toFillRow >= 0; --toFillRow)
     {
         for (int toFillCol = 0; toFillCol < ui->ToFillColSpinner->value(); ++toFillCol)
         {
@@ -417,7 +439,7 @@ void CPhotoPuzzleWizard::clickOnValidate(bool)
     {
 
         // pieces in pieces grid
-        LM::CSpriteNode* piece = new LM::CSpriteNode("cache/puzzle.png",
+        LM::CSpriteNode* piece = new LM::CSpriteNode(basePath + "cache/puzzle.png",
                                                      LM::EAnchor::CENTER,
                                                      0, 80);
 
@@ -448,9 +470,9 @@ void CPhotoPuzzleWizard::clickOnValidate(bool)
 
 
         // pieces in sending area
-        LM::CSpriteNode* fill = new LM::CSpriteNode("cache/puzzle.png",
+        LM::CSpriteNode* fill = new LM::CSpriteNode(basePath + "cache/puzzle.png",
                                                     LM::EAnchor::CENTER,
-                                                    40, 100);
+                                                    40);
         LM::CEventCallback validateOnAnchored("Validate", m_pKernel,
                                               &LM::CKernel::Validate,
                                               LM::SEvent(LM::SEvent::STRING, fill, std::to_string(value)));
@@ -482,16 +504,26 @@ void CPhotoPuzzleWizard::clickOnValidate(bool)
 
         LM::CEventCallback beep("PlaySound", m_pKernel,
                                 &LM::CKernel::PlaySoundCallback,
-                                LM::SEvent(LM::SEvent::STRING, fill, "ui/audio/beep.wav"));
+                                LM::SEvent(LM::SEvent::STRING, fill, basePath + "ui/audio/beep.wav"));
         fill->AddListener("Beep", beep);
+
+        fill->SetVisible(false);
 
         fill->SetID(std::to_string(value));
         dropAreaToFill->AddChildNode(fill);
     }
 
+
     m_pKernel->AddSyncID(m_oNewGameInfo.newID1.toStdString(), m_oNewGameInfo.newID2.toStdString());
-    if (!m_oNewGameInfo.isSwaped)
-    {
-//        m_pKernel->AddNewScene();
-    }
+    m_pKernel->AddScene(sceneP1,
+                        m_oNewGameInfo.previousID1.toStdString(),
+                        m_oNewGameInfo.newID1.toStdString(),
+                        CMainWindow::PLAYER_1);
+
+    m_pKernel->AddScene(sceneP2,
+                        m_oNewGameInfo.previousID2.toStdString(),
+                        m_oNewGameInfo.newID2.toStdString(),
+                        CMainWindow::PLAYER_2);
+
+    close();
 }

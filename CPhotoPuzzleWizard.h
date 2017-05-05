@@ -35,7 +35,7 @@ private:
 
 
     void ClearLayout(QLayout* layout, bool deleteWidgets = true);
-
+    void GenerateScenes(const std::vector<int>& values);
 
 public:
     CPhotoPuzzleWizard(const SNewGameInfo& a_rNewGame, LM::CKernel* a_pKernel, QWidget* parent = 0);
