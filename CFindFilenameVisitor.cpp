@@ -1,4 +1,4 @@
-#include "CFindFilenameVisitor.h"
+﻿#include "CFindFilenameVisitor.h"
 
 #include "Classes/Engine/Include/CEntityNode.h"
 
@@ -21,7 +21,7 @@ Result CFindFilenameVisitor::ProcessNodeTopDown(CNode *a_pNode)
 //        m_vSceneList->append(QString::fromStdString(pEntity->GetSceneID()));
 //        return RESULT_PRUNE;
 //    }
-    if (a_pNode->UseFile(m_sFilename.toStdString()))
+    if (a_pNode->UseFile(m_sFilename.toStdString()) && !m_vSceneList->contains(QString::fromStdString(a_pNode->GetSceneID())))
     {
         m_vSceneList->append(QString::fromStdString(a_pNode->GetSceneID()));
         return RESULT_PRUNE;

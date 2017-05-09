@@ -78,7 +78,7 @@ CTemplate* CTemplateManager::BuildTemplateFromFile(const QString &a_sPath)
     }
     rapidjson::Document doc;
     doc.Parse(fileContent.toStdString().c_str());
-    QString templatePicturePath, templatePicturePath2, templateName, templateDescription;
+    QString templatePicturePath, templatePicturePath2, templateName, templateDescription, wizardName;
     bool templateIsGame = false;
 
     if(doc.HasMember("game"))
@@ -113,7 +113,11 @@ CTemplate* CTemplateManager::BuildTemplateFromFile(const QString &a_sPath)
     {
         templateDescription = QString(doc["description"].GetString());
     }
-    CTemplate* returnTemplate = new CTemplate(a_sPath, templatePicturePath, templateIsGame, templateName,templateDescription, templatePicturePath2);
+    if (doc.HasMember(("wizard")))
+    {
+        wizardName = QString(doc["wizard"].GetString());
+    }
+    CTemplate* returnTemplate = new CTemplate(a_sPath, templatePicturePath, templateIsGame, templateName,templateDescription, templatePicturePath2, wizardName);
 
     return returnTemplate;
 }

@@ -46,17 +46,27 @@ CSoundInspector::CSoundInspector(LM::CEntityNode* a_pNode, QWidget *parent):
     // Create sound activation button
     QHBoxLayout* hLayoutCheck = new QHBoxLayout();
     m_pPlaySoundCheckButton = new QCheckBox(this);
-    m_pPlaySoundCheckButton->setText("Ajouter un son au sprite");
+    m_pPlaySoundCheckButton->setText(tr("Ajouter un son au sprite"));
     m_pPlaySoundCheckButton->setStyleSheet("QCheckBox { color: white; border-bottom : 0px }");
     hLayoutCheck->addWidget(m_pPlaySoundCheckButton);
+
+    QHBoxLayout* hDistantLayout = new QHBoxLayout();
+    m_pDistantCheckButton = new QCheckBox(this);
+    m_pDistantCheckButton->setText(tr("Jouer sur l'autre tablette"));
+    m_pDistantCheckButton->setStyleSheet("QCheckBox { color: white; border-bottom : 0px }");
+    hDistantLayout->addWidget(m_pDistantCheckButton);
 
     QWidget* checkContainer = new QWidget();
     checkContainer->setLayout(hLayoutCheck);
     checkContainer->setMaximumHeight(100);
     checkContainer->setStyleSheet("border-bottom : 1px solid grey");
     checkContainer->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Fixed);
-    checkContainer->setLayout(hLayoutCheck);
 
+    QWidget* distantContainer = new QWidget();
+    distantContainer->setLayout(hDistantLayout);
+    distantContainer->setMaximumHeight(100);
+    distantContainer->setStyleSheet("border-bottom : 1px solid grey");
+    distantContainer->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Fixed);
 
     // Create path widget
     QHBoxLayout* hLayoutPath= new QHBoxLayout();
@@ -86,6 +96,7 @@ CSoundInspector::CSoundInspector(LM::CEntityNode* a_pNode, QWidget *parent):
     QPalette pal(palette());
     pal.setColor(QPalette::Background, QColor(50,50,50,255));
     verticalLayout->addWidget(checkContainer);
+    verticalLayout->addWidget(distantContainer);
     verticalLayout->addWidget(pathContainer);
     verticalLayout->addSpacerItem(new QSpacerItem(0,0, QSizePolicy::Preferred, QSizePolicy::Expanding));
     verticalLayout->addWidget(buttonContainer);
@@ -103,6 +114,7 @@ CSoundInspector::CSoundInspector(LM::CEntityNode* a_pNode, QWidget *parent):
 //    connect(lineEdit, SIGNAL(pathChanged(QString)), this, SLOT(changePath(QString)));
 //    connect(pathFileDialogButton, SIGNAL(clicked(bool)), this, SLOT(openPathFileDialog()));
     connect(m_pPlaySoundCheckButton, SIGNAL(toggled(bool)), m_pPathField, SLOT(setEnabled(bool)));
+    connect(m_pPlaySoundCheckButton, SIGNAL(toggled(bool)), m_pDistantCheckButton, SLOT(setEnabled(bool)));
     connect(m_pPlaySoundCheckButton, SIGNAL(clicked(bool)), m_pPathField, SLOT(clear()));
     connect(okButton, SIGNAL(clicked(bool)), this, SLOT(validateChanges()));
     connect(backButton, SIGNAL(clicked(bool)), this, SLOT(discardChanges()));
@@ -114,17 +126,25 @@ void CSoundInspector::Initialize()
     if (pCallback)
     {
         m_pPlaySoundCheckButton->toggle();
-        QString sValue = QString::fromStdString(pCallback->second.getArg().m_sStringValue);
+        QString argsString = QString::fromStdString(pCallback->second.getArg().m_sStringValue);
+        std::vector<std::string> args = LM::StringSplit(argsString.toStdString());
+        QString sValue(QString::fromStdString(args[0]));
+        m_bSaveIsDistant = false;
+        if (args.size() > 1 && args[1] == "distant")
+        {
+            m_pDistantCheckButton->toggle();
+            m_bSaveIsDistant = true;
+        }
         if (sValue.at(0) != '#')
         {
-            m_sSavedPath = QString(CProjectManager::Instance()->QGetProjectPath()+
-                         QString::fromStdString(pCallback->second.getArg().m_sStringValue));
+            m_sSavedPath = QString(CProjectManager::Instance()->QGetProjectPath()+ sValue);
         }
         m_pPathField->setText(m_sSavedPath);
     }
     else
     {
         m_pPathField->setEnabled(false);
+        m_pDistantCheckButton->setEnabled(false);
     }
 }
 
@@ -169,12 +189,16 @@ bool CSoundInspector::applyPath(const QString& a_sPath)
     }
     else
     {
-        QString path = a_sPath;
+        QString arg = a_sPath;
         if (a_sPath.at(0) != '#')
         {
-            path = path.remove(CProjectManager::Instance()->QGetProjectPath());
+            arg = arg.remove(CProjectManager::Instance()->QGetProjectPath());
         }
-        emit modifySound(m_pNode, GetEvent(), path);
+        if (m_pDistantCheckButton->isChecked())
+        {
+            arg += ":distant";
+        }
+        emit modifySound(m_pNode, GetEvent(), arg);
         return true;
     }
 }
@@ -199,6 +223,7 @@ QString CSoundInspector::GetEvent()
 void CSoundInspector::discardChanges()
 {
     m_pPathField->setText(m_sSavedPath);
+    m_pDistantCheckButton->setChecked(m_bSaveIsDistant);
     emit closeInspector();
 }
 

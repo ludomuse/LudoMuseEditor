@@ -3,6 +3,7 @@
 #include "CTemplateManager.h"
 #include "CTemplate.h"
 #include "CTemplatePushButton.h"
+#include "CWizardFactory.h"
 
 // Include QT
 #include <QBoxLayout>
@@ -16,9 +17,12 @@
 #include <QMessageBox>
 #include <QToolBox>
 
+#include "LudoMuse_src/Classes/Engine/Include/CKernel.h"
+
 CAddSceneWizard::CAddSceneWizard(int a_iActivePlayer, const std::vector<std::string>& a_rSceneIDP1,
                                  const std::vector<std::string>& a_rSceneIDP2,QWidget* a_pParent,
-                                 QString a_sPreviousID1, QString a_sPreviousID2):
+                                 QString a_sPreviousID1, QString a_sPreviousID2,
+                                 LM::CKernel* a_pKernel):
     QDialog(a_pParent),
     m_sPreviousID1(a_sPreviousID1),
     m_sPreviousID2(a_sPreviousID2),
@@ -28,7 +32,8 @@ CAddSceneWizard::CAddSceneWizard(int a_iActivePlayer, const std::vector<std::str
     m_pComboBoxID(Q_NULLPTR),
     m_pComboBoxID2(Q_NULLPTR),
     m_pCurrentTemplateButton(Q_NULLPTR),
-    m_bScreensSwaped(false)
+    m_bScreensSwaped(false),
+    m_pKernel(a_pKernel)
 {
     QHBoxLayout* hWizardLayout = new QHBoxLayout();
 
@@ -54,10 +59,9 @@ CAddSceneWizard::CAddSceneWizard(int a_iActivePlayer, const std::vector<std::str
     //toolBox->setStyleSheet("QToolBox::tab{ background-color : rgb(60,60,60)}} QToolBox::tab::title { color : white}");
     toolBox->setMinimumWidth(280);
     toolBox->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Minimum);
-    toolBox->addItem(m_pInitTemplatesWidget, "Ecrans d'initialisation");
     toolBox->addItem(m_pInfoTemplatesWidget, "Ecrans d'information et de narration");
     toolBox->addItem(m_pGamesTemplatesWidget, "Ecrans de jeu");
-
+    toolBox->addItem(m_pInitTemplatesWidget, "Ecrans d'initialisation");
 
     // Create preview title
     m_pPreviewTitle = new QLabel("");
@@ -373,19 +377,47 @@ void CAddSceneWizard::clickOnValidate(bool)
     // Check if adding game scene
     if(this->m_pCurrentTemplateButton->GetTemplate()->IsGame())
     {
-        if(!this->m_bScreensSwaped) // Change template Number in signal
+        if (m_pCurrentTemplateButton->GetTemplate()->GetWizard() != "") // use dedicated wizard
         {
-            emit addGameScene(previousID, m_pNewID->text(), previousID2, m_pNewID2->text(),
-                              m_pCurrentTemplateButton->GetTemplate(), 0, 1);
-            this->close();
-            return;
+            SNewGameInfo newGame;
+            newGame.previousID1 = previousID;
+            newGame.newID1 = m_pNewID->text();
+
+            newGame.previousID2 = previousID2;
+            newGame.newID2 = m_pNewID2->text();
+
+            newGame.isSwaped = m_bScreensSwaped;
+
+            QDialog* pDialog = CWizardFactory::Instance()->create(m_pCurrentTemplateButton->GetTemplate()->GetWizard().toStdString(),
+                                                                  this, newGame, m_pKernel);
+            if (pDialog)
+            {
+                pDialog->show();
+                close();
+                return;
+            }
+            else
+            {
+                close();
+                return;
+            }
         }
-        else
+        else // use json template
         {
-            emit addGameScene(previousID, m_pNewID->text(), previousID2, m_pNewID2->text(),
-                              m_pCurrentTemplateButton->GetTemplate(), 1, 0);
-            this->close();
-            return;
+            if(!m_bScreensSwaped) // Change template Number in signal
+            {
+                emit addGameScene(previousID, m_pNewID->text(), previousID2, m_pNewID2->text(),
+                                  m_pCurrentTemplateButton->GetTemplate(), 0, 1);
+                close();
+                return;
+            }
+            else
+            {
+                emit addGameScene(previousID, m_pNewID->text(), previousID2, m_pNewID2->text(),
+                                  m_pCurrentTemplateButton->GetTemplate(), 1, 0);
+                close();
+                return;
+            }
         }
     }
     // Adding simple new scene

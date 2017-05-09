@@ -1,4 +1,4 @@
-#include "CMacroWidget.h"
+﻿#include "CMacroWidget.h"
 
 #include <map>
 #include <iterator>
@@ -18,7 +18,8 @@
 #include "LudoMuse_src/Classes/Engine/Include/CMacroManager.h"
 
 CMacroWidget::CMacroWidget(QWidget *a_pParent):
-    QWidget(a_pParent)
+    QWidget(a_pParent),
+    m_pKernel(nullptr)
 {
 
 }
