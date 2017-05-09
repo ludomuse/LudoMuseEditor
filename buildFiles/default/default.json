@@ -6,7 +6,7 @@
         "videos": [],
         "sounds": [],
         "macros": {
-            "#default-background": "cache/white.png",
+            "#default-background": "cache/background.png",
             "#default-font": "fonts/Open_Sans/OpenSans-Regular.ttf"
         },
         "scenes": [
