@@ -1,4 +1,4 @@
-﻿#include "CMacroWidget.h"
+#include "CMacroWidget.h"
 
 #include <map>
 #include <iterator>
