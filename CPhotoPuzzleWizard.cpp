@@ -163,7 +163,6 @@ void CPhotoPuzzleWizard::dropEvent(QDropEvent *event)
 
 void CPhotoPuzzleWizard::clickOnCancel(bool)
 {
-    qDebug() << "cancel";
     close();
 }
 

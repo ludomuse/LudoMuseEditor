@@ -25,10 +25,6 @@ private:
     SNewGameInfo m_oNewGameInfo;
     LM::CKernel* m_pKernel;
 
-    QSpinBox* m_pToFillGridRows;
-    QSpinBox* m_pToFillGridColums;
-    QSpinBox* m_pPiecesGridRows;
-    QSpinBox* m_pPiecesGridColumns;
 
     QVector<QVector<QLabel*>> m_vToFillGridItems;
     QVector<QVector<QComboBox*>> m_vPiecesGridItems;

@@ -100,7 +100,8 @@ SOURCES += main.cpp\
     CImportProjectWizard.cpp \
     CDashboardInspector.cpp \
     CPhotoPuzzleWizard.cpp \
-    CWizardFactory.cpp
+    CWizardFactory.cpp \
+    CQuizWizard.cpp
 
 HEADERS  += CMainWindow.h \
     LudoMuse_src/Classes/Engine/Include/CCallback.h \
@@ -190,7 +191,9 @@ HEADERS  += CMainWindow.h \
     CDashboardInspector.h \
     CPhotoPuzzleWizard.h \
     CWizardFactory.h \
-    SNewGame.h
+    SNewGame.h \
+    CQuizWizard.h \
+    CQuizWizard.h
 
 FORMS    += \
     CLoaderWidget.ui \
@@ -199,7 +202,8 @@ FORMS    += \
     CMenuNodeInspector.ui \
     CMainWindow.ui \
     CImportProjectWizard.ui \
-    cphotopuzzlewizard.ui
+    cphotopuzzlewizard.ui \
+    CQuizWizard.ui
 
 INCLUDEPATH += "./LudoMuse_src" \
                 $${COCOS_PATH}/cocos \
@@ -212,7 +216,7 @@ INCLUDEPATH += "./LudoMuse_src" \
 
 win32 {
 
-QUAZIP_INCLUDEPATH = C:\WORKSPACE\lib\quazip-0.7.3\quazip
+QUAZIP_INCLUDEPATH = C:\WORKSPACE\lib\quazip-0.7.3\quazip-0.7.3\quazip
 QUAZIP_LIBPATH = C:\WORKSPACE\lib\quazip-0.7.3\build\Release
 
 ZLIB_INCLUDEPATH = C:\WORKSPACE\lib\zlib1211\zlib-1.2.11
@@ -242,13 +246,16 @@ INCLUDEPATH +=  $${JAVA_PATH}/include \
                 $${COCOS_PATH}/external/win32-specific/angle/include/GLES3 \
                 $${COCOS_PATH}/external/win32-specific/angle/include/KHR \
                 $${COCOS_PATH}/external/glfw3/include/win32 \
+                $${QUAZIP_INCLUDEPATH} \
+                $${ZLIB_INCLUDEPATH}
 
 
 LIBS += -L$${COCOS_PATH}/external/png/prebuilt/win32 -llibpng-2015
 LIBS += -L$${COCOS_PATH}/external/jpeg/prebuilt/win32 -llibjpeg-2015
 LIBS += -L$${COCOS_PATH}/external/tiff/prebuilt/win32 -llibtiff-2015
-LIBS += -L$${COCOS_PATH}/external/glfw3/prebuilt/win32 -lglfw3dll
+LIBS += -L$${COCOS_PATH}/external/glfw3/prebuilt/win32 -lglfw3
 LIBS += -L$${COCOS_PATH}/external/chipmunk/prebuilt/win32/debug-lib -llibchipmunk-2015
+LIBS += -L$${LUDOMUSE_PATH}/proj.win32/lib
 LIBS += -L$${LUDOMUSE_PATH}/proj.win32/Debug.win32 -llibcocos2d  -lpthreadVC2
 LIBS += -lOpenGL32
 LIBS += -L$${COCOS_PATH}/external/win10-specific/angle/prebuilt/win32/ -llibEGL
