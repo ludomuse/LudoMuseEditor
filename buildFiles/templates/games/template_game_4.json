@@ -63,20 +63,12 @@
                         "id": "camera-p1",
                         "params": {
                             "source": "cache/cadre.png",
+                            "isReceiver": false,
                             "anchor": 0,
                             "width": 0,
                             "height": 73,
                             "x": 0,
-                            "y": 0,
-                            "listeners": [
-                                {
-                                    "type": "Display",
-                                    "params": {
-                                        "callback": "ValidateScene",
-                                        "arg": true
-                                    }
-                                }
-                            ]
+                            "y": 0
                         }
                     },
                     {
@@ -160,31 +152,6 @@
                 		}
                 	},
                     {
-                        "type": "Group",
-                        "params": {
-                            "anchor": 0,
-                            "width": 50,
-                            "height": 80,
-                            "x": 0,
-                            "y": 0,
-                            "children": [
-                                {
-                                    "type": "Text",
-                                    "params": {
-                                        "content": "Pose la tablette et patiente le temps que la photo soit prise et te soit envoyée.",
-                                        "source": "#default-font",
-                                        "fontSize": 22,
-                                        "textAlign": "center",
-                                        "width": 90,
-                                        "height": 80,
-                                        "anchor": 0,
-                                        "color": "255,255,255,255"
-                                    }
-                                }
-                            ]
-                        }
-                    },
-                    {
                         "type": "Camera",
                         "id": "camera-p2",
                         "params": {
@@ -201,6 +168,13 @@
                                     "params": {
                                         "callback": "ValidateScene",
                                         "arg": true
+                                    }
+                                },
+                                {
+                                    "type": "Display",
+                                    "params": {
+                                        "callback": "SendMessage",
+                                        "arg": "kernel:Validate"
                                     }
                                 }
                             ]
