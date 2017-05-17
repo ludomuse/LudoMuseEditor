@@ -389,7 +389,7 @@ void CAddSceneWizard::clickOnValidate(bool)
             newGame.isSwaped = m_bScreensSwaped;
 
             QDialog* pDialog = CWizardFactory::Instance()->create(m_pCurrentTemplateButton->GetTemplate()->GetWizard().toStdString(),
-                                                                  this, newGame, m_pKernel);
+                                                                  parentWidget(), newGame, m_pKernel);
             if (pDialog)
             {
                 pDialog->show();
