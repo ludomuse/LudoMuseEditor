@@ -1,5 +1,6 @@
 #include "CWizardFactory.h"
 #include "CPhotoPuzzleWizard.h"
+#include "CQuizWizard.h"
 
 CWizardFactory::CWizardFactory()
 {
@@ -31,6 +32,10 @@ QDialog* CWizardFactory::create(const std::string &a_sWizardName, QWidget* paren
     if (a_sWizardName == "PhotoPuzzle")
     {
         return new CPhotoPuzzleWizard(a_rNewGame, a_pKernel, parent);
+    }
+    else if (a_sWizardName == "Quiz")
+    {
+        return new CQuizWizard(a_rNewGame, a_pKernel, parent);
     }
     else
     {

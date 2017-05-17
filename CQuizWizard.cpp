@@ -1,6 +1,7 @@
 #include "CQuizWizard.h"
 #include "ui_CQuizWizard.h"
 
+#include <QMessageBox>
 
 #include "CMainWindow.h"
 #include "CProjectManager.h"
@@ -125,6 +126,30 @@ void CQuizWizard::clickOnCancel(bool)
 
 void CQuizWizard::clickOnValidate(bool)
 {
+    bool isOkay1 = false;
+    for (QVector<QCheckBox*> col1 : m_vPlayer1GridItems)
+    {
+        for (QCheckBox* check : col1)
+        {
+            isOkay1 |= check->isChecked();
+        }
+    }
+    bool isOkay2 = false;
+    for (QVector<QCheckBox*> col2 : m_vPlayer2GridItems)
+    {
+        for (QCheckBox* check : col2)
+        {
+            isOkay2 |= check->isChecked();
+        }
+    }
+
+    if (!isOkay1 || !isOkay2)
+    {
+        QMessageBox::critical(this, "Erreur !",
+                              "Impossible de créer le jeu, il vous faut au moins une bonne réponse par écran");
+        return;
+    }
+
     ON_CC_THREAD(CQuizWizard::GenerateScenes, this);
 }
 
@@ -149,6 +174,18 @@ void CQuizWizard::GenerateScenes()
 
     LM::CSceneNode* player1Scene = new LM::CSceneNode(player1SceneID);
     LM::CSceneNode* player2Scene = new LM::CSceneNode(player2SceneID);
+
+    LM::CSceneNode *sceneP1, *sceneP2;
+    if (!m_oNewGameInfo.isSwaped)
+    {
+        sceneP1 = player1Scene;
+        sceneP2 = player2Scene;
+    }
+    else
+    {
+        sceneP1 = player2Scene;
+        sceneP2 = player1Scene;
+    }
 
     std::string basePath = CProjectManager::Instance()->GetProjectPath();
 
@@ -179,7 +216,7 @@ void CQuizWizard::GenerateScenes()
     infoBottom1Group->AddChildNode(bottom1TouchAnimation);
 
     LM::CLabelNode* infoBottom1Text = new LM::CLabelNode("Touche la bonne réponse",
-                                                         "#◘default-font", 21,
+                                                         "#default-font", 21,
                                                          "center", "0,0,0,255",
                                                          LM::EAnchor::CENTER, 95);
     infoBottom1Group->AddChildNode(infoBottom1Text);
@@ -231,7 +268,7 @@ void CQuizWizard::GenerateScenes()
     LM::CGridNode* player2Grid = new LM::CGridNode(ui->Player2RowsSpinner->value(),
                                                    ui->Player2ColsSpinner->value(),
                                                    LM::EAnchor::CENTER,
-                                                   100, 100, 0, 0);
+                                                   50, 50, 0, 0);
     player2Scene->AddChildNode(player2Grid);
 
 
@@ -253,7 +290,7 @@ void CQuizWizard::GenerateScenes()
     LM::CLabelNode* infoBottom2Text = new LM::CLabelNode("Touche la bonne réponse",
                                                          "#default-font",
                                                          21, "center", "0,0,0,255",
-                                                         LM::EAnchor::RIGHT, 95);
+                                                         LM::EAnchor::CENTER, 95);
     infoBottom2Group->AddChildNode(infoBottom2Text);
 
     LM::CSpriteNode* infoTop2 = new LM::CSpriteNode(basePath + "ui/info-2.png",
@@ -276,24 +313,28 @@ void CQuizWizard::GenerateScenes()
                                                      &LM::CKernel::NavNext),
                                                  LM::EAnchor::BOTTOM_RIGHT,
                                                  0, 13, 0, 0, "next");
-
     player2Scene->AddChildNode(navRight2);
 
-    LM::CEventCallback showNav2(showNav1);
+    LM::CEventCallback showNav2("Show", m_pKernel, &LM::CKernel::SetNodeVisible,
+                                LM::SEvent(LM::SEvent::BOOLEAN, navRight1, "Validate", true));
     navRight2->AddListener("Validate", showNav2);
 
-    LM::CLabelNode* navLabel2(navLabel1);
+    LM::CLabelNode* navLabel2 = new LM::CLabelNode("Suivant",
+                                                   "#default-font",
+                                                   24, "center", "",
+                                                   LM::EAnchor::CENTER, 100, 100);
     navRight2->AddChildNode(navLabel2);
 
 
 
+    player1Grid->SetID("Player1Grid");
 
     // build dynamic grids
-    for (int player1Row = ui->Player1RowsSpinner->value() - 1; player1Row > 0; --player1Row)
+    for (int player1Row = ui->Player1RowsSpinner->value() - 1; player1Row >= 0; --player1Row)
     {
         for (int player1Col = 0; player1Col < ui->Player1ColsSpinner->value(); ++player1Col)
         {
-            std::string cellID = "Player1-" + player1Row + player1Col;
+            std::string cellID = std::string("Player1-") + std::to_string(player1Row) + std::to_string(player1Col);
 
             LM::CSpriteNode* cell = new LM::CSpriteNode(basePath + "ui/cache-noir-70.png",
                                                         LM::EAnchor::CENTER,
@@ -302,12 +343,132 @@ void CQuizWizard::GenerateScenes()
 
             LM::CLabelNode* cellLabel = new LM::CLabelNode("Réponse",
                                                            "#default-font",
-                                                           24, "center", "0,0,0,255",
+                                                           24, "center", "255,255,255,255",
                                                            LM::EAnchor::CENTER,
                                                            100, 100);
             cell->AddChildNode(cellLabel);
 
 
+
+            LM::CSpriteNode* check;
+            if (m_vPlayer1GridItems[player1Row][player1Col]->isChecked())
+            {
+                cellLabel->SetText("Bonne réponse");
+
+                check = new LM::CSpriteNode(basePath + "ui/check.png",
+                                            LM::EAnchor::CENTER,
+                                            0, 80);
+
+
+                LM::CEventCallback validateCell("SendMessage", m_pKernel,
+                                             &LM::CKernel::SendNetworkMessage,
+                                             LM::SEvent(LM::SEvent::STRING, cell, player2SceneID + ":" + cellID + ":Player1Grid"));
+                cell->AddListener("Touch", validateCell);
+                validator->AddID(cellID);
+
+                LM::CEventCallback validateDistCell("Validate", m_pKernel,
+                                                    &LM::CKernel::Validate,
+                                                    LM::SEvent(LM::SEvent::STRING, cell, cellID));
+                player1Grid->AddListener(cellID, validateDistCell);
+
+            }
+            else
+            {
+                cellLabel->SetText("Mauvaise réponse");
+
+                check = new LM::CSpriteNode(basePath + "ui/cross.png",
+                                            LM::EAnchor::CENTER,
+                                            0, 80);
+            }
+            check->SetID(cellID + "Check");
+            check->SetVisible(false);
+            cell->AddChildNode(check);
+
+            LM::CEventCallback showCheck("Show", m_pKernel,
+                                         &LM::CKernel::SetNodeVisible,
+                                         LM::SEvent(LM::SEvent::BOOLEAN, cell, "", true));
+            check->AddListener("Show", showCheck);
+
+            LM::CEventCallback showCheckOnTouch("LocalMessage", m_pKernel,
+                                         &LM::CKernel::LocalMessage,
+                                         LM::SEvent(LM::SEvent::STRING, cell, player1SceneID + ":Show:" + cellID + "Check"));
+            cell->AddListener("Touch", showCheckOnTouch);
         }
     }
+
+
+    for (int player2Row = ui->Player2RowsSpinner->value() - 1; player2Row >= 0; --player2Row)
+    {
+        for (int player2Col = 0; player2Col < ui->Player2ColsSpinner->value(); ++player2Col)
+        {
+            std::string cellID = std::string("Player1-") + std::to_string(player2Row) + std::to_string(player2Col);
+
+            LM::CSpriteNode* cell = new LM::CSpriteNode(basePath + "ui/cache-noir-70.png",
+                                                        LM::EAnchor::CENTER,
+                                                        80);
+            player2Grid->AddChildNode(cell);
+
+            LM::CLabelNode* cellLabel = new LM::CLabelNode("Réponse",
+                                                           "#default-font",
+                                                           24, "center", "255,255,255,255",
+                                                           LM::EAnchor::CENTER,
+                                                           100, 100);
+            cell->AddChildNode(cellLabel);
+
+
+
+            LM::CSpriteNode* check;
+            if (m_vPlayer2GridItems[player2Row][player2Col]->isChecked())
+            {
+                cellLabel->SetText("Bonne réponse");
+
+                check = new LM::CSpriteNode(basePath + "ui/check.png",
+                                            LM::EAnchor::CENTER,
+                                            0, 80);
+
+
+                LM::CEventCallback validateCell("Validate", m_pKernel,
+                                             &LM::CKernel::Validate,
+                                             LM::SEvent(LM::SEvent::STRING, cell, cellID));
+                cell->AddListener("Touch", validateCell);
+                validator->AddID(cellID);
+            }
+            else
+            {
+                cellLabel->SetText("Mauvaise réponse");
+                check = new LM::CSpriteNode(basePath + "ui/cross.png",
+                                            LM::EAnchor::CENTER,
+                                            0, 80);
+            }
+            check->SetID(cellID + "Check");
+            check->SetVisible(false);
+            cell->AddChildNode(check);
+
+            LM::CEventCallback showCheck("Show", m_pKernel,
+                                         &LM::CKernel::SetNodeVisible,
+                                         LM::SEvent(LM::SEvent::BOOLEAN, cell, "", true));
+            check->AddListener("Show", showCheck);
+
+            LM::CEventCallback showCheckOnTouch("LocalMessage", m_pKernel,
+                                         &LM::CKernel::LocalMessage,
+                                         LM::SEvent(LM::SEvent::STRING, cell, player2SceneID + ":Show:" + cellID + "Check"));
+            cell->AddListener("Touch", showCheckOnTouch);
+
+        }
+    }
+
+
+
+    m_pKernel->AddSyncID(m_oNewGameInfo.newID1.toStdString(), m_oNewGameInfo.newID2.toStdString());
+    m_pKernel->AddScene(sceneP1,
+                        m_oNewGameInfo.previousID1.toStdString(),
+                        m_oNewGameInfo.newID1.toStdString(),
+                        CMainWindow::PLAYER_1);
+
+    m_pKernel->AddScene(sceneP2,
+                        m_oNewGameInfo.previousID2.toStdString(),
+                        m_oNewGameInfo.newID2.toStdString(),
+                        CMainWindow::PLAYER_2);
+
+    close();
 }

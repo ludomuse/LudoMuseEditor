@@ -6,6 +6,7 @@
   ],
   "description": "Une question est posée à chaque joueur.\nChacun doit y répondre sur sa tablette en touchant l'une des 4 réponses possibles",
   "game": true,
+  "wizard": "Quiz",
   "templates": [
     {
       "sync": true,
