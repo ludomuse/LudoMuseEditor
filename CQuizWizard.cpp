@@ -67,7 +67,7 @@ void CQuizWizard::GenerateGrids()
     ClearLayout(ui->Player1GridLayout, true);
     ClearLayout(ui->Player2GridLayout, true);
     m_vPlayer1GridItems.clear();
-    m_vPlayer1GridItems.clear();
+    m_vPlayer2GridItems.clear();
 
 
     for (int row = 0; row < ui->Player1RowsSpinner->value(); ++row)
@@ -131,7 +131,7 @@ void CQuizWizard::clickOnValidate(bool)
     {
         for (QCheckBox* check : col1)
         {
-            isOkay1 |= check->isChecked();
+            isOkay1 = isOkay1 || check->isChecked();
         }
     }
     bool isOkay2 = false;
@@ -139,7 +139,7 @@ void CQuizWizard::clickOnValidate(bool)
     {
         for (QCheckBox* check : col2)
         {
-            isOkay2 |= check->isChecked();
+            isOkay2 = isOkay2 || check->isChecked();
         }
     }
 
