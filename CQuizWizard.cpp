@@ -327,8 +327,6 @@ void CQuizWizard::GenerateScenes()
 
 
 
-    player1Grid->SetID("Player1Grid");
-
     // build dynamic grids
     for (int player1Row = ui->Player1RowsSpinner->value() - 1; player1Row >= 0; --player1Row)
     {
@@ -362,14 +360,10 @@ void CQuizWizard::GenerateScenes()
 
                 LM::CEventCallback validateCell("SendMessage", m_pKernel,
                                              &LM::CKernel::SendNetworkMessage,
-                                             LM::SEvent(LM::SEvent::STRING, cell, player2SceneID + ":" + cellID + ":Player1Grid"));
+                                             LM::SEvent(LM::SEvent::STRING, cell, std::string("kernel:ValidateID:") + cellID));
                 cell->AddListener("Touch", validateCell);
                 validator->AddID(cellID);
 
-                LM::CEventCallback validateDistCell("Validate", m_pKernel,
-                                                    &LM::CKernel::Validate,
-                                                    LM::SEvent(LM::SEvent::STRING, cell, cellID));
-                player1Grid->AddListener(cellID, validateDistCell);
 
             }
             else
