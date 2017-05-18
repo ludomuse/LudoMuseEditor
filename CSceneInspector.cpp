@@ -181,6 +181,7 @@ CSceneInspector::CSceneInspector(LM::CSceneNode* a_pScene, int a_iPlayerID, QWid
     dashWidget->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Maximum);
     QGridLayout* gDashLayout = new QGridLayout(dashWidget);
     QCheckBox* isDashCB = new QCheckBox("Déclencher l'écran de récompenses", dashWidget);
+    isDashCB->setChecked(m_pScene->m_bDashboardTrigger);
     isDashCB->setStyleSheet("QCheckBox{color : white}");
     isDashCB->setSizePolicy(QSizePolicy::Maximum, QSizePolicy::Minimum);
     QCheckBox* enableReward = new QCheckBox("Débloquer une récompense", dashWidget);
