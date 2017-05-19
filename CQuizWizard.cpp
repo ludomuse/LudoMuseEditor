@@ -331,7 +331,7 @@ void CQuizWizard::GenerateScenes()
     {
         for (int player1Col = 0; player1Col < ui->Player1ColsSpinner->value(); ++player1Col)
         {
-            std::string cellID = std::string("Player1-") + std::to_string(player1Row) + std::to_string(player1Col);
+            std::string cellID = player1SceneID + std::to_string(player1Row) + std::to_string(player1Col);
 
             LM::CSpriteNode* cell = new LM::CSpriteNode(basePath + "ui/cache-noir-70.png",
                                                         LM::EAnchor::CENTER,
@@ -394,7 +394,7 @@ void CQuizWizard::GenerateScenes()
     {
         for (int player2Col = 0; player2Col < ui->Player2ColsSpinner->value(); ++player2Col)
         {
-            std::string cellID = std::string("Player1-") + std::to_string(player2Row) + std::to_string(player2Col);
+            std::string cellID = player2SceneID + std::to_string(player2Row) + std::to_string(player2Col);
 
             LM::CSpriteNode* cell = new LM::CSpriteNode(basePath + "ui/cache-noir-70.png",
                                                         LM::EAnchor::CENTER,
