@@ -126,27 +126,26 @@ void CQuizWizard::clickOnCancel(bool)
 
 void CQuizWizard::clickOnValidate(bool)
 {
-    bool isOkay1 = false;
+    bool isOkay = false;
     for (QVector<QCheckBox*> col1 : m_vPlayer1GridItems)
     {
         for (QCheckBox* check : col1)
         {
-            isOkay1 = isOkay1 || check->isChecked();
+            isOkay = isOkay || check->isChecked();
         }
     }
-    bool isOkay2 = false;
     for (QVector<QCheckBox*> col2 : m_vPlayer2GridItems)
     {
         for (QCheckBox* check : col2)
         {
-            isOkay2 = isOkay2 || check->isChecked();
+            isOkay = isOkay || check->isChecked();
         }
     }
 
-    if (!isOkay1 || !isOkay2)
+    if (!isOkay)
     {
         QMessageBox::critical(this, "Erreur !",
-                              "Impossible de créer le jeu, il vous faut au moins une bonne réponse par écran");
+                              "Impossible de créer le jeu, il vous faut au moins une bonne réponse.");
         return;
     }
 
