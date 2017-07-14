@@ -63,6 +63,14 @@
             }
         ],
         "content": [
+	    {
+		"type": "Image",
+		"params": {
+		    "source": "#default-background",
+		    "anchor": 0,
+		    "width": 100
+		}
+	    },
             {
                 "type": "Image",
                 "params": {
@@ -159,6 +167,14 @@
             }
         ],
         "content": [
+	    {
+		"type": "Image",
+		"params": {
+		    "source": "#default-background",
+		    "anchor": 0,
+		    "width": 100
+		}
+	    },
             {
                 "type": "Image",
                 "params": {
