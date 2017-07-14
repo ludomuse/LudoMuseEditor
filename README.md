@@ -25,3 +25,14 @@ copiez/collez également LudoMuse.exe ainsi que ses librairies dans le dossier d
 (Compilé à partir du projet LudoMuse pour la plateforme PC que vous ciblez)
 Attention cependant sur linux à bien compiler LudoMuse en debug car compilé en release la connexion entre les 2 entités échoue).
 
+Il faut ensuite copier coller toutes les bibliothèques logicielles dont LudoMuseEditor dépend.
+
+- Sur windows cela peut être fait avec l'outil de déploiement windeployqt fourni à l'installation de Qt.
+- Sur mac il faut coller les principaux frameworks Qt utilisés : Qt5Core, Qt5Widgets, Qt5Gui et Qt5OpenGL dans le dossier de frameworks du .app
+- Sur Linux l'idéal est de créer un sous dossier lib dans le dossier de déploiement. Ce sous-dossier permettra de stocker toutes les librairies dont dépend l'éxécutable dedans. Le fichier .pro référence déjà ce dossier comme source pour les dépendance, vous n'avez pas besoin de modifier l'exécutable ou de faire u script pour ça.
+Les dépendances peuvent être listées avec la commande
+
+``
+$ ldd LudoMuseEditor
+``
+Vous pouvez trouver lesquelles nécessitent d'être copiées à partir du dossier lib de votre installation LudoMuse.
