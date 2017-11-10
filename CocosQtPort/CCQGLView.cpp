@@ -211,15 +211,15 @@ void CCQGLView::mouseMove(QMouseEvent *event)
     // Set current button
     if (event->button() == Qt::LeftButton)
     {
-        ccEvent.setMouseButton(GLFW_MOUSE_BUTTON_LEFT);
+        ccEvent.setMouseButton(cocos2d::EventMouse::MouseButton::BUTTON_LEFT);
     }
     else if (event->button() == Qt::RightButton)
     {
-        ccEvent.setMouseButton(GLFW_MOUSE_BUTTON_RIGHT);
+        ccEvent.setMouseButton(cocos2d::EventMouse::MouseButton::BUTTON_RIGHT);
     }
     else if (event->button() == Qt::MiddleButton)
     {
-        ccEvent.setMouseButton(GLFW_MOUSE_BUTTON_MIDDLE);
+        ccEvent.setMouseButton(cocos2d::EventMouse::MouseButton::BUTTON_MIDDLE);
     }
     ccEvent.setCursorPosition(cursorX, cursorY);
     Director::getInstance()->getEventDispatcher()->dispatchEvent(&ccEvent);
@@ -246,7 +246,7 @@ void CCQGLView::mousePress(QMouseEvent *event)
 
     EventMouse ccEvent(EventMouse::MouseEventType::MOUSE_DOWN);
     ccEvent.setCursorPosition(cursorX, cursorY);
-    ccEvent.setMouseButton(event->button());
+    ccEvent.setMouseButton((cocos2d::EventMouse::MouseButton)(event->button() - 1));
     Director::getInstance()->getEventDispatcher()->dispatchEvent(&ccEvent);
 }
 
@@ -268,7 +268,7 @@ void CCQGLView::mouseRelease(QMouseEvent *event)
 
     EventMouse ccEvent(EventMouse::MouseEventType::MOUSE_UP);
     ccEvent.setCursorPosition(cursorX, cursorY);
-    ccEvent.setMouseButton(event->button());
+    ccEvent.setMouseButton((cocos2d::EventMouse::MouseButton)(event->button() - 1));
     Director::getInstance()->getEventDispatcher()->dispatchEvent(&ccEvent);
 }
 

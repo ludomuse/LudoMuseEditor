@@ -216,17 +216,17 @@ INCLUDEPATH += "./LudoMuse_src" \
 
 win32 {
 
-QUAZIP_INCLUDEPATH = C:\WORKSPACE\lib\quazip-0.7.3\quazip-0.7.3\quazip
-QUAZIP_LIBPATH = C:\WORKSPACE\lib\quazip-0.7.3\build\Release
+QUAZIP_INCLUDEPATH = C:\Users\Cesar\Documents\Projects\Git\LudoMuse\quazip-0.7.3\quazip-0.7.3\quazip
+QUAZIP_LIBPATH = C:\Users\Cesar\Documents\Projects\Git\LudoMuse\quazip-0.7.3\build\Release
 
-ZLIB_INCLUDEPATH = C:\WORKSPACE\lib\zlib1211\zlib-1.2.11
+ZLIB_INCLUDEPATH = C:\Users\Cesar\Documents\Projects\Git\LudoMuse\zlib1211\zlib-1.2.11
 
 CONFIG(release){
-LIBS += -LC:\WORKSPACE\lib\quazip-0.7.3\build\Release -lquazip_static -lquazip5
+LIBS += -L$${QUAZIP_LIBPATH} -lquazip_static -lquazip5
 }
 
 CONFIG(debug){
-LIBS += -LC:\WORKSPACE\lib\quazip-0.7.3\build\Debug -lquazip_staticd -lquazip5d
+LIBS += -L$${QUAZIP_LIBPATH}/../Debug -lquazip_staticd -lquazip5d
 }
 
 RC_ICONS = ludomuse.ico
