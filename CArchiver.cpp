@@ -4,8 +4,8 @@
 #include <QDebug>
 #include <QFileDialog>
 #include <QProgressDialog>
-#include <quazip.h>
-#include <quazipfile.h>
+#include "./libs/quazip/quazip.h"
+#include "./libs/quazip/quazipfile.h"
 
 CArchiver::CArchiver(QWidget *parent) : m_pParent(parent),
     m_pProcess(new QProcess(parent)),

@@ -12,7 +12,10 @@ TARGET = LudoMuseEditor
 TEMPLATE = app
 
 CONFIG += c++14
+CONFIG += qt debug
 QMAKE_CXXFLAGS += -std=c++14
+
+#QMAKE_CXXFLAGS += APPCONTAINER:NO
 
 LUDOMUSE_PATH = "../LudoMuse/"
 COCOS_PATH = $${LUDOMUSE_PATH}/cocos2d
@@ -216,17 +219,18 @@ INCLUDEPATH += "./LudoMuse_src" \
 
 win32 {
 
-QUAZIP_INCLUDEPATH = C:\Users\Cesar\Documents\Projects\Git\LudoMuse\quazip-0.7.3\quazip-0.7.3\quazip
-QUAZIP_LIBPATH = C:\Users\Cesar\Documents\Projects\Git\LudoMuse\quazip-0.7.3\build\Release
+QUAZIP_INCLUDEPATH = "./libs/quazip"
+QUAZIP_LIBPATH = "../LudomuseEditor/libs/quazip/"
 
-ZLIB_INCLUDEPATH = C:\Users\Cesar\Documents\Projects\Git\LudoMuse\zlib1211\zlib-1.2.11
+ZLIB_INCLUDEPATH = "./libs/zlib1211/"
 
-CONFIG(release){
-LIBS += -L$${QUAZIP_LIBPATH} -lquazip_static -lquazip5
-}
+#CONFIG(release){
+# LIBS += -L$${QUAZIP_LIBPATH}/Release -lquazip_static -lquazip5
+#}
 
 CONFIG(debug){
-LIBS += -L$${QUAZIP_LIBPATH}/../Debug -lquazip_staticd -lquazip5d
+LIBS += -L$${QUAZIP_LIBPATH}/Debug -lquazip_staticd -lquazip5d
+#LIBS += -lD:/SharedData/Git/projects/Ludomuse/LudomuseEditor/libs/quazip/Debug/quazip_staticd
 }
 
 RC_ICONS = ludomuse.ico
@@ -262,25 +266,26 @@ LIBS += -L$${COCOS_PATH}/external/win10-specific/angle/prebuilt/win32/ -llibEGL
 LIBS += -L$${COCOS_PATH}/external/win10-specific/angle/prebuilt/win32/ -llibGLESv2
 LIBS += -L$${PWD}/lib
 
-LIBS += -LD:/IHMTEK/LudoMuseEditorCocos/LudoMuseEditor/lib/lib -lfreetype \
+
+LIBS += -LD:/SharedData/Git/projects/Ludomuse/LudomuseEditor/libs -lfreetype \
          -lglew32 \
-         -llibbox2d \
-         -llibbullet \
+#   #      -llibbox2d \
+#   #      -llibbullet \
          -llibcurl_imp \
-         -llibeay32 \
-         -llibiconv \
-         -llibmpg123 \
-         -llibogg \
-         -llibrecast \
-         -llibSpine \
-         -llibvorbis \
-         -llibvorbisfile \
-         -llibwebp \
-         -llibzlib \
-         -lOpenAL32 \
-         -lsqlite3 \
-         -lssleay32 \
-         -lwebsockets \
+      #   -llibeay32 \  #seems to be 64bits
+#         -llibiconv \
+#         -llibmpg123 \
+#         -llibogg \
+#         -llibrecast \
+#         -llibSpine \
+#         -llibvorbis \
+#         -llibvorbisfile \
+#         -llibwebp \
+#         -llibzlib \
+#         -lOpenAL32 \
+#         -lsqlite3 \
+   #      -lssleay32 \   #seems to be 64bits
+        -lwebsockets \
          -lGdi32 \
          -lUser32 \
          -lWs2_32 \

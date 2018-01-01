@@ -6,7 +6,7 @@
 #include <QProcess>
 #include <QProgressDialog>
 #include <QDir>
-#include <quazip.h>
+#include "./libs/quazip/quazip.h"
 
 class CArchiver : public QObject
 {
