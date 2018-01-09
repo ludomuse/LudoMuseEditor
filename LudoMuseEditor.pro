@@ -312,6 +312,7 @@ LIBS += -L$${LUDOMUSE_PATH}/linux-build/lib/ -lcocos2d \
         -L$${LUDOMUSE_PATH}/cocos2d/external/webp/prebuilt/linux/64-bit -lwebp \
         -L$${LUDOMUSE_PATH}/cocos2d/external/chipmunk/prebuilt/linux/64-bit -lchipmunk \
         -L$${LUDOMUSE_PATH}/cocos2d/external/jpeg/prebuilt/linux/64-bit/ -ljpeg \
+        -L$${LUDOMUSE_PATH}/cocos2d/external/bullet/prebuilt/linux/64-bit \
         -lpng \
         -lX11 -lglfw -lgobject-2.0 -lglib-2.0 -lfreetype -lGLEW -ltinyxml2 -lbullet -lrecast -lflatbuffers -lxxhash -lunzip -lgtk-3 -lfontconfig -lz -ltiff -lEGL \
         -lquazip5
