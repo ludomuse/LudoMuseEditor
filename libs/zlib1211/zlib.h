@@ -1,4 +1,4 @@
-/* zlib.h -- interface of the 'zlib' general purpose compression library
+﻿/* zlib.h -- interface of the 'zlib' general purpose compression library
   version 1.2.11, January 15th, 2017
 
   Copyright (C) 1995-2017 Jean-loup Gailly and Mark Adler
@@ -31,7 +31,7 @@
 #ifndef ZLIB_H
 #define ZLIB_H
 
-#include "D:\SharedData\Dropbox\Work\Shared\Clients\Ludomuse\Developpement\Libs\zlib1211\build\zconf.h"
+#include "zconf.h"
 
 #ifdef __cplusplus
 extern "C" {
