@@ -2,15 +2,17 @@ language: cpp
 
 
 # works on Precise and Trusty
-- os: linux
-  addons:
-    apt:
-      sources:
-        - ubuntu-toolchain-r-test
-      packages:
-        - g++-7.2
-  env:
-    - MATRIX_EVAL="CC=gcc-7.2 && CXX=g++-7.2"
+matrix
+  include
+    - os: linux
+      addons:
+        apt:
+          sources:
+            - ubuntu-toolchain-r-test
+          packages:
+            - g++-7.2
+      env:
+        - MATRIX_EVAL="CC=gcc-7.2 && CXX=g++-7.2"
 
 git:
   lfs_skip_smudge: true
