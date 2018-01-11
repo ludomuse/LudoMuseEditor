@@ -1,8 +1,11 @@
 language: cpp
 
+git:
+lfs_skip_smudge: true
+
 before_install:
-  - sudo apt install git-lfs
-  - git lfs install
+  - echo -e "machine github.com\n login $GITHUB_TOKEN" >> ~/.netrc
+  - git lfs pull
   - sudo add-apt-repository --yes ppa:ubuntu-sdk-team/ppa
   - sudo apt-get update -qq
   - sudo apt-get install qtbase5-dev qtdeclarative5-dev libqt5webkit5-dev libsqlite3-dev
@@ -12,4 +15,4 @@ script:
   - qmake -project
   - qmake LudoMuseEditor.pro
   - make
- 
+
