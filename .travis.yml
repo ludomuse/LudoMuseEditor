@@ -26,9 +26,11 @@ before_install:
   - travis_wait bash ci-before_install.sh
 
 script:
+  - echo "g++-5 ?"
+  - /usr/bin/g++-5 --version
   - export GCC_PATH=$(which g++)
-  - rm $GCC_PATH
-  - ln -s $(dirname GCC_PATH)/g++-5 $GCC_PATH
+  - sudo rm $GCC_PATH
+  - sudo ln -s $(dirname GCC_PATH)/g++-5 $GCC_PATH
   - echo "Build will use g++ version :"
   - g++ --version
   - qmake LudoMuseEditor.pro
