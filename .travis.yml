@@ -2,8 +2,8 @@ language: cpp
 
 
 # works on Precise and Trusty
-matrix
-  include
+matrix:
+  include:
     - os: linux
       addons:
         apt:
