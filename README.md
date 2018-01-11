@@ -1,12 +1,12 @@
-LudoMuseEditor
-##############
+# LudoMuseEditor [![Build Status](https://travis-ci.org/ludomuse/LudoMuseEditor.svg?branch=master)](https://travis-ci.org/ludomuse/LudoMuseEditor)
 
 
-Dépendances
-===========
 
-Quazip
--------
+## Dépendances
+
+
+### Quazip
+
 
 LudoMuseEditor s'appuie sur la librarie Quazip pour la compression et décompression d'archives LudoMuse.
 
@@ -15,14 +15,14 @@ Sur linux et mac installez la librairie avec votre gestionaire de paquets.
 Sur windows editez LudoMuseEditor.pro et changez les variables QUAZIP_INCLUDEPATH QUAZIP_LIBPATH et ZLIB_INCLUDEPATH.
 
 
-Compilation
-===========
+## Compilation
+
 
 Pour compiler utiliser qmake ou Qt Creator avec le fichier LudoMuseEditor.pro
 
 
-Déploiement
-===========
+## Déploiement
+
 
 copiez/collez le contenu de buildFiles à côté de l'exécutable LudoMuseEditor.
 copiez/collez également LudoMuse.exe ainsi que ses librairies dans le dossier du projet pour pouvoir utiliser le simulateur.
