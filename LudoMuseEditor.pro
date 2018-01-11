@@ -218,6 +218,8 @@ INCLUDEPATH += "./LudoMuse_src" \
 
 win32 {
 
+QMAKE_CXXFLAGS += -D_WIN32 -D_WINDOWS
+
 QUAZIP_INCLUDEPATH = "./libs/quazip"
 QUAZIP_LIBPATH = "../LudomuseEditor/libs/quazip/"
 
@@ -294,6 +296,8 @@ LIBS += -LD:/SharedData/Git/projects/Ludomuse/LudomuseEditor/libs -lfreetype \
 
 
 linux {
+
+QMAKE_CXXFLAGS += -D__linux__
 
 INCLUDEPATH +=  /usr/include/GLFW
 INCLUDEPATH += /usr/include/quazip5
