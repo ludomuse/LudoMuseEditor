@@ -216,10 +216,6 @@ INCLUDEPATH += "./LudoMuse_src" \
                 $${ZLIB_INCLUDEPATH} \
 
 
-# Travis CI
-INCLUDEPATH += /usr/include/qt5/QtWidgets
-
-
 win32 {
 
 QUAZIP_INCLUDEPATH = "./libs/quazip"
@@ -302,6 +298,10 @@ linux {
 INCLUDEPATH +=  /usr/include/GLFW
 INCLUDEPATH += /usr/include/quazip5
 INCLUDEPATH += /home/babouchot/lib/glew-2.0.0/include
+
+# Travis CI
+QT += widgets
+INCLUDEPATH += /usr/include/qt5/QtWidgets
 
 SOURCES +=     LudoMuse_src/Classes/Modules/Networking/linux/Source/CNetworkManager.cpp \
 
