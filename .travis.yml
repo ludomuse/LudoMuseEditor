@@ -1,7 +1,7 @@
 language: cpp
 
 git:
-lfs_skip_smudge: true
+  - lfs_skip_smudge: true
 
 before_install:
   - echo -e "machine github.com\n login $GITHUB_TOKEN" >> ~/.netrc
