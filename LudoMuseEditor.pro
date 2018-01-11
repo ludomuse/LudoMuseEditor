@@ -213,8 +213,11 @@ INCLUDEPATH += "./LudoMuse_src" \
                 $${COCOS_PATH}/cocos/audio/include \
                 $${COCOS_PATH}/external/json \
                 $${QUAZIP_INCLUDEPATH} \
-                $${ZLIB_INCLUDEPATH}
+                $${ZLIB_INCLUDEPATH} \
 
+
+# Travis CI
+INCLUDEPATH += $$[QT_INSTALL_HEADERS]/QtWidgets
 
 
 win32 {
