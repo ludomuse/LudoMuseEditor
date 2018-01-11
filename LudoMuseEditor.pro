@@ -299,9 +299,6 @@ INCLUDEPATH +=  /usr/include/GLFW
 INCLUDEPATH += /usr/include/quazip5
 INCLUDEPATH += /home/babouchot/lib/glew-2.0.0/include
 
-# Travis CI
-QT += widgets
-INCLUDEPATH += /usr/include/qt5/QtWidgets
 
 SOURCES +=     LudoMuse_src/Classes/Modules/Networking/linux/Source/CNetworkManager.cpp \
 
@@ -338,3 +335,8 @@ LIBS += -L$${LUDOMUSE_PATH}/linux-build/lib/ -lcocos2d \
 #LIBS += -Xlinker
 #LIBS += -L/Users/ihmtek/Qt/5.7/clang_64/lib
 #}
+
+
+# Travis CI
+QT += widgets
+INCLUDEPATH += /usr/include/qt5/QtWidgets
