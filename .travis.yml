@@ -11,10 +11,13 @@ matrix:
             - ubuntu-toolchain-r-test
           packages:
             - g++-5
+            - g++-7
       env: COMPILER_NAME=gcc CXX=g++-5 CC=gcc-5
 
 git:
   lfs_skip_smudge: true
+
+sudo: required
 
 before_install:
   - echo -e "machine github.com\n login $GITHUB_TOKEN" >> ~/.netrc
@@ -23,14 +26,25 @@ before_install:
   - sudo apt-get update -qq
   - sudo apt-get install qtbase5-dev qtdeclarative5-dev libqt5webkit5-dev libsqlite3-dev
   - sudo apt-get install qt5-default qttools5-dev-tools
-  - travis_wait bash ci-before_install.sh
+  - echo "Before install path : $PWD"
+  - cd ../
+  - echo "downloading cocos 3.16 ..."
+  - wget --quiet http://cdn.cocos2d-x.org/cocos2d-x-3.16.zip
+  - echo "unzipping cocos 3.16"
+  - unzip -q cocos2d-x-3.16.zip
+  - export COCOS=$PWD/cocos2d-x-3.16/tools/cocos2d-console/bin/cocos
+  - echo "creating LudoMuse cocos project"
+  - $COCOS new LudoMuse -l cpp -p com.IHMTEK.LudoMuse
+  - cd LudoMuseEditor
+
+
 
 script:
-  - echo "g++-5 ?"
-  - /usr/bin/g++-5 --version
+  - echo "g++-7 ?"
+  - /usr/bin/g++-7 --version
   - export GCC_PATH=$(which g++)
   - sudo rm $GCC_PATH
-  - sudo ln -s $(dirname GCC_PATH)/g++-5 $GCC_PATH
+  - sudo ln -s $(dirname GCC_PATH)/g++-7 $GCC_PATH
   - echo "Build will use g++ version :"
   - g++ --version
   - qmake LudoMuseEditor.pro
