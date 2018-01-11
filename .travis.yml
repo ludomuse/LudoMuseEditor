@@ -11,8 +11,7 @@ matrix:
             - ubuntu-toolchain-r-test
           packages:
             - g++-5
-      env:
-        - MATRIX_EVAL="CC=gcc-5 && CXX=g++-5"
+      env: COMPILER_NAME=gcc CXX=g++-5 CC=gcc-5
 
 git:
   lfs_skip_smudge: true
@@ -27,6 +26,7 @@ before_install:
   - travis_wait bash ci-before_install.sh
 
 script:
+  - echo "Build will use g++ version :"
   - qmake LudoMuseEditor.pro
   - make
 
