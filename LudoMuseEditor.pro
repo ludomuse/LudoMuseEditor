@@ -217,7 +217,7 @@ INCLUDEPATH += "./LudoMuse_src" \
 
 
 # Travis CI
-INCLUDEPATH += $$[QT_INSTALL_HEADERS]/QtWidgets
+INCLUDEPATH += /usr/include/qt5/QtWidgets
 
 
 win32 {
