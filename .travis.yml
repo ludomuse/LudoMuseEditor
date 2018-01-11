@@ -19,24 +19,15 @@ git:
 sudo: required
 
 before_install:
+  - echo $PWD
+  - ./ci-before_install.sh $PWD
+  - stat $PWD/../LudoMuse/cocos2d
   - echo -e "machine github.com\n login $GITHUB_TOKEN" >> ~/.netrc
   - git lfs pull
   - sudo add-apt-repository --yes ppa:ubuntu-sdk-team/ppa
   - sudo apt-get update -qq
   - sudo apt-get install qtbase5-dev qtdeclarative5-dev libqt5webkit5-dev libsqlite3-dev
   - sudo apt-get install qt5-default qttools5-dev-tools
-  - echo -e "Before install path : $PWD"
-  - cd ../
-  - echo -e "downloading cocos 3.16 ..."
-  - wget --quiet http://cdn.cocos2d-x.org/cocos2d-x-3.16.zip
-  - echo -e "unzipping cocos 3.16"
-  - unzip -q cocos2d-x-3.16.zip
-  - export COCOS=$PWD/cocos2d-x-3.16/tools/cocos2d-console/bin/cocos
-  - echo -e "creating LudoMuse cocos project"
-  - $COCOS new LudoMuse -l cpp -p com.IHMTEK.LudoMuse
-  - cd LudoMuseEditor
-
-
 
 script:
   - echo "g++-7 ?"
