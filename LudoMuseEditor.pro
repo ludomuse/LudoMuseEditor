@@ -218,7 +218,7 @@ INCLUDEPATH += "./LudoMuse_src" \
 
 win32 {
 
-QMAKE_CXXFLAGS += -D_WIN32 -D_WINDOWS
+QMAKE_CXXFLAGS += -DLUDOMUSE_EDITOR_WIN
 
 QUAZIP_INCLUDEPATH = "./libs/quazip"
 QUAZIP_LIBPATH = "../LudomuseEditor/libs/quazip/"
@@ -297,7 +297,7 @@ LIBS += -LD:/SharedData/Git/projects/Ludomuse/LudomuseEditor/libs -lfreetype \
 
 linux {
 
-QMAKE_CXXFLAGS += -D__linux__
+QMAKE_CXXFLAGS += -DLUDOMUSE_EDITOR_LINUX
 
 INCLUDEPATH +=  /usr/include/GLFW
 INCLUDEPATH += /usr/include/quazip5
@@ -322,22 +322,26 @@ LIBS += -L$${LUDOMUSE_PATH}/linux-build/lib/ -lcocos2d \
         -lquazip5
 }
 
-#macosx
+#macx
 #{
-#QMAKE_CXXFLAGS += -D__gl3_h_
-#QMAKE_MAC_SDK = macosx10.12
-#QMAKE_RPATHDIR += ./
-#QMAKE_RPATHDIR += @executable_path/
-#QMAKE_RPATHDIR += @executable_path/../Plugins/platforms/
-#CXXFLAGS = -stdlib=libstdc++
-#INCLUDEPATH += /Users/ihmtek/Library/glfw-3.2.1/include/GLFW
-#INCLUDEPATH += /Users/ihmtek/Library/glew-1.12.0/include
-#LIBS += -L/Users/ihmtek/Library/glfw-3.2.1/build/src -lglfw3 -lstdc++
-#LIBS += -L/Users/ihmtek/workspace/LudoMuseEditor/lib -lcocos2d
-#LIBS += -framework Cocoa -framework CoreAudio -framework CoreFoundation -framework Foundation
-#LIBS += -liconv -lz -framework Security -framework IOKit -framework OpenGL -framework AppKit -framework Foundation -framework QuartzCore -framework OpenAL -framework AVFoundation -framework AudioToolbox
-#LIBS += -Xlinker
-#LIBS += -L/Users/ihmtek/Qt/5.7/clang_64/lib
+
+#    QMAKE_CXXFLAGS += -D__gl3_h_
+#    QMAKE_CXXFLAGS += -DLUDOMUSE_EDITOR_MAC
+
+
+#    QMAKE_MAC_SDK = macosx10.12
+#    QMAKE_RPATHDIR += ./
+#    QMAKE_RPATHDIR += @executable_path/
+#    QMAKE_RPATHDIR += @executable_path/../Plugins/platforms/
+#    CXXFLAGS = -stdlib=libstdc++
+#    INCLUDEPATH += /Users/ihmtek/Library/glfw-3.2.1/include/GLFW
+#    INCLUDEPATH += /Users/ihmtek/Library/glew-1.12.0/include
+#    LIBS += -L/Users/ihmtek/Library/glfw-3.2.1/build/src -lglfw3 -lstdc++
+#    LIBS += -L/Users/ihmtek/workspace/LudoMuseEditor/lib -lcocos2d
+#    LIBS += -framework Cocoa -framework CoreAudio -framework CoreFoundation -framework Foundation
+#    LIBS += -liconv -lz -framework Security -framework IOKit -framework OpenGL -framework AppKit -framework Foundation -framework QuartzCore -framework OpenAL -framework AVFoundation -framework AudioToolbox
+#    LIBS += -Xlinker
+#    LIBS += -L/Users/ihmtek/Qt/5.7/clang_64/lib
 #}
 
 
