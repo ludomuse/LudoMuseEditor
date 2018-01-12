@@ -268,7 +268,7 @@ LIBS += -L$${COCOS_PATH}/external/win10-specific/angle/prebuilt/win32/ -llibGLES
 LIBS += -L$${PWD}/lib
 
 
-LIBS += -LD:/SharedData/Git/projects/Ludomuse/LudomuseEditor/libs -lfreetype \
+LIBS += -L$${PWD}/libs -lfreetype \
          -lglew32 \
 #   #      -llibbox2d \
 #   #      -llibbullet \
@@ -300,7 +300,7 @@ linux {
 QMAKE_CXXFLAGS += -DLUDOMUSE_EDITOR_LINUX
 
 INCLUDEPATH +=  /usr/include/GLFW
-INCLUDEPATH += /usr/include/quazip5
+INCLUDEPATH += /libs/quazip
 INCLUDEPATH += /home/babouchot/lib/glew-2.0.0/include
 
 
@@ -309,6 +309,8 @@ SOURCES +=     LudoMuse_src/Classes/Modules/Networking/linux/Source/CNetworkMana
 HEADERS +=     LudoMuse_src/Classes/Modules/Networking/linux/Include/CNetworkManager.h \
 
 QMAKE_RPATHDIR += ./ ./lib
+
+LIBS += -L$${PWD}/libs/quazip/linux_build
 
 LIBS += -L$${LUDOMUSE_PATH}/linux-build/lib/ -lcocos2d \
         -L$${LUDOMUSE_PATH}/linux-build/cocos2d/cocos -lcocos2dInternal \
@@ -319,7 +321,7 @@ LIBS += -L$${LUDOMUSE_PATH}/linux-build/lib/ -lcocos2d \
         -L$${LUDOMUSE_PATH}/cocos2d/external/bullet/prebuilt/linux/64-bit \
         -lpng \
         -lX11 -lglfw -lgobject-2.0 -lglib-2.0 -lfreetype -lGLEW -ltinyxml2 -lbullet -lrecast -lflatbuffers -lxxhash -lunzip -lgtk-3 -lfontconfig -lz -ltiff -lEGL \
-        -lquazip5
+        -lquazip
 }
 
 #macx
