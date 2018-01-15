@@ -11,7 +11,7 @@ matrix:
             - ubuntu-toolchain-r-test
           packages:
             - g++-7
-      env: COMPILER_NAME=gcc CXX=g++-5 CC=gcc-5
+      env: COMPILER_NAME=gcc CXX=g++-7 CC=gcc-7
 
 git:
   lfs_skip_smudge: true
@@ -38,5 +38,5 @@ script:
   - echo "Build will use g++ version :"
   - g++ --version
   - qmake LudoMuseEditor.pro
-  - make
+  - make CC=/usr/bin/gcc-7 CXX=/usr/bin/g++-7
 
