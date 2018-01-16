@@ -7,5 +7,3 @@ git reset --hard origin/master
 ./doBulletHack.sh
 cocos compile -p linux
 ./changeExeRPATH.sh
-mkdir bin/debug/linux/lib
-cp prebuilt/libfmod.so.6 bin/debug/linux/lib
