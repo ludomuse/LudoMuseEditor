@@ -10,6 +10,9 @@ int main(int argc, char *argv[])
     assert(dir.cdUp());
     assert(dir.cd("PlugIns")); // e.g. appdir/Contents/PlugIns
     QCoreApplication::setLibraryPaths(QStringList(dir.absolutePath()));
+
+    QApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
+
 #endif
     AppDelegate a(argc, argv);
     CMainWindow w;
