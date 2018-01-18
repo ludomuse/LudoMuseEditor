@@ -297,7 +297,7 @@ LIBS += -L$${PWD}/libs -lfreetype \
 
 linux {
 
-QMAKE_CXXFLAGS += -DLUDOMUSE_EDITOR_LINUX
+QMAKE_CXXFLAGS += -DLUDOMUSE_EDITOR_LINUX -DUSE_BULLET=0
 
 INCLUDEPATH +=  /usr/include/GLFW
 INCLUDEPATH += /libs/quazip
@@ -329,7 +329,7 @@ INCLUDEPATH += /usr/include/qt5/QtWidgets
 INCLUDEPATH += /usr/local/include
 INCLUDEPATH += /usr/local/include/GLFW
 LIBS += -L/usr/local/lib
-LIBS += -L$${LUDOMUSE_PATH}/cocos2d/external/bullet/prebuilt/linux/64-bit -lBulletCollision -lBulletDynamics
+#LIBS += -L$${LUDOMUSE_PATH}/prebuilt/ -lbullet
 
 
 }
