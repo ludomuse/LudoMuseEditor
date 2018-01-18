@@ -247,9 +247,12 @@ void CPhotoPuzzleWizard::GenerateScenes(const std::vector<int>& values)
     std::string dropArea1ID = "dropArea1";
     dropArea->SetID(dropArea1ID);
 
-    LM::CEventCallback dropOnArea("Drop", m_pKernel, nullptr);
+    LM::CEventCallback dropOnArea("DisableEvent",
+                                  m_pKernel,
+                                  &LM::CKernel::DisableEvent,
+                                  LM::SEvent(LM::SEvent::STRING, dropArea, dropArea1ID + ":Drop"));
     dropArea->AddListener("Drop", dropOnArea);
-    LM::CEventCallback dropEnableBack("DropEnableBack",
+    LM::CEventCallback dropEnableBack("EnableEvent",
                                       m_pKernel,
                                       &LM::CKernel::EnableEvent,
                                       LM::SEvent(LM::SEvent::STRING, dropArea, dropArea1ID + ":Drop"));
