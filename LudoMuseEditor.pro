@@ -320,8 +320,18 @@ LIBS += -L$${LUDOMUSE_PATH}/linux-build/lib/ -lcocos2d \
         -L$${LUDOMUSE_PATH}/cocos2d/external/jpeg/prebuilt/linux/64-bit/ -ljpeg \
         -L$${LUDOMUSE_PATH}/cocos2d/external/bullet/prebuilt/linux/64-bit \
         -lpng \
-        -lX11 -lglfw -lgobject-2.0 -lglib-2.0 -lfreetype -lGLEW -ltinyxml2 -lbullet -lrecast -lflatbuffers -lxxhash -lunzip -lgtk-3 -lfontconfig -lz -ltiff -lEGL \
+        -lX11 -lglfw -lgobject-2.0 -lglib-2.0 -lfreetype -lGLEW -ltinyxml2 -lrecast -lflatbuffers -lxxhash -lunzip -lgtk-3 -lfontconfig -lz -ltiff -lEGL \
         -lquazip
+
+# Travis CI
+QT += widgets
+INCLUDEPATH += /usr/include/qt5/QtWidgets
+INCLUDEPATH += /usr/local/include
+INCLUDEPATH += /usr/local/include/GLFW
+LIBS += -L/usr/local/lib
+LIBS += -L$${LUDOMUSE_PATH}/cocos2d/external/bullet/prebuilt/linux/64-bit -lBulletCollision -lBulletDynamics
+
+
 }
 
 #macx
@@ -349,10 +359,3 @@ LIBS += -L$${LUDOMUSE_PATH}/linux-build/lib/ -lcocos2d \
 #}
 
 
-# Travis CI
-QT += widgets
-INCLUDEPATH += /usr/include/qt5/QtWidgets
-INCLUDEPATH += /usr/local/include
-INCLUDEPATH += /usr/local/include/GLFW
-LIBS += -L/usr/local/lib
-LIBS += -L$${LUDOMUSE_PATH}/prebuilt
