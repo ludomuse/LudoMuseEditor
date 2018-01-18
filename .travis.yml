@@ -24,11 +24,12 @@ before_install:
   - echo -e "machine github.com\n login $GITHUB_TOKEN" >> ~/.netrc
     #  - git lfs pull
   - sudo add-apt-repository --yes ppa:ubuntu-sdk-team/ppa
-  - sudo add-apt-repository --yes ppa:pyglfw/pyglfw
+  #- sudo add-apt-repository --yes ppa:pyglfw/pyglfw
   - sudo apt-get update -qq
   - sudo apt-get install qtbase5-dev qtdeclarative5-dev libqt5webkit5-dev libsqlite3-dev
   - sudo apt-get install qt5-default qttools5-dev-tools
-  - sudo apt-get install -y libglfw3-dev libxrandr-dev libxi-dev libxxf86vm-dev libsdl2-dev libgtk-3-dev
+  #- sudo apt-get install -y libglfw3-dev libxrandr-dev libxi-dev libxxf86vm-dev libsdl2-dev libgtk-3-dev
+  - sudo apt-get install -y libxrandr-dev libxi-dev libxxf86vm-dev libsdl2-dev libgtk-3-dev
   - echo $PWD
   - travis_wait ./ci-before_install.sh $PWD
   - stat $PWD/../LudoMuse/cocos2d
@@ -41,6 +42,9 @@ script:
   # - sudo ln -s $(dirname GCC_PATH)/g++-7 $GCC_PATH
   # - echo "Build will use g++ version :"
   # - g++ --version
-  - qmake LudoMuseEditor.pro
+  - cd ../
+  - mkdir LudoMuseEditorLinux
+  - cd LudoMuseEditorLinux
+  - qmake ../LudoMuseEditor/LudoMuseEditor.pro
   - make CC=/usr/bin/gcc-7 CXX=/usr/bin/g++-7
 
