@@ -1,0 +1,7 @@
+find macdeployqt in Qt install (generally same directory as qmake)
+run macdeployqt on LudoMuseEditor.app
+copy quazip dependency in Frameworks in .app 
+run install_name_tool to change Content/MacOS/LudoMuseEditor libqazip.1.dylib to the Framework reference : 
+install_name_tool -change libquazip.1.dylib @executable_path/../Frameworks/libquazip.1.dylib LudoMuseEditor
+copy the content of buildFiles in Content/MacOS/
+copy LudoMuse.exe file there too
