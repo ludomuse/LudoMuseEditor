@@ -11,6 +11,7 @@ install_glfw_dep()
 {
   sudo apt-get install xorg-dev
   sudo apt-get install libglu1-mesa-dev
+  # sudo apt-get install cmake
   sudo apt-get install wget
 }
 
@@ -46,7 +47,7 @@ install_glfw()
 }
 
 #try to remove glfw3
-sudo apt-get purge libglfw3 libglfw3-dev
+#sudo apt-get purge libglfw3 libglfw3-dev
 
 install_glfw
 
