@@ -331,7 +331,7 @@ LIBS += -L$${LUDOMUSE_PATH}/linux-build/lib/ -lcocos2d \
 #    QMAKE_CXXFLAGS += -DLUDOMUSE_EDITOR_MAC
 
 
-#    QMAKE_MAC_SDK = macosx10.12
+#    QMAKE_MAC_SDK = macosx10.13
 #    QMAKE_RPATHDIR += ./
 #    QMAKE_RPATHDIR += @executable_path/
 #    QMAKE_RPATHDIR += @executable_path/../Plugins/platforms/
@@ -344,6 +344,8 @@ LIBS += -L$${LUDOMUSE_PATH}/linux-build/lib/ -lcocos2d \
 #    LIBS += -liconv -lz -framework Security -framework IOKit -framework OpenGL -framework AppKit -framework Foundation -framework QuartzCore -framework OpenAL -framework AVFoundation -framework AudioToolbox
 #    LIBS += -Xlinker
 #    LIBS += -L/Users/ihmtek/Qt/5.7/clang_64/lib
+#    LIBS += -L$${PWD}/libs/quazip/mac_build -lquazip
+#    LIBS += -L$${PWD}/libs/zlib1211/mac_build -lz
 #}
 
 
