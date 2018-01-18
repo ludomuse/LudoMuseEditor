@@ -11,6 +11,8 @@ matrix:
             - ubuntu-toolchain-r-test
           packages:
             - g++-7
+	    - chrpath
+	    - libglew-dev
       env: COMPILER_NAME=gcc CXX=g++-7 CC=gcc-7
 
 git:
