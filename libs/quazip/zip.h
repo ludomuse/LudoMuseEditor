@@ -1,4 +1,4 @@
-/* zip.h -- IO on .zip files using zlib
+﻿/* zip.h -- IO on .zip files using zlib
    Version 1.1, February 14h, 2010
    part of the MiniZip project - ( http://www.winimage.com/zLibDll/minizip.html )
 
@@ -53,7 +53,7 @@ extern "C" {
 //#define HAVE_BZIP2
 
 #ifndef _ZLIB_H
-#include "../zlib1211/zlib.h"
+#include <zlib.h>
 #endif
 
 #ifndef _ZLIBIOAPI_H
