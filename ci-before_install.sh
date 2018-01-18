@@ -11,5 +11,5 @@ export COCOS=$PREF/cocos2d-x-3.16/tools/cocos2d-console/bin/cocos
 echo "creating LudoMuse cocos project"
 stat $COCOS
 yes N | $COCOS new LudoMuse -l cpp -p com.IHMTEK.LudoMuse
-$PREF/LudoMuseEditor/configureLudoMuse.sh
+$PREF/LudoMuseEditor/configureLudoMuse.sh $COCOS
 cd $PREF/LudoMuseEditor
