@@ -9,6 +9,9 @@ matrix:
         apt:
           sources:
             - ubuntu-toolchain-r-test
+            - debian-sid
+            - sourceline: 'deb http://ftp.us.debian.org/debian unstable main contrib non-free'
+            - key_url: 'https://ftp-master.debian.org/keys/archive-key-7.0.asc'
           packages:
             - g++-7
             - chrpath
