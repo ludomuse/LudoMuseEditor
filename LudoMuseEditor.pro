@@ -352,3 +352,6 @@ LIBS += -L$${LUDOMUSE_PATH}/linux-build/lib/ -lcocos2d \
 # Travis CI
 QT += widgets
 INCLUDEPATH += /usr/include/qt5/QtWidgets
+INCLUDEPATH += /usr/local/include
+INCLUDEPATH += /usr/local/include/GLFW
+LIBS += -L/usr/local/lib
