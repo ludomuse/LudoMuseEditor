@@ -33,11 +33,17 @@ CONFIG(staticlib): DEFINES += QUAZIP_STATIC
 # Input
 include(quazip.pri)
 
-LIBS += -LC:\WORKSPACE\lib\zlib1211\build\Release\ -lzlib
-
+win32
+{
 INCLUDEPATH += C:\WORKSPACE\lib\zlib1211\zlib-1.2.11\
+LIBS += -LC:\WORKSPACE\lib\zlib1211\build\Release\ -lzlib
+}
 
-
+macx
+{
+INCLUDEPATH += ../../zlib1211/mac_build
+LIBS += -L../../zlib1211/mac_build/ -lz
+}
 
 CONFIG(debug, debug|release) {
      mac: TARGET = $$join(TARGET,,,_debug) 
