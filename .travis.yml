@@ -47,6 +47,8 @@ script:
   - cd ../
   - mkdir LudoMuseEditorLinux
   - cd LudoMuseEditorLinux
+  - echo "using qmake version : "
+  - qmake --version
   - qmake ../LudoMuseEditor/LudoMuseEditor.pro
   - make CC=/usr/bin/gcc-7 CXX=/usr/bin/g++-7
 
