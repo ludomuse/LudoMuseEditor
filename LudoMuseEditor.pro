@@ -11,9 +11,9 @@ greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 TARGET = LudoMuseEditor
 TEMPLATE = app
 
-CONFIG += c++14
+#CONFIG += c++14
 CONFIG += qt debug
-QMAKE_CXXFLAGS += -std=c++14
+#QMAKE_CXXFLAGS += -std=c++14
 
 #QMAKE_CXXFLAGS += APPCONTAINER:NO
 
