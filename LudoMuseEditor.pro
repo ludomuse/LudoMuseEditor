@@ -329,7 +329,6 @@ INCLUDEPATH += /usr/include/qt5/QtWidgets
 INCLUDEPATH += /usr/local/include
 INCLUDEPATH += /usr/local/include/GLFW
 LIBS += -L/usr/local/lib
-LIBS += -lQt5OpenGL -lQt5Widgets -lQt5Gui -lQt5Core
 #LIBS += -L$${LUDOMUSE_PATH}/prebuilt/ -lbullet
 
 
