@@ -8,5 +8,6 @@ git reset --hard origin/master
 mkdir -p linux-build
 cd linux-build
 cmake ../ -DUSE_BULLET=0
+cd ../
 $1 compile -p linux
 ./changeExeRPATH.sh
