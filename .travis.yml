@@ -45,7 +45,11 @@ script:
   - sudo ln -s $(dirname GCC_PATH)/g++-7 $GCC_PATH
   - echo "Build will use g++ version :"
   - g++ --version
-  - cd ../
+  - cd libs/quazip/linux_build
+  - rm *
+  - /opt/qt58/bin/qmake ../quazip.pro
+  - make
+  - cd ../../../../
   - mkdir LudoMuseEditorLinux
   - cd LudoMuseEditorLinux
   - /opt/qt58/bin/qmake --version
