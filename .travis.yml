@@ -40,15 +40,15 @@ before_install:
 script:
   # - echo "g++-7 ?"
   # - /usr/bin/g++-7 --version
-  # - export GCC_PATH=$(which g++)
-  # - sudo rm $GCC_PATH
-  # - sudo ln -s $(dirname GCC_PATH)/g++-7 $GCC_PATH
-  # - echo "Build will use g++ version :"
-  # - g++ --version
+  - export GCC_PATH=$(which g++)
+  - sudo rm $GCC_PATH
+  - sudo ln -s $(dirname GCC_PATH)/g++-7 $GCC_PATH
+  - echo "Build will use g++ version :"
+  - g++ --version
   - cd ../
   - mkdir LudoMuseEditorLinux
   - cd LudoMuseEditorLinux
   - /opt/qt58/bin/qmake --version
   - /opt/qt58/bin/qmake ../LudoMuseEditor/LudoMuseEditor.pro
-  - make CC=/usr/bin/gcc-7 CXX=/usr/bin/g++-7
+  - make 
 
