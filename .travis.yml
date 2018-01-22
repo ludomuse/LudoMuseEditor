@@ -47,7 +47,7 @@ script:
   - g++ --version
   - cd libs/quazip/linux_build
   - rm *
-  - /opt/qt58/bin/qmake ../quazip.pro
+  - /opt/qt58/bin/qmake ../quazip.pro CONFIG-=debug CONFIG+=release
   - make
   - cd ../../../../
   - mkdir LudoMuseEditorLinux
