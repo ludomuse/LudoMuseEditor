@@ -7,6 +7,9 @@ environment:
     COMPILER: msvc
     VSVER: 14
 
+git:
+  lfs_skip_smudge: true
+
 clone_depth: 1
 
 init:
@@ -30,7 +33,7 @@ deploy:
     release: $(appveyor_repo_tag_name)
     description: $(appveyor_repo_tag_name)
     auth_token:
-      secure: sKI6y7bmEIh0RWxTFk+xBAAchjqJeVn3SX+yenB3N137XTmr0UIYEotJV0iIJnXu
+      secure: $(GITHUB_TOKEN)
     artifact: portable, installer
     draft: false
     prerelease: false
