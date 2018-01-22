@@ -1,7 +1,7 @@
 set PREF=%1/../
 cd %PREF%
 echo "downloading cocos 3.16 ..."
-curl -s http://cdn.cocos2d-x.org/cocos2d-x-3.16.zip
+curl -s -O http://cdn.cocos2d-x.org/cocos2d-x-3.16.zip
 echo "unzipping cocos 3.16"
 unzip -q %PREF%/cocos2d-x-3.16.zip -d %PREF%
 set COCOS=%PREF%/cocos2d-x-3.16/tools/cocos2d-console/bin/cocos
