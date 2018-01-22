@@ -7,9 +7,6 @@ environment:
     COMPILER: msvc
     VSVER: 14
 
-git:
-  lfs_skip_smudge: true
-
 clone_depth: 1
 
 init:
