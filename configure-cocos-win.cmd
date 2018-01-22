@@ -10,4 +10,4 @@ echo "creating LudoMuse cocos project"
 echo N | python %COCOS% new LudoMuse -l cpp -p com.IHMTEK.LudoMuse
 echo "configuring LudoMuse as editor dependency"
 call "%PREF%/LudoMuseEditor/configure-LudoMuse-win.cmd" %COCOS%
-cd $PREF/LudoMuseEditor
+cd "%PREF%/LudoMuseEditor"

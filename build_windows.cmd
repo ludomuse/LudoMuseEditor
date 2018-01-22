@@ -15,6 +15,8 @@ echo Building LudoMuseEditor...
 cd ../
 mkdir LudoMuseEditorWin
 cd LudoMuseEditorWin
+copy ../LudoMuse/bin/debug/win32/LudoMuse.exe ./
+copy ../LudoMuse/bin/debug/win32/*.dll ./
 qmake -spec win32-msvc2015 CONFIG+=x86_64 CONFIG-=debug CONFIG+=release ../LudoMuseEditor
 nmake
 
