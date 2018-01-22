@@ -6,6 +6,11 @@ echo Set up environment...
 set PATH=%QT%\bin\;C:\Qt\Tools\QtCreator\bin\;C:\Qt\QtIFW2.0.1\bin\;%PATH%
 call "C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\vcvarsall.bat" %PLATFORM%
 
+
+echo Configuring cocos
+call configure-cocos-win.cmd %project_dir%
+
+
 echo Building LudoMuseEditor...
 cd ../
 mkdir LudoMuseEditorWin
