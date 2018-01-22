@@ -34,7 +34,7 @@ before_install:
   - source /opt/qt58/bin/qt58-env.sh
   - sudo apt-get install -y libxrandr-dev libxi-dev libxxf86vm-dev libgtk-3-dev
   - echo $PWD
-  - travis_wait ./ci-before_install.sh $PWD
+  - travis_wait ./configure-cocos-linux.sh $PWD
   - stat $PWD/../LudoMuse/cocos2d
 
 script:

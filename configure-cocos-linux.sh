@@ -12,5 +12,5 @@ $PREF/LudoMuseEditor/install_glfw.sh
 echo "creating LudoMuse cocos project"
 stat $COCOS
 yes N | $COCOS new LudoMuse -l cpp -p com.IHMTEK.LudoMuse
-$PREF/LudoMuseEditor/configureLudoMuse.sh $COCOS
+$PREF/LudoMuseEditor/configure-LudoMuse-linux.sh $COCOS
 cd $PREF/LudoMuseEditor
