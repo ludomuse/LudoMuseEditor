@@ -3,4 +3,4 @@ git init
 git remote add origin https://github.com/ludomuse/Ludomuse.git
 git fetch origin master
 git reset --hard origin/master
-%1 compile -p win -m release
+%1 compile -p win32 -m release
