@@ -1,4 +1,4 @@
-#ifdef _WIN32
+﻿#ifdef _WIN32
 #include <WinSock2.h>
 #endif
 
@@ -102,7 +102,7 @@ CMainWindow::CMainWindow(QWidget *parent) :
     // disable save button
     if(m_sSaveName.isEmpty())
     {
-        ui->save->setEnabled(false);
+        ui->actionEnregistrer->setEnabled(false);
     }
 
     // Icon creation
@@ -119,8 +119,9 @@ CMainWindow::CMainWindow(QWidget *parent) :
     connect(ui->waitingScreenButton, SIGNAL(clicked(bool)), this, SLOT(goToWaitingScreen()));
 
     connect(ui->emulateButton, SIGNAL(clicked(bool)), this, SLOT(launchEmulator()));
-    connect(ui->JsonGo, SIGNAL(clicked(bool)), this, SLOT(saveAs()));
-    connect(ui->save, SIGNAL(clicked(bool)), this, SLOT(save()));
+    connect(ui->actionEnregistrer_Sous, SIGNAL(triggered(bool)), this, SLOT(saveAs()));
+    connect(ui->actionEnregistrer, SIGNAL(triggered(bool)), this, SLOT(save()));
+    connect(ui->actionExporter_une_archive, SIGNAL(triggered(bool)), this, SLOT(on_archiveButton_clicked()));
     //connect(ui->lmwTestButton, SIGNAL(clicked(bool)), this, SLOT(launchAddSceneWizard()));
     //connect(ui->archiveButton, SIGNAL(clicked(bool)), this, SLOT(exportProject));
 
@@ -143,7 +144,7 @@ void CMainWindow::loadExistingProject(const QString& a_sProjectFile)
     CProjectManager::Instance()->SetProjectFile(a_sProjectFile);
     m_sSaveName = a_sProjectFile;
 
-    ui->save->setEnabled(true);
+    ui->actionEnregistrer->setEnabled(true);
     // Clear loader widget!
     QLayout* glViewContainerLayout = ui->glViewContainer->layout();
     QLayoutItem *child;
@@ -451,7 +452,7 @@ void CMainWindow::saveAs()
             filePath = filePath + ".json";
         }
         this->m_sSaveName = filePath;
-        this->ui->save->setEnabled(true);
+        this->ui->actionEnregistrer->setEnabled(true);
         save();
 
         CProjectManager::Instance()->SetProjectFile(filePath);
