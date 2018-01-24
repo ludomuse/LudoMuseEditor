@@ -12,6 +12,10 @@ call configure-cocos-win.cmd %project_dir%
 
 
 echo Building LudoMuseEditor...
+curl -s https://drive.google.com/file/d/1z5utC4-6Qvmki1tFPIoGvgMLcPCerzcb/view?usp=sharing -o deps.zip
+unzip -n deps.zip -d .
+
+
 cd ../
 mkdir LudoMuseEditorWin
 cd LudoMuseEditorWin
