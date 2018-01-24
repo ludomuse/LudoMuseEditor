@@ -2,7 +2,7 @@ image: Visual Studio 2015
   
 platform: x86
 
- environment:
+environment:
   PYTHON: "C:\\Python27"
   PYTHON_VERSION: "2.7.13"
   PYTHON_ARCH: "32"
