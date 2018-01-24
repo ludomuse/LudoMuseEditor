@@ -11,6 +11,10 @@ call "C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\vcvarsall.bat" %PLA
 
 
 echo Building LudoMuseEditor...
+curl -s -O http://ihmtek-services.com/files/LudoMuse/deps.zip
+unzip -n deps.zip -d .
+
+
 cd ../
 mkdir LudoMuseEditorWin
 cd LudoMuseEditorWin
@@ -20,11 +24,11 @@ copy ../LudoMuse/proj.win32/Debug.win32/*.lib ./
 qmake -spec win32-msvc2015 CONFIG+=x86_64 CONFIG-=debug CONFIG+=release ../LudoMuseEditor
 nmake
 
-echo Running tests...
+rem echo Running tests...
 
-echo Packaging...
-cd %project_dir%\build\windows\msvc\x86_64\release\
-windeployqt LudoMuseEditor.exe
+REM echo Packaging...
+REM cd %project_dir%\build\windows\msvc\x86_64\release\
+REM windeployqt LudoMuseEditor.exe
 
 rem rd /s /q LudoMuseEditor\moc\
 rem rd /s /q LudoMuseEditor\obj\
