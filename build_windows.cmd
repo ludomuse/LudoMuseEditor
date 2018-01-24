@@ -27,9 +27,9 @@ nmake
 
 rem echo Running tests...
 
-echo Packaging...
-cd %project_dir%\build\windows\msvc\x86_64\release\
-windeployqt LudoMuseEditor.exe
+REM echo Packaging...
+REM cd %project_dir%\build\windows\msvc\x86_64\release\
+REM windeployqt LudoMuseEditor.exe
 
 rem rd /s /q LudoMuseEditor\moc\
 rem rd /s /q LudoMuseEditor\obj\
