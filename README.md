@@ -1,8 +1,8 @@
 # LudoMuseEditor 
 
-| Linux		| Windows	|
-|:-----------:|:-----------:|
-|[![Build Status](https://travis-ci.org/ludomuse/LudoMuseEditor.svg?branch=master)](https://travis-ci.org/ludomuse/LudoMuseEditor) | [![Build status](https://ci.appveyor.com/api/projects/status/wwknl987osm43uph?svg=true)](https://ci.appveyor.com/project/IHMTEK/ludomuseeditor) |
+| Linux		  | Windows	    | Mac OS   |
+|:-----------:|:-----------:|:--------:|
+|[![Build Status](https://travis-ci.org/ludomuse/LudoMuseEditor.svg?branch=master)](https://travis-ci.org/ludomuse/LudoMuseEditor) | [![Build status](https://ci.appveyor.com/api/projects/status/wwknl987osm43uph?svg=true)](https://ci.appveyor.com/project/IHMTEK/ludomuseeditor) | à venir |
 
 ## Téléchargement 
 Vous pouvez télécharger la dernière version stable de LudoMuseEditor en cliquant sur le lien ci-dessous : 
