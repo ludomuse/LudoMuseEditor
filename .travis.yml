@@ -21,7 +21,7 @@ matrix:
             - libglew-dev
             - binutils
             - binutils-dev
-      env: COMPILER_NAME=gcc CXX=g++-7 CC=gcc-7
+      env: COMPILER_NAME=gcc CXX=/usr/bin/g++-7 CC=/usr/bin/gcc-7
 
 
 git:
