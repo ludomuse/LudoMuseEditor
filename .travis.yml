@@ -1,5 +1,8 @@
 language: cpp
 
++os:
+  - osx
+  - linux
 
 # works on Precise and Trusty
 matrix:
@@ -7,18 +10,18 @@ matrix:
     - os: osx
       osx_image: xcode9.2
       
-    # - os: linux
-    #   addons:
-    #     apt:
-    #       sources:
-    #         - ubuntu-toolchain-r-test
-    #       packages:
-    #         - g++-7
-    #         - chrpath
-    #         - libglew-dev
-    #         - binutils
-    #         - binutils-dev
-    #   env: COMPILER_NAME=gcc CXX=g++-7 CC=gcc-7
+    - os: linux
+      addons:
+        apt:
+          sources:
+            - ubuntu-toolchain-r-test
+          packages:
+            - g++-7
+            - chrpath
+            - libglew-dev
+            - binutils
+            - binutils-dev
+      env: COMPILER_NAME=gcc CXX=g++-7 CC=gcc-7
 
 
 git:
