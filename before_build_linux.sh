@@ -9,5 +9,5 @@ sudo apt-get install qt58base qt58svg qt58charts-no-lgpl qt58xmlpatterns
 source /opt/qt58/bin/qt58-env.sh
 sudo apt-get install -y libxrandr-dev libxi-dev libxxf86vm-dev libgtk-3-dev
 echo $PWD
-travis_wait ./configure-cocos-linux.sh $PWD
+./configure-cocos-linux.sh $PWD
 stat $PWD/../LudoMuse/cocos2d
