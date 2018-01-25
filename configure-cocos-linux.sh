@@ -4,7 +4,7 @@ export PREF=$1/../
 mkdir -p $PREF
 cd $PREF
 echo "downloading cocos 3.16 ..."
-wget --quiet http://cdn.cocos2d-x.org/cocos2d-x-3.16.zip
+curl -s -O http://cdn.cocos2d-x.org/cocos2d-x-3.16.zip
 echo "unzipping cocos 3.16"
 unzip -q $PREF/cocos2d-x-3.16.zip -d $PREF
 export COCOS=$PREF/cocos2d-x-3.16/tools/cocos2d-console/bin/cocos
