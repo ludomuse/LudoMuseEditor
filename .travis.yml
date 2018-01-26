@@ -51,14 +51,11 @@ deploy:
     on:
       branch: master
 
-
   - provider: releases
     api_key:
-    secure: $GITHUB_TOKEN
-    file: 
-      - "$HOME/LudoMuseEditorLinux.zip"
-      - "$HOME/LudoMuseEditorMac.zip"
+      secure: $GITHUB_TOKEN
+    file: "$HOME/LudoMuseEditor-linux.zip"
     skip_cleanup: true
     on:
       tags: true
-      branch: master
+    branch: master
