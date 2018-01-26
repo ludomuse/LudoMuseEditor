@@ -1,5 +1,5 @@
 #include "CTabPage.h"
-#include "ui_ctabpage.h"
+#include "ui_CTabPage.h"
 
 CTabPage::CTabPage(QWidget *parent) :
     QWidget(parent),
