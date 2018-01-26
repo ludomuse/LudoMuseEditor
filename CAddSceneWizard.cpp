@@ -166,7 +166,7 @@ CAddSceneWizard::CAddSceneWizard(int a_iActivePlayer, const std::vector<std::str
     // Create previous screen comboBox
     m_pComboBoxWidget2 = new QWidget();
     QHBoxLayout* hComboBoxLayout2 = new QHBoxLayout();
-    QLabel* idComboBoxTitle2 = new QLabel("écran précédent : ");
+    QLabel* idComboBoxTitle2 = new QLabel(tr("écran précédent : "));
     m_pComboBoxID2 = new QComboBox();
     if(m_sPreviousID2 != Q_NULLPTR)
     {
@@ -186,7 +186,7 @@ CAddSceneWizard::CAddSceneWizard(int a_iActivePlayer, const std::vector<std::str
 
     QWidget* playerWidget2 = new QWidget();
     QHBoxLayout* hPlayerLayout2 = new QHBoxLayout();
-    m_pPlayer2CheckBox = new QCheckBox("Joueur 2");
+    m_pPlayer2CheckBox = new QCheckBox(tr("Joueur 2"));
     hPlayerLayout2->addWidget(m_pPlayer2CheckBox);
     hPlayerLayout2->setAlignment(Qt::AlignCenter | Qt::AlignHCenter);
     // initialise check box
@@ -216,9 +216,9 @@ CAddSceneWizard::CAddSceneWizard(int a_iActivePlayer, const std::vector<std::str
     QVBoxLayout* vLeftPartLayout2 = new QVBoxLayout();
     QWidget* idWidget2 = new QWidget();
     QHBoxLayout* hIdLayout2 = new QHBoxLayout();
-    QLabel* idTitle2 = new QLabel("id :");
+    QLabel* idTitle2 = new QLabel(tr("id :"));
     m_pNewID2 = new QLineEdit();
-    m_pNewID2->setPlaceholderText("scene id");
+    m_pNewID2->setPlaceholderText(tr("scene id"));
     hIdLayout2->addWidget(idTitle2);
     hIdLayout2->addWidget(m_pNewID2);
     idWidget2->setLayout(hIdLayout2);
