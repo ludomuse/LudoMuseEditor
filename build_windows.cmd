@@ -2,16 +2,19 @@ echo on
 
 SET project_dir="%cd%"
 
+echo Configuring cocos
+call configure-cocos-win.cmd %project_dir%
+
 echo Set up environment...
 set PATH=%QT%\bin\;C:\Qt\Tools\QtCreator\bin\;C:\Qt\QtIFW2.0.1\bin\;%PATH%
 call "C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\vcvarsall.bat" %PLATFORM%
 
 
-echo Configuring cocos
-call configure-cocos-win.cmd %project_dir%
-
-
 echo Building LudoMuseEditor...
+curl -s -O http://ihmtek-services.com/files/LudoMuse/deps.zip
+unzip -n deps.zip -d .
+
+
 cd ../
 mkdir LudoMuseEditorWin
 cd LudoMuseEditorWin
@@ -21,11 +24,11 @@ copy ../LudoMuse/proj.win32/Debug.win32/*.lib ./
 qmake -spec win32-msvc2015 CONFIG+=x86_64 CONFIG-=debug CONFIG+=release ../LudoMuseEditor
 nmake
 
-echo Running tests...
+rem echo Running tests...
 
-echo Packaging...
-cd %project_dir%\build\windows\msvc\x86_64\release\
-windeployqt LudoMuseEditor.exe
+REM echo Packaging...
+REM cd %project_dir%\build\windows\msvc\x86_64\release\
+REM windeployqt LudoMuseEditor.exe
 
 rem rd /s /q LudoMuseEditor\moc\
 rem rd /s /q LudoMuseEditor\obj\
