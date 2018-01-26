@@ -39,3 +39,26 @@ script:
   - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then travis_wait bash ./build_linux.sh; fi
   - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then travis_wait bash ./build_osx.sh; fi
 
+  
+before_deploy:
+  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then travis_wait bash ./before_deploy_linux.sh; fi
+  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then travis_wait bash ./before_deploy_osx.sh; fi
+  
+deploy:
+  - provider: script
+    script: curl -u $UPLOAD_USER:$UPLOAD_PWD -T $HOME/LudoMuseEditor-$TRAVIS_OS_NAME.zip $UPLOAD_SERVER/LudoMuseEditor-$TRAVIS_OS_NAME-$TRAVIS_BUILD_NUMBER.zip
+    skip_cleanup: true
+    on:
+      branch: master
+
+
+  - provider: releases
+    api_key:
+    secure: $GITHUB_TOKEN
+    file: 
+      - "$HOME/LudoMuseEditorLinux.zip"
+      - "$HOME/LudoMuseEditorMac.zip"
+    skip_cleanup: true
+    on:
+      tags: true
+      branch: master
