@@ -8,8 +8,8 @@ rm *
 /opt/qt58/bin/qmake ../quazip.pro CONFIG-=debug CONFIG+=release
 make
 cd ../../../../
-mkdir LudoMuseEditorLinux
-cd LudoMuseEditorLinux
+mkdir $HOME/LudoMuseEditor_build
+cd $HOME/LudoMuseEditor_build
 /opt/qt58/bin/qmake --version
-/opt/qt58/bin/qmake ../LudoMuseEditor/LudoMuseEditor.pro
+/opt/qt58/bin/qmake CONFIG+=x86_64 CONFIG-=debug CONFIG+=release $TRAVIS_BUILD_DIR/LudoMuseEditor.pro
 make
