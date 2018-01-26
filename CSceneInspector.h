@@ -16,6 +16,10 @@ public:
 signals:
     void addScene();
     void deleteScene(QString a_sSceneID, bool a_bIsSync);
+    /*CHAPTERSPROTOYPE***********************************************************************************************************************/
+    void addChapter();
+    void deleteChapter();
+    /******************************************************************************************************************************************/
 
 public slots:
     void switchDash(bool a_bState);
@@ -26,6 +30,10 @@ public slots:
     void changeRewardID(const QString& a_sRewardID);
     void changeInitSound(const QString& a_sInitSound);
     void changeValidSound(const QString& a_sValidSound);
+    /*CHAPTERSPROTOYPE***********************************************************************************************************************/
+    void clickOnAddChapter();
+    void clickOnDeleteChapter();
+    /******************************************************************************************************************************************/
 
 private:
     LM::CSceneNode* m_pScene;

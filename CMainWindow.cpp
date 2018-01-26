@@ -1,4 +1,4 @@
-#ifdef _WIN32
+﻿#ifdef _WIN32
 #include <WinSock2.h>
 #endif
 
@@ -17,6 +17,7 @@
 #include <QDebug>
 #include <QFileDialog>
 #include <QMessageBox>
+#include <QInputDialog>
 
 //#include <GL/glew.h>
 #include <vector>
@@ -102,7 +103,7 @@ CMainWindow::CMainWindow(QWidget *parent) :
     // disable save button
     if(m_sSaveName.isEmpty())
     {
-        ui->save->setEnabled(false);
+        ui->actionEnregistrer->setEnabled(false);
     }
 
     // Icon creation
@@ -119,8 +120,9 @@ CMainWindow::CMainWindow(QWidget *parent) :
     connect(ui->waitingScreenButton, SIGNAL(clicked(bool)), this, SLOT(goToWaitingScreen()));
 
     connect(ui->emulateButton, SIGNAL(clicked(bool)), this, SLOT(launchEmulator()));
-    connect(ui->JsonGo, SIGNAL(clicked(bool)), this, SLOT(saveAs()));
-    connect(ui->save, SIGNAL(clicked(bool)), this, SLOT(save()));
+    connect(ui->actionEnregistrer_Sous, SIGNAL(triggered(bool)), this, SLOT(saveAs()));
+    connect(ui->actionEnregistrer, SIGNAL(triggered(bool)), this, SLOT(save()));
+    connect(ui->actionExporter_une_archive, SIGNAL(triggered(bool)), this, SLOT(on_archiveButton_clicked()));
     //connect(ui->lmwTestButton, SIGNAL(clicked(bool)), this, SLOT(launchAddSceneWizard()));
     //connect(ui->archiveButton, SIGNAL(clicked(bool)), this, SLOT(exportProject));
 
@@ -143,7 +145,7 @@ void CMainWindow::loadExistingProject(const QString& a_sProjectFile)
     CProjectManager::Instance()->SetProjectFile(a_sProjectFile);
     m_sSaveName = a_sProjectFile;
 
-    ui->save->setEnabled(true);
+    ui->actionEnregistrer->setEnabled(true);
     // Clear loader widget!
     QLayout* glViewContainerLayout = ui->glViewContainer->layout();
     QLayoutItem *child;
@@ -451,7 +453,7 @@ void CMainWindow::saveAs()
             filePath = filePath + ".json";
         }
         this->m_sSaveName = filePath;
-        this->ui->save->setEnabled(true);
+        this->ui->actionEnregistrer->setEnabled(true);
         save();
 
         CProjectManager::Instance()->SetProjectFile(filePath);
@@ -515,6 +517,23 @@ void CMainWindow::launchAddSceneWizard()
     pSceneWizard->setModal(true);
     pSceneWizard->show();
 }
+
+/*CHAPTERSPROTOTYPE************************************************************************************************************************/
+void CMainWindow::addingChapter(){
+    CTabPage *tabPage = new CTabPage();
+    bool ok;
+    QString tabName = QInputDialog::getText(this,"Nom du chapitre","Veuillez entrez un nom pour le chapitre :",QLineEdit::Normal,"Introduction",&ok);
+    //tabName.append(QString::number(ui->mmBotView->count()+1));
+    //ui->mmBotView->addTab(tabPage,tabName);//Insere a la fin de la liste
+    ui->mmBotView->insertTab(ui->mmBotView->currentIndex()+1,tabPage,tabName);
+    m_pKernel->SeeChapters();
+}
+
+void CMainWindow::deletingChapter(){
+    ui->mmBotView->removeTab(ui->mmBotView->currentIndex());
+    QString tabName = "Chapitre ";
+}
+/******************************************************************************************************************************************/
 
 void CMainWindow::addingSceneFinished(const QString& a_sPrevSceneID, const QString& a_sSceneID, int a_iPlayerID)
 {
@@ -748,6 +767,7 @@ void CMainWindow::InspectScene(LM::CSceneNode* a_pScene)
     //    }
 
     // Searching which player have the scene
+    m_pKernel->SeeChapters();
     QString sceneId(a_pScene->GetSceneID().c_str());
     CSceneInspector* sceneInspector = Q_NULLPTR;
     if(m_pKernel->PlayerHasScene(sceneId.toStdString(), PLAYER_1)
@@ -770,6 +790,10 @@ void CMainWindow::InspectScene(LM::CSceneNode* a_pScene)
         ui->sceneInspectorContainer->layout()->addWidget(sceneInspector);
         connect(sceneInspector, SIGNAL(addScene()), this, SLOT(launchAddSceneWizard()));
         connect(sceneInspector, SIGNAL(deleteScene(QString, bool)), this, SLOT(deleteScene(QString, bool)));
+        /*CHAPTERSPROTOTYPE************************************************************************************************************************/
+        connect(sceneInspector,SIGNAL(addChapter()),this,SLOT(addingChapter()));
+        connect(sceneInspector,SIGNAL(deleteChapter()),this,SLOT(deletingChapter()));
+        /******************************************************************************************************************************************/
     }
     else
     {

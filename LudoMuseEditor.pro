@@ -104,7 +104,9 @@ SOURCES += main.cpp\
     CDashboardInspector.cpp \
     CPhotoPuzzleWizard.cpp \
     CWizardFactory.cpp \
-    CQuizWizard.cpp
+    CQuizWizard.cpp \
+    CTabPage.cpp \
+    CAddChapterWizard.cpp
 
 HEADERS  += CMainWindow.h \
     LudoMuse_src/Classes/Engine/Include/CCallback.h \
@@ -196,7 +198,10 @@ HEADERS  += CMainWindow.h \
     CWizardFactory.h \
     SNewGame.h \
     CQuizWizard.h \
-    CQuizWizard.h
+    CQuizWizard.h \
+    CTabPage.h \
+    CAddChapterWizard.h \
+    CChapterStruct.h
 
 FORMS    += \
     CLoaderWidget.ui \
@@ -206,7 +211,8 @@ FORMS    += \
     CMainWindow.ui \
     CImportProjectWizard.ui \
     cphotopuzzlewizard.ui \
-    CQuizWizard.ui
+    CQuizWizard.ui \
+    CTabPage.ui
 
 INCLUDEPATH += "./LudoMuse_src" \
                 $${COCOS_PATH}/cocos \
