@@ -18,9 +18,11 @@ rem unzip -n deps.zip -d .
 cd ../
 mkdir LudoMuseEditorWin
 cd LudoMuseEditorWin
-copy ../LudoMuse/proj.win32/Release.win32/LudoMuse.exe ./
-copy ../LudoMuse/proj.win32/Release.win32/*.dll ./
-copy ../LudoMuse/proj.win32/Release.win32/*.lib ./
+echo "trying to copy files from LudoMuse build"
+dir ../LudoMuse/proj.win32/Release.win32/
+xcopy "..\LudoMuse\proj.win32\Release.win32\" ".\"
+rem xcopy "..\LudoMuse\proj.win32\Release.win32\*.dll" ".\"
+rem xcopy "..\LudoMuse\proj.win32\Release.win32\*.lib" ".\"
 xcopy "..\LudoMuse\Resources" ".\" /D /E /I /F /Y
 qmake -spec win32-msvc2015 CONFIG+=x86_64 CONFIG-=debug CONFIG+=release ../LudoMuseEditor
 nmake
