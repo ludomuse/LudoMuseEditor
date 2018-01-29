@@ -19,8 +19,8 @@ cd ../
 mkdir LudoMuseEditorWin
 cd LudoMuseEditorWin
 echo "trying to copy files from LudoMuse build"
-dir ../LudoMuse/proj.win32/Release.win32/
-xcopy "..\LudoMuse\proj.win32\Release.win32\" ".\"
+dir "..\LudoMuse\proj.win32\Release.win32"
+xcopy "..\LudoMuse\proj.win32\Release.win32" ".\" /D /E /I /F /Y
 rem xcopy "..\LudoMuse\proj.win32\Release.win32\*.dll" ".\"
 rem xcopy "..\LudoMuse\proj.win32\Release.win32\*.lib" ".\"
 xcopy "..\LudoMuse\Resources" ".\" /D /E /I /F /Y
