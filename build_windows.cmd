@@ -10,9 +10,9 @@ set PATH=%QT%\bin\;C:\Qt\Tools\QtCreator\bin\;C:\Qt\QtIFW2.0.1\bin\;%PATH%
 call "C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\vcvarsall.bat" %PLATFORM%
 
 
-echo Building LudoMuseEditor...
-curl -s -O http://ihmtek-services.com/files/LudoMuse/deps.zip
-unzip -n deps.zip -d .
+rem echo Building LudoMuseEditor...
+rem curl -s -O http://ihmtek-services.com/files/LudoMuse/deps.zip
+rem unzip -n deps.zip -d .
 
 
 cd ../

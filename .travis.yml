@@ -70,3 +70,10 @@ deploy:
     on:
       tags: true
     branch: master
+
+
+
+
+notifications:
+  slack:
+    on_failure: never
