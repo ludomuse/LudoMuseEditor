@@ -11,6 +11,7 @@ export COCOS=$PREF/cocos2d-x-3.16/tools/cocos2d-console/bin/cocos
 $PREF/LudoMuseEditor/install_glfw.sh
 echo "creating LudoMuse cocos project"
 stat $COCOS
+cd $PREF
 yes N | $COCOS new LudoMuse -l cpp -p com.IHMTEK.LudoMuse
 $PREF/LudoMuseEditor/configure-LudoMuse-linux.sh $COCOS
 cd $PREF/LudoMuseEditor
