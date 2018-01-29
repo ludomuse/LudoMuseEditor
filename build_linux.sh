@@ -2,7 +2,7 @@
 #sudo rm $GCC_PATH
 #sudo ln -s $(dirname GCC_PATH)/g++-7 $GCC_PATH
 echo "Build will use g++ version :"
-export CXX=CXX=/usr/bin/g++-7
+export CXX=/usr/bin/g++-7
 $CXX --version
 cd libs/quazip/linux_build
 rm *
