@@ -1,4 +1,4 @@
-cp -r $TRAVIS_BUILD_DIR/../LudoMuse/bin/release/linux/{LudoMuse.exe,lib} $HOME/LudoMuseEditor_build
+cp -r $TRAVIS_BUILD_DIR/../LudoMuse/bin/release/linux/{LudoMuse.exe,lib,Resources} $HOME/LudoMuseEditor_build
 rm $HOME/LudoMuseEditor_build/{*.obj,*.o,*.h,*.cpp}
 cp -r $TRAVIS_BUILD_DIR/buildFiles/* $HOME/LudoMuseEditor_build
 

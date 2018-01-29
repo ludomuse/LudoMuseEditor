@@ -21,6 +21,7 @@ cd LudoMuseEditorWin
 copy ../LudoMuse/proj.win32/Release.win32/LudoMuse.exe ./
 copy ../LudoMuse/proj.win32/Release.win32/*.dll ./
 copy ../LudoMuse/proj.win32/Release.win32/*.lib ./
+xcopy "..\LudoMuse\Resources" ".\" /D /E /I /F /Y
 qmake -spec win32-msvc2015 CONFIG+=x86_64 CONFIG-=debug CONFIG+=release ../LudoMuseEditor
 nmake
 
