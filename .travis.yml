@@ -30,19 +30,19 @@ git:
 sudo: required
 
 before_install:
-  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then travis_wait bash ./before_build_linux.sh; fi
-  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then travis_wait bash ./before_build_osx.sh; fi
+  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then travis_wait 50 bash ./before_build_linux.sh; fi
+  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then travis_wait 50 bash ./before_build_osx.sh; fi
 
 script:
   # - echo "g++-7 ?"
   # - /usr/bin/g++-7 --version
-  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then travis_wait bash ./build_linux.sh; fi
-  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then travis_wait bash ./build_osx.sh; fi
+  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then travis_wait 50 bash ./build_linux.sh; fi
+  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then travis_wait 50 bash ./build_osx.sh; fi
 
   
 before_deploy:
-  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then travis_wait bash ./before_deploy_linux.sh; fi
-  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then travis_wait bash ./before_deploy_osx.sh; fi
+  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then travis_wait 50 bash ./before_deploy_linux.sh; fi
+  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then travis_wait 50 bash ./before_deploy_osx.sh; fi
   
 deploy:
   - provider: script
