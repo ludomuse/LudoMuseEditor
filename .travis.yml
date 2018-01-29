@@ -36,18 +36,8 @@ before_install:
 script:
   # - echo "g++-7 ?"
   # - /usr/bin/g++-7 --version
-  # - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then ./build_linux.sh; fi
-  # - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then ./build_osx.sh; fi
-  - cd libs/quazip/linux_build
-  - rm *
-  - /opt/qt58/bin/qmake ../quazip.pro CONFIG-=debug CONFIG+=release
-  - make CXX=/usr/bin/g++-7
-  - cd ../../../../
-  - mkdir $HOME/LudoMuseEditor_build
-  - cd $HOME/LudoMuseEditor_build
-  - /opt/qt58/bin/qmake --version
-  - /opt/qt58/bin/qmake CONFIG+=x86_64 CONFIG-=debug CONFIG+=release $TRAVIS_BUILD_DIR/LudoMuseEditor.pro
-  - make CXX=/usr/bin/g++-7
+  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then ./build_linux.sh; fi
+  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then ./build_osx.sh; fi
 
 
   
