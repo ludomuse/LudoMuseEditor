@@ -18,9 +18,9 @@ rem unzip -n deps.zip -d .
 cd ../
 mkdir LudoMuseEditorWin
 cd LudoMuseEditorWin
-copy ../LudoMuse/proj.win32/Debug.win32/LudoMuse.exe ./
-copy ../LudoMuse/proj.win32/Debug.win32/*.dll ./
-copy ../LudoMuse/proj.win32/Debug.win32/*.lib ./
+copy ../LudoMuse/proj.win32/Release.win32/LudoMuse.exe ./
+copy ../LudoMuse/proj.win32/Release.win32/*.dll ./
+copy ../LudoMuse/proj.win32/Release.win32/*.lib ./
 qmake -spec win32-msvc2015 CONFIG+=x86_64 CONFIG-=debug CONFIG+=release ../LudoMuseEditor
 nmake
 
