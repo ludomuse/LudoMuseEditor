@@ -7,5 +7,5 @@ cd ../
 mkdir LudoMuseEditorLinux
 cd LudoMuseEditorLinux
 qmake --version
-qmake ../LudoMuseEditor/LudoMuseEditor.pro
-make
+qmake CONFIG+=x86_64 CONFIG-=debug CONFIG+=release $TRAVIS_BUILD_DIR/LudoMuseEditor.pro 
+make LDFLAGS=$LDFLAGS CPPFLAGS=$CPPFLAGS
