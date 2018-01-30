@@ -391,7 +391,7 @@ QMAKE_RPATHDIR += @executable_path/
 QMAKE_RPATHDIR += @executable_path/../Plugins/platforms/
 CXXFLAGS = -stdlib=libstdc++
 INCLUDEPATH += /usr/local/include/GLFW/
-LIBS += -L/usr/local/lib/ -lglfw3 -lstdc++
+LIBS += -L/usr/local/lib/ -lglfw -lstdc++
 LIBS += -L$${LUDOMUSE_PATH}/prebuilt -lcocos2d\ Mac
 LIBS += -framework Cocoa -framework CoreAudio -framework CoreFoundation -framework Foundation
 LIBS += -liconv -lz -framework Security -framework IOKit -framework OpenGL -framework AppKit -framework Foundation -framework QuartzCore -framework OpenAL -framework AVFoundation -framework AudioToolbox
