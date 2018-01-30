@@ -15,23 +15,22 @@ rem curl -s -O http://ihmtek-services.com/files/LudoMuse/deps.zip
 rem unzip -n deps.zip -d .
 
 
-cd ../
 mkdir LudoMuseEditorWin
 cd LudoMuseEditorWin
 echo "trying to copy files from LudoMuse build"
-dir "..\LudoMuse\proj.win32\Release.win32"
-xcopy "..\LudoMuse\proj.win32\Release.win32" ".\" /D /E /I /F /Y
+dir "..\..\LudoMuse\proj.win32\Release.win32"
+xcopy "..\..\LudoMuse\proj.win32\Release.win32" ".\" /D /E /I /F /Y
 rem xcopy "..\LudoMuse\proj.win32\Release.win32\*.dll" ".\"
 rem xcopy "..\LudoMuse\proj.win32\Release.win32\*.lib" ".\"
-xcopy ..\LudoMuse\Resources\ .\ /D /E /I /F /Y
-qmake -spec win32-msvc2015 CONFIG+=x86_64 CONFIG-=debug CONFIG+=release ../LudoMuseEditor
+xcopy ..\..\LudoMuse\Resources\ .\ /D /E /I /F /Y
+qmake -spec win32-msvc2015 CONFIG+=x86_64 CONFIG-=debug CONFIG+=release ../LudoMuseEditor.pro LUDOMUSE_PATH=../../LudoMuse
 nmake
 
 windeployqt LudoMuseEditor.exe
 
 cd ..
 
-xcopy LudoMuseEditor\buildFiles\ LudoMuseEditorWin\ /D /E /I /F /Y
+xcopy buildFiles\ LudoMuseEditorWin\ /D /E /I /F /Y
 
 curl -s "https://ihmtek-services.com/files/LudoMuse/video.mp4" -o LudoMuseEditorWin/default/cache/video.mp4
 
