@@ -22,7 +22,7 @@ curl -s "https://ihmtek-services.com/files/LudoMuse/video.mp4" > $HOME/LudoMuseE
 
 
 # get libs dependencies
-export CPY="libQt5OpenGL.so.5 libQt5Widgets.so.5 libQt5Gui.so.5 libQt5Core.so.5 libpng12.so.0 libGLEW.so.1.10 libglfw.so.3 libicui18n.so.52 libicuuc.so.52"
+export CPY="libQt5OpenGL.so.5 libQt5Widgets.so.5 libQt5Gui.so.5 libQt5Core.so.5 libpng12.so.0 libGLEW.so.1.10 libglfw.so.3 libicui18n.so.52 libicuuc.so.52 libicudata.so.52"
 
 export LIBS=$(ldd $HOME/LudoMuseEditorLinux/LudoMuseEditor | grep " => /" | cut -d " " -f 3-3 | sort | uniq)
 
