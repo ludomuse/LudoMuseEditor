@@ -14,23 +14,26 @@ rem echo Building LudoMuseEditor...
 rem curl -s -O http://ihmtek-services.com/files/LudoMuse/deps.zip
 rem unzip -n deps.zip -d .
 
-
+cd %APPVEYOR_BUILD_FOLDER%
 mkdir LudoMuseEditorWin
-cd LudoMuseEditorWin
-echo "trying to copy files from LudoMuse build"
-dir "..\..\LudoMuse\proj.win32\Release.win32"
-xcopy "..\..\LudoMuse\proj.win32\Release.win32" ".\" /D /E /I /F /Y
+rem cd LudoMuseEditorWin
+rem echo "trying to copy files from LudoMuse build"
+rem dir "..\..\LudoMuse\proj.win32\Release.win32"
+rem xcopy "..\..\LudoMuse\proj.win32\Release.win32" ".\" /D /E /I /F /Y
 rem xcopy "..\LudoMuse\proj.win32\Release.win32\*.dll" ".\"
 rem xcopy "..\LudoMuse\proj.win32\Release.win32\*.lib" ".\"
-xcopy ..\..\LudoMuse\Resources\ .\ /D /E /I /F /Y
+rem xcopy ..\..\LudoMuse\Resources\ .\ /D /E /I /F /Y
 qmake -spec win32-msvc2015 CONFIG+=x86_64 CONFIG-=debug CONFIG+=release ../LudoMuseEditor.pro LUDOMUSE_PATH=../../LudoMuse
 nmake
+nmake INSTALL_ROOT=LudoMuseEditorWin install
+
+cd LudoMuseEditorWin
 
 windeployqt LudoMuseEditor.exe
 
 cd ..
 
-xcopy buildFiles\ LudoMuseEditorWin\ /D /E /I /F /Y
+rem xcopy deploy\common LudoMuseEditorWin\ /D /E /I /F /Y
 
 curl -s "https://ihmtek-services.com/files/LudoMuse/video.mp4" -o LudoMuseEditorWin/default/cache/video.mp4
 
@@ -43,9 +46,9 @@ REM echo Packaging...
 REM cd %project_dir%\build\windows\msvc\x86_64\release\
 REM windeployqt LudoMuseEditor.exe
 
-rd /s /q LudoMuseEditorWin\moc\
-rd /s /q LudoMuseEditorWin\obj\
-rd /s /q LudoMuseEditorWin\qrc\
+rem rd /s /q LudoMuseEditorWin\moc\
+rem rd /s /q LudoMuseEditorWin\obj\
+rem rd /s /q LudoMuseEditorWin\qrc\
 
 7z a LudoMuseEditor-win-%APPVEYOR_BUILD_NUMBER%-portable.zip LudoMuseEditorWin
 

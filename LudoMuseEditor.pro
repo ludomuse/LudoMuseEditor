@@ -322,6 +322,17 @@ LIBS += -L$${PWD}/libs -lfreetype \
          -lUser32 \
          -lWs2_32 \
 
+
+data.files += $$LUDOMUSE_PATH/Resources/*
+data.files += $$LUDOMUSE_PATH/proj.win32/Release.win32/LudoMuse.exe
+
+libs.path = $$PREFIX/lib
+libs.files += $$LUDOMUSE_PATH/proj.win32/Release.win32/*.dll
+libs.files += libs/quazip/Debug/quazip5d.dll
+
+INSTALLS += libs
+
+
 }
 
 
