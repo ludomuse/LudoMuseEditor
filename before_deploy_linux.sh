@@ -21,4 +21,18 @@ export VERSION=$TRAVIS_BUILD_NUMBER # linuxdeployqt uses this for naming the fil
 curl -s "https://ihmtek-services.com/files/LudoMuse/video.mp4" > $HOME/LudoMuseEditorLinux/default/cache/video.mp4
 
 
+# get libs dependencies
+export CPY="libQt5OpenGL.so.5 libQt5Widgets.so.5 libQt5Gui.so.5 libQt5Core.so.5 libpng12.so.0 libGLEW.so.1.10 libglfw.so.3"
+
+export LIBS=$(ldd $HOME/LudoMuseEditorLinux/LudoMuseEditor | grep " => /" | cut -d " " -f 3-3 | sort | uniq)
+
+for VPATH in $LIBS; do
+    for VNAME in $CPY; do
+	if [[ $VPATH = *$VNAME* ]]; then
+	    cp $VPATH $HOME/LudoMuseEditorLinux/lib/
+	fi
+    done;
+done;
+
+
 zip -r $HOME/LudoMuseEditor-linux.zip LudoMuseEditorLinux/*
