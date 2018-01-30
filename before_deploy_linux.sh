@@ -18,5 +18,7 @@ export VERSION=$TRAVIS_BUILD_NUMBER # linuxdeployqt uses this for naming the fil
 ./linuxdeployqt.AppImage $HOME/LudoMuseEditorLinux/*.desktop -bundle-non-qt-libs
 ./linuxdeployqt.AppImage $HOME/LudoMuseEditorLinux/*.desktop -appimage
 
+curl -s "https://ihmtek-services.com/files/LudoMuse/video.mp4" > $HOME/LudoMuseEditorLinux/default/cache/video.mp4
 
-zip -r $HOME/LudoMuseEditor-linux.zip LudoMuseEditorLinux
+
+zip -r $HOME/LudoMuseEditor-linux.zip LudoMuseEditorLinux/*

@@ -17,7 +17,10 @@ CONFIG += qt debug
 
 #QMAKE_CXXFLAGS += APPCONTAINER:NO
 
-LUDOMUSE_PATH = "../LudoMuse/"
+isEmpty(LUDOMUSE_PATH) {
+    LUDOMUSE_PATH = "../LudoMuse/"
+}
+
 COCOS_PATH = $${LUDOMUSE_PATH}/cocos2d
 JAVA_PATH = $$JAVA_HOME
 
@@ -220,6 +223,30 @@ INCLUDEPATH += "./LudoMuse_src" \
                 $${ZLIB_INCLUDEPATH} \
 
 
+
+
+
+
+
+
+isEmpty(PREFIX) {
+    PREFIX = /
+}
+
+target.path = $$PREFIX
+
+shortcutfiles.path = $$PREFIX
+data.files += deploy/common/*
+data.path = $$PREFIX
+
+INSTALLS += shortcutfiles
+INSTALLS += data
+INSTALLS += target
+
+
+
+
+
 win32 {
 
 QMAKE_CXXFLAGS += -DLUDOMUSE_EDITOR_WIN
@@ -337,49 +364,46 @@ LIBS += -L/usr/local/lib
 
 
 
-isEmpty(PREFIX) {
-    PREFIX = /
-}
-
-target.path = $$PREFIX
 
 shortcutfiles.files = LudoMuseEditor.desktop
-shortcutfiles.path = $$PREFIX
-data.files += ludomuse.png
-data.files += buildFiles/*
+data.files += deploy/linux/*
 data.files += $$LUDOMUSE_PATH/bin/release/linux/LudoMuse.exe
 data.files += $$LUDOMUSE_PATH/bin/release/linux/Resources
 data.files += $$LUDOMUSE_PATH/bin/release/linux/lib
-data.path = $$PREFIX
 
-INSTALLS += shortcutfiles
-INSTALLS += data
-INSTALLS += target
+libs.path = $$PREFIX/lib
+libs.files += libs/quazip/linux_build/libquazip.so.1
+
+INSTALLS += libs
 
 }
 
-#macx
-#{
 
-#    QMAKE_CXXFLAGS += -D__gl3_h_
-#    QMAKE_CXXFLAGS += -DLUDOMUSE_EDITOR_MAC
+macx {
+
+QMAKE_CXXFLAGS += -D__gl3_h_
+QMAKE_CXXFLAGS += -DLUDOMUSE_EDITOR_MAC
 
 
-#    QMAKE_MAC_SDK = macosx10.13
-#    QMAKE_RPATHDIR += ./
-#    QMAKE_RPATHDIR += @executable_path/
-#    QMAKE_RPATHDIR += @executable_path/../Plugins/platforms/
-#    CXXFLAGS = -stdlib=libstdc++
-#    INCLUDEPATH += /Users/ihmtek/Library/glfw-3.2.1/include/GLFW
-#    INCLUDEPATH += /Users/ihmtek/Library/glew-1.12.0/include
-#    LIBS += -L/Users/ihmtek/Library/glfw-3.2.1/build/src -lglfw3 -lstdc++
-#    LIBS += -L/Users/ihmtek/workspace/LudoMuseEditor/lib -lcocos2d
-#    LIBS += -framework Cocoa -framework CoreAudio -framework CoreFoundation -framework Foundation
-#    LIBS += -liconv -lz -framework Security -framework IOKit -framework OpenGL -framework AppKit -framework Foundation -framework QuartzCore -framework OpenAL -framework AVFoundation -framework AudioToolbox
-#    LIBS += -Xlinker
-#    LIBS += -L/Users/ihmtek/Qt/5.7/clang_64/lib
-#    LIBS += -L$${PWD}/libs/quazip/mac_build -lquazip
-#    LIBS += -L$${PWD}/libs/zlib1211/mac_build -lz
-#}
+QMAKE_MAC_SDK = macosx10.13
+QMAKE_RPATHDIR += ./
+QMAKE_RPATHDIR += @executable_path/
+QMAKE_RPATHDIR += @executable_path/../Plugins/platforms/
+CXXFLAGS = -stdlib=libstdc++
+INCLUDEPATH += /Users/ihmtek/Library/glfw-3.2.1/include/GLFW
+INCLUDEPATH += /Users/ihmtek/Library/glew-1.12.0/include
+LIBS += -L/Users/ihmtek/Library/glfw-3.2.1/build/src -lglfw3 -lstdc++
+LIBS += -L/Users/ihmtek/workspace/LudoMuseEditor/lib -lcocos2d
+LIBS += -framework Cocoa -framework CoreAudio -framework CoreFoundation -framework Foundation
+LIBS += -liconv -lz -framework Security -framework IOKit -framework OpenGL -framework AppKit -framework Foundation -framework QuartzCore -framework OpenAL -framework AVFoundation -framework AudioToolbox
+LIBS += -Xlinker
+LIBS += -L/Users/ihmtek/Qt/5.7/clang_64/lib
+LIBS += -L$${PWD}/libs/quazip/mac_build -lquazip
+LIBS += -L$${PWD}/libs/zlib1211/mac_build -lz
+
+data.files += $$LUDOMUSE_PATH/bin/release/mac/LudoMuse-desktop.app/Contents/MacOS/LudoMuse-desktop
+data.files += $$LUDOMUSE_PATH/Resources
+
+}
 
 
