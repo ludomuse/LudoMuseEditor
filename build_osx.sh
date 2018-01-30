@@ -4,8 +4,8 @@
 #make
 #cd ../../../../
 cd ../
-mkdir LudoMuseEditorLinux
-cd LudoMuseEditorLinux
+mkdir LudoMuseEditor_build
+cd LudoMuseEditor_build
 echo "starting build with env"
 echo $LDFLAGS
 echo $CPPFLAGS
