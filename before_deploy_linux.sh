@@ -20,6 +20,16 @@ export VERSION=$TRAVIS_BUILD_NUMBER # linuxdeployqt uses this for naming the fil
 
 curl -s "https://ihmtek-services.com/files/LudoMuse/video.mp4" > $HOME/LudoMuseEditorLinux/default/cache/video.mp4
 
+echo "locating xcb"
+locate libqxcb
+
+mkdir $HOME/LudoMuseEditor/platforms/
+mkdir $HOME/LudoMuseEditor/xcbglintegrations/
+cp /opt/qt58/lib/plugins/platforms/libqxcb.so $HOME/LudoMuseEditor/platforms/
+cp /opt/qt58/lib/plugins/xcbglintegrations/libqxcb-egl-integration.so $HOME/LudoMuseEditor/xcbglintegrations/
+cp /opt/qt58/lib/plugins/xcbglintegrations/libqxcb-glx-integration.so $HOME/LudoMuseEditor/xcbglintegrations/
+
+
 
 # get libs dependencies
 export CPY="libQt5OpenGL.so.5 libQt5Widgets.so.5 libQt5Gui.so.5 libQt5Core.so.5 libpng12.so.0 libGLEW.so.1.10 libglfw.so.3 libicui18n.so.52 libicuuc.so.52 libicudata.so.52"
