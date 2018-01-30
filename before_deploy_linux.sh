@@ -1,10 +1,22 @@
-cp -r $TRAVIS_BUILD_DIR/../LudoMuse/bin/release/linux/{LudoMuse.exe,lib,Resources} $TRAVIS_BUILD_DIR/../LudoMuseEditor_build
-rm $TRAVIS_BUILD_DIR/../LudoMuseEditor_build/{*.obj,*.o,*.h,*.cpp}
-cp -r $TRAVIS_BUILD_DIR/buildFiles/* $TRAVIS_BUILD_DIR/../LudoMuseEditor_build
+mkdir $HOME/LudoMuseEditorLinux
+cd $TRAVIS_BUILD_DIR/../LudoMuseEditor_build
+make INSTALL_ROOT=$HOME/LudoMuseEditorLinux -j$(nproc) install ; find $HOME/LudoMuseEditorLinux/
 
-curl -s -O "https://github.com/probonopd/linuxdeployqt/releases/download/continuous/linuxdeployqt-continuous-x86_64.AppImage"
-chmod a+x linuxdeployqt*.AppImage
-./linuxdeployqt*.AppImage $TRAVIS_BUILD_DIR/../LudoMuseEditor_build/LudoMuseEditor -bundle-non-qt-libs
-./linuxdeployqt*.AppImage $TRAVIS_BUILD_DIR/../LudoMuseEditor_build/LudoMuseEditor -appimage
+# cp -r $TRAVIS_BUILD_DIR/../LudoMuse/bin/release/linux/{LudoMuse.exe,lib,Resources} $HOME/LudoMuseEditorLinux
+# cp -r $TRAVIS_BUILD_DIR/{ludomuse.png,LudoMuseEditor.desktop} $HOME/LudoMuseEditorLinux
+# rm $TRAVIS_BUILD_DIR/../LudoMuseEditor_build/{*.o,*.h,*.cpp,Makefile}
+# cp -r $TRAVIS_BUILD_DIR/buildFiles/* $HOME/LudoMuseEditorLinux
 
-zip -r $HOME/LudoMuseEditor-linux.zip $TRAVIS_BUILD_DIR/../LudoMuseEditor_build
+curl -s "https://github-production-release-asset-2e65be.s3.amazonaws.com/67432158/4a731c68-0506-11e8-86a2-9c89c14f0941?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAIWNJYAX4CSVEH53A%2F20180130%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20180130T095903Z&X-Amz-Expires=300&X-Amz-Signature=d8aed99e265db81eb8e45306ef82528b9007a689bad8495a217a9d0632214dbd&X-Amz-SignedHeaders=host&actor_id=2983006&response-content-disposition=attachment%3B%20filename%3Dlinuxdeployqt-continuous-x86_64.AppImage&response-content-type=application%2Foctet-stream" > linuxdeployqt.AppImage
+chmod a+x linuxdeployqt.AppImage
+
+cd $HOME
+
+unset QTDIR; unset QT_PLUGIN_PATH ; unset LD_LIBRARY_PATH
+export VERSION=$TRAVIS_BUILD_NUMBER # linuxdeployqt uses this for naming the file
+
+./linuxdeployqt.AppImage $HOME/LudoMuseEditorLinux/*.desktop -bundle-non-qt-libs
+./linuxdeployqt.AppImage $HOME/LudoMuseEditorLinux/*.desktop -appimage
+
+
+zip -r $HOME/LudoMuseEditor-linux.zip LudoMuseEditorLinux

@@ -336,6 +336,26 @@ LIBS += -L/usr/local/lib
 #LIBS += -L$${LUDOMUSE_PATH}/prebuilt/ -lbullet
 
 
+
+isEmpty(PREFIX) {
+    PREFIX = /
+}
+
+target.path = $$PREFIX
+
+shortcutfiles.files = LudoMuseEditor.desktop
+shortcutfiles.path = $$PREFIX
+data.files += ludomuse.png
+data.files += buildFiles/*
+data.files += $$LUDOMUSE_PATH/bin/release/linux/LudoMuse.exe
+data.files += $$LUDOMUSE_PATH/bin/release/linux/Resources
+data.files += $$LUDOMUSE_PATH/bin/release/linux/lib
+data.path = $$PREFIX
+
+INSTALLS += shortcutfiles
+INSTALLS += data
+INSTALLS += target
+
 }
 
 #macx
