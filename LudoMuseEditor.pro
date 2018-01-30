@@ -367,7 +367,7 @@ LIBS += -L/usr/local/lib
 
 shortcutfiles.files = LudoMuseEditor.desktop
 data.files += deploy/linux/*
-data.files += $$LUDOMUSE_PATH/bin/release/linux/LudoMuse.exe
+data.files += $$LUDOMUSE_PATH/bin/release/linux/LudoMuse
 data.files += $$LUDOMUSE_PATH/bin/release/linux/Resources
 data.files += $$LUDOMUSE_PATH/bin/release/linux/lib
 
@@ -401,7 +401,7 @@ LIBS += -L/Users/ihmtek/Qt/5.7/clang_64/lib
 LIBS += -L$${PWD}/libs/quazip/mac_build -lquazip
 LIBS += -L$${PWD}/libs/zlib1211/mac_build -lz
 
-data.files += $$LUDOMUSE_PATH/bin/release/mac/LudoMuse-desktop.app/Contents/MacOS/LudoMuse-desktop
+data.files += $$LUDOMUSE_PATH/bin/release/mac/LudoMuse.app/Contents/MacOS/LudoMuse
 data.files += $$LUDOMUSE_PATH/Resources
 
 }

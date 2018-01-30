@@ -402,7 +402,7 @@ void CMainWindow::deleteScene(QString a_sSceneID, bool a_bIsSync)
 
 void CMainWindow::launchEmulator()
 {
-    QString execPath = CProjectManager::Instance()->QGetInstallPath() + "/LudoMuse.exe";
+    QString execPath = CProjectManager::Instance()->QGetInstallPath() + "/LudoMuse";
     QString jsonPath = CProjectManager::Instance()->QGetProjectPath() + CProjectManager::Instance()->QGetProjectName() + ".tmp";
     produceJson(jsonPath);
     //    QString cmd = execPath + " server " + CProjectManager::Instance()->QGetProjectJsonFile();
