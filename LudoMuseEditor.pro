@@ -390,14 +390,12 @@ QMAKE_RPATHDIR += ./
 QMAKE_RPATHDIR += @executable_path/
 QMAKE_RPATHDIR += @executable_path/../Plugins/platforms/
 CXXFLAGS = -stdlib=libstdc++
-INCLUDEPATH += /Users/ihmtek/Library/glfw-3.2.1/include/GLFW
-INCLUDEPATH += /Users/ihmtek/Library/glew-1.12.0/include
-LIBS += -L/Users/ihmtek/Library/glfw-3.2.1/build/src -lglfw3 -lstdc++
-LIBS += -L/Users/ihmtek/workspace/LudoMuseEditor/lib -lcocos2d
+INCLUDEPATH += /usr/local/include/GLFW/
+LIBS += -L/usr/local/lib/ -lglfw3 -lstdc++
+LIBS += -L$${LUDOMUSE_PATH}/prebuilt -lcocos2d\ Mac
 LIBS += -framework Cocoa -framework CoreAudio -framework CoreFoundation -framework Foundation
 LIBS += -liconv -lz -framework Security -framework IOKit -framework OpenGL -framework AppKit -framework Foundation -framework QuartzCore -framework OpenAL -framework AVFoundation -framework AudioToolbox
 LIBS += -Xlinker
-LIBS += -L/Users/ihmtek/Qt/5.7/clang_64/lib
 LIBS += -L$${PWD}/libs/quazip/mac_build -lquazip
 LIBS += -L$${PWD}/libs/zlib1211/mac_build -lz
 
