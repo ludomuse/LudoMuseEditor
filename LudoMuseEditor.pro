@@ -399,8 +399,6 @@ LIBS += -Xlinker
 LIBS += -L$${PWD}/libs/quazip/mac_build -lquazip
 LIBS += -L$${PWD}/libs/zlib1211/mac_build -lz
 
-data.files += $$LUDOMUSE_PATH/bin/release/mac/LudoMuse.app/Contents/MacOS/LudoMuse
-data.files += $$LUDOMUSE_PATH/Resources
 
 }
 
