@@ -30,10 +30,10 @@ build_script:
   - call "build_windows.cmd"
 
 artifacts:
-  - path: build\windows\msvc\x86\release\LudoMuseEditor$(appveyor_repo_tag_name)_windows_x86_portable.zip
+  - path: $(APPVEYOR_BUILD_FOLDER)\..\LudoMuseEditorWin.zip
     name: portable
-  - path: installer\windows\x86\LudoMuseEditor$(appveyor_repo_tag_name)_windows_x86_installer.exe
-    name: installer
+  # - path: installer\windows\x86\LudoMuseEditor$(appveyor_repo_tag_name)_windows_x86_installer.exe
+  #   name: installer
 
 deploy:
   - provider: GitHub

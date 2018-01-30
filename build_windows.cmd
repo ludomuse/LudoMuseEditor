@@ -23,9 +23,20 @@ dir "..\LudoMuse\proj.win32\Release.win32"
 xcopy "..\LudoMuse\proj.win32\Release.win32" ".\" /D /E /I /F /Y
 rem xcopy "..\LudoMuse\proj.win32\Release.win32\*.dll" ".\"
 rem xcopy "..\LudoMuse\proj.win32\Release.win32\*.lib" ".\"
-xcopy "..\LudoMuse\Resources" ".\" /D /E /I /F /Y
+xcopy ..\LudoMuse\Resources\* .\ /D /E /I /F /Y
 qmake -spec win32-msvc2015 CONFIG+=x86_64 CONFIG-=debug CONFIG+=release ../LudoMuseEditor
 nmake
+
+windeployqt LudoMuseEditor.exe
+
+cd ..
+
+xcopy LudoMuseEditor\buildFiles\* LudoMuseEditorWin\ /D /E /I /F /Y
+
+curl -s "https://ihmtek-services.com/files/LudoMuse/video.mp4" -o LudoMuseEditorWin/default/cache/video.mp4
+
+rem zip -r LudoMuseEditor-win32.zip LudoMuseEditorWin
+
 
 rem echo Running tests...
 
@@ -33,9 +44,12 @@ REM echo Packaging...
 REM cd %project_dir%\build\windows\msvc\x86_64\release\
 REM windeployqt LudoMuseEditor.exe
 
-rem rd /s /q LudoMuseEditor\moc\
-rem rd /s /q LudoMuseEditor\obj\
-rem rd /s /q LudoMuseEditor\qrc\
+rd /s /q LudoMuseEditorWin\moc\
+rd /s /q LudoMuseEditorWin\obj\
+rd /s /q LudoMuseEditorWin\qrc\
+
+7z a LudoMuseEditor-win-%APPVEYOR_BUILD_NUMBER%-portable.zip LudoMuseEditorWin
+
 
 rem echo Copying project files for archival...
 rem copy "%project_dir%\README.md" "LudoMuseEditor\README.md"
