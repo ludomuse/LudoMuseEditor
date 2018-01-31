@@ -32,7 +32,7 @@ install_name_tool -change /usr/local/Cellar/qt@5.7/5.7.1/lib/QtCore.framework/Ve
 
 # QtWidgets
 install_name_tool -change /usr/local/Cellar/qt@5.7/5.7.1/lib/QtGui.framework/Versions/5/QtGui @executable_path/../Frameworks/QtGui.framework/Versions/5/QtGui $HOME/LudoMuseEditor.app/Contents/Frameworks/QtWidgets.framework/Versions/5/QtWidgets
-install_name_tool -change /usr/local/Cellar/qt@5.7/5.7.1/lib/QtCore.framework/Versions/5/QtCore @executable_path/../Frameworks/QtCore.framework/Versions/5/QtCore $HOME/LudoMuseEditor.app/Contents/Frameworks/QWidgets.framework/Versions/5/QWidgets
+install_name_tool -change /usr/local/Cellar/qt@5.7/5.7.1/lib/QtCore.framework/Versions/5/QtCore @executable_path/../Frameworks/QtCore.framework/Versions/5/QtCore $HOME/LudoMuseEditor.app/Contents/Frameworks/QtWidgets.framework/Versions/5/QtWidgets
 
 # QtOpenGL
 install_name_tool -change /usr/local/Cellar/qt@5.7/5.7.1/lib/QtCore.framework/Versions/5/QtCore @executable_path/../Frameworks/QtCore.framework/Versions/5/QtCore $HOME/LudoMuseEditor.app/Contents/Frameworks/QtOpenGL.framework/Versions/5/QtOpenGL

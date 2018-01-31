@@ -17,15 +17,15 @@ curl -s "https://ihmtek-services.com/files/LudoMuse/video.mp4" > $HOME/LudoMuseE
 # sudo updatedb
 # locate libqxcb
 
-# mkdir $HOME/LudoMuseEditorLinux/platforms/
-# mkdir $HOME/LudoMuseEditorLinux/xcbglintegrations/
-# cp /opt/qt58/plugins/platforms/libqxcb.so $HOME/LudoMuseEditorLinux/platforms/
-# cp /opt/qt58/plugins/xcbglintegrations/libqxcb-glx-integration.so $HOME/LudoMuseEditorLinux/xcbglintegrations/
+mkdir -p $HOME/LudoMuseEditorLinux/plugins/{platforms,xcbglintegrations}
+
+cp /opt/qt58/plugins/platforms/libqxcb.so $HOME/LudoMuseEditorLinux/plugins/platforms/
+cp /opt/qt58/plugins/xcbglintegrations/libqxcb-glx-integration.so $HOME/LudoMuseEditorLinux/plugins/xcbglintegrations/
 
 
 # get libs dependencies
-# export CPY="libQt5OpenGL.so.5 libQt5Widgets.so.5 libQt5Gui.so.5 libQt5Core.so.5 libpng12.so.0 libGLEW.so.1.10 libglfw.so.3 libicui18n.so.52 libicuuc.so.52 libicudata.so.52"
-export CPY="libpng12.so.0 libGLEW.so.1.10 libglfw.so.3"
+export CPY="libQt5OpenGL.so.5 libQt5Widgets.so.5 libQt5Gui.so.5 libQt5Core.so.5 libQt5XcbQpa.so.5 libQt5DBus.so.5 libpng12.so.0 libGLEW.so.1.10 libglfw.so.3 libicui18n.so.52 libicuuc.so.52 libicudata.so.52"
+# export CPY="libpng12.so.0 libGLEW.so.1.10 libglfw.so.3"
 
 export LIBS=$(ldd $HOME/LudoMuseEditorLinux/LudoMuseEditor | grep " => /" | cut -d " " -f 3-3 | sort | uniq)
 
@@ -44,13 +44,13 @@ chmod a+x linuxdeployqt-continuous-x86_64.AppImage
 
 
 unset QTDIR; unset QT_PLUGIN_PATH ; unset LD_LIBRARY_PATH
-export VERSION=$TRAVIS_BUILD_NUMBER # linuxdeployqt uses this for naming the file
+# export VERSION=$TRAVIS_BUILD_NUMBER # linuxdeployqt uses this for naming the file
 
-cd $HOME/LudoMuseEditorLinux
+# cd $HOME/LudoMuseEditorLinux
 
-$HOME/linuxdeployqt-continuous-x86_64.AppImage LudoMuseEditor.desktop -qmake=/opt/qt58/bin/qmake #-bundle-non-qt-libs
+# $HOME/linuxdeployqt-continuous-x86_64.AppImage LudoMuseEditor -qmake=/opt/qt58/bin/qmake #-bundle-non-qt-libs
 
 zip -r $HOME/LudoMuseEditor-linux.zip *
 
-
-# ./linuxdeployqt-continuous-x86_64.AppImage $HOME/LudoMuseEditorLinux/*.desktop -appimage -qmake=/opt/qt58/bin/qmake
+cd $HOME
+$HOME/linuxdeployqt-continuous-x86_64.AppImage $HOME/LudoMuseEditorLinux/*.desktop -appimage -qmake=/opt/qt58/bin/qmake
