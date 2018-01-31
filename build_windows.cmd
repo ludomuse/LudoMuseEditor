@@ -27,7 +27,7 @@ rem xcopy ..\..\LudoMuse\Resources\ .\ /D /E /I /F /Y
 cd ..\BUILD
 qmake -spec win32-msvc2015 CONFIG+=x86_64 CONFIG-=debug CONFIG+=release -config release ../LudoMuseEditor LUDOMUSE_PATH=../LudoMuse
 nmake
-nmake INSTALL_ROOT=../LudoMuseEditor/LudoMuseEditorWin install
+rem nmake INSTALL_ROOT=../LudoMuseEditor/LudoMuseEditorWin install
 
 cd ..\LudoMuseEditor\LudoMuseEditorWin
 
@@ -36,8 +36,15 @@ windeployqt LudoMuseEditor.exe
 cd ..
 
 rem xcopy deploy\common LudoMuseEditorWin\ /D /E /I /F /Y
+for /R BUILD %%a in (*.dll) do xcopy "%%a" LudoMuseEditor\LudoMuseEditorWin
+for /R BUILD %%a in (*.exe) do xcopy "%%a" LudoMuseEditor\LudoMuseEditorWin
+for /R BUILD %%a in (*.dll) do xcopy "%%a" LudoMuseEditor\LudoMuseEditorWin\debug
+for /R BUILD %%a in (*.dll) do xcopy "%%a" LudoMuseEditor\LudoMuseEditorWin\release
+xcopy LudoMuseEditor\deploy\common LudoMuseEditor\LudoMuseEditorWin /D /E /I /F /Y
+xcopy LudoMuse\Resources LudoMuseEditor\LudoMuseEditorWin /D /E /I /F /Y
 
-curl -s "https://ihmtek-services.com/files/LudoMuse/video.mp4" -o LudoMuseEditorWin/default/cache/video.mp4
+
+curl -s "https://ihmtek-services.com/files/LudoMuse/video.mp4" -o LudoMuseEditor\LudoMuseEditorWin\default\cache\video.mp4
 
 rem zip -r LudoMuseEditor-win32.zip LudoMuseEditorWin
 
@@ -52,6 +59,8 @@ rem rd /s /q LudoMuseEditorWin\moc\
 rem rd /s /q LudoMuseEditorWin\obj\
 rem rd /s /q LudoMuseEditorWin\qrc\
 
+echo "creating archive ..."
+cd LudoMuseEditor
 7z a LudoMuseEditor-win-%APPVEYOR_BUILD_NUMBER%-portable.zip LudoMuseEditorWin
 
 

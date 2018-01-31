@@ -48,7 +48,7 @@ export VERSION=$TRAVIS_BUILD_NUMBER # linuxdeployqt uses this for naming the fil
 
 cd $HOME/LudoMuseEditorLinux
 
-./linuxdeployqt-continuous-x86_64.AppImage LudoMuseEditor.desktop -qmake=/opt/qt58/bin/qmake #-bundle-non-qt-libs
+$HOME/linuxdeployqt-continuous-x86_64.AppImage LudoMuseEditor.desktop -qmake=/opt/qt58/bin/qmake #-bundle-non-qt-libs
 
 zip -r $HOME/LudoMuseEditor-linux.zip *
 
