@@ -16,8 +16,8 @@ rem unzip -n deps.zip -d .
 
 cd %APPVEYOR_BUILD_FOLDER%
 mkdir LudoMuseEditorWin
-mkdir BUILD
-cd BUILD
+mkdir ..\BUILD
+cd ..\BUILD
 rem cd LudoMuseEditorWin
 rem echo "trying to copy files from LudoMuse build"
 rem dir "..\..\LudoMuse\proj.win32\Release.win32"
@@ -25,11 +25,11 @@ rem xcopy "..\..\LudoMuse\proj.win32\Release.win32" ".\" /D /E /I /F /Y
 rem xcopy "..\LudoMuse\proj.win32\Release.win32\*.dll" ".\"
 rem xcopy "..\LudoMuse\proj.win32\Release.win32\*.lib" ".\"
 rem xcopy ..\..\LudoMuse\Resources\ .\ /D /E /I /F /Y
-qmake -spec win32-msvc2015 CONFIG+=x86_64 CONFIG-=debug CONFIG+=release ../LudoMuseEditor.pro LUDOMUSE_PATH=../../LudoMuse
+qmake -spec win32-msvc2015 CONFIG+=x86_64 CONFIG-=debug CONFIG+=release -config release ../LudoMuseEditor LUDOMUSE_PATH=../LudoMuse
 nmake
-nmake INSTALL_ROOT=../LudoMuseEditorWin install
+nmake INSTALL_ROOT=../LudoMuseEditor/LudoMuseEditorWin install
 
-cd ../LudoMuseEditorWin
+cd ../LudoMuseEditor/LudoMuseEditorWin
 
 windeployqt LudoMuseEditor.exe
 

@@ -10,5 +10,5 @@ echo "starting build with env"
 echo $LDFLAGS
 echo $CPPFLAGS
 /usr/local/opt/qt@5.7/bin/qmake --version
-/usr/local/opt/qt@5.7/bin/qmake CONFIG+=x86_64 CONFIG-=debug CONFIG+=release $TRAVIS_BUILD_DIR/LudoMuseEditor.pro
+/usr/local/opt/qt@5.7/bin/qmake CONFIG+=x86_64 CONFIG-=debug CONFIG+=release -config release $TRAVIS_BUILD_DIR/LudoMuseEditor.pro
 make LDFLAGS=$LDFLAGS CPPFLAGS=$CPPFLAGS

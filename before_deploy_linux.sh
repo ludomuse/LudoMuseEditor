@@ -23,7 +23,7 @@ cp /opt/qt58/plugins/platforms/libqxcb.so $HOME/LudoMuseEditorLinux/platforms/
 cp /opt/qt58/plugins/xcbglintegrations/libqxcb-glx-integration.so $HOME/LudoMuseEditorLinux/xcbglintegrations/
 
 
-get libs dependencies
+# get libs dependencies
 export CPY="libQt5OpenGL.so.5 libQt5Widgets.so.5 libQt5Gui.so.5 libQt5Core.so.5 libpng12.so.0 libGLEW.so.1.10 libglfw.so.3 libicui18n.so.52 libicuuc.so.52 libicudata.so.52"
 #export CPY="libpng12.so.0 libGLEW.so.1.10 libglfw.so.3"
 
