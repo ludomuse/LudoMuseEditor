@@ -10,6 +10,7 @@ curl -s "https://ihmtek-services.com/files/LudoMuse/video.mp4" > $HOME/LudoMuseE
 
 
 cp $TRAVIS_BUILD_DIR/libs/quazip/mac_build/libquazip.1.dylib $HOME/LudoMuseEditor.app/Contents/Frameworks/
+cp /usr/local/lib/libglfw.3.dylib $HOME/LudoMuseEditor.app/Contents/Frameworks/
 
 cp -r $TRAVIS_BUILD_DIR/../LudoMuse/Resources $HOME/LudoMuseEditor.app/Contents/
 cp $TRAVIS_BUILD_DIR/../LudoMuse/bin/release/mac/LudoMuse.app/Contents/MacOS/LudoMuse $HOME/LudoMuseEditor.app/Contents/MacOS
@@ -17,6 +18,7 @@ cp -r $TRAVIS_BUILD_DIR/deploy/common/* $HOME/LudoMuseEditor.app/Contents/MacOS
 
 
 install_name_tool -change libquazip.1.dylib @executable_path/../Frameworks/libquazip.1.dylib $HOME/LudoMuseEditor.app/Contents/MacOS/LudoMuseEditor
+install_name_tool -change lib/libglfw.3.dylib @executable_path/../Frameworks/libglfw.3.dylib $HOME/LudoMuseEditor.app/Contents/MacOS/LudoMuseEditor
 
 
 zip -r $HOME/LudoMuseEditor-osx.zip LudoMuseEditor.app

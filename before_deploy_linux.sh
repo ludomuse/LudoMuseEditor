@@ -10,16 +10,6 @@ make INSTALL_ROOT=$HOME/LudoMuseEditorLinux -j$(nproc) install ; find $HOME/Ludo
 
 cd $HOME
 
-wget -c -nv "https://github.com/probonopd/linuxdeployqt/releases/download/continuous/linuxdeployqt-continuous-x86_64.AppImage"
-
-chmod a+x linuxdeployqt-continuous-x86_64.AppImage
-
-
-unset QTDIR; unset QT_PLUGIN_PATH ; unset LD_LIBRARY_PATH
-export VERSION=$TRAVIS_BUILD_NUMBER # linuxdeployqt uses this for naming the file
-
-./linuxdeployqt-continuous-x86_64.AppImage $HOME/LudoMuseEditorLinux/*.desktop -qmake=/opt/qt58/bin/qmake #-bundle-non-qt-libs
-./linuxdeployqt-continuous-x86_64.AppImage $HOME/LudoMuseEditorLinux/*.desktop -appimage -qmake=/opt/qt58/bin/qmake
 
 curl -s "https://ihmtek-services.com/files/LudoMuse/video.mp4" > $HOME/LudoMuseEditorLinux/default/cache/video.mp4
 
@@ -27,16 +17,15 @@ curl -s "https://ihmtek-services.com/files/LudoMuse/video.mp4" > $HOME/LudoMuseE
 sudo updatedb
 locate libqxcb
 
-# mkdir $HOME/LudoMuseEditorLinux/platforms/
-# mkdir $HOME/LudoMuseEditorLinux/xcbglintegrations/
-# cp /opt/qt58/lib/platforms/libqxcb.so $HOME/LudoMuseEditor/platforms/
-# cp /opt/qt58/lib/xcbglintegrations/libqxcb-egl-integration.so $HOME/LudoMuseEditor/xcbglintegrations/
-# cp /opt/qt58/lib/xcbglintegrations/libqxcb-glx-integration.so $HOME/LudoMuseEditor/xcbglintegrations/
+mkdir $HOME/LudoMuseEditorLinux/platforms/
+mkdir $HOME/LudoMuseEditorLinux/xcbglintegrations/
+cp /opt/qt58/plugins/platforms/libqxcb.so $HOME/LudoMuseEditorLinux/platforms/
+cp /opt/qt58/plugins/xcbglintegrations/libqxcb-glx-integration.so $HOME/LudoMuseEditorLinux/xcbglintegrations/
 
 
 get libs dependencies
-#export CPY="libQt5OpenGL.so.5 libQt5Widgets.so.5 libQt5Gui.so.5 libQt5Core.so.5 libpng12.so.0 libGLEW.so.1.10 libglfw.so.3 libicui18n.so.52 libicuuc.so.52 libicudata.so.52"
-export CPY="libpng12.so.0 libGLEW.so.1.10 libglfw.so.3"
+export CPY="libQt5OpenGL.so.5 libQt5Widgets.so.5 libQt5Gui.so.5 libQt5Core.so.5 libpng12.so.0 libGLEW.so.1.10 libglfw.so.3 libicui18n.so.52 libicuuc.so.52 libicudata.so.52"
+#export CPY="libpng12.so.0 libGLEW.so.1.10 libglfw.so.3"
 
 export LIBS=$(ldd $HOME/LudoMuseEditorLinux/LudoMuseEditor | grep " => /" | cut -d " " -f 3-3 | sort | uniq)
 
@@ -50,3 +39,16 @@ done;
 
 
 zip -r $HOME/LudoMuseEditor-linux.zip LudoMuseEditorLinux/*
+
+
+
+# wget -c -nv "https://github.com/probonopd/linuxdeployqt/releases/download/continuous/linuxdeployqt-continuous-x86_64.AppImage"
+
+# chmod a+x linuxdeployqt-continuous-x86_64.AppImage
+
+
+# unset QTDIR; unset QT_PLUGIN_PATH ; unset LD_LIBRARY_PATH
+# export VERSION=$TRAVIS_BUILD_NUMBER # linuxdeployqt uses this for naming the file
+
+# ./linuxdeployqt-continuous-x86_64.AppImage $HOME/LudoMuseEditorLinux/*.desktop -qmake=/opt/qt58/bin/qmake #-bundle-non-qt-libs
+# ./linuxdeployqt-continuous-x86_64.AppImage $HOME/LudoMuseEditorLinux/*.desktop -appimage -qmake=/opt/qt58/bin/qmake
