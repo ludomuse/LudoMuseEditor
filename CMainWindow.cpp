@@ -220,6 +220,19 @@ void CMainWindow::loadExistingProject(const QString& a_sProjectFile)
     connect(m_pKernel, SIGNAL(captureFinished(QString)),
             this, SLOT(loadCapture(QString)));
 
+    /*CHAPTERSPROTOTYPE************************************************************************************************************************/
+    CTabPage *tabPage = new CTabPage();
+    QString tabName;
+    for (int i=0; i < m_pKernel->getChapterNumber();++i){
+        tabName = QString::fromStdString(m_pKernel->getChapterName(i));
+        if (i ==0){
+            ui->mmBotView->setTabText(i,tabName);
+        } else {
+            ui->mmBotView->insertTab(i,tabPage,tabName);
+        }
+    }
+    /******************************************************************************************************************************************/
+
     m_pTimeline = new CTimelineWidget(ui->timelineContainer);
     ui->timelineContainer->layout()->addWidget(m_pTimeline);
     connect(m_pTimeline, SIGNAL(thumbnailSelected()),
@@ -242,6 +255,8 @@ void CMainWindow::loadExistingProject(const QString& a_sProjectFile)
     connect(ui->macros, SIGNAL(macroModified()), this, SLOT(reloadScene()));
     connect(ui->macros, SIGNAL(deleteClicked()), this, SLOT(clearInspectorContainer()));
 //    CExplorerView *cev = new CExplorerView(projectPath);
+
+
 }
 
 void CMainWindow::receiveLabel(LM::CLabelNode* a_pLabel)
@@ -307,7 +322,7 @@ void CMainWindow::ShowCurrentScene()
 
 void CMainWindow::changeScene()
 {
-//    saveCapture();
+    //saveCapture();
     ShowCurrentScene();
 }
 
@@ -767,9 +782,9 @@ void CMainWindow::InspectScene(LM::CSceneNode* a_pScene)
     //    }
 
     // Searching which player have the scene
-    m_pKernel->SeeChapters();
     QString sceneId(a_pScene->GetSceneID().c_str());
     CSceneInspector* sceneInspector = Q_NULLPTR;
+
     if(m_pKernel->PlayerHasScene(sceneId.toStdString(), PLAYER_1)
             && m_pKernel->PlayerHasScene(sceneId.toStdString(), PLAYER_2)) //  P1 and P2
     {

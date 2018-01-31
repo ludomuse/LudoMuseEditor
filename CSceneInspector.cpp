@@ -241,7 +241,6 @@ CSceneInspector::CSceneInspector(LM::CSceneNode* a_pScene, int a_iPlayerID, QWid
     addChapterButton->setSizePolicy(QSizePolicy::Preferred,QSizePolicy::Maximum);
     addChapterButton->setStyleSheet("QPushButton{ border : 1px solid white; padding : 6px; color : white;}");
     addChapterButton->setFlat(true);
-
     QPushButton* deleteChapterButton = new QPushButton("Supprimer chapitre",buttonColWidget);
     deleteChapterButton->setSizePolicy(QSizePolicy::Preferred,QSizePolicy::Maximum);
     deleteChapterButton->setStyleSheet("QPushButton{ border : 1px solid white; padding : 6px; color : white;}");
