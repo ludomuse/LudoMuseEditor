@@ -33,10 +33,10 @@ rem nmake INSTALL_ROOT=../LudoMuseEditor/LudoMuseEditorWin install
 cd ..\
 
 rem xcopy deploy\common LudoMuseEditorWin\ /D /E /I /F /Y
-for /R BUILD %%a in (*.dll) do xcopy "%%a" LudoMuseEditor\LudoMuseEditorWin
-for /R BUILD %%a in (*.exe) do xcopy "%%a" LudoMuseEditor\LudoMuseEditorWin
-for /R BUILD %%a in (*.dll) do xcopy "%%a" LudoMuseEditor\LudoMuseEditorWin\debug
-for /R BUILD %%a in (*.dll) do xcopy "%%a" LudoMuseEditor\LudoMuseEditorWin\release
+for /R BUILD %%a in (*.dll) do xcopy /D /E /I /F /Y "%%a" LudoMuseEditor\LudoMuseEditorWin
+for /R BUILD %%a in (*.exe) do xcopy /D /E /I /F /Y "%%a" LudoMuseEditor\LudoMuseEditorWin
+for /R BUILD %%a in (*.dll) do xcopy /D /E /I /F /Y "%%a" LudoMuseEditor\LudoMuseEditorWin\debug
+for /R BUILD %%a in (*.dll) do xcopy /D /E /I /F /Y "%%a" LudoMuseEditor\LudoMuseEditorWin\release
 xcopy LudoMuseEditor\deploy\common LudoMuseEditor\LudoMuseEditorWin /D /E /I /F /Y
 xcopy LudoMuse\Resources LudoMuseEditor\LudoMuseEditorWin /D /E /I /F /Y
 

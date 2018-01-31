@@ -52,5 +52,5 @@ unset QTDIR; unset QT_PLUGIN_PATH ; unset LD_LIBRARY_PATH
 
 zip -r $HOME/LudoMuseEditor-linux.zip *
 
-cd $HOME
-$HOME/linuxdeployqt-continuous-x86_64.AppImage $HOME/LudoMuseEditorLinux/*.desktop -appimage -qmake=/opt/qt58/bin/qmake
+# cd $HOME
+# $HOME/linuxdeployqt-continuous-x86_64.AppImage $HOME/LudoMuseEditorLinux/*.desktop -appimage -qmake=/opt/qt58/bin/qmake
