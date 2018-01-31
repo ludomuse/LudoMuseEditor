@@ -46,11 +46,11 @@ chmod a+x linuxdeployqt-continuous-x86_64.AppImage
 unset QTDIR; unset QT_PLUGIN_PATH ; unset LD_LIBRARY_PATH
 # export VERSION=$TRAVIS_BUILD_NUMBER # linuxdeployqt uses this for naming the file
 
-# cd $HOME/LudoMuseEditorLinux
+cd $HOME/LudoMuseEditorLinux
 
 # $HOME/linuxdeployqt-continuous-x86_64.AppImage LudoMuseEditor -qmake=/opt/qt58/bin/qmake #-bundle-non-qt-libs
 
-zip -r $HOME/LudoMuseEditor-linux.zip *
+zip -r $HOME/LudoMuseEditor-linux.zip ./*
 
 # cd $HOME
 # $HOME/linuxdeployqt-continuous-x86_64.AppImage $HOME/LudoMuseEditorLinux/*.desktop -appimage -qmake=/opt/qt58/bin/qmake
