@@ -67,6 +67,13 @@ echo "creating archive ..."
 7z a LudoMuseEditor-win-%APPVEYOR_BUILD_NUMBER%-portable.zip LudoMuseEditorWin
 
 
+mkdir deploy\Installer\packages\com.ihmtek.ludomuseeditor\data
+xcopy "LudoMuseEditorWin" "deploy\Installer\packages\com.ihmtek.ludomuseeditor\data" /D /E /I /F /Y
+cd deploy\Installer\
+
+binarycreator.exe --offline-only -c config\config.xml -p packages LudoMuseEditor-win-%APPVEYOR_BUILD_NUMBER%-installer.exe
+
+
 rem echo Copying project files for archival...
 rem copy "%project_dir%\README.md" "LudoMuseEditor\README.md"
 rem copy "%project_dir%\LICENSE" "LudoMuseEditor\LICENSE.txt"
@@ -76,9 +83,6 @@ rem echo Copying files for installer...
 rem mkdir "%project_dir%\installer\windows\x86_64\packages\com.yourappproject.yourapp\data\"
 rem robocopy LudoMuseEditor\ "%project_dir%\installer\windows\x86_64\packages\com.yourappproject.yourapp\data" /E
 
-rem echo Packaging portable archive...
-rem 7z a LudoMuseEditor_%TAG_NAME%_windows_x86_64_portable.zip LudoMuseEditor
 
 rem echo Creating installer...
 rem cd %project_dir%\installer\windows\x86_64\
-rem binarycreator.exe --offline-only -c config\config.xml -p packages LudoMuseEditor_%TAG_NAME%_windows_x86_64_installer.exe

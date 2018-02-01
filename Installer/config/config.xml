@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<Installer>
-    <Name>LudoMuseEditor</Name>
-    <Version>1.0.0</Version>
-    <Title>LudoMuseEditor Installer</Title>
-    <Publisher>IHMTEK</Publisher>
-    <StartMenuDir>IHMTEK</StartMenuDir>
-    <TargetDir>@HomeDir@/LudoMuseEditor</TargetDir>
-</Installer>
