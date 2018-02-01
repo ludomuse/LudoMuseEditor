@@ -55,8 +55,12 @@ zip -r $HOME/LudoMuseEditor-linux.zip ./*
 mkdir -p $TRAVIS_BUILD_DIR/deploy/Installer/packages/com.ihmtek.ludomuseeditor/data
 cp -r ./* $TRAVIS_BUILD_DIR/deploy/Installer/packages/com.ihmtek.ludomuseeditor/data/
 
+echo "locating binary creator"
+sudo updatedb
+locate binarycreator
+
 cd $TRAVIS_BUILD_DIR/deploy/Installer/
-/opt/qt58/bin/binarycreator -c config/config.xml -p packages $HOME/LudoMuseEditorLinux_Setup
+binarycreator -c config/config.xml -p packages $HOME/LudoMuseEditorLinux_Setup
 
 curl -u $UPLOAD_USER:$UPLOAD_PWD -T $HOME/LudoMuseEditorLinux_Setup $UPLOAD_SERVER/LudoMuseEditor/LudoMuseEditor-$TRAVIS_OS_NAME-$TRAVIS_BUILD_NUMBER-installer.zip
 
