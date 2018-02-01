@@ -252,17 +252,17 @@ win32 {
 QMAKE_CXXFLAGS += -DLUDOMUSE_EDITOR_WIN
 
 QUAZIP_INCLUDEPATH = "./libs/quazip"
-QUAZIP_LIBPATH = "../LudomuseEditor/libs/quazip/"
+QUAZIP_LIBPATH = "../LudoMuseEditor/libs/quazip/"
 
 ZLIB_INCLUDEPATH = "./libs/zlib1211/"
 
-#CONFIG(release){
-# LIBS += -L$${QUAZIP_LIBPATH}/Release -lquazip_static -lquazip5
-#}
 
 CONFIG(debug){
 LIBS += -L$${QUAZIP_LIBPATH}/Debug -lquazip_staticd -lquazip5d
 #LIBS += -lD:/SharedData/Git/projects/Ludomuse/LudomuseEditor/libs/quazip/Debug/quazip_staticd
+}
+CONFIG(release){
+LIBS += -L$${QUAZIP_LIBPATH}/Release -lquazip
 }
 
 RC_ICONS = ludomuse.ico
