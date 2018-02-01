@@ -2,7 +2,7 @@
 cd $TRAVIS_BUILD_DIR/../LudoMuseEditor_build
 make INSTALL_ROOT=$HOME/ -j$(nproc) install 
 
-/usr/local/opt/qt@5.7/bin/macdeployqt $HOME/LudoMuseEditor.app
+$QT_PREFIX/bin/macdeployqt $HOME/LudoMuseEditor.app
 
 cd $HOME
 
