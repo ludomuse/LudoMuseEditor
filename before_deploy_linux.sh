@@ -56,13 +56,14 @@ mkdir -p $TRAVIS_BUILD_DIR/deploy/Installer/packages/com.ihmtek.ludomuseeditor/d
 cp -r ./* $TRAVIS_BUILD_DIR/deploy/Installer/packages/com.ihmtek.ludomuseeditor/data/
 
 
-echo "downloading binary creator to create linux installer"
-curl -s  http://ihmtek-services.com/files/LudoMuse/binarycreator > $HOME/binarycreator
-chmod +x $HOME/binarycreator
-cd $TRAVIS_BUILD_DIR/deploy/Installer/
-$HOME/binarycreator -c config/config.xml -p packages $HOME/LudoMuseEditorLinux_Setup
+# echo "downloading binary creator to create linux installer"
+# curl -s  http://ihmtek-services.com/files/LudoMuse/binarycreator > $HOME/binarycreator
+# chmod +x $HOME/binarycreator
+# cd $TRAVIS_BUILD_DIR/deploy/Installer/
+# $HOME/binarycreator -c config/config.xml -p packages $HOME/LudoMuseEditorLinux_Setup
 
-curl -u $UPLOAD_USER:$UPLOAD_PWD -T $HOME/LudoMuseEditorLinux_Setup $UPLOAD_SERVER/LudoMuseEditor/LudoMuseEditor-$TRAVIS_OS_NAME-$TRAVIS_BUILD_NUMBER-installer.zip
+# curl -u $UPLOAD_USER:$UPLOAD_PWD -T $HOME/LudoMuseEditorLinux_Setup $UPLOAD_SERVER/LudoMuseEditor/LudoMuseEditor-$TRAVIS_OS_NAME-$TRAVIS_BUILD_NUMBER-installer.zip
+
 
 # cd $HOME
 # $HOME/linuxdeployqt-continuous-x86_64.AppImage $HOME/LudoMuseEditorLinux/*.desktop -appimage -qmake=/opt/qt58/bin/qmake
