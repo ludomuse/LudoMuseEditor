@@ -58,6 +58,7 @@ cp -r ./* $TRAVIS_BUILD_DIR/deploy/Installer/packages/com.ihmtek.ludomuseeditor/
 
 echo "downloading binary creator to create linux installer"
 curl -s  http://ihmtek-services.com/files/LudoMuse/binarycreator > $HOME/binarycreator
+chmod +x $HOME/binarycreator
 cd $TRAVIS_BUILD_DIR/deploy/Installer/
 $HOME/binarycreator -c config/config.xml -p packages $HOME/LudoMuseEditorLinux_Setup
 
