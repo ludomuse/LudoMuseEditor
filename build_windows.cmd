@@ -26,7 +26,7 @@ rem xcopy "..\LudoMuse\proj.win32\Release.win32\*.dll" ".\"
 rem xcopy "..\LudoMuse\proj.win32\Release.win32\*.lib" ".\"
 rem xcopy ..\..\LudoMuse\Resources\ .\ /D /E /I /F /Y
 cd ..\BUILD
-qmake -spec win32-msvc2015 CONFIG+=x86_64 CONFIG-=debug CONFIG+=release -config release ../LudoMuseEditor LUDOMUSE_PATH=../LudoMuse
+qmake -spec win32-msvc2015 DEPLOY=release ../LudoMuseEditor LUDOMUSE_PATH=../LudoMuse
 nmake release
 rem nmake INSTALL_ROOT=../LudoMuseEditor/LudoMuseEditorWin install
 

@@ -8,11 +8,28 @@ QT       += core gui opengl
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
+
+!isEmpty(DEPLOY) {
+CONFIG-=debug
+CONFIG+=release
+} else {
+CONFIG-=release
+CONFIG+=debug
+}
+
+CONFIG(debug){
+message("using debug")
+}
+CONFIG(release){
+message("using release")
+}
+
+
 TARGET = LudoMuseEditor
 TEMPLATE = app
 
 #CONFIG += c++14
-CONFIG += qt debug
+CONFIG += qt
 #QMAKE_CXXFLAGS += -std=c++14
 
 #QMAKE_CXXFLAGS += APPCONTAINER:NO
