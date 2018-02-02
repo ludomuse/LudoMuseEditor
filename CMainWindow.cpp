@@ -17,7 +17,6 @@
 #include <QDebug>
 #include <QFileDialog>
 #include <QMessageBox>
-#include <QInputDialog>
 
 //#include <GL/glew.h>
 #include <vector>
@@ -518,23 +517,6 @@ void CMainWindow::launchAddSceneWizard()
     pSceneWizard->show();
 }
 
-/*CHAPTERSPROTOTYPE************************************************************************************************************************/
-void CMainWindow::addingChapter(){
-    CTabPage *tabPage = new CTabPage();
-    bool ok;
-    QString tabName = QInputDialog::getText(this,"Nom du chapitre","Veuillez entrez un nom pour le chapitre :",QLineEdit::Normal,"Introduction",&ok);
-    //tabName.append(QString::number(ui->mmBotView->count()+1));
-    //ui->mmBotView->addTab(tabPage,tabName);//Insere a la fin de la liste
-    ui->mmBotView->insertTab(ui->mmBotView->currentIndex()+1,tabPage,tabName);
-    m_pKernel->SeeChapters();
-}
-
-void CMainWindow::deletingChapter(){
-    ui->mmBotView->removeTab(ui->mmBotView->currentIndex());
-    QString tabName = "Chapitre ";
-}
-/******************************************************************************************************************************************/
-
 void CMainWindow::addingSceneFinished(const QString& a_sPrevSceneID, const QString& a_sSceneID, int a_iPlayerID)
 {
     saveCapture();
@@ -767,7 +749,6 @@ void CMainWindow::InspectScene(LM::CSceneNode* a_pScene)
     //    }
 
     // Searching which player have the scene
-    m_pKernel->SeeChapters();
     QString sceneId(a_pScene->GetSceneID().c_str());
     CSceneInspector* sceneInspector = Q_NULLPTR;
     if(m_pKernel->PlayerHasScene(sceneId.toStdString(), PLAYER_1)
@@ -790,10 +771,6 @@ void CMainWindow::InspectScene(LM::CSceneNode* a_pScene)
         ui->sceneInspectorContainer->layout()->addWidget(sceneInspector);
         connect(sceneInspector, SIGNAL(addScene()), this, SLOT(launchAddSceneWizard()));
         connect(sceneInspector, SIGNAL(deleteScene(QString, bool)), this, SLOT(deleteScene(QString, bool)));
-        /*CHAPTERSPROTOTYPE************************************************************************************************************************/
-        connect(sceneInspector,SIGNAL(addChapter()),this,SLOT(addingChapter()));
-        connect(sceneInspector,SIGNAL(deleteChapter()),this,SLOT(deletingChapter()));
-        /******************************************************************************************************************************************/
     }
     else
     {

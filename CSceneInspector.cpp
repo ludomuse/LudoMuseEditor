@@ -235,29 +235,12 @@ CSceneInspector::CSceneInspector(LM::CSceneNode* a_pScene, int a_iPlayerID, QWid
     addSceneButton->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Maximum);
     addSceneButton->setStyleSheet("QPushButton{ border : 1px solid white; padding : 6px; color : white;}");
     addSceneButton->setFlat(true);
-
-    /*CHAPTERSPROTOYPE***********************************************************************************************************************/
-    QPushButton* addChapterButton = new QPushButton("Ajouter chapitre",buttonColWidget);
-    addChapterButton->setSizePolicy(QSizePolicy::Preferred,QSizePolicy::Maximum);
-    addChapterButton->setStyleSheet("QPushButton{ border : 1px solid white; padding : 6px; color : white;}");
-    addChapterButton->setFlat(true);
-
-    QPushButton* deleteChapterButton = new QPushButton("Supprimer chapitre",buttonColWidget);
-    deleteChapterButton->setSizePolicy(QSizePolicy::Preferred,QSizePolicy::Maximum);
-    deleteChapterButton->setStyleSheet("QPushButton{ border : 1px solid white; padding : 6px; color : white;}");
-    deleteChapterButton->setFlat(true);
-    /******************************************************************************************************************************************/
-
 //    vButtonLayout->addWidget(deleteSceneButton);
 //    vButtonLayout->addWidget(addSceneButton);
     gButtonLayout->addWidget(soundButton, 0, 0);
     gButtonLayout->addWidget(dashButton, 1, 0);
     gButtonLayout->addWidget(deleteSceneButton, 0, 1);
     gButtonLayout->addWidget(addSceneButton, 1, 1);
-    /*CHAPTERSPROTOYPE***********************************************************************************************************************/
-    gButtonLayout->addWidget(addChapterButton,0,2);
-    gButtonLayout->addWidget(deleteChapterButton,1,2);
-    /******************************************************************************************************************************************/
 //    buttonColWidget->setLayout(vButtonLayout);
     buttonColWidget->setLayout(gButtonLayout);
     buttonColWidget->setSizePolicy(QSizePolicy::Maximum, QSizePolicy::Minimum);
@@ -287,11 +270,6 @@ CSceneInspector::CSceneInspector(LM::CSceneNode* a_pScene, int a_iPlayerID, QWid
     connect(soundButton, SIGNAL(toggled(bool)), soundWidget, SLOT(setVisible(bool)));
     connect(dashButton, SIGNAL(toggled(bool)), dashWidget, SLOT(setVisible(bool)));
     soundButton->toggle();
-
-    /*CHAPTERSPROTOYPE***********************************************************************************************************************/
-    connect(addChapterButton, SIGNAL(clicked(bool)),this,SLOT(clickOnAddChapter()));
-    connect(deleteChapterButton, SIGNAL(clicked(bool)),this,SLOT(clickOnDeleteChapter()));
-    /******************************************************************************************************************************************/
 }
 
 
@@ -331,18 +309,6 @@ void CSceneInspector::clickOnAdd()
     emit addScene();
 }
 
-/*CHAPTERSPROTOYPE***********************************************************************************************************************/
-void CSceneInspector::clickOnAddChapter()
-{
-    qDebug() << "EMIT ADD CHAPTER";
-    emit addChapter();
-}
-void CSceneInspector::clickOnDeleteChapter()
-{
-    qDebug() << "EMIT DELETE CHAPTER";
-    emit deleteChapter();
-}
-/******************************************************************************************************************************************/
 
 void CSceneInspector::clickOnDelete()
 {
