@@ -381,7 +381,7 @@ void CMainWindow::addSharedScene(const QString &a_sPreviousIDP1, const QString &
                                  const QString &a_sNewIDP, CTemplate* a_pTemplate)
 {
     ON_CC_THREAD(LM::CKernel::AddNewSharedScene, m_pKernel, a_pTemplate->GetPath().toStdString(),
-                 a_sPreviousIDP1.toStdString(), a_sPreviousIDP2.toStdString(), a_sNewIDP.toStdString(), 0, "");
+                 a_sPreviousIDP1.toStdString(), a_sPreviousIDP2.toStdString(), a_sNewIDP.toStdString(), "", 0);
 }
 
 void CMainWindow::addGameScene(const QString &a_sPreviousIDP1, const QString &a_sNewIDP1,
@@ -389,10 +389,10 @@ void CMainWindow::addGameScene(const QString &a_sPreviousIDP1, const QString &a_
                                CTemplate* a_pTemplate, int a_iTemplateNumberP1, int a_iTemplateNumberP2)
 {
     ON_CC_THREAD(LM::CKernel::AddSyncID, m_pKernel, a_sNewIDP1.toStdString(), a_sNewIDP2.toStdString());
-        ON_CC_THREAD(LM::CKernel::AddNewScene, m_pKernel, a_pTemplate->GetPath().toStdString(),
-                     a_sPreviousIDP1.toStdString(), a_sNewIDP1.toStdString(), PLAYER_1, a_iTemplateNumberP1, a_sNewIDP2.toStdString());
-        ON_CC_THREAD(LM::CKernel::AddNewScene, m_pKernel, a_pTemplate->GetPath().toStdString(),
-                     a_sPreviousIDP2.toStdString(), a_sNewIDP2.toStdString(), PLAYER_2, a_iTemplateNumberP2, a_sNewIDP1.toStdString());
+    ON_CC_THREAD(LM::CKernel::AddNewScene, m_pKernel, a_pTemplate->GetPath().toStdString(),
+                 a_sPreviousIDP1.toStdString(), a_sNewIDP1.toStdString(), PLAYER_1, 0, a_iTemplateNumberP1, a_sNewIDP2.toStdString());
+    ON_CC_THREAD(LM::CKernel::AddNewScene, m_pKernel, a_pTemplate->GetPath().toStdString(),
+                 a_sPreviousIDP2.toStdString(), a_sNewIDP2.toStdString(), PLAYER_2, 0, a_iTemplateNumberP2, a_sNewIDP1.toStdString());
 //    m_pKernel->AddNewScene(a_pTemplate->GetPath().toStdString(),
 //                           a_sPreviousIDP1.toStdString(), a_sNewIDP1.toStdString(), PLAYER_1, a_iTemplateNumberP1, a_sNewIDP2.toStdString());
 //    m_pKernel->AddNewScene(a_pTemplate->GetPath().toStdString(),

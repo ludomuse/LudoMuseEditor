@@ -520,12 +520,12 @@ void CPhotoPuzzleWizard::GenerateScenes(const std::vector<int>& values)
     m_pKernel->AddScene(sceneP1,
                         m_oNewGameInfo.previousID1.toStdString(),
                         m_oNewGameInfo.newID1.toStdString(),
-                        CMainWindow::PLAYER_1);
+                        CMainWindow::PLAYER_1,0);
 
     m_pKernel->AddScene(sceneP2,
                         m_oNewGameInfo.previousID2.toStdString(),
                         m_oNewGameInfo.newID2.toStdString(),
-                        CMainWindow::PLAYER_2);
+                        CMainWindow::PLAYER_2,0);
 
     close();
 }
