@@ -8,6 +8,7 @@ echo "Name=LudoMuse Editor" >> LudoMuseEditor.desktop
 echo "Exec=$SCRIPTPATH/LudoMuseEditor" >> LudoMuseEditor.desktop 
 echo "Type=Application" >> LudoMuseEditor.desktop 
 echo "Icon=$SCRIPTPATH/resources/icon.png" >> LudoMuseEditor.desktop
+chmod +x LudoMuseEditor.desktop
 echo "Voudriez-vous créer un lanceur dans le menu d'applications de votre système ? o/n"
 read ANSWER
 
