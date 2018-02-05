@@ -73,6 +73,10 @@
 
 
 
+#define PERFORM_IN_COCOS_THREAD(FUN) cocos2d::Director::getInstance()->getScheduler()->performFunctionInCocosThread([=]()FUN)
+
+
+
 CMainWindow::CMainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::CMainWindow),
@@ -357,8 +361,17 @@ void CMainWindow::goToWaitingScreen()
 void CMainWindow::addOneScene(const QString &a_sPreviousID, const QString &a_sNewID, int a_iPlayerID, CTemplate* a_pTemplate)
 {
     //    m_iActivePlayer = a_iPlayerID;
-    ON_CC_THREAD(LM::CKernel::AddNewScene, m_pKernel, a_pTemplate->GetPath().toStdString(),
-                 a_sPreviousID.toStdString(), a_sNewID.toStdString(), a_iPlayerID, 0, "");
+//    ON_CC_THREAD(LM::CKernel::AddNewScene, m_pKernel, a_pTemplate->GetPath().toStdString(),
+//                 a_sPreviousID.toStdString(), a_sNewID.toStdString(), a_iPlayerID, 0, "");
+
+    PERFORM_IN_COCOS_THREAD({
+        this->m_pKernel->AddNewScene(a_pTemplate->GetPath().toStdString(),
+                               a_sPreviousID.toStdString(),
+                               a_sNewID.toStdString(),
+                               a_iPlayerID,
+                               0);
+    });
+
     //    m_pKernel->AddNewScene( a_pTemplate->GetPath().toStdString(),
     //                            a_sPreviousID.toStdString(), a_sNewID.toStdString(), a_iPlayerID, 0, "");
 }
@@ -367,10 +380,26 @@ void CMainWindow::addTwoScene(const QString &a_sPreviousIDP1, const QString &a_s
                               const QString &a_sPreviousIDP2, const QString &a_sNewIDP2,
                               CTemplate* a_pTemplate)
 {
-    ON_CC_THREAD(LM::CKernel::AddNewScene, m_pKernel, a_pTemplate->GetPath().toStdString(),
-                 a_sPreviousIDP1.toStdString(), a_sNewIDP1.toStdString(), PLAYER_1, 0, "");
-    ON_CC_THREAD(LM::CKernel::AddNewScene, m_pKernel, a_pTemplate->GetPath().toStdString(),
-                 a_sPreviousIDP2.toStdString(), a_sNewIDP2.toStdString(), PLAYER_2, 0, "");
+    PERFORM_IN_COCOS_THREAD({
+        this->m_pKernel->AddNewScene(a_pTemplate->GetPath().toStdString(),
+                                a_sPreviousIDP1.toStdString(),
+                                a_sNewIDP1.toStdString(),
+                                PLAYER_1,
+                                0);
+    });
+//    ON_CC_THREAD(LM::CKernel::AddNewScene, m_pKernel, a_pTemplate->GetPath().toStdString(),
+//                 a_sPreviousIDP1.toStdString(), a_sNewIDP1.toStdString(), PLAYER_1, 0, "");
+
+    PERFORM_IN_COCOS_THREAD({
+        this->m_pKernel->AddNewScene(a_pTemplate->GetPath().toStdString(),
+                                a_sPreviousIDP2.toStdString(), a_sNewIDP2.toStdString(),
+                                PLAYER_2,
+                                0);
+    });
+
+//    ON_CC_THREAD(LM::CKernel::AddNewScene, m_pKernel, a_pTemplate->GetPath().toStdString(),
+//                 a_sPreviousIDP2.toStdString(), a_sNewIDP2.toStdString(), PLAYER_2, 0, "");
+
     //    m_pKernel->AddNewScene(a_pTemplate->GetPath().toStdString(),
     //                           a_sPreviousIDP1.toStdString(), a_sNewIDP1.toStdString(), PLAYER_1, 0, "");
     //    m_pKernel->AddNewScene(a_pTemplate->GetPath().toStdString(),
@@ -380,8 +409,16 @@ void CMainWindow::addTwoScene(const QString &a_sPreviousIDP1, const QString &a_s
 void CMainWindow::addSharedScene(const QString &a_sPreviousIDP1, const QString &a_sPreviousIDP2,
                                  const QString &a_sNewIDP, CTemplate* a_pTemplate)
 {
-    ON_CC_THREAD(LM::CKernel::AddNewSharedScene, m_pKernel, a_pTemplate->GetPath().toStdString(),
-                 a_sPreviousIDP1.toStdString(), a_sPreviousIDP2.toStdString(), a_sNewIDP.toStdString(), "", 0);
+    PERFORM_IN_COCOS_THREAD({
+        this->m_pKernel->AddNewSharedScene(a_pTemplate->GetPath().toStdString(),
+                                a_sPreviousIDP1.toStdString(),
+                                a_sPreviousIDP2.toStdString(),
+                                a_sNewIDP.toStdString(),
+                                0, "", 0);
+    });
+
+//    ON_CC_THREAD(LM::CKernel::AddNewSharedScene, m_pKernel, a_pTemplate->GetPath().toStdString(),
+//                 a_sPreviousIDP1.toStdString(), a_sPreviousIDP2.toStdString(), a_sNewIDP.toStdString(), "", 0);
 }
 
 void CMainWindow::addGameScene(const QString &a_sPreviousIDP1, const QString &a_sNewIDP1,
