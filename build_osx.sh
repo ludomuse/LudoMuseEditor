@@ -4,8 +4,13 @@
 #make
 #cd ../../../../
 cd ../
-mkdir LudoMuseEditorLinux
-cd LudoMuseEditorLinux
-qmake --version
-qmake ../LudoMuseEditor/LudoMuseEditor.pro
-make
+mkdir LudoMuseEditor_build
+cd LudoMuseEditor_build
+echo "starting build with env"
+echo $LDFLAGS
+echo $CPPFLAGS
+sudo /usr/libexec/locate.updatedb
+locate qmake
+$QT_PREFIX/bin/qmake --version
+$QT_PREFIX/bin/qmake DEPLOY=release $TRAVIS_BUILD_DIR/LudoMuseEditor.pro
+make LDFLAGS=$LDFLAGS CPPFLAGS=$CPPFLAGS

@@ -8,16 +8,36 @@ QT       += core gui opengl
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
+
+!isEmpty(DEPLOY) {
+CONFIG-=debug
+CONFIG+=release
+} else {
+CONFIG-=release
+CONFIG+=debug
+}
+
+CONFIG(debug){
+message("using debug")
+}
+CONFIG(release){
+message("using release")
+}
+
+
 TARGET = LudoMuseEditor
 TEMPLATE = app
 
 #CONFIG += c++14
-CONFIG += qt debug
+CONFIG += qt
 #QMAKE_CXXFLAGS += -std=c++14
 
 #QMAKE_CXXFLAGS += APPCONTAINER:NO
 
-LUDOMUSE_PATH = "../LudoMuse/"
+isEmpty(LUDOMUSE_PATH) {
+    LUDOMUSE_PATH = "../LudoMuse/"
+}
+
 COCOS_PATH = $${LUDOMUSE_PATH}/cocos2d
 JAVA_PATH = $$JAVA_HOME
 
@@ -220,22 +240,46 @@ INCLUDEPATH += "./LudoMuse_src" \
                 $${ZLIB_INCLUDEPATH} \
 
 
+
+
+
+
+
+
+isEmpty(PREFIX) {
+    PREFIX = /
+}
+
+target.path = $$PREFIX
+
+shortcutfiles.path = $$PREFIX
+data.files += deploy/common/*
+data.path = $$PREFIX
+
+INSTALLS += shortcutfiles
+INSTALLS += data
+INSTALLS += target
+
+
+
+
+
 win32 {
 
 QMAKE_CXXFLAGS += -DLUDOMUSE_EDITOR_WIN
 
 QUAZIP_INCLUDEPATH = "./libs/quazip"
-QUAZIP_LIBPATH = "../LudomuseEditor/libs/quazip/"
+QUAZIP_LIBPATH = "../LudoMuseEditor/libs/quazip/"
 
 ZLIB_INCLUDEPATH = "./libs/zlib1211/"
 
-#CONFIG(release){
-# LIBS += -L$${QUAZIP_LIBPATH}/Release -lquazip_static -lquazip5
-#}
 
 CONFIG(debug){
 LIBS += -L$${QUAZIP_LIBPATH}/Debug -lquazip_staticd -lquazip5d
 #LIBS += -lD:/SharedData/Git/projects/Ludomuse/LudomuseEditor/libs/quazip/Debug/quazip_staticd
+}
+CONFIG(release){
+LIBS += -L$${QUAZIP_LIBPATH}/Release -lquazip
 }
 
 RC_ICONS = ludomuse.ico
@@ -295,6 +339,17 @@ LIBS += -L$${PWD}/libs -lfreetype \
          -lUser32 \
          -lWs2_32 \
 
+
+data.files += $$LUDOMUSE_PATH/Resources/*
+data.files += $$LUDOMUSE_PATH/proj.win32/Release.win32/LudoMuse.exe
+
+libs.path = $$PREFIX/lib
+libs.files += $$LUDOMUSE_PATH/proj.win32/Release.win32/*.dll
+libs.files += libs/quazip/Debug/quazip5d.dll
+
+INSTALLS += libs
+
+
 }
 
 
@@ -336,30 +391,43 @@ LIBS += -L/usr/local/lib
 #LIBS += -L$${LUDOMUSE_PATH}/prebuilt/ -lbullet
 
 
+
+
+shortcutfiles.files = LudoMuseEditor.desktop
+data.files += deploy/linux/*
+data.files += $$LUDOMUSE_PATH/bin/release/linux/LudoMuse
+data.files += $$LUDOMUSE_PATH/bin/release/linux/Resources
+data.files += $$LUDOMUSE_PATH/bin/release/linux/lib
+
+libs.path = $$PREFIX/lib
+libs.files += libs/quazip/linux_build/libquazip.so.1
+
+INSTALLS += libs
+
 }
 
-#macx
-#{
 
-#    QMAKE_CXXFLAGS += -D__gl3_h_
-#    QMAKE_CXXFLAGS += -DLUDOMUSE_EDITOR_MAC
+macx {
+
+QMAKE_CXXFLAGS += -D__gl3_h_
+QMAKE_CXXFLAGS += -DLUDOMUSE_EDITOR_MAC
 
 
-#    QMAKE_MAC_SDK = macosx10.13
-#    QMAKE_RPATHDIR += ./
-#    QMAKE_RPATHDIR += @executable_path/
-#    QMAKE_RPATHDIR += @executable_path/../Plugins/platforms/
-#    CXXFLAGS = -stdlib=libstdc++
-#    INCLUDEPATH += /Users/ihmtek/Library/glfw-3.2.1/include/GLFW
-#    INCLUDEPATH += /Users/ihmtek/Library/glew-1.12.0/include
-#    LIBS += -L/Users/ihmtek/Library/glfw-3.2.1/build/src -lglfw3 -lstdc++
-#    LIBS += -L/Users/ihmtek/workspace/LudoMuseEditor/lib -lcocos2d
-#    LIBS += -framework Cocoa -framework CoreAudio -framework CoreFoundation -framework Foundation
-#    LIBS += -liconv -lz -framework Security -framework IOKit -framework OpenGL -framework AppKit -framework Foundation -framework QuartzCore -framework OpenAL -framework AVFoundation -framework AudioToolbox
-#    LIBS += -Xlinker
-#    LIBS += -L/Users/ihmtek/Qt/5.7/clang_64/lib
-#    LIBS += -L$${PWD}/libs/quazip/mac_build -lquazip
-#    LIBS += -L$${PWD}/libs/zlib1211/mac_build -lz
-#}
+QMAKE_MAC_SDK = macosx10.13
+QMAKE_RPATHDIR += ./
+QMAKE_RPATHDIR += @executable_path/
+QMAKE_RPATHDIR += @executable_path/../Plugins/platforms/
+CXXFLAGS = -stdlib=libstdc++
+INCLUDEPATH += /usr/local/include/GLFW/
+LIBS += -L/usr/local/lib/ -lglfw -lstdc++
+LIBS += -L$${LUDOMUSE_PATH}/prebuilt -lcocos2d\ Mac
+LIBS += -framework Cocoa -framework CoreAudio -framework CoreFoundation -framework Foundation
+LIBS += -liconv -lz -framework Security -framework IOKit -framework OpenGL -framework AppKit -framework Foundation -framework QuartzCore -framework OpenAL -framework AVFoundation -framework AudioToolbox
+LIBS += -Xlinker
+LIBS += -L$${PWD}/libs/quazip/mac_build -lquazip
+LIBS += -L$${PWD}/libs/zlib1211/mac_build -lz
+
+
+}
 
 

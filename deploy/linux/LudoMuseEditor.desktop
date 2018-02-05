@@ -1,0 +1,7 @@
+[Desktop Entry]
+Type=Application
+Name=LudoMuse Editor
+Exec=LudoMuseEditor %F
+Icon=ludomuse
+Comment=An editor for the LudoMuse engine
+Terminal=false

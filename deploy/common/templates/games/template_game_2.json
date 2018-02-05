@@ -1,0 +1,1080 @@
+{
+  "name": "Interaction glisser-déposer",
+  "pictures": [
+    "res/game_1.png",
+    "res/game_1_2.png"
+  ],
+  "description": "Le joueur 1 possède 4 images qu'il doit envoyer à son partenaire par glisser-déposer via la zone de partage.\nLe joueur 2 associe les images reçues aux images qu'il y a sur son écran par cliquer-déposer",
+  "game": true,
+  "templates": [
+    {
+    "sync": true,
+    "navigation": [
+      {
+        "type": "Nav",
+        "params": {
+          "width": 0,
+          "height": 13,
+          "anchor": 5,
+          "normal": "ui/nav-5.png",
+          "selected": "ui/nav-5-active.png",
+          "action": "next",
+          "listeners": [
+            {
+              "type": "Validate",
+              "params": {
+                "callback": "Show",
+                "arg": true
+              }
+            }
+          ],
+          "children": [
+            {
+              "type": "Text",
+              "params": {
+                "content": "SUIVANT",
+                "source": "#default-font",
+                "fontSize": 20,
+                "textAlign": "right",
+                "width": 80,
+                "height": 100,
+                "anchor": 0,
+                "color": ""
+              }
+            }
+          ]
+        }
+      }
+    ],
+    "content": [
+      {
+        "type": "Image",
+        "params": {
+          "source": "#default-background",
+          "anchor": 0,
+          "width": 100,
+          "height": 0,
+          "x": 0,
+          "y": 0
+        }
+      },
+      {
+        "type": "Group",
+        "params": {
+          "anchor": 0,
+          "width": 100,
+          "height": 66,
+          "x": 0,
+          "y": 0,
+          "children": [
+            {
+              "type": "Image",
+              "id": "photosDropArea",
+              "params": {
+                "source": "cache/shared_zone.png",
+                "anchor": 4,
+                "width": 25,
+                "height": 0,
+                "x": 0,
+                "y": 0,
+                "listeners": [
+                  {
+                    "type": "Drop",
+                    "params": {
+                      "callback": ""
+                    }
+                  },
+                  {
+                    "type": "DropEnabledBack",
+                    "params": {
+                      "callback": "EnableEvent",
+                      "arg": "photosDropArea:Drop"
+                    }
+                  }
+                ]
+              }
+            },
+            {
+              "type": "Grid",
+              "params": {
+                "cols": 2,
+                "rows": 2,
+                "anchor": 8,
+                "width": 75,
+                "height": 100,
+                "x": 0,
+                "y": 0,
+                "children": [
+                  {
+                    "type": "Image",
+                    "id": "Image1",
+                    "params": {
+                      "source": "cache/image_1.png",
+                      "anchor": 0,
+                      "width": 0,
+                      "height": 95,
+                      "x": 0,
+                      "y": 0,
+                      "listeners": [
+                        {
+                          "type": "Droped",
+                          "params": {
+                            "callback": "Fade"
+                          }
+                        },
+                        {
+                          "type": "Droped",
+                          "params": {
+                            "callback": "DisableEvent",
+                            "arg": "photosDropArea:Drop"
+                          }
+                        },
+                        {
+                          "type": "Droped",
+                          "params": {
+                            "callback": "SendMessage",
+                            "arg": "ID_SCENE_2:Show:Image1"
+                          }
+                        },
+                        {
+                          "type": "Move",
+                          "params": {
+                            "callback": ""
+                          }
+                        },
+                        {
+                          "type": "ReturnElement",
+                          "params": {
+                            "callback": "ShowBack",
+                            "arg": true
+                          }
+                        }
+                      ]
+                    }
+                  },
+                  {
+                    "type": "Image",
+                    "id": "Image2",
+                    "params": {
+                      "source": "cache/image_2.png",
+                      "anchor": 0,
+                      "width": 0,
+                      "height": 95,
+                      "x": 0,
+                      "y": 0,
+                      "listeners": [
+                        {
+                          "type": "Droped",
+                          "params": {
+                            "callback": "Fade"
+                          }
+                        },
+                        {
+                          "type": "Droped",
+                          "params": {
+                            "callback": "DisableEvent",
+                            "arg": "photosDropArea:Drop"
+                          }
+                        },
+                        {
+                          "type": "Droped",
+                          "params": {
+                            "callback": "SendMessage",
+                            "arg": "ID_SCENE_2:Show:Image2"
+                          }
+                        },
+                        {
+                          "type": "Move",
+                          "params": {
+                            "callback": ""
+                          }
+                        },
+                        {
+                          "type": "ReturnElement",
+                          "params": {
+                            "callback": "ShowBack",
+                            "arg": true
+                          }
+                        }
+                      ]
+                    }
+                  },
+                  {
+                    "type": "Image",
+                    "id": "Image3",
+                    "params": {
+                      "source": "cache/image_3.png",
+                      "anchor": 0,
+                      "width": 0,
+                      "height": 95,
+                      "x": 0,
+                      "y": 0,
+                      "listeners": [
+                        {
+                          "type": "Droped",
+                          "params": {
+                            "callback": "Fade"
+                          }
+                        },
+                        {
+                          "type": "Droped",
+                          "params": {
+                            "callback": "DisableEvent",
+                            "arg": "photosDropArea:Drop"
+                          }
+                        },
+                        {
+                          "type": "Droped",
+                          "params": {
+                            "callback": "SendMessage",
+                            "arg": "ID_SCENE_2:Show:Image3"
+                          }
+                        },
+                        {
+                          "type": "Move",
+                          "params": {
+                            "callback": ""
+                          }
+                        },
+                        {
+                          "type": "ReturnElement",
+                          "params": {
+                            "callback": "ShowBack",
+                            "arg": true
+                          }
+                        }
+                      ]
+                    }
+                  },
+                  {
+                    "type": "Image",
+                    "id": "Image4",
+                    "params": {
+                      "source": "cache/image_4.png",
+                      "anchor": 0,
+                      "width": 0,
+                      "height": 95,
+                      "x": 0,
+                      "y": 0,
+                      "listeners": [
+                        {
+                          "type": "Droped",
+                          "params": {
+                            "callback": "Fade"
+                          }
+                        },
+                        {
+                          "type": "Droped",
+                          "params": {
+                            "callback": "DisableEvent",
+                            "arg": "photosDropArea:Drop"
+                          }
+                        },
+                        {
+                          "type": "Droped",
+                          "params": {
+                            "callback": "SendMessage",
+                            "arg": "ID_SCENE_2:Show:Image4"
+                          }
+                        },
+                        {
+                          "type": "Move",
+                          "params": {
+                            "callback": ""
+                          }
+                        },
+                        {
+                          "type": "ReturnElement",
+                          "params": {
+                            "callback": "ShowBack",
+                            "arg": true
+                          }
+                        }
+                      ]
+                    }
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      }
+    ],
+    "information": [
+      {
+        "type": "Info",
+        "params": {
+          "source": "ui/info-2.png",
+          "anchor": 2,
+          "width": 0,
+          "height": 13,
+          "children": [
+            {
+              "type": "Text",
+              "params": {
+                "content": "Consigne",
+                "source": "#default-font",
+                "fontSize": 20,
+                "textAlign": "center",
+                "width": 100,
+                "height": 100,
+                "anchor": 0,
+                "color": "0,0,0,255"
+              }
+            }
+          ]
+        }
+      },
+      {
+        "type": "Info",
+        "params": {
+          "source": "ui/info-6.png",
+          "anchor": 6,
+          "width": 0,
+          "height": 13,
+          "children": [
+            {
+              "type": "Group",
+              "params": {
+                "anchor": 0,
+                "width": 60,
+                "height": 100,
+                "x": 0,
+                "y": 0,
+                "children": [
+                  {
+                    "type": "Animation",
+                    "params": {
+                      "animation": "ui/animations/move.plist",
+                      "sheet": "ui/animations/move.png",
+                      "anchor": 8,
+                      "width": 0,
+                      "height": 80,
+                      "x": 0,
+                      "y": 0
+                    }
+                  },
+                  {
+                    "type": "Text",
+                    "id": "InfoText",
+                    "params": {
+                      "content": "Glisse et dépose les éléments dans la zone de partage",
+                      "source": "#default-font",
+                      "fontSize": 20,
+                      "textAlign": "center",
+                      "width": 80,
+                      "height": 100,
+                      "anchor": 0,
+                      "color": "0,0,0,255",
+                      "listeners": [
+                        {
+                          "type": "DropBad",
+                          "params": {
+                            "callback": "SetText",
+                            "arg": "Mal Placé"
+                          }
+                        },
+                        {
+                          "type": "DropGood",
+                          "params": {
+                            "callback": "SetText",
+                            "arg": "Bien placé"
+                          }
+                        }
+                      ]
+                    }
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      }
+    ]
+  },
+    {
+      "sync": true,
+      "navigation": [
+        {
+          "type": "Nav",
+          "id": "navNext",
+          "params": {
+            "width": 0,
+            "height": 13,
+            "anchor": 5,
+            "normal": "ui/nav-5.png",
+            "selected": "ui/nav-5-active.png",
+            "action": "next",
+            "listeners": [
+              {
+                "type": "Validate",
+                "params": {
+                  "callback": "Show",
+                  "arg": true
+                }
+              },
+              {
+                "type": "Validate",
+                "params": {
+                  "callback": "SendMessage",
+                  "arg": "kernel:Validate"
+                }
+              }
+            ],
+            "children": [
+              {
+                "type": "Text",
+                "params": {
+                  "content": "SUIVANT",
+                  "source": "#default-font",
+                  "fontSize": 24,
+                  "textAlign": "center",
+                  "width": 100,
+                  "height": 100,
+                  "anchor": 0,
+                  "color": ""
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "Validator",
+          "params": {
+            "ids": [
+              "Image1",
+              "Image2",
+              "Image3",
+              "Image4"
+            ],
+            "sound": "cache/audio/gong.mp3"
+          }
+        }
+      ],
+      "content": [
+        {
+          "type": "Image",
+          "params": {
+            "source": "#default-background",
+            "anchor": 0,
+            "width": 100,
+            "height": 0,
+            "x": 0,
+            "y": 0
+          }
+        },
+        {
+          "type": "Grid",
+          "params": {
+            "cols": 2,
+            "rows": 2,
+            "anchor": 4,
+            "width": 70,
+            "height": 60,
+            "x": 0,
+            "y": 0,
+            "children": [
+              {
+                "type": "Group",
+                "params": {
+                  "anchor": 0,
+                  "width": 100,
+                  "height": 100,
+                  "x": 0,
+                  "y": 0,
+                  "listeners": [
+                    {
+                      "type": "Drop",
+                      "params": {
+                        "callback": "AnchorEntity",
+                        "arg": "Image1"
+                      }
+                    }
+                  ],
+                  "children": [
+                    {
+                      "type": "Image",
+                      "params": {
+                        "source": "cache/drop_zone_1.png",
+                        "anchor": 0,
+                        "width": 0,
+                        "height": 95,
+                        "x": 0,
+                        "y": 0
+                      }
+                    }
+                  ]
+                }
+              },
+              {
+                "type": "Group",
+                "params": {
+                  "anchor": 0,
+                  "width": 100,
+                  "height": 100,
+                  "x": 0,
+                  "y": 0,
+                  "listeners": [
+                    {
+                      "type": "Drop",
+                      "params": {
+                        "callback": "AnchorEntity",
+                        "arg": "Image3"
+                      }
+                    }
+                  ],
+                  "children": [
+                    {
+                      "type": "Image",
+                      "params": {
+                        "source": "cache/drop_zone_3.png",
+                        "anchor": 0,
+                        "width": 0,
+                        "height": 95,
+                        "x": 0,
+                        "y": 0
+                      }
+                    }
+                  ]
+                }
+              },
+              {
+                "type": "Group",
+                "params": {
+                  "anchor": 0,
+                  "width": 100,
+                  "height": 100,
+                  "x": 0,
+                  "y": 0,
+                  "listeners": [
+                    {
+                      "type": "Drop",
+                      "params": {
+                        "callback": "AnchorEntity",
+                        "arg": "Image2"
+                      }
+                    }
+                  ],
+                  "children": [
+                    {
+                      "type": "Image",
+                      "params": {
+                        "source": "cache/drop_zone_2.png",
+                        "anchor": 0,
+                        "width": 0,
+                        "height": 95,
+                        "x": 0,
+                        "y": 0
+                      }
+                    }
+                  ]
+                }
+              },
+              {
+                "type": "Group",
+                "params": {
+                  "anchor": 0,
+                  "width": 100,
+                  "height": 100,
+                  "x": 0,
+                  "y": 0,
+                  "listeners": [
+                    {
+                      "type": "Drop",
+                      "params": {
+                        "callback": "AnchorEntity",
+                        "arg": "Image4"
+                      }
+                    }
+                  ],
+                  "children": [
+                    {
+                      "type": "Image",
+                      "params": {
+                        "source": "cache/drop_zone_4.png",
+                        "anchor": 0,
+                        "width": 0,
+                        "height": 95,
+                        "x": 0,
+                        "y": 0
+                      }
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "Image",
+          "id": "dropArea2",
+          "params": {
+            "source": "cache/shared_zone.png",
+            "anchor": 8,
+            "width": 25,
+            "height": 0,
+            "x": 70,
+            "y": 0,
+            "children": [
+              {
+                "type": "Image",
+                "id": "Image1",
+                "params": {
+                  "source": "cache/image_1.png",
+                  "anchor": 0,
+                  "width": 90,
+                  "height": 100,
+                  "x": 0,
+                  "y": 0,
+                  "listeners": [
+                    {
+                      "type": "Anchored",
+                      "params": {
+                        "callback": "SendMessage",
+                        "arg": "ID_SCENE_2:DropGood:InfoText"
+                      }
+                    },
+                    {
+                      "type": "Anchored",
+                      "params": {
+                        "callback": "LocalMessage",
+                        "arg": "ID_SCENE_1:DropGood:InfoText"
+                      }
+                    },
+                    {
+                      "type": "Anchored",
+                      "params": {
+                        "callback": "Fade"
+                      }
+                    },
+                    {
+                      "type": "Anchored",
+                      "params": {
+                        "callback": "Validate",
+                        "arg": "Image1"
+                      }
+                    },
+                    {
+                      "type": "AnchoredFailed",
+                      "params": {
+                        "callback": "SendMessage",
+                        "arg": "ID_SCENE_2:DropBad:InfoText"
+                      }
+                    },
+                    {
+                      "type": "AnchoredFailed",
+                      "params": {
+                        "callback": "LocalMessage",
+                        "arg": "ID_SCENE_1:DropBad:InfoText"
+                      }
+                    },
+                    {
+                      "type": "AnchoredFailed",
+                      "params": {
+                        "callback": "SendMessage",
+                        "arg": "ID_SCENE_2:ReturnElement:Image1"
+                      }
+                    },
+                    {
+                      "type": "Droped",
+                      "params": {
+                        "callback": "Anchored"
+                      }
+                    },
+                    {
+                      "type": "Droped",
+                      "params": {
+                        "callback": "SendMessage",
+                        "arg": "ID_SCENE_2:DropEnabledBack:photosDropArea"
+                      }
+                    },
+                    {
+                      "type": "Move",
+                      "params": {
+                        "callback": ""
+                      }
+                    },
+                    {
+                      "type": "Show",
+                      "params": {
+                        "callback": "Show",
+                        "arg": true
+                      }
+                    }
+                  ]
+                }
+              },
+              {
+                "type": "Image",
+                "id": "Image2",
+                "params": {
+                  "source": "cache/image_2.png",
+                  "anchor": 0,
+                  "width": 90,
+                  "height": 100,
+                  "x": 0,
+                  "y": 0,
+                  "listeners": [
+                    {
+                      "type": "Anchored",
+                      "params": {
+                        "callback": "LocalMessage",
+                        "arg": "ID_SCENE_1:DropGood:InfoText"
+                      }
+                    },
+                    {
+                      "type": "Anchored",
+                      "params": {
+                        "callback": "SendMessage",
+                        "arg": "ID_SCENE_2:DropGood:InfoText"
+                      }
+                    },
+                    {
+                      "type": "Anchored",
+                      "params": {
+                        "callback": "Fade"
+                      }
+                    },
+                    {
+                      "type": "Anchored",
+                      "params": {
+                        "callback": "Validate",
+                        "arg": "Image2"
+                      }
+                    },
+                    {
+                      "type": "AnchoredFailed",
+                      "params": {
+                        "callback": "LocalMessage",
+                        "arg": "ID_SCENE_1:DropBad:InfoText"
+                      }
+                    },
+                    {
+                      "type": "AnchoredFailed",
+                      "params": {
+                        "callback": "SendMessage",
+                        "arg": "ID_SCENE_2:DropBad:InfoText"
+                      }
+                    },
+                    {
+                      "type": "AnchoredFailed",
+                      "params": {
+                        "callback": "SendMessage",
+                        "arg": "ID_SCENE_2:ReturnElement:Image2"
+                      }
+                    },
+                    {
+                      "type": "Droped",
+                      "params": {
+                        "callback": "Anchored"
+                      }
+                    },
+                    {
+                      "type": "Droped",
+                      "params": {
+                        "callback": "SendMessage",
+                        "arg": "ID_SCENE_2:DropEnabledBack:photosDropArea"
+                      }
+                    },
+                    {
+                      "type": "Move",
+                      "params": {
+                        "callback": ""
+                      }
+                    },
+                    {
+                      "type": "Show",
+                      "params": {
+                        "callback": "Show",
+                        "arg": true
+                      }
+                    }
+                  ]
+                }
+              },
+              {
+                "type": "Image",
+                "id": "Image3",
+                "params": {
+                  "source": "cache/image_3.png",
+                  "anchor": 0,
+                  "width": 90,
+                  "height": 100,
+                  "x": 0,
+                  "y": 0,
+                  "listeners": [
+                    {
+                      "type": "Anchored",
+                      "params": {
+                        "callback": "LocalMessage",
+                        "arg": "ID_SCENE_1:DropGood:InfoText"
+                      }
+                    },
+                    {
+                      "type": "Anchored",
+                      "params": {
+                        "callback": "SendMessage",
+                        "arg": "ID_SCENE_2:DropGood:InfoText"
+                      }
+                    },
+                    {
+                      "type": "Anchored",
+                      "params": {
+                        "callback": "Fade"
+                      }
+                    },
+                    {
+                      "type": "Anchored",
+                      "params": {
+                        "callback": "Validate",
+                        "arg": "Image3"
+                      }
+                    },
+                    {
+                      "type": "AnchoredFailed",
+                      "params": {
+                        "callback": "LocalMessage",
+                        "arg": "ID_SCENE_1:DropBad:InfoText"
+                      }
+                    },
+                    {
+                      "type": "AnchoredFailed",
+                      "params": {
+                        "callback": "SendMessage",
+                        "arg": "ID_SCENE_2:DropBad:InfoText"
+                      }
+                    },
+                    {
+                      "type": "AnchoredFailed",
+                      "params": {
+                        "callback": "SendMessage",
+                        "arg": "ID_SCENE_2:ReturnElement:Image3"
+                      }
+                    },
+                    {
+                      "type": "Droped",
+                      "params": {
+                        "callback": "Anchored"
+                      }
+                    },
+                    {
+                      "type": "Droped",
+                      "params": {
+                        "callback": "SendMessage",
+                        "arg": "ID_SCENE_2:DropEnabledBack:photosDropArea"
+                      }
+                    },
+                    {
+                      "type": "Move",
+                      "params": {
+                        "callback": ""
+                      }
+                    },
+                    {
+                      "type": "Show",
+                      "params": {
+                        "callback": "Show",
+                        "arg": true
+                      }
+                    }
+                  ]
+                }
+              },
+              {
+                "type": "Image",
+                "id": "Image4",
+                "params": {
+                  "source": "cache/image_4.png",
+                  "anchor": 0,
+                  "width": 0,
+                  "height": 90,
+                  "x": 0,
+                  "y": 0,
+                  "listeners": [
+                    {
+                      "type": "Anchored",
+                      "params": {
+                        "callback": "LocalMessage",
+                        "arg": "ID_SCENE_1:DropGood:InfoText"
+                      }
+                    },
+                    {
+                      "type": "Anchored",
+                      "params": {
+                        "callback": "SendMessage",
+                        "arg": "ID_SCENE_2:DropGood:InfoText"
+                      }
+                    },
+                    {
+                      "type": "Anchored",
+                      "params": {
+                        "callback": "Fade"
+                      }
+                    },
+                    {
+                      "type": "Anchored",
+                      "params": {
+                        "callback": "Validate",
+                        "arg": "Image4"
+                      }
+                    },
+                    {
+                      "type": "AnchoredFailed",
+                      "params": {
+                        "callback": "LocalMessage",
+                        "arg": "ID_SCENE_1:DropBad:InfoText"
+                      }
+                    },
+                    {
+                      "type": "AnchoredFailed",
+                      "params": {
+                        "callback": "SendMessage",
+                        "arg": "ID_SCENE_2:DropBad:InfoText"
+                      }
+                    },
+                    {
+                      "type": "AnchoredFailed",
+                      "params": {
+                        "callback": "SendMessage",
+                        "arg": "ID_SCENE_2:ReturnElement:Image4"
+                      }
+                    },
+                    {
+                      "type": "Droped",
+                      "params": {
+                        "callback": "Anchored"
+                      }
+                    },
+                    {
+                      "type": "Droped",
+                      "params": {
+                        "callback": "SendMessage",
+                        "arg": "ID_SCENE_2:DropEnabledBack:photosDropArea"
+                      }
+                    },
+                    {
+                      "type": "Move",
+                      "params": {
+                        "callback": ""
+                      }
+                    },
+                    {
+                      "type": "Show",
+                      "params": {
+                        "callback": "Show",
+                        "arg": true
+                      }
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        }
+      ],
+      "information": [
+        {
+          "type": "Info",
+          "params": {
+            "source": "ui/info-6.png",
+            "anchor": 6,
+            "width": 0,
+            "height": 13,
+            "children": [
+              {
+                "type": "Group",
+                "params": {
+                  "anchor": 0,
+                  "width": 60,
+                  "height": 100,
+                  "x": 0,
+                  "y": 0,
+                  "children": [
+                    {
+                      "type": "Animation",
+                      "params": {
+                        "animation": "ui/animations/move.plist",
+                        "sheet": "ui/animations/move.png",
+                        "anchor": 8,
+                        "width": 0,
+                        "height": 80,
+                        "x": 0,
+                        "y": 0
+                      }
+                    },
+                    {
+                      "type": "Text",
+                      "id": "InfoText",
+                      "params": {
+                        "content": "Associe les éléments reçus",
+                        "source": "#default-font",
+                        "fontSize": 20,
+                        "textAlign": "center",
+                        "width": 80,
+                        "height": 100,
+                        "anchor": 0,
+                        "color": "0,0,0,255",
+                        "listeners": [
+                          {
+                            "type": "DropBad",
+                            "params": {
+                              "callback": "SetText",
+                              "arg": "Mal placé!"
+                            }
+                          },
+                          {
+                            "type": "DropGood",
+                            "params": {
+                              "callback": "SetText",
+                              "arg": "Bien placé!"
+                            }
+                          }
+                        ]
+                      }
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "Info",
+          "params": {
+            "source": "ui/info-2.png",
+            "anchor": 2,
+            "width": 0,
+            "height": 13,
+            "children": [
+              {
+                "type": "Group",
+                "params": {
+                  "anchor": 0,
+                  "width": 60,
+                  "height": 100,
+                  "x": 0,
+                  "y": 0,
+                  "children": [
+                    {
+                      "type": "Text",
+                      "params": {
+                        "content": "Consigne",
+                        "source": "#default-font",
+                        "fontSize": 20,
+                        "textAlign": "center",
+                        "width": 80,
+                        "height": 100,
+                        "anchor": 0,
+                        "color": "0,0,0,255"
+                      }
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        }
+      ]
+    }
+  ]
+}

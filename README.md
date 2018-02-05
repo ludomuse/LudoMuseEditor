@@ -1,17 +1,27 @@
 # LudoMuseEditor 
 
-| Linux		  | Windows	    | Mac OS   |
-|:-----------:|:-----------:|:--------:|
-|[![Build Status](https://travis-ci.org/ludomuse/LudoMuseEditor.svg?branch=master)](https://travis-ci.org/ludomuse/LudoMuseEditor) | [![Build status](https://ci.appveyor.com/api/projects/status/wwknl987osm43uph?svg=true)](https://ci.appveyor.com/project/IHMTEK/ludomuseeditor) | à venir |
+| Linux / OSX  | Windows    |
+|:-----------:|:-----------:|
+|[![Build Status](https://travis-ci.org/ludomuse/LudoMuseEditor.svg?branch=master)](https://travis-ci.org/ludomuse/LudoMuseEditor) | [![Build status](https://ci.appveyor.com/api/projects/status/wwknl987osm43uph?svg=true)](https://ci.appveyor.com/project/IHMTEK/ludomuseeditor) |
 
 ## Téléchargement 
 Vous pouvez télécharger la dernière version stable de LudoMuseEditor en cliquant sur le lien ci-dessous : 
 ## [Télécharger LudoMuseEditor version stable](https://github.com/ludomuse/LudoMuseEditor/releases/latest)
 
+Si vous êtes sur linux, vous devez pour le moment avoir Qt5 installé sur votre machine : 
+
+``
+sudo apt-get install libqt5opengl5
+``
+
+pour les système basés sur debian/ubuntu devrait résoudre les dépendances nécessaires.
+
 Les version de développement (nightlies) sont disponibles ici :
 
-[Parcourir les versions de développement](https://ihmtek-services.com/files/LudoMuse/releases/nightlies/LudoMuseEditor)
+[Parcourir les versions de développement linux et mac](https://ihmtek-services.com/files/LudoMuse/releases/nightlies/LudoMuseEditor)
 
+
+[Dernière version de développement windows](https://ci.appveyor.com/project/IHMTEK/ludomuseeditor/build/artifacts)
 
 
 ## Dépendances
