@@ -56,7 +56,7 @@ deploy:
   - provider: releases
     api_key:
       secure: $GITHUB_TOKEN
-    file: "$HOME/LudoMuseEditor-linux.zip"
+    file: "$HOME/LudoMuseEditor-$TRAVIS_OS_NAME.zip"
     skip_cleanup: true
     on:
       tags: true

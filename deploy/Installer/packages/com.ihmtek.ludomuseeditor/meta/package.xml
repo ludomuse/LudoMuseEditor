@@ -2,7 +2,7 @@
 <Package>
     <DisplayName>LudoMuseEditor</DisplayName>
     <Description>Create collaborative tablet apps</Description>
-    <Version>1.2.3</Version>
+    <Version>1.2.5</Version>
     <ReleaseDate>2017-07-11</ReleaseDate>
     <Licenses>
         <License name="GPL" file="license.txt" />

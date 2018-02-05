@@ -41,7 +41,7 @@ deploy:
     release: $(appveyor_repo_tag_name)
     description: $(appveyor_repo_tag_name)
     auth_token:
-      secure: $(GITHUB_TOKEN)
+      secure: hwQh5CNzikNVLjOmLVgbk/436TGZ/sBJuavrrjog1xjQI2BISF/uyBJoKjX0Ycbx
     artifact: portable, installer
     draft: false
     prerelease: false
