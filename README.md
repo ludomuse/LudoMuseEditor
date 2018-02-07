@@ -24,6 +24,12 @@ Les version de développement (nightlies) sont disponibles ici :
 [Dernière version de développement windows](https://ci.appveyor.com/project/IHMTEK/ludomuseeditor/branch/master/artifacts)
 
 
+## Trouver de l'aide
+Si vous avez besoin d'aide, vous pouvez rejoindre le serveur de discussion Discord en suivant ce lien, la création d'un compte n'est pas obligatoire : 
+
+[Rejoindre le serveur discord](https://discord.gg/4QGkwty)
+
+
 ## Dépendances
 
 
