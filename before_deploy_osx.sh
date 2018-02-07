@@ -17,6 +17,9 @@ cp $TRAVIS_BUILD_DIR/../LudoMuse/bin/release/mac/LudoMuse.app/Contents/MacOS/Lud
 cp -r $TRAVIS_BUILD_DIR/deploy/common/* $HOME/LudoMuseEditor.app/Contents/MacOS
 
 
+install_name_tool -id @executable_path/../Frameworks/libquazip.1.dylib $HOME/LudoMuseEditor.app/Contents/Frameworks/libquazip.1.dylib
+install_name_tool -id @executable_path/../Frameworks/libglfw.3.dylib $HOME/LudoMuseEditor.app/Contents/Frameworks/libglfw.3.dylib
+
 install_name_tool -change libquazip.1.dylib @executable_path/../Frameworks/libquazip.1.dylib $HOME/LudoMuseEditor.app/Contents/MacOS/LudoMuseEditor
 install_name_tool -change lib/libglfw.3.dylib @executable_path/../Frameworks/libglfw.3.dylib $HOME/LudoMuseEditor.app/Contents/MacOS/LudoMuseEditor
 
@@ -27,17 +30,17 @@ install_name_tool -change lib/libglfw.3.dylib @executable_path/../Frameworks/lib
 # install_name_tool -id @executable_path/../Frameworks/QtWidgets.framework/Versions/5/QtWidgets $HOME/LudoMuseEditor.app/Contents/Frameworks/QtWidgets.framework/Versions/5/QtWidgets
 # install_name_tool -id @executable_path/../Frameworks/QtOpenGL.framework/Versions/5/QtOpenGL $HOME/LudoMuseEditor.app/Contents/Frameworks/QtOpenGL.framework/Versions/5/QtOpenGL
 
-# QtGui
-install_name_tool -change /usr/local/Cellar/qt@5.7/5.7.1/lib/QtCore.framework/Versions/5/QtCore @executable_path/../Frameworks/QtCore.framework/Versions/5/QtCore $HOME/LudoMuseEditor.app/Contents/Frameworks/QtGui.framework/Versions/5/QtGui
+# # QtGui
+# install_name_tool -change /usr/local/Cellar/qt@5.7/5.7.1/lib/QtCore.framework/Versions/5/QtCore @executable_path/../Frameworks/QtCore.framework/Versions/5/QtCore $HOME/LudoMuseEditor.app/Contents/Frameworks/QtGui.framework/Versions/5/QtGui
 
-# QtWidgets
-install_name_tool -change /usr/local/Cellar/qt@5.7/5.7.1/lib/QtGui.framework/Versions/5/QtGui @executable_path/../Frameworks/QtGui.framework/Versions/5/QtGui $HOME/LudoMuseEditor.app/Contents/Frameworks/QtWidgets.framework/Versions/5/QtWidgets
-install_name_tool -change /usr/local/Cellar/qt@5.7/5.7.1/lib/QtCore.framework/Versions/5/QtCore @executable_path/../Frameworks/QtCore.framework/Versions/5/QtCore $HOME/LudoMuseEditor.app/Contents/Frameworks/QtWidgets.framework/Versions/5/QtWidgets
+# # QtWidgets
+# install_name_tool -change /usr/local/Cellar/qt@5.7/5.7.1/lib/QtGui.framework/Versions/5/QtGui @executable_path/../Frameworks/QtGui.framework/Versions/5/QtGui $HOME/LudoMuseEditor.app/Contents/Frameworks/QtWidgets.framework/Versions/5/QtWidgets
+# install_name_tool -change /usr/local/Cellar/qt@5.7/5.7.1/lib/QtCore.framework/Versions/5/QtCore @executable_path/../Frameworks/QtCore.framework/Versions/5/QtCore $HOME/LudoMuseEditor.app/Contents/Frameworks/QtWidgets.framework/Versions/5/QtWidgets
 
-# QtOpenGL
-install_name_tool -change /usr/local/Cellar/qt@5.7/5.7.1/lib/QtCore.framework/Versions/5/QtCore @executable_path/../Frameworks/QtCore.framework/Versions/5/QtCore $HOME/LudoMuseEditor.app/Contents/Frameworks/QtOpenGL.framework/Versions/5/QtOpenGL
-install_name_tool -change /usr/local/Cellar/qt@5.7/5.7.1/lib/QtGui.framework/Versions/5/QtGui @executable_path/../Frameworks/QtGui.framework/Versions/5/QtGui $HOME/LudoMuseEditor.app/Contents/Frameworks/QtOpenGL.framework/Versions/5/QtOpenGL
-install_name_tool -change /usr/local/Cellar/qt@5.7/5.7.1/lib/QtWidgets.framework/Versions/5/QtWidgets @executable_path/../Frameworks/QtWidgets.framework/Versions/5/QtWidgets $HOME/LudoMuseEditor.app/Contents/Frameworks/QtOpenGL.framework/Versions/5/QtOpenGL
+# # QtOpenGL
+# install_name_tool -change /usr/local/Cellar/qt@5.7/5.7.1/lib/QtCore.framework/Versions/5/QtCore @executable_path/../Frameworks/QtCore.framework/Versions/5/QtCore $HOME/LudoMuseEditor.app/Contents/Frameworks/QtOpenGL.framework/Versions/5/QtOpenGL
+# install_name_tool -change /usr/local/Cellar/qt@5.7/5.7.1/lib/QtGui.framework/Versions/5/QtGui @executable_path/../Frameworks/QtGui.framework/Versions/5/QtGui $HOME/LudoMuseEditor.app/Contents/Frameworks/QtOpenGL.framework/Versions/5/QtOpenGL
+# install_name_tool -change /usr/local/Cellar/qt@5.7/5.7.1/lib/QtWidgets.framework/Versions/5/QtWidgets @executable_path/../Frameworks/QtWidgets.framework/Versions/5/QtWidgets $HOME/LudoMuseEditor.app/Contents/Frameworks/QtOpenGL.framework/Versions/5/QtOpenGL
 
 
 zip -r $HOME/LudoMuseEditor-osx.zip LudoMuseEditor.app
