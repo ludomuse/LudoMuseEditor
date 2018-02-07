@@ -16,12 +16,17 @@ cp -r $TRAVIS_BUILD_DIR/../LudoMuse/Resources $HOME/LudoMuseEditor.app/Contents/
 cp $TRAVIS_BUILD_DIR/../LudoMuse/bin/release/mac/LudoMuse.app/Contents/MacOS/LudoMuse $HOME/LudoMuseEditor.app/Contents/MacOS
 cp -r $TRAVIS_BUILD_DIR/deploy/common/* $HOME/LudoMuseEditor.app/Contents/MacOS
 
+cp $TRAVIS_BUILD_DIR/deploy/osx/Info.plist $HOME/LudoMuseEditor.app/Contents/
+cp $TRAVIS_BUILD_DIR/deploy/osx/ludomuse.icns $HOME/LudoMuseEditor.app/Contents/Resources/
+
+
 
 install_name_tool -id @executable_path/../Frameworks/libquazip.1.dylib $HOME/LudoMuseEditor.app/Contents/Frameworks/libquazip.1.dylib
 install_name_tool -id @executable_path/../Frameworks/libglfw.3.dylib $HOME/LudoMuseEditor.app/Contents/Frameworks/libglfw.3.dylib
 
-install_name_tool -change libquazip.1.dylib @executable_path/../Frameworks/libquazip.1.dylib $HOME/LudoMuseEditor.app/Contents/MacOS/LudoMuseEditor
-install_name_tool -change lib/libglfw.3.dylib @executable_path/../Frameworks/libglfw.3.dylib $HOME/LudoMuseEditor.app/Contents/MacOS/LudoMuseEditor
+# install_name_tool -change libquazip.1.dylib @executable_path/../Frameworks/libquazip.1.dylib $HOME/LudoMuseEditor.app/Contents/MacOS/LudoMuseEditor
+# install_name_tool -change lib/libglfw.3.dylib @executable_path/../Frameworks/libglfw.3.dylib $HOME/LudoMuseEditor.app/Contents/MacOS/LudoMuseEditor
+install_name_tool -change @rpath/QtCore.framework/Versions/5/QtCore @executable_path/../Frameworks/QtCore.framework/Versions/5/QtCore $HOME/LudoMuseEditor.app/Contents/Frameworks/libquazip.1.dylib
 
 
 # Qt fixing
