@@ -66,5 +66,4 @@ deploy:
 
 
 notifications:
-  slack:
-    on_failure: never
+  email: false
