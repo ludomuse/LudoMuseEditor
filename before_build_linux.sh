@@ -9,7 +9,7 @@ sudo apt-get update -qq
 #- sudo apt-get install qtbase5-dev qtdeclarative5-dev libqt5webkit5-dev libsqlite3-dev
 sudo apt-get install qt58base qt58svg qt58charts-no-lgpl qt58xmlpatterns
 source /opt/qt58/bin/qt58-env.sh
-sudo apt-get install -y libxrandr-dev libxi-dev libxxf86vm-dev libgtk-3-dev libglfw3-dev
+sudo apt-get install -y --allow-unauthenticated libxrandr-dev libxi-dev libxxf86vm-dev libgtk-3-dev libglfw3-dev
 echo $PWD
 ./configure-cocos-linux.sh $PWD
 stat $PWD/../LudoMuse/cocos2d
