@@ -1,6 +1,6 @@
 echo -e "machine github.com\n login $GITHUB_TOKEN" >> ~/.netrc
 #git lfs pull
-#sudo add-apt-repository --yes ppa:ubuntu-sdk-team/ppa
+sudo add-apt-repository --yes ppa:ubuntu-sdk-team/ppa
 #sudo add-apt-repository ppa:beineri/opt-qt58-trusty -y
 #echo "deb http://ppa.launchpad.net/keithw/glfw3/ubuntu trusty main" | sudo tee -a /etc/apt/sources.list.d/fillwave_ext.list
 #echo "deb-src http://ppa.launchpad.net/keithw/glfw3/ubuntu trusty main" | sudo tee -a /etc/apt/sources.list.d/fillwave_ext.list
