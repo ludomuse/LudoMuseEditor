@@ -333,12 +333,10 @@ void CSceneInspector::clickOnAdd()
 /*CHAPTERSPROTOYPE***********************************************************************************************************************/
 void CSceneInspector::clickOnAddChapter()
 {
-    qDebug() << "EMIT ADD CHAPTER";
     emit addChapter();
 }
 void CSceneInspector::clickOnDeleteChapter()
 {
-    qDebug() << "EMIT DELETE CHAPTER";
     emit deleteChapter();
 }
 /******************************************************************************************************************************************/

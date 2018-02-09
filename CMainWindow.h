@@ -144,6 +144,7 @@ private:
     CThumbnailsLoaderThread *m_pLoader;
     CArchiver m_oArchiver;
     CTimelineWidget* m_pTimeline;
+    QVector<CTimelineWidget*> m_pTimelines;
 };
 
 #endif // CMAINWINDOW_H

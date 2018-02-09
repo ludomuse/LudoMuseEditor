@@ -12,3 +12,7 @@ CTabPage::~CTabPage()
 {
     delete ui;
 }
+
+QWidget* CTabPage::GetTimeline(){
+    return ui->timelineContainer;
+}
