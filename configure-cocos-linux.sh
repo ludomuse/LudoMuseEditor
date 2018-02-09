@@ -8,7 +8,7 @@ curl -s -O http://cdn.cocos2d-x.org/cocos2d-x-3.16.zip
 echo "unzipping cocos 3.16"
 unzip -q $PREF/cocos2d-x-3.16.zip -d $PREF
 export COCOS=$PREF/cocos2d-x-3.16/tools/cocos2d-console/bin/cocos
-#$PREF/LudoMuseEditor/install_glfw.sh
+$PREF/LudoMuseEditor/install_glfw.sh
 echo "creating LudoMuse cocos project"
 stat $COCOS
 cd $PREF
