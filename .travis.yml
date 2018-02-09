@@ -22,7 +22,6 @@ matrix:
             - libglew-dev
             - binutils
             - binutils-dev
-            - libglfw3-dev
       env: COMPILER_NAME=gcc CXX=/usr/bin/g++-7 CC=/usr/bin/gcc-7
 
 
