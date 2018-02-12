@@ -1658,7 +1658,7 @@
          </widget>
         </item>
         <item>
-         <widget class="QTabWidget" name="mmBotView">
+         <widget class="CTabWidget" name="mmBotView">
           <property name="sizePolicy">
            <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
             <horstretch>0</horstretch>
@@ -1788,6 +1788,12 @@
    <class>CMacroWidget</class>
    <extends>QWidget</extends>
    <header>CMacroWidget.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>CTabWidget</class>
+   <extends>QTabWidget</extends>
+   <header>CTabWidget.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>

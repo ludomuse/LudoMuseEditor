@@ -1,4 +1,5 @@
 #include "CTabWidget.h"
+#include <QDebug>
 
 TabWidget::TabWidget()
 {
