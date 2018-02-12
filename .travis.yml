@@ -48,10 +48,12 @@ before_deploy:
   
 deploy:
   - provider: script
-    script: curl -u $UPLOAD_USER:$UPLOAD_PWD -T $HOME/LudoMuseEditor-$TRAVIS_OS_NAME.zip $UPLOAD_SERVER/LudoMuseEditor/LudoMuseEditor-$TRAVIS_OS_NAME-$TRAVIS_BUILD_NUMBER.zip
+    script: curl -u $UPLOAD_USER:$UPLOAD_PWD -T $HOME/LudoMuseEditor-$TRAVIS_OS_NAME.zip $UPLOAD_SERVER/LudoMuseEditor/LudoMuseEditor-$TRAVIS_BRANCH-$TRAVIS_OS_NAME-$TRAVIS_BUILD_NUMBER.zip
     skip_cleanup: true
     on:
-      branch: master
+      branch: 
+        - master
+        - dev
 
   - provider: releases
     api_key:
@@ -60,7 +62,7 @@ deploy:
     skip_cleanup: true
     on:
       tags: true
-#    branch: master
+   branch: master
 
 
 
