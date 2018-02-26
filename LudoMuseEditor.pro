@@ -127,7 +127,8 @@ SOURCES += main.cpp\
     CPhotoPuzzleWizard.cpp \
     CWizardFactory.cpp \
     CQuizWizard.cpp \
-    CTabPage.cpp
+    CTabPage.cpp \
+    CTabWidget.cpp
 
 HEADERS  += CMainWindow.h \
     LudoMuse_src/Classes/Engine/Include/CCallback.h \
@@ -221,7 +222,8 @@ HEADERS  += CMainWindow.h \
     CQuizWizard.h \
     CQuizWizard.h \
     CTabPage.h \
-    CChapterStruct.h
+    CChapterStruct.h \
+    CTabWidget.h
 
 FORMS    += \
     CLoaderWidget.ui \

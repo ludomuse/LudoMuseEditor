@@ -14,6 +14,7 @@ class CTabPage : public QWidget
 public:
     explicit CTabPage(QWidget *parent = 0);
     ~CTabPage();
+    QWidget* GetTimeline();
 
 private:
     Ui::CTabPage *ui;

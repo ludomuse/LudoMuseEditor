@@ -71,6 +71,10 @@
 #include "Classes/Engine/Include/CEditorFindEntityTouchVisitor.h"
 #include "Classes/Modules/Util/Include/Util.h"
 
+#include <iostream>
+
+#define PERFORM_IN_COCOS_THREAD(FUN) cocos2d::Director::getInstance()->getScheduler()->performFunctionInCocosThread([=]()FUN)
+
 
 
 CMainWindow::CMainWindow(QWidget *parent) :
@@ -128,6 +132,10 @@ CMainWindow::CMainWindow(QWidget *parent) :
 
     // Connect kernel signal
     connect(CEditorKernel::Instance(), SIGNAL(sendMenuNodeSignal(LM::CMenuNode*)), this, SLOT(receiveMenu(LM::CMenuNode*)));
+
+    /*CHAPTERSPROTOTYPE************************************************************************************************************************/
+    connect(ui->mmBotView->tabBar(),SIGNAL(tabMoved(int,int)),this,SLOT(reorganizeChapters(int,int)));
+    /******************************************************************************************************************************************/
 
     this->showMaximized();
 }
@@ -220,21 +228,50 @@ void CMainWindow::loadExistingProject(const QString& a_sProjectFile)
     connect(m_pKernel, SIGNAL(captureFinished(QString)),
             this, SLOT(loadCapture(QString)));
 
-    m_pTimeline = new CTimelineWidget(ui->timelineContainer);
-    ui->timelineContainer->layout()->addWidget(m_pTimeline);
-    connect(m_pTimeline, SIGNAL(thumbnailSelected()),
+    /*CHAPTERSPROTOTYPE************************************************************************************************************************/
+    //Need to create a timelinewidget by chapter.
+    m_pTimelines.append(new CTimelineWidget(ui->timelineContainer));
+    ui->timelineContainer->layout()->addWidget(m_pTimelines[0]);
+    connect(m_pTimelines[0], SIGNAL(thumbnailSelected()),
             this, SLOT(changeScene()));
-    connect(m_pTimeline, SIGNAL(saveThumbnail()),
+    connect(m_pTimelines[0], SIGNAL(saveThumbnail()),
             this, SLOT(saveCapture()));
 
+    std::cout << "1 - MMBOTVIEW SIZE : " << ui->mmBotView->count() << std::endl;
+    for (int i = 0; i < m_pKernel->GetChapterNumber();++i){
+        CTabPage *tabPage = new CTabPage();
+        QString tabName;
+        std::cout << "2 - I VALUE : " << i << std::endl;
+        tabName = QString::fromStdString(m_pKernel->GetChapterName(i));
+        if (i == 0){
+            ui->mmBotView->setTabText(i,tabName);
+        } else {
+            m_pTimelines.append(new CTimelineWidget(tabPage->GetTimeline()));
+            tabPage->GetTimeline()->layout()->addWidget(m_pTimelines[i]);
+            connect(m_pTimelines[i], SIGNAL(thumbnailSelected()),
+                    this, SLOT(changeScene()));
+            connect(m_pTimelines[i], SIGNAL(saveThumbnail()),
+                    this, SLOT(saveCapture()));
+            ui->mmBotView->insertTab(i,tabPage,tabName);
+            std::cout << "3 - MMBOTVIEW SIZE : " << ui->mmBotView->count() << " - INDEX : " << i << std::endl;
+        }
+    }
+    std::cout << "4 - MMBOTVIEW SIZE : " << ui->mmBotView->count() << std::endl;
+    ui->mmBotView->setMovable(true);
+    /******************************************************************************************************************************************/
+    std::cout << "5.1 - BEFORE TREE" << std::endl;
     this->ProcessTree();
+    std::cout << "5.2 - AFTER TREE" << std::endl;
 
     InspectScene(m_pKernel->m_pCurrentScene);
-    m_pTimeline->SetCurrentPlayer(m_pKernel->GetActivePlayer());
-    m_pTimeline->SelectThumbnail(QString::fromStdString(m_pKernel->m_pCurrentScene->GetSceneID()));
-
-    m_pTimeline->UpdateTimeline();
-    m_pTimeline->LoadPreviews();
+    m_pTimelines[0]->SetCurrentPlayer(m_pKernel->GetActivePlayer());
+    m_pTimelines[0]->SelectThumbnail(QString::fromStdString(m_pKernel->m_pCurrentScene->GetSceneID()));
+    std::cout << "6.1 - TIMELINE LOADED" << std::endl;
+    for (int j = 0; j < m_pTimelines.size(); ++j){
+        m_pTimelines[j]->UpdateTimeline();
+        m_pTimelines[j]->LoadPreviews();
+    }
+    std::cout << "6.2 - TIMELINES LOADED" << std::endl;
 
 //    ui->macros->Init();
     ui->macros->SetKernel(m_pKernel);
@@ -242,6 +279,8 @@ void CMainWindow::loadExistingProject(const QString& a_sProjectFile)
     connect(ui->macros, SIGNAL(macroModified()), this, SLOT(reloadScene()));
     connect(ui->macros, SIGNAL(deleteClicked()), this, SLOT(clearInspectorContainer()));
 //    CExplorerView *cev = new CExplorerView(projectPath);
+
+
 }
 
 void CMainWindow::receiveLabel(LM::CLabelNode* a_pLabel)
@@ -301,49 +340,57 @@ void CMainWindow::clearSceneInspector()
 void CMainWindow::ShowCurrentScene()
 {
     clearInspectorContainer();
-    LM::SEvent dummyEvent(LM::SEvent::NONE, nullptr, m_pTimeline->GetCurrentSceneID().toStdString(), true, m_pTimeline->GetCurrentPlayer());
+    LM::SEvent dummyEvent(LM::SEvent::NONE, nullptr, m_pTimelines[ui->mmBotView->currentIndex()]->GetCurrentSceneID().toStdString(), true, m_pTimelines[ui->mmBotView->currentIndex()]->GetCurrentPlayer());
     ON_CC_THREAD(LM::CKernel::GotoScreenID, this->m_pKernel, dummyEvent, nullptr);
 }
 
 void CMainWindow::changeScene()
 {
-//    saveCapture();
+    //saveCapture();
     ShowCurrentScene();
 }
 
 void CMainWindow::goToNextScene()
 {
     saveCapture();
-    m_pTimeline->SelectNextThumbnail();
+    m_pTimelines[ui->mmBotView->currentIndex()]->SelectNextThumbnail();
     ShowCurrentScene();
 }
 
 void CMainWindow::goToPreviousScene()
 {
     saveCapture();
-    m_pTimeline->SelectPrevThumbnail();
+    m_pTimelines[ui->mmBotView->currentIndex()]->SelectPrevThumbnail();
     ShowCurrentScene();
 }
 
 void CMainWindow::goToDashBoard()
 {
     clearInspectorContainer();
-    m_pTimeline->UnselectThumbnails();
+    m_pTimelines[ui->mmBotView->currentIndex()]->UnselectThumbnails();
     ON_CC_THREAD(LM::CKernel::GotoDashboard, this->m_pKernel);
 }
 
 void CMainWindow::goToWaitingScreen()
 {
     clearInspectorContainer();
-    m_pTimeline->UnselectThumbnails();
+    m_pTimelines[ui->mmBotView->currentIndex()]->UnselectThumbnails();
     ON_CC_THREAD(LM::CKernel::GotoWaitingScene, this->m_pKernel);
 }
 
 void CMainWindow::addOneScene(const QString &a_sPreviousID, const QString &a_sNewID, int a_iPlayerID, CTemplate* a_pTemplate)
 {
     //    m_iActivePlayer = a_iPlayerID;
-    ON_CC_THREAD(LM::CKernel::AddNewScene, m_pKernel, a_pTemplate->GetPath().toStdString(),
-                 a_sPreviousID.toStdString(), a_sNewID.toStdString(), a_iPlayerID, 0, "");
+//    ON_CC_THREAD(LM::CKernel::AddNewScene, m_pKernel, a_pTemplate->GetPath().toStdString(),
+//                 a_sPreviousID.toStdString(), a_sNewID.toStdString(), a_iPlayerID, 0, "");
+    PERFORM_IN_COCOS_THREAD({
+        this->m_pKernel->AddNewScene(a_pTemplate->GetPath().toStdString(),
+                               a_sPreviousID.toStdString(),
+                               a_sNewID.toStdString(),
+                               a_iPlayerID,
+                               ui->mmBotView->currentIndex());
+    });
+
     //    m_pKernel->AddNewScene( a_pTemplate->GetPath().toStdString(),
     //                            a_sPreviousID.toStdString(), a_sNewID.toStdString(), a_iPlayerID, 0, "");
 }
@@ -352,10 +399,26 @@ void CMainWindow::addTwoScene(const QString &a_sPreviousIDP1, const QString &a_s
                               const QString &a_sPreviousIDP2, const QString &a_sNewIDP2,
                               CTemplate* a_pTemplate)
 {
-    ON_CC_THREAD(LM::CKernel::AddNewScene, m_pKernel, a_pTemplate->GetPath().toStdString(),
-                 a_sPreviousIDP1.toStdString(), a_sNewIDP1.toStdString(), PLAYER_1, 0, "");
-    ON_CC_THREAD(LM::CKernel::AddNewScene, m_pKernel, a_pTemplate->GetPath().toStdString(),
-                 a_sPreviousIDP2.toStdString(), a_sNewIDP2.toStdString(), PLAYER_2, 0, "");
+    PERFORM_IN_COCOS_THREAD({
+        this->m_pKernel->AddNewScene(a_pTemplate->GetPath().toStdString(),
+                                a_sPreviousIDP1.toStdString(),
+                                a_sNewIDP1.toStdString(),
+                                PLAYER_1,
+                                ui->mmBotView->currentIndex());
+    });
+//    ON_CC_THREAD(LM::CKernel::AddNewScene, m_pKernel, a_pTemplate->GetPath().toStdString(),
+//                 a_sPreviousIDP1.toStdString(), a_sNewIDP1.toStdString(), PLAYER_1, 0, "");
+
+    PERFORM_IN_COCOS_THREAD({
+        this->m_pKernel->AddNewScene(a_pTemplate->GetPath().toStdString(),
+                                a_sPreviousIDP2.toStdString(), a_sNewIDP2.toStdString(),
+                                PLAYER_2,
+                                ui->mmBotView->currentIndex());
+    });
+
+//    ON_CC_THREAD(LM::CKernel::AddNewScene, m_pKernel, a_pTemplate->GetPath().toStdString(),
+//                 a_sPreviousIDP2.toStdString(), a_sNewIDP2.toStdString(), PLAYER_2, 0, "");
+
     //    m_pKernel->AddNewScene(a_pTemplate->GetPath().toStdString(),
     //                           a_sPreviousIDP1.toStdString(), a_sNewIDP1.toStdString(), PLAYER_1, 0, "");
     //    m_pKernel->AddNewScene(a_pTemplate->GetPath().toStdString(),
@@ -365,8 +428,16 @@ void CMainWindow::addTwoScene(const QString &a_sPreviousIDP1, const QString &a_s
 void CMainWindow::addSharedScene(const QString &a_sPreviousIDP1, const QString &a_sPreviousIDP2,
                                  const QString &a_sNewIDP, CTemplate* a_pTemplate)
 {
-    ON_CC_THREAD(LM::CKernel::AddNewSharedScene, m_pKernel, a_pTemplate->GetPath().toStdString(),
-                 a_sPreviousIDP1.toStdString(), a_sPreviousIDP2.toStdString(), a_sNewIDP.toStdString(), 0, "");
+    PERFORM_IN_COCOS_THREAD({
+        this->m_pKernel->AddNewSharedScene(a_pTemplate->GetPath().toStdString(),
+                                a_sPreviousIDP1.toStdString(),
+                                a_sPreviousIDP2.toStdString(),
+                                a_sNewIDP.toStdString(),
+                                0, "", ui->mmBotView->currentIndex());
+    });
+
+//    ON_CC_THREAD(LM::CKernel::AddNewSharedScene, m_pKernel, a_pTemplate->GetPath().toStdString(),
+//                 a_sPreviousIDP1.toStdString(), a_sPreviousIDP2.toStdString(), a_sNewIDP.toStdString(), "", 0);
 }
 
 void CMainWindow::addGameScene(const QString &a_sPreviousIDP1, const QString &a_sNewIDP1,
@@ -374,10 +445,10 @@ void CMainWindow::addGameScene(const QString &a_sPreviousIDP1, const QString &a_
                                CTemplate* a_pTemplate, int a_iTemplateNumberP1, int a_iTemplateNumberP2)
 {
     ON_CC_THREAD(LM::CKernel::AddSyncID, m_pKernel, a_sNewIDP1.toStdString(), a_sNewIDP2.toStdString());
-        ON_CC_THREAD(LM::CKernel::AddNewScene, m_pKernel, a_pTemplate->GetPath().toStdString(),
-                     a_sPreviousIDP1.toStdString(), a_sNewIDP1.toStdString(), PLAYER_1, a_iTemplateNumberP1, a_sNewIDP2.toStdString());
-        ON_CC_THREAD(LM::CKernel::AddNewScene, m_pKernel, a_pTemplate->GetPath().toStdString(),
-                     a_sPreviousIDP2.toStdString(), a_sNewIDP2.toStdString(), PLAYER_2, a_iTemplateNumberP2, a_sNewIDP1.toStdString());
+    ON_CC_THREAD(LM::CKernel::AddNewScene, m_pKernel, a_pTemplate->GetPath().toStdString(),
+                 a_sPreviousIDP1.toStdString(), a_sNewIDP1.toStdString(), PLAYER_1, 0, a_iTemplateNumberP1, a_sNewIDP2.toStdString());
+    ON_CC_THREAD(LM::CKernel::AddNewScene, m_pKernel, a_pTemplate->GetPath().toStdString(),
+                 a_sPreviousIDP2.toStdString(), a_sNewIDP2.toStdString(), PLAYER_2, 0, a_iTemplateNumberP2, a_sNewIDP1.toStdString());
 //    m_pKernel->AddNewScene(a_pTemplate->GetPath().toStdString(),
 //                           a_sPreviousIDP1.toStdString(), a_sNewIDP1.toStdString(), PLAYER_1, a_iTemplateNumberP1, a_sNewIDP2.toStdString());
 //    m_pKernel->AddNewScene(a_pTemplate->GetPath().toStdString(),
@@ -498,13 +569,12 @@ void CMainWindow::produceJson(const QString& a_rFileName){
 void CMainWindow::launchAddSceneWizard()
 {
     CAddSceneWizard* pSceneWizard;
-
-    pSceneWizard = new CAddSceneWizard(m_pTimeline->GetCurrentScenePlayer(),
+    pSceneWizard = new CAddSceneWizard(m_pTimelines[ui->mmBotView->currentIndex()]->GetCurrentScenePlayer(),
                                        m_pKernel->GetSceneIDPlayer(PLAYER_1),
                                        m_pKernel->GetSceneIDPlayer(PLAYER_2),
                                        this,
-                                       m_pTimeline->GetPlayerSceneID(PLAYER_1),
-                                       m_pTimeline->GetPlayerSceneID(PLAYER_2),
+                                       m_pTimelines[ui->mmBotView->currentIndex()]->GetPlayerSceneID(PLAYER_1),
+                                       m_pTimelines[ui->mmBotView->currentIndex()]->GetPlayerSceneID(PLAYER_2),
                                        m_pKernel);
 
     connect(pSceneWizard, SIGNAL(addOneScene(QString,QString,int,CTemplate*)), this, SLOT(addOneScene(QString,QString,int,CTemplate*)));
@@ -523,44 +593,64 @@ void CMainWindow::addingChapter(){
     CTabPage *tabPage = new CTabPage();
     bool ok;
     QString tabName = QInputDialog::getText(this,"Nom du chapitre","Veuillez entrez un nom pour le chapitre :",QLineEdit::Normal,"Introduction",&ok);
-    //tabName.append(QString::number(ui->mmBotView->count()+1));
-    //ui->mmBotView->addTab(tabPage,tabName);//Insere a la fin de la liste
-    ui->mmBotView->insertTab(ui->mmBotView->currentIndex()+1,tabPage,tabName);
-    m_pKernel->SeeChapters();
+    if (ok){
+        ui->mmBotView->insertTab(ui->mmBotView->currentIndex()+1, tabPage, tabName);
+
+        m_pKernel->AddChapter(tabName.toStdString(), ui->mmBotView->currentIndex()+1);
+
+        m_pTimelines.insert(ui->mmBotView->currentIndex()+1,new CTimelineWidget(tabPage->GetTimeline()));
+        tabPage->GetTimeline()->layout()->addWidget(m_pTimelines[ui->mmBotView->currentIndex()+1]);
+        connect(m_pTimelines[ui->mmBotView->currentIndex()+1], SIGNAL(thumbnailSelected()),
+                this, SLOT(changeScene()));
+        connect(m_pTimelines[ui->mmBotView->currentIndex()+1], SIGNAL(saveThumbnail()),
+                this, SLOT(saveCapture()));
+    }
 }
 
 void CMainWindow::deletingChapter(){
     ui->mmBotView->removeTab(ui->mmBotView->currentIndex());
     QString tabName = "Chapitre ";
 }
+
+void CMainWindow::reorganizeChapters(int from, int to){
+    m_pKernel->reorganizeChapters(from,to);
+    CTimelineWidget *saveTimeline = m_pTimelines[from];
+    m_pTimelines.erase(m_pTimelines.begin()+from);
+    m_pTimelines.insert(to,saveTimeline);
+}
+
 /******************************************************************************************************************************************/
 
 void CMainWindow::addingSceneFinished(const QString& a_sPrevSceneID, const QString& a_sSceneID, int a_iPlayerID)
 {
     saveCapture();
     qDebug() << "Scene : " << a_sSceneID << " - Synced : " << m_pKernel->GetSyncedScene(a_sSceneID);
-    m_pTimeline->InsertScene(a_sPrevSceneID, a_sSceneID, a_iPlayerID, m_pKernel->GetSyncedScene(a_sSceneID));
-    m_pTimeline->UpdateTimeline();
+    m_pTimelines[ui->mmBotView->currentIndex()]->InsertScene(a_sPrevSceneID, a_sSceneID, a_iPlayerID, m_pKernel->GetSyncedScene(a_sSceneID));
+    m_pTimelines[ui->mmBotView->currentIndex()]->UpdateTimeline();
     ShowCurrentScene();
 }
 
 void CMainWindow::addingSharedSceneFinished(const QString& a_sPrevSceneID1, const QString& a_sPrevSceneID2, const QString& a_sSceneID)
 {
     saveCapture();
-    m_pTimeline->InsertSharedScene(a_sPrevSceneID1, a_sPrevSceneID2, a_sSceneID);
-    m_pTimeline->UpdateTimeline();
+    m_pTimelines[ui->mmBotView->currentIndex()]->InsertSharedScene(a_sPrevSceneID1, a_sPrevSceneID2, a_sSceneID);
+    m_pTimelines[ui->mmBotView->currentIndex()]->UpdateTimeline();
     ShowCurrentScene();
 }
 
 void CMainWindow::deletingSceneFinished(const QString a_sSceneID)
 {
-    m_pTimeline->RemoveScene(a_sSceneID);
-    m_pTimeline->UpdateTimeline();
+    m_pTimelines[ui->mmBotView->currentIndex()]->RemoveScene(a_sSceneID);
+    m_pTimelines[ui->mmBotView->currentIndex()]->UpdateTimeline();
     ShowCurrentScene();
 }
 
 void CMainWindow::ProcessTree()
 {
+    int sceneIndex = 0;
+    int chapterIndex = 0;
+    int change = m_pKernel->GetSceneNumberCalculated(chapterIndex);
+
     LM::CNode *mainNode = this->m_pKernel->GetBehaviorTree();
 
     for(LM::CNode* currentNode : *mainNode)
@@ -568,12 +658,19 @@ void CMainWindow::ProcessTree()
         LM::CSceneNode* currentSceneNode = (dynamic_cast<LM::CSceneNode*>(currentNode));
         if(currentSceneNode)
         {
-            QString sceneId(currentSceneNode->GetSceneID().c_str());
-            LM::CSceneNode* currentSceneNode = (dynamic_cast<LM::CSceneNode*>(currentNode));
-            if(currentSceneNode)
-            {
-                m_pTimeline->PushScene(sceneId, ScreenIDToPlayerID(sceneId), m_pKernel->GetSyncedScene(sceneId));
+            QString sceneId(QString::fromStdString(currentSceneNode->GetSceneID()));
+            if (sceneIndex == change){
+                sceneIndex = 0;
+                chapterIndex++;
+                change = m_pKernel->GetSceneNumberCalculated(chapterIndex);
             }
+            /*std::cout << "CHAPTERHASSCENE : SCENE " << sceneId.toStdString() << " CHAPTERINDEX " << chapterIndex << " RESULT " << m_pKernel->ChapterHasScene(chapterIndex,sceneId.toStdString()) << "\n";
+            std::cout.flush();
+            if (!m_pKernel->ChapterHasScene(chapterIndex,sceneId.toStdString())){
+                chapterIndex++;
+            }*/
+            m_pTimelines[chapterIndex]->PushScene(sceneId, ScreenIDToPlayerID(sceneId), m_pKernel->GetSyncedScene(sceneId));
+            sceneIndex++;
         }
     }
 }
@@ -767,9 +864,9 @@ void CMainWindow::InspectScene(LM::CSceneNode* a_pScene)
     //    }
 
     // Searching which player have the scene
-    m_pKernel->SeeChapters();
     QString sceneId(a_pScene->GetSceneID().c_str());
     CSceneInspector* sceneInspector = Q_NULLPTR;
+
     if(m_pKernel->PlayerHasScene(sceneId.toStdString(), PLAYER_1)
             && m_pKernel->PlayerHasScene(sceneId.toStdString(), PLAYER_2)) //  P1 and P2
     {
@@ -869,7 +966,7 @@ void CMainWindow::saveCapture()
 
 void CMainWindow::loadCapture(QString a_sSceneID)
 {
-    m_pTimeline->LoadPreview(a_sSceneID);
+    m_pTimelines[ui->mmBotView->currentIndex()]->LoadPreview(a_sSceneID);
 }
 
 void CMainWindow::on_archiveButton_clicked()

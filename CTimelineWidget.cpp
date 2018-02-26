@@ -127,6 +127,8 @@ void CTimelineWidget::UpdateTimeline()
     setLayout(pHBLayout);
 }
 
+
+
 QWidget* CTimelineWidget::NewColumn(bool a_bIsGame)
 {
     QWidget* pNewColumn = new QWidget(this);

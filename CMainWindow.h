@@ -128,6 +128,7 @@ private slots:
     /*CHAPTERSPROTOYPE***********************************************************************************************************************/
     void addingChapter();
     void deletingChapter();
+    void reorganizeChapters(int from, int to);
     /******************************************************************************************************************************************/
 
 private:
@@ -144,6 +145,7 @@ private:
     CThumbnailsLoaderThread *m_pLoader;
     CArchiver m_oArchiver;
     CTimelineWidget* m_pTimeline;
+    QVector<CTimelineWidget*> m_pTimelines;
 };
 
 #endif // CMAINWINDOW_H
