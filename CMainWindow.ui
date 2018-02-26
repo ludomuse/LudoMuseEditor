@@ -83,7 +83,7 @@
             <rect>
              <x>0</x>
              <y>0</y>
-             <width>359</width>
+             <width>352</width>
              <height>366</height>
             </rect>
            </property>
@@ -583,7 +583,7 @@
                 <x>0</x>
                 <y>0</y>
                 <width>260</width>
-                <height>448</height>
+                <height>433</height>
                </rect>
               </property>
               <property name="autoFillBackground">
@@ -1653,7 +1653,7 @@
           <property name="minimumSize">
            <size>
             <width>0</width>
-            <height>260</height>
+            <height>275</height>
            </size>
           </property>
           <property name="styleSheet">
@@ -1674,6 +1674,12 @@
            <layout class="QHBoxLayout" name="horizontalLayout">
             <item>
              <widget class="QScrollArea" name="scrollArea">
+              <property name="minimumSize">
+               <size>
+                <width>0</width>
+                <height>160</height>
+               </size>
+              </property>
               <property name="verticalScrollBarPolicy">
                <enum>Qt::ScrollBarAlwaysOff</enum>
               </property>
@@ -1688,8 +1694,8 @@
                 <rect>
                  <x>0</x>
                  <y>0</y>
-                 <width>1008</width>
-                 <height>200</height>
+                 <width>1015</width>
+                 <height>215</height>
                 </rect>
                </property>
                <layout class="QHBoxLayout" name="horizontalLayout_5"/>

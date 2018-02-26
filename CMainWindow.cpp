@@ -279,8 +279,6 @@ void CMainWindow::loadExistingProject(const QString& a_sProjectFile)
     connect(ui->macros, SIGNAL(macroModified()), this, SLOT(reloadScene()));
     connect(ui->macros, SIGNAL(deleteClicked()), this, SLOT(clearInspectorContainer()));
 //    CExplorerView *cev = new CExplorerView(projectPath);
-
-
 }
 
 void CMainWindow::receiveLabel(LM::CLabelNode* a_pLabel)
@@ -647,9 +645,9 @@ void CMainWindow::deletingSceneFinished(const QString a_sSceneID)
 
 void CMainWindow::ProcessTree()
 {
-    int sceneIndex = 0;
+    //int sceneIndex = 0;
     int chapterIndex = 0;
-    int change = m_pKernel->GetSceneNumberCalculated(chapterIndex);
+    //int change = m_pKernel->GetSceneNumberCalculated(chapterIndex);
 
     LM::CNode *mainNode = this->m_pKernel->GetBehaviorTree();
 
@@ -659,18 +657,20 @@ void CMainWindow::ProcessTree()
         if(currentSceneNode)
         {
             QString sceneId(QString::fromStdString(currentSceneNode->GetSceneID()));
-            if (sceneIndex == change){
+            std::cout << "###### SCENE : " << sceneId.toStdString() << std::endl;
+            /*if (sceneIndex == change){
                 sceneIndex = 0;
                 chapterIndex++;
                 change = m_pKernel->GetSceneNumberCalculated(chapterIndex);
-            }
-            /*std::cout << "CHAPTERHASSCENE : SCENE " << sceneId.toStdString() << " CHAPTERINDEX " << chapterIndex << " RESULT " << m_pKernel->ChapterHasScene(chapterIndex,sceneId.toStdString()) << "\n";
-            std::cout.flush();
+            }*/
+            //std::cout << "CHAPTERHASSCENE : SCENE " << sceneId.toStdString() << " CHAPTERINDEX " << chapterIndex << " RESULT " << m_pKernel->ChapterHasScene(chapterIndex,sceneId.toStdString()) << std::endl;
             if (!m_pKernel->ChapterHasScene(chapterIndex,sceneId.toStdString())){
                 chapterIndex++;
-            }*/
+                //std::cout << "####### INCREMENTATION CHAPTERINDEX #######" << std::endl;
+            }
+            //std::cout << "INSERTION SCENE " << sceneId.toStdString() << " IN CHAPTER " << chapterIndex << std::endl;
             m_pTimelines[chapterIndex]->PushScene(sceneId, ScreenIDToPlayerID(sceneId), m_pKernel->GetSyncedScene(sceneId));
-            sceneIndex++;
+            //sceneIndex++;
         }
     }
 }
@@ -852,6 +852,7 @@ void CMainWindow::nodeSoundRemoved(LM::CEntityNode* a_pNode)
 
 void CMainWindow::InspectScene(LM::CSceneNode* a_pScene)
 {
+    std::cout << "#### INSPECT SCENE BEGIN" << std::endl;
     // Clear inspector loayout from older inspection
     //    QLayoutItem *child;
     //    QLayout* inspectorContainerLayout = this->ui->sceneInspectorContainer->layout();
@@ -902,6 +903,7 @@ void CMainWindow::InspectScene(LM::CSceneNode* a_pScene)
             ui->sceneInspectorContainer->layout()->addWidget(dashboardInspector);
         }
     }
+    std::cout << "#### INSPECT SCENE END" << std::endl;
 }
 
 void CMainWindow::InspectMenuNode(LM::CMenuNode* a_pMenuNode)
