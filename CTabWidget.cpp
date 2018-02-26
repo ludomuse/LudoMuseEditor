@@ -1,5 +1,6 @@
 #include "CTabWidget.h"
 #include <QDebug>
+#include <QTabBar>
 
 TabWidget::TabWidget()
 {
