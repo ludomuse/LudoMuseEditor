@@ -127,8 +127,7 @@ SOURCES += main.cpp\
     CPhotoPuzzleWizard.cpp \
     CWizardFactory.cpp \
     CQuizWizard.cpp \
-    CTabPage.cpp \
-    CAddChapterWizard.cpp
+    CTabPage.cpp
 
 HEADERS  += CMainWindow.h \
     LudoMuse_src/Classes/Engine/Include/CCallback.h \
@@ -222,7 +221,6 @@ HEADERS  += CMainWindow.h \
     CQuizWizard.h \
     CQuizWizard.h \
     CTabPage.h \
-    CAddChapterWizard.h \
     CChapterStruct.h
 
 FORMS    += \
