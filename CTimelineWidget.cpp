@@ -234,6 +234,8 @@ void CTimelineWidget::InsertScene(const QString& a_sPrevSceneID, const QString& 
             ActivateThumbnails();
 //        }
     }
+        QTextStream(stdout) << "INSERTSCENE" <<endl;
+        QTextStream(stdout).flush();
 }
 
 void CTimelineWidget::InsertSharedScene(const QString &a_sPrevSceneID1, const QString &a_sPrevSceneID2, const QString &a_sSceneID)
@@ -399,6 +401,7 @@ void CTimelineWidget::SelectThumbnail(CThumbnailWidget *a_pThumbnail)
     }
     ActivateThumbnails();
 }
+
 
 void CTimelineWidget::SelectThumbnail(const QString& a_sSceneID) {
     int iIndex = FindThumbnailIndex(a_sSceneID);

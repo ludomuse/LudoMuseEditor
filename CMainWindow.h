@@ -14,6 +14,9 @@
 #include "CThumbnailsLoaderThread.h"
 #include "CArchiver.h"
 #include "CTimelineWidget.h"
+/*ADDCHAPTERPROTOYPE***********************************************************************************************************************/
+#include "CTabPage.h"
+/******************************************************************************************************************************************/
 
 #include <Classes/Engine/Include/CKernel.h>
 #include <Classes/Engine/Include/CLabelNode.h>
@@ -121,6 +124,11 @@ private slots:
     void reloadScene();
     void on_archiveButton_clicked();
     void closeEvent(QCloseEvent* a_oEvent);
+
+    /*CHAPTERSPROTOYPE***********************************************************************************************************************/
+    void addingChapter();
+    void deletingChapter();
+    /******************************************************************************************************************************************/
 
 private:
     Ui::CMainWindow *ui;
