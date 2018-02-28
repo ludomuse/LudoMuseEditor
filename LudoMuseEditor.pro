@@ -36,6 +36,9 @@ QMAKE_CXXFLAGS += -DLUDOMUSE_EDITOR
 
 #QMAKE_CXXFLAGS += APPCONTAINER:NO
 
+#QMAKE_CXXFLAGS += -DLUDOMUSE_EDITOR
+DEFINES += "LUDOMUSE_EDITOR=1"
+
 isEmpty(LUDOMUSE_PATH) {
     LUDOMUSE_PATH = "../LudoMuse/"
 }
@@ -81,7 +84,6 @@ SOURCES += main.cpp\
     LudoMuse_src/Classes/Engine/Source/CScratchNode.cpp \
     LudoMuse_src/Classes/Modules/Util/Source/CStats.cpp \
     LudoMuse_src/Classes/Modules/Util/Source/Util.cpp \
-    LudoMuse_src/Classes/HelloWorldScene.cpp \
     CThreadCocos.cpp \
     LudoMuse_src/Classes/AppDelegate.cpp \
     CThumbnailWidget.cpp \
@@ -367,9 +369,9 @@ INCLUDEPATH += /libs/quazip
 INCLUDEPATH += /home/babouchot/lib/glew-2.0.0/include
 
 
-SOURCES +=     LudoMuse_src/Classes/Modules/Networking/linux/Source/CNetworkManager.cpp \
+SOURCES +=     LudoMuse_src/Classes/Modules/Networking/unix/Source/CNetworkManager.cpp \
 
-HEADERS +=     LudoMuse_src/Classes/Modules/Networking/linux/Include/CNetworkManager.h \
+HEADERS +=     LudoMuse_src/Classes/Modules/Networking/unix/Include/CNetworkManager.h \
 
 QMAKE_RPATHDIR += ./ ./lib
 
