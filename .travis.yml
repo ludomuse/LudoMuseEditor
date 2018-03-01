@@ -38,7 +38,7 @@ script:
   # - echo "g++-7 ?"
   # - /usr/bin/g++-7 --version
   - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then ./build_linux.sh; fi
-  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then ./build_osx.sh; fi
+  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then travis_wait 30 ./build_osx.sh; fi
 
 
   
@@ -48,7 +48,7 @@ before_deploy:
   
 deploy:
   - provider: script
-    script: curl -u $UPLOAD_USER:$UPLOAD_PWD -T $HOME/LudoMuseEditor-$TRAVIS_OS_NAME.zip $UPLOAD_SERVER/LudoMuseEditor/LudoMuseEditor-$TRAVIS_BRANCH-$TRAVIS_OS_NAME-$TRAVIS_BUILD_NUMBER.zip
+    script: curl -u $UPLOAD_USER:$UPLOAD_PWD -T $HOME/LudoMuseEditor-$TRAVIS_OS_NAME.zip $UPLOAD_SERVER/LudoMuseEditor/$TRAVIS_BRANCH/LudoMuseEditor-$TRAVIS_OS_NAME-$TRAVIS_BUILD_NUMBER.zip
     skip_cleanup: true
     on:
       branch: 
