@@ -20,11 +20,9 @@
 #include "LudoMuse_src/Classes/Engine/Include/CValidator.h"
 
 
-CPhotoPuzzleWizard::CPhotoPuzzleWizard(const SNewGameInfo& a_rNewGame, LM::CKernel* a_pKernel, QWidget* parent):
-    m_oNewGameInfo(a_rNewGame),
-    m_pKernel(a_pKernel),
-    QDialog(parent),
-    ui(new Ui_Dialog)
+CPhotoPuzzleWizard::CPhotoPuzzleWizard(QWidget* parent):
+    ui(new Ui_Dialog),
+    CWizard(parent)
 {
     ui->setupUi(this);
     setModal(true);
@@ -161,12 +159,7 @@ void CPhotoPuzzleWizard::dropEvent(QDropEvent *event)
 }
 
 
-void CPhotoPuzzleWizard::clickOnCancel(bool)
-{
-    close();
-}
-
-void CPhotoPuzzleWizard::clickOnValidate(bool)
+void CPhotoPuzzleWizard::WizardValidated()
 {
 
     std::vector<int> values;
@@ -517,15 +510,16 @@ void CPhotoPuzzleWizard::GenerateScenes(const std::vector<int>& values)
 
 
     m_pKernel->AddSyncID(m_oNewGameInfo.newID1.toStdString(), m_oNewGameInfo.newID2.toStdString());
+    //std::cout << "#### SCENE WIZARD END ####" << std::endl;
     m_pKernel->AddScene(sceneP1,
                         m_oNewGameInfo.previousID1.toStdString(),
                         m_oNewGameInfo.newID1.toStdString(),
-                        CMainWindow::PLAYER_1,0);
+                        CMainWindow::PLAYER_1,m_iCurrentChapter);
 
     m_pKernel->AddScene(sceneP2,
                         m_oNewGameInfo.previousID2.toStdString(),
                         m_oNewGameInfo.newID2.toStdString(),
-                        CMainWindow::PLAYER_2,0);
+                        CMainWindow::PLAYER_2,m_iCurrentChapter);
 
     close();
 }

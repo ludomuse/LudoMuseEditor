@@ -13,11 +13,9 @@
 #include "LudoMuse_src/Classes/Engine/Include/CMenuNode.h"
 #include "LudoMuse_src/Classes/Engine/Include/CValidator.h"
 
-CQuizWizard::CQuizWizard(const SNewGameInfo &a_rNewGame, LM::CKernel *a_pKernel, QWidget *parent):
-    QDialog(parent),
+CQuizWizard::CQuizWizard(QWidget* parent):
     ui(new Ui::CQuizWizard),
-    m_oNewGameInfo(a_rNewGame),
-    m_pKernel(a_pKernel)
+    CWizard(parent)
 {
     ui->setupUi(this);
     setModal(true);
@@ -117,14 +115,7 @@ void CQuizWizard::GenerateGrids()
 
 }
 
-
-
-void CQuizWizard::clickOnCancel(bool)
-{
-    close();
-}
-
-void CQuizWizard::clickOnValidate(bool)
+void CQuizWizard::WizardValidated()
 {
     bool isOkay = false;
     for (QVector<QCheckBox*> col1 : m_vPlayer1GridItems)
@@ -456,12 +447,12 @@ void CQuizWizard::GenerateScenes()
     m_pKernel->AddScene(sceneP1,
                         m_oNewGameInfo.previousID1.toStdString(),
                         m_oNewGameInfo.newID1.toStdString(),
-                        CMainWindow::PLAYER_1,0);
+                        CMainWindow::PLAYER_1,m_iCurrentChapter);
 
     m_pKernel->AddScene(sceneP2,
                         m_oNewGameInfo.previousID2.toStdString(),
                         m_oNewGameInfo.newID2.toStdString(),
-                        CMainWindow::PLAYER_2,0);
+                        CMainWindow::PLAYER_2,m_iCurrentChapter);
 
     close();
 }

@@ -3,6 +3,7 @@
 
 #include "ui_cphotopuzzlewizard.h"
 #include "SNewGame.h"
+#include "CWizard.h"
 
 #include <QDialog>
 #include <QSpinBox>
@@ -15,16 +16,12 @@ namespace LM
 class CKernel;
 }
 
-class CPhotoPuzzleWizard : public QDialog
+class CPhotoPuzzleWizard : public CWizard
 {
     Q_OBJECT
 
 private:
     Ui_Dialog* ui;
-
-    SNewGameInfo m_oNewGameInfo;
-    LM::CKernel* m_pKernel;
-
 
     QVector<QVector<QLabel*>> m_vToFillGridItems;
     QVector<QVector<QComboBox*>> m_vPiecesGridItems;
@@ -32,17 +29,16 @@ private:
 
     void ClearLayout(QLayout* layout, bool deleteWidgets = true);
     void GenerateScenes(const std::vector<int>& values);
+    virtual void WizardValidated() override;
 
 public:
-    CPhotoPuzzleWizard(const SNewGameInfo& a_rNewGame, LM::CKernel* a_pKernel, QWidget* parent = 0);
+    CPhotoPuzzleWizard(QWidget* parent);
     void mousePressEvent(QMouseEvent* event) override;
     void dragEnterEvent(QDragEnterEvent* event) override;
     void dropEvent(QDropEvent* event) override;
 
 
 public slots:
-    void clickOnCancel(bool);
-    void clickOnValidate(bool);
     void GenerateGrids();
 
 

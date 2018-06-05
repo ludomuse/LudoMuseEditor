@@ -129,6 +129,7 @@ private slots:
     void addingChapter();
     void deletingChapter();
     void reorganizeChapters(int from, int to);
+    void currentChapterChanged(int a_iChapterIndex);
     /******************************************************************************************************************************************/
 
 private:

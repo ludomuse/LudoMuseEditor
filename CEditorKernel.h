@@ -11,6 +11,7 @@ public:
     ~CEditorKernel();
     static CEditorKernel* Instance();
     void sendMenuNode(LM::CMenuNode* a_pMenuNodeTouched);
+    int m_iCurrentChapter = 0;
 
 private:
     // Constructor

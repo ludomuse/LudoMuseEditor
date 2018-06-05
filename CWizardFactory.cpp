@@ -1,6 +1,7 @@
 #include "CWizardFactory.h"
 #include "CPhotoPuzzleWizard.h"
 #include "CQuizWizard.h"
+#include "CEditorKernel.h"
 
 CWizardFactory::CWizardFactory()
 {
@@ -29,16 +30,17 @@ CWizardFactory* CWizardFactory::Instance()
 
 QDialog* CWizardFactory::create(const std::string &a_sWizardName, QWidget* parent, const SNewGameInfo& a_rNewGame, LM::CKernel* a_pKernel)
 {
+    CWizard* pWizard = nullptr;
     if (a_sWizardName == "PhotoPuzzle")
     {
-        return new CPhotoPuzzleWizard(a_rNewGame, a_pKernel, parent);
+        pWizard = new CPhotoPuzzleWizard(parent);
     }
     else if (a_sWizardName == "Quiz")
     {
-        return new CQuizWizard(a_rNewGame, a_pKernel, parent);
+        pWizard = new CQuizWizard(parent);
     }
-    else
-    {
-        return nullptr;
+    if(pWizard){
+        SetParameters(pWizard,a_rNewGame, a_pKernel, CEditorKernel::Instance()->m_iCurrentChapter);
     }
+    return pWizard;
 }

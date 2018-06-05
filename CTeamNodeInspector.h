@@ -21,6 +21,7 @@ signals:
     void modifyTeamNode(LM::CEntityNode* a_pSprite);
 
 public slots:
+    void boxChecked(int boxResult);
     void validateChanges();
     void discardChanges();
     void changeTask(QString a_oNewTask);
@@ -33,6 +34,11 @@ private:
 
     std::vector<QLineEdit*> m_oTasks;
     std::vector<QLineEdit*> m_oActions;
+
+    bool bChecked;
+
+    std::vector<std::string> m_oDefaultTextsActions;
+    std::vector<std::string> m_oDefaultImagesPathActions;
 
 protected:
     virtual void closeEvent(QCloseEvent *event) override;

@@ -135,6 +135,7 @@ CMainWindow::CMainWindow(QWidget *parent) :
 
     /*CHAPTERSPROTOTYPE************************************************************************************************************************/
     connect(ui->mmBotView->tabBar(),SIGNAL(tabMoved(int,int)),this,SLOT(reorganizeChapters(int,int)));
+    connect(ui->mmBotView->tabBar(),SIGNAL(currentChanged(int)),this,SLOT(currentChapterChanged(int)));
     /******************************************************************************************************************************************/
 
     this->showMaximized();
@@ -444,9 +445,9 @@ void CMainWindow::addGameScene(const QString &a_sPreviousIDP1, const QString &a_
 {
     ON_CC_THREAD(LM::CKernel::AddSyncID, m_pKernel, a_sNewIDP1.toStdString(), a_sNewIDP2.toStdString());
     ON_CC_THREAD(LM::CKernel::AddNewScene, m_pKernel, a_pTemplate->GetPath().toStdString(),
-                 a_sPreviousIDP1.toStdString(), a_sNewIDP1.toStdString(), PLAYER_1, 0, a_iTemplateNumberP1, a_sNewIDP2.toStdString());
+                 a_sPreviousIDP1.toStdString(), a_sNewIDP1.toStdString(), PLAYER_1, ui->mmBotView->currentIndex(), a_iTemplateNumberP1, a_sNewIDP2.toStdString());
     ON_CC_THREAD(LM::CKernel::AddNewScene, m_pKernel, a_pTemplate->GetPath().toStdString(),
-                 a_sPreviousIDP2.toStdString(), a_sNewIDP2.toStdString(), PLAYER_2, 0, a_iTemplateNumberP2, a_sNewIDP1.toStdString());
+                 a_sPreviousIDP2.toStdString(), a_sNewIDP2.toStdString(), PLAYER_2, ui->mmBotView->currentIndex(), a_iTemplateNumberP2, a_sNewIDP1.toStdString());
 //    m_pKernel->AddNewScene(a_pTemplate->GetPath().toStdString(),
 //                           a_sPreviousIDP1.toStdString(), a_sNewIDP1.toStdString(), PLAYER_1, a_iTemplateNumberP1, a_sNewIDP2.toStdString());
 //    m_pKernel->AddNewScene(a_pTemplate->GetPath().toStdString(),
@@ -606,8 +607,10 @@ void CMainWindow::addingChapter(){
 }
 
 void CMainWindow::deletingChapter(){
+    int index = ui->mmBotView->currentIndex();
+    QString tabName = ui->mmBotView->tabText(index);
+    m_pKernel->DeleteChapter(tabName.toStdString());
     ui->mmBotView->removeTab(ui->mmBotView->currentIndex());
-    QString tabName = "Chapitre ";
 }
 
 void CMainWindow::reorganizeChapters(int from, int to){
@@ -617,6 +620,9 @@ void CMainWindow::reorganizeChapters(int from, int to){
     m_pTimelines.insert(to,saveTimeline);
 }
 
+void CMainWindow::currentChapterChanged(int a_iChapterIndex){
+    CEditorKernel::Instance()->m_iCurrentChapter = a_iChapterIndex;
+}
 /******************************************************************************************************************************************/
 
 void CMainWindow::addingSceneFinished(const QString& a_sPrevSceneID, const QString& a_sSceneID, int a_iPlayerID)
@@ -626,6 +632,7 @@ void CMainWindow::addingSceneFinished(const QString& a_sPrevSceneID, const QStri
     m_pTimelines[ui->mmBotView->currentIndex()]->InsertScene(a_sPrevSceneID, a_sSceneID, a_iPlayerID, m_pKernel->GetSyncedScene(a_sSceneID));
     m_pTimelines[ui->mmBotView->currentIndex()]->UpdateTimeline();
     ShowCurrentScene();
+    m_pKernel->SeeChapters();
 }
 
 void CMainWindow::addingSharedSceneFinished(const QString& a_sPrevSceneID1, const QString& a_sPrevSceneID2, const QString& a_sSceneID)
@@ -852,7 +859,7 @@ void CMainWindow::nodeSoundRemoved(LM::CEntityNode* a_pNode)
 
 void CMainWindow::InspectScene(LM::CSceneNode* a_pScene)
 {
-    std::cout << "#### INSPECT SCENE BEGIN" << std::endl;
+    //std::cout << "#### INSPECT SCENE BEGIN" << std::endl;
     // Clear inspector loayout from older inspection
     //    QLayoutItem *child;
     //    QLayout* inspectorContainerLayout = this->ui->sceneInspectorContainer->layout();
@@ -903,7 +910,7 @@ void CMainWindow::InspectScene(LM::CSceneNode* a_pScene)
             ui->sceneInspectorContainer->layout()->addWidget(dashboardInspector);
         }
     }
-    std::cout << "#### INSPECT SCENE END" << std::endl;
+    //std::cout << "#### INSPECT SCENE END" << std::endl;
 }
 
 void CMainWindow::InspectMenuNode(LM::CMenuNode* a_pMenuNode)

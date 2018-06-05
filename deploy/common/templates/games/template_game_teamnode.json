@@ -1,7 +1,7 @@
 {
     "name": "Accomplis les tâches en équipe",
     "pictures": ["res/template_game_teamnode.png"],
-    "description": "Des tâches apparaissent successivement sur les écrans de chaque joueur.\nChaque joueur possède 4 actions résolvant 4 tâches différentes.\nSélectionner une action résout la tâche correspondante si elle est en cours chez l'un ou l'autre des joueurs et active la tâche suivante.\nATTENTION : Ne peut être ajouté qu'une seule fois par scénario. Cochez les cases pour les 2 joueurs",
+    "description": "Des tâches apparaissent successivement sur les écrans de chaque joueur.\nChaque joueur possède 4 actions résolvant 4 tâches différentes.\nSélectionner une action résout la tâche correspondante si elle est en cours chez l'un ou l'autre des joueurs et active la tâche suivante.",
     "templates": [
         {
             "sync": true,
@@ -152,6 +152,7 @@
                                     "children": [
                                         {
                                             "type": "Image",
+											"id": "TeamNode:Action1",
                                             "params": {
                                                 "source": "ui/cache-noir-70.png",
                                                 "height": 50,
@@ -159,7 +160,6 @@
                                                 "children": [
                                                     {
                                                         "type": "Text",
-                                                        "id": "TeamNode:Action1",
                                                         "params": {
                                                             "anchor": 0,
                                                             "width": 100,
@@ -184,6 +184,7 @@
                                         },
                                         {
                                             "type": "Image",
+											"id": "TeamNode:Action2",
                                             "params": {
                                                 "source": "ui/cache-noir-70.png",
                                                 "height": 50,
@@ -191,7 +192,6 @@
                                                 "children": [
                                                     {
                                                         "type": "Text",
-                                                        "id": "TeamNode:Action2",
                                                         "params": {
                                                             "anchor": 0,
                                                             "width": 100,
@@ -216,6 +216,7 @@
                                         },
                                         {
                                             "type": "Image",
+											"id": "TeamNode:Action3",
                                             "params": {
                                                 "source": "ui/cache-noir-70.png",
                                                 "height": 50,
@@ -223,7 +224,6 @@
                                                 "children": [
                                                     {
                                                         "type": "Text",
-                                                        "id": "TeamNode:Action3",
                                                         "params": {
                                                             "anchor": 0,
                                                             "width": 100,
@@ -248,6 +248,7 @@
                                         },
                                         {
                                             "type": "Image",
+											"id": "TeamNode:Action4",
                                             "params": {
                                                 "source": "ui/cache-noir-70.png",
                                                 "height": 50,
@@ -255,7 +256,6 @@
                                                 "children": [
                                                     {
                                                         "type": "Text",
-                                                        "id": "TeamNode:Action4",
                                                         "params": {
                                                             "anchor": 0,
                                                             "width": 100,

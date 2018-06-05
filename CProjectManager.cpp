@@ -32,7 +32,9 @@ CProjectManager& CProjectManager::operator=(const CProjectManager& a_oProjecMana
 
 CProjectManager::~CProjectManager()
 {
-
+    for (std::string* source:m_vSources){
+        delete source;
+    }
 }
 
 void CProjectManager::ReadLastProject(QFile& a_fConfigFile)

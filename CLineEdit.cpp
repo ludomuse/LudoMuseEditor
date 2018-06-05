@@ -37,6 +37,7 @@ void CLineEdit::dropEvent(QDropEvent* a_pEvent)
 {
     qDebug("call dropEvent");
     qDebug()<<a_pEvent->mimeData()->formats();
+    this->setFocus();
     if(a_pEvent->mimeData()->hasFormat("text/uri-list"))
     {
         QList<QUrl> urls = a_pEvent->mimeData()->urls();

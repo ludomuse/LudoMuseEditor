@@ -9,22 +9,36 @@
             "#default-background": "cache/background.png",
             "#default-font": "fonts/Open_Sans/OpenSans-Regular.ttf"
         },
-        "scenes": [
-            [
-                "screen-peers-dummy",
-                "screen-splash",
-                "screen-video",
-                "screen-playerid",
-                "test-peer-1"
-            ],
-            [
-                "screen-peers-dummy",
-                "screen-splash",
-                "screen-video",
-                "screen-playerid",
-                "test-peer-2"
-            ]
-        ],
+		"chapters":[
+			{
+				"name":"Introduction",
+				"scenes": [
+					[
+						"screen-peers-dummy",
+						"screen-splash"
+					],
+					[
+						"screen-peers-dummy",
+						"screen-splash"
+					]
+				]
+			},
+			{
+				"name":"Chapitre 1",
+				"scenes":[
+					[	
+						"screen-video",
+						"screen-playerid",
+						"test-peer-1"
+					],
+					[	
+						"screen-video",
+						"screen-playerid",
+						"test-peer-2"
+					]
+				]
+			}
+		],
         "screens": [
             {
                 "scene": "Dashboard",
