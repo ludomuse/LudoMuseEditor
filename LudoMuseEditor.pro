@@ -40,7 +40,7 @@ QMAKE_CXXFLAGS += -DLUDOMUSE_EDITOR
 DEFINES += "LUDOMUSE_EDITOR=1"
 
 isEmpty(LUDOMUSE_PATH) {
-    LUDOMUSE_PATH = "../LudoMuse/"
+    LUDOMUSE_PATH = $${PWD}/../LudoMuse/
 }
 
 COCOS_PATH = $${LUDOMUSE_PATH}/cocos2d
@@ -175,7 +175,6 @@ HEADERS  += CMainWindow.h \
     LudoMuse_src/Classes/Modules/Util/Include/Desc.h \
     LudoMuse_src/Classes/Modules/Util/Include/Util.h \
     LudoMuse_src/Classes/AppDelegate.h \
-    LudoMuse_src/Classes/HelloWorldScene.h \
     LudoMuse_src/Classes/Modules/Networking/Networking.h \
     LudoMuse_src/Classes/Modules/Networking/android/Include/LmBytesMessage.h \
     CThreadCocos.h \
