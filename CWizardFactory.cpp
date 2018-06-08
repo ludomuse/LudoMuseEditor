@@ -1,4 +1,4 @@
-#include "CWizardFactory.h"
+﻿#include "CWizardFactory.h"
 #include "CPhotoPuzzleWizard.h"
 #include "CQuizWizard.h"
 #include "CEditorKernel.h"
@@ -40,7 +40,7 @@ QDialog* CWizardFactory::create(const std::string &a_sWizardName, QWidget* paren
         pWizard = new CQuizWizard(parent);
     }
     if(pWizard){
-        SetParameters(pWizard,a_rNewGame, a_pKernel, CEditorKernel::Instance()->m_iCurrentChapter);
+        pWizard->SetParameters(a_rNewGame, a_pKernel, CEditorKernel::Instance()->m_iCurrentChapter);
     }
     return pWizard;
 }

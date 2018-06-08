@@ -1,4 +1,4 @@
-#ifndef CWIZARD_H
+﻿#ifndef CWIZARD_H
 #define CWIZARD_H
 
 #include <QDialog>
@@ -22,7 +22,7 @@ protected:
 
 public:
     CWizard(QWidget* parent);
-    friend void SetParameters(CWizard* wiz,const SNewGameInfo& a_rNewGame, LM::CKernel* a_pKernel, int a_iChapterNumber = 0);
+    void SetParameters(const SNewGameInfo& a_rNewGame, LM::CKernel* a_pKernel, int a_iChapterNumber = 0);
 public slots:
     void clickOnCancel(bool);
     void clickOnValidate(bool);
