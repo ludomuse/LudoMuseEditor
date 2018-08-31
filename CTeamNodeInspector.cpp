@@ -102,7 +102,7 @@ CTeamNodeInspector::CTeamNodeInspector(LM::CTeamNode* a_pTeamNode, QWidget *pare
             m_oDefaultImagesPathActions.push_back(m_oSavedTasks[i][1]);
         } else {
             m_oDefaultTextsActions.push_back(m_oSavedTasks[i][1]);
-            std::string path = "C:/Users/Antoine/Work/SCENARTEST/TestAntoine/ui/"+std::to_string(i+1)+"Number.png"; //"C:/Users/Antoine/Work/SCENARTEST/TestAntoine/ui/cache-noir-70.png"
+            std::string path = CProjectManager::Instance()->GetProjectPath()+"ui/"+std::to_string(i+1)+"Number.png"; //"C:/Users/Antoine/Work/SCENARTEST/TestAntoine/ui/cache-noir-70.png"
             m_oDefaultImagesPathActions.push_back(path);
         }
     }

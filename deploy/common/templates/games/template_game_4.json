@@ -8,6 +8,7 @@
   "game": true,
   "templates": [
             {
+				"sync":true,
                 "navigation": [
                     {
                         "type": "Nav",
@@ -18,6 +19,15 @@
                             "normal": "ui/nav-5.png",
                             "selected": "ui/nav-5-active.png",
                             "action": "next",
+							"listeners": [
+								{
+									"type": "Display",
+									"params": {
+										"callback": "Show",
+										"arg": true
+									}
+								}
+							],
                             "children": [
                                 {
                                     "type": "Text",
@@ -91,6 +101,7 @@
                 "information": []
             },
             {
+				"sync": true,
                 "navigation": [
                     {
                         "type": "Nav",
@@ -101,6 +112,15 @@
                             "normal": "ui/nav-5.png",
                             "selected": "ui/nav-5-active.png",
                             "action": "next",
+							"listeners": [
+                                {
+                                    "type": "Display",
+                                    "params": {
+                                        "callback": "Show",
+                                        "arg": true
+                                    }
+                                }
+                            ],
                             "children": [
                                 {
                                     "type": "Text",
